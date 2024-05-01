@@ -19,8 +19,8 @@ const EMPTY_ARR = Object.freeze([]);
 const NOOP = () => {
 };
 const NO = () => false;
-const isOn = (key) => key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110 && // uppercase letter
-(key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
+const onRE = /^on[^a-z]/;
+const isOn = (key) => onRE.test(key);
 const isModelListener = (key) => key.startsWith("onUpdate:");
 const extend = Object.assign;
 const remove = (arr, el) => {
@@ -39,7 +39,7 @@ const isString = (val) => typeof val === "string";
 const isSymbol = (val) => typeof val === "symbol";
 const isObject = (val) => val !== null && typeof val === "object";
 const isPromise = (val) => {
-  return (isObject(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
 };
 const objectToString = Object.prototype.toString;
 const toTypeString = (value) => objectToString.call(value);
@@ -52,9 +52,7 @@ const isReservedProp = /* @__PURE__ */ makeMap(
   // the leading comma is intentional so empty string "" is also included
   ",key,ref,ref_for,ref_key,onVnodeBeforeMount,onVnodeMounted,onVnodeBeforeUpdate,onVnodeUpdated,onVnodeBeforeUnmount,onVnodeUnmounted"
 );
-const isBuiltInDirective = /* @__PURE__ */ makeMap(
-  "bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo"
-);
+const isBuiltInDirective = /* @__PURE__ */ makeMap("bind,cloak,else-if,else,for,html,if,model,on,once,pre,show,slot,text,memo");
 const cacheStringFunction = (fn) => {
   const cache = /* @__PURE__ */ Object.create(null);
   return (str) => {
@@ -67,16 +65,9 @@ const camelize = cacheStringFunction((str) => {
   return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
 });
 const hyphenateRE = /\B([A-Z])/g;
-const hyphenate = cacheStringFunction(
-  (str) => str.replace(hyphenateRE, "-$1").toLowerCase()
-);
-const capitalize = cacheStringFunction((str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-});
-const toHandlerKey = cacheStringFunction((str) => {
-  const s = str ? `on${capitalize(str)}` : ``;
-  return s;
-});
+const hyphenate = cacheStringFunction((str) => str.replace(hyphenateRE, "-$1").toLowerCase());
+const capitalize = cacheStringFunction((str) => str.charAt(0).toUpperCase() + str.slice(1));
+const toHandlerKey = cacheStringFunction((str) => str ? `on${capitalize(str)}` : ``);
 const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
 const invokeArrayFns$1 = (fns, arg) => {
   for (let i = 0; i < fns.length; i++) {
@@ -311,13 +302,10 @@ E.prototype = {
     var evts = e[name];
     var liveEvents = [];
     if (evts && callback) {
-      for (var i = evts.length - 1; i >= 0; i--) {
-        if (evts[i].fn === callback || evts[i].fn._ === callback) {
-          evts.splice(i, 1);
-          break;
-        }
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
       }
-      liveEvents = evts;
     }
     liveEvents.length ? e[name] = liveEvents : delete e[name];
     return this;
@@ -705,15 +693,10 @@ function formatApiArgs(args, options) {
   }
 }
 function invokeSuccess(id, name, res) {
-  const result = {
-    errMsg: name + ":ok"
-  };
-  return invokeCallback(id, extend(res || {}, result));
+  return invokeCallback(id, extend(res || {}, { errMsg: name + ":ok" }));
 }
-function invokeFail(id, name, errMsg, errRes = {}) {
-  const apiErrMsg = name + ":fail" + (errMsg ? " " + errMsg : "");
-  delete errRes.errCode;
-  return invokeCallback(id, typeof UniError !== "undefined" ? typeof errRes.errCode !== "undefined" ? new UniError(name, errRes.errCode, apiErrMsg) : new UniError(apiErrMsg, errRes) : extend({ errMsg: apiErrMsg }, errRes));
+function invokeFail(id, name, errMsg, errRes) {
+  return invokeCallback(id, extend({ errMsg: name + ":fail" + (errMsg ? " " + errMsg : "") }, errRes));
 }
 function beforeInvokeApi(name, args, protocol, options) {
   {
@@ -1211,8 +1194,8 @@ function populateParameters(fromRes, toRes) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "4.08",
-    uniRuntimeVersion: "4.08",
+    uniCompileVersion: "3.99",
+    uniRuntimeVersion: "3.99",
     uniPlatform: "mp-weixin",
     deviceBrand,
     deviceModel: model,
@@ -5754,7 +5737,7 @@ var plugin = {
 };
 function getCreateApp() {
   const method = "createApp";
-  if (typeof global !== "undefined" && typeof global[method] !== "undefined") {
+  if (typeof global !== "undefined") {
     return global[method];
   } else if (typeof my !== "undefined") {
     return my[method];
