@@ -1,1 +1,1 @@
- this is home 
+ import { swiper, swiperItem } from 'uni-simple-router'; <view class="banner"><swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{8000}}" duration="{{1000}}"><swiper-item wx:for="{{a}}" wx:for-item="item" wx:key="b"><image src="{{item.a}}" alt=""></image></swiper-item></swiper></view>
