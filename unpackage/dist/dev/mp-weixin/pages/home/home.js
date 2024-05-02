@@ -10,12 +10,12 @@ const _sfc_main = {
         { url: "/static/swiper/schoolmark.jpg" }
       ],
       func_list: [
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" }
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
       ]
       // 初始化 func_list 为一个空数组
     };
@@ -29,12 +29,12 @@ const _sfc_main = {
   },
   onLoad() {
     this.func_list = [
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" }
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
     ];
   }
 };
