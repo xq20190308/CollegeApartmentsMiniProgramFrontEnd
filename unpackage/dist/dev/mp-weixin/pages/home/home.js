@@ -4,10 +4,10 @@ const _sfc_main = {
   data() {
     return {
       bannerList: [
-        { url: "/static/swiper/schoolmark.jpg" },
-        { url: "/static/swiper/schoolmark.jpg" },
-        { url: "/static/swiper/schoolmark.jpg" },
-        { url: "/static/swiper/schoolmark.jpg" }
+        { url: "/static/home/swiper/schoolmark.jpg" },
+        { url: "/static/home/swiper/schoolmark.jpg" },
+        { url: "/static/home/swiper/schoolmark.jpg" },
+        { url: "/static/home/swiper/schoolmark.jpg" }
       ],
       func_list: [
         { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
