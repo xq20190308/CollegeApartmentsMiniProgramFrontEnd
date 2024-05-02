@@ -146,5 +146,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     t: $props.isShadow ? $props.shadow : ""
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/uni_modules/uni-card/components/uni-card/uni-card.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/CollegeApartmentsMiniProgramFrontEnd/uni_modules/uni-card/components/uni-card/uni-card.vue"]]);
 wx.createComponent(Component);
