@@ -20,7 +20,7 @@
 		
 		<!-- 未来倒计时 -->
 		<view class="spacing"></view>
-				 <uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home_picture/future_icon.png">
+				 <uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
 				    <text>这是分栏内容 {{ plan }}</text>
 					</uni-card>
   </view>

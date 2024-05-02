@@ -59,19 +59,23 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: $data.userInfo.avatarUrl,
     b: common_vendor.p({
       showArrow: true,
-      title: "姓名"
+      title: "姓名",
+      rightText: "小萪"
     }),
     c: common_vendor.p({
       showArrow: true,
-      title: "学号"
+      title: "学号",
+      rightText: "202311071111"
     }),
     d: common_vendor.p({
       showArrow: true,
-      title: "学院"
+      title: "学院",
+      rightText: "莱文克劳学院"
     }),
     e: common_vendor.p({
       showArrow: true,
-      title: "专业"
+      title: "专业",
+      rightText: "黑魔法"
     }),
     f: common_vendor.p({
       showArrow: true,
