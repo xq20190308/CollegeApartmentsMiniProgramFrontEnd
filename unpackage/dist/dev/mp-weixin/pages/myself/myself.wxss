@@ -29,7 +29,7 @@
   margin-left: 3%;
   height: 200rpx;
   width: 94%;
-  background-color: #e4e2e2;
+  background-color: #F3EBC9;
   border-radius: 35rpx;
 }
 .avatar {
@@ -74,9 +74,16 @@
   margin-left: 15rpx;
   margin-top: 35rpx;
 }
-.SignOut {
-  width: 90%;
-  margin-top: 20rpx;
-  margin-left: 5%;
-  height: 100rpx;
+.btn {
+  background-color: red;
+  color: white;
+  width: 300px;
+  height: 47px;
+  border: 0;
+  font-size: 16px;
+  border-radius: 30px;
+}
+.spacing {
+  height: 40rpx;
+  background-color: transparent;
 }
