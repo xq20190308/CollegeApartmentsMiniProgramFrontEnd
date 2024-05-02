@@ -9,23 +9,43 @@ const _sfc_main = {
         { url: "/static/swiper/schoolmark.jpg" },
         { url: "/static/swiper/schoolmark.jpg" }
       ],
-      func_list: []
+      func_list: [
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" }
+      ]
       // 初始化 func_list 为一个空数组
     };
+  },
+  methods: {
+    func1Click(item) {
+      common_vendor.index.reLaunch({
+        url: item.pagePath
+      });
+    }
   },
   onLoad() {
     this.func_list = [
       { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
       { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" },
       { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself" }
-      // 其他功能项...
     ];
-  },
-  methods: {
-    func1Click(item) {
-    }
   }
 };
+if (!Array) {
+  const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
+  _easycom_uni_card2();
+}
+const _easycom_uni_card = () => "../../uni_modules/uni-card/components/uni-card/uni-card.js";
+if (!Math) {
+  _easycom_uni_card();
+}
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.bannerList, (item, index, i0) => {
@@ -41,6 +61,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: i,
         d: common_vendor.o(($event) => $options.func1Click(item), i)
       };
+    }),
+    c: common_vendor.t(_ctx.plan),
+    d: common_vendor.p({
+      title: "未来倒计时",
+      ["sub-title"]: "unique_words",
+      thumbnail: "../../../../static/home_picture/future_icon.png"
     })
   };
 }

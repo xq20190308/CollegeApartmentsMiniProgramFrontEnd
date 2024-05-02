@@ -26,13 +26,16 @@
 			</view>
 		</slot>
 		<!-- 卡片内容 -->
-		<view class="uni-card__content" :style="{padding:padding}" @click="onClick('content')">
-			<slot></slot>
+		    <view class="uni-card__content" :style="{padding:padding}">
+		        <slot></slot>
+		        <scroll-view class="scroll-view-container" scroll-y="true">
+		          <!-- 您的分栏内容 -->
+		          <view class="scroll-view-item" v-for="(plan, index) in plans" :key="index" @click="onItemClick(plan)">
+		            <text> {{ plan.name }}</text> <!-- 显示计划的名称 -->
+		          </view>
+		        </scroll-view>
+		      </view>
 		</view>
-		<view class="uni-card__actions" @click="onClick('actions')">
-			<slot name="actions"></slot>
-		</view>
-	</view>
 </template>
 
 <script>
@@ -55,6 +58,28 @@
 	 * @event {Function} click 点击 Card 触发事件
 	 */
 	export default {
+		data(){
+			return {
+				plans: [
+					{
+						name:"目标",
+						count_time:"什么时候开始",
+						//要进到.vue文件
+						pagePath:"../../pages/myself/myself"
+					},
+					{
+						name:"计划二",
+						count_time:"什么时候开始",
+						pagePath:"../../pages/myself/myself"
+					},
+					{
+						name:"计划三",
+						count_time:"什么时候开始",
+						pagePath:"../../../../pages/myself"
+					}
+				],
+			};
+		},
 		name: 'UniCard',
 		emits: ['click'],
 		props: {
@@ -112,7 +137,32 @@
 		methods: {
 			onClick(type) {
 				this.$emit('click', type)
+			},
+			//点击那个计划进行跳转
+			onItemClick(plan){
+				uni.reLaunch({
+					url: plan.pagePath
+				})
 			}
+		},
+		onLoad() {
+			this.plans=[
+			{
+				name:"目标",
+				count_time:"什么时候开始",
+				pagePath:"../../../../pages/myself"
+			},
+			{
+				name:"计划二",
+				count_time:"什么时候开始",
+				pagePath:"../../../../pages/myself"
+			},
+			{
+				name:"计划三",
+				count_time:"什么时候开始",
+				pagePath:"../../../../pages/myself"
+			}
+			]
 		}
 	}
 </script>
@@ -266,5 +316,13 @@
 		/* #ifdef APP-NVUE */
 		lines: 1;
 		/* #endif */
+	}
+	.scroll-view-container {
+	  height: 200rpx; /* 设置滚动视图的高度 */
+	  overflow: auto; /* 启用滚动条 */
+	}
+	
+	.scroll-view-item {
+	  padding: 20rpx;
 	}
 </style>
