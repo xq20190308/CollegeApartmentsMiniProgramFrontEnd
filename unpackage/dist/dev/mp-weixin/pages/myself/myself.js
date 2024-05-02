@@ -42,18 +42,57 @@ const _sfc_main = {
   // 	]
   // }
 };
+if (!Array) {
+  const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
+  const _easycom_uni_list2 = common_vendor.resolveComponent("uni-list");
+  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
+  (_easycom_uni_list_item2 + _easycom_uni_list2 + _easycom_uni_section2)();
+}
+const _easycom_uni_list_item = () => "../../uni_modules/uni-list/components/uni-list-item/uni-list-item.js";
+const _easycom_uni_list = () => "../../uni_modules/uni-list/components/uni-list/uni-list.js";
+const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
+if (!Math) {
+  (_easycom_uni_list_item + _easycom_uni_list + _easycom_uni_section)();
+}
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: $data.userInfo.avatarUrl,
-    b: common_vendor.f($data.func1_List, (item, i, i0) => {
-      return {
-        a: item.imgPath,
-        b: common_vendor.t(item.name),
-        c: i,
-        d: item.navigator_url
-      };
+    b: common_vendor.p({
+      showArrow: true,
+      title: "姓名",
+      rightText: "小萪"
     }),
-    c: common_vendor.o(() => {
+    c: common_vendor.p({
+      showArrow: true,
+      title: "学号",
+      rightText: "202311071111"
+    }),
+    d: common_vendor.p({
+      showArrow: true,
+      title: "学院",
+      rightText: "莱文克劳学院"
+    }),
+    e: common_vendor.p({
+      showArrow: true,
+      title: "专业",
+      rightText: "黑魔法"
+    }),
+    f: common_vendor.p({
+      showArrow: true,
+      title: "建言献策"
+    }),
+    g: common_vendor.p({
+      showArrow: true,
+      title: "关于"
+    }),
+    h: common_vendor.p({
+      ["border-full"]: true
+    }),
+    i: common_vendor.p({
+      title: "个人信息",
+      type: "line"
+    }),
+    j: common_vendor.o(() => {
     })
   };
 }

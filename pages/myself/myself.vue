@@ -6,18 +6,21 @@
 	</view>
 
 	<!-- 功能区 -->
-	<view class="func1">
-		<view class="func1_list">
-			<navigator class="func1_item" v-for="(item,i) in func1_List" :key="i" :url="item.navigator_url">
-				<image :src="item.imgPath" class="func1_img"></image>
-				<text class="func1_text">{{item.name}}</text>
-			</navigator>
-		</view>
-	</view>
+	<uni-section title="个人信息" type="line">
+				<uni-list border-full>
+					<uni-list-item showArrow title="姓名" rightText="小萪"/>
+					<uni-list-item showArrow title="学号" rightText="202311071111"/>
+					<uni-list-item showArrow title="学院" rightText="莱文克劳学院"/>
+					<uni-list-item showArrow title="专业" rightText="黑魔法"/>
+					<uni-list-item showArrow title="建言献策" />
+					<uni-list-item showArrow title="关于"/>
+				</uni-list>
+			</uni-section>
 
 	<!-- 退出登录 -->
+	<view class="spacing"></view>
 	<view>
-		<button @click="">
+		<button class="btn" style="text-align:center" @click="">
 			<text>退出登录</text>
 		</button>
 	</view>
@@ -76,7 +79,7 @@
 		margin-left: 3%;
 		height: 200rpx;
 		width: 94%;
-		background-color: #e4e2e2;
+		background-color: #F3EBC9;
 		border-radius: 35rpx;
 	}
 
@@ -128,11 +131,21 @@
 		margin-left: 15rpx;
 		margin-top: 35rpx;
 	}
-
-	.SignOut {
-		width: 90%;
-		margin-top: 20rpx;
-		margin-left: 5%;
-		height: 100rpx;
+	
+	.btn{
+				background-color:red;
+			  color:white;
+				width: 300px;
+				height: 47px;
+				border:0;
+				font-size: 16px;			
+				border-radius: 30px;
 	}
+	.spacing 
+	{
+	  height: 40rpx; 
+	  background-color: transparent; 
+	}
+
+
 </style>

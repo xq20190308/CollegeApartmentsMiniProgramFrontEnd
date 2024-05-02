@@ -100,10 +100,10 @@
 	}
 </script>
 <style lang="scss" >
-	$uni-primary: #2979ff !default;
+  $uni-primary: #2979ff !default;
 
-	.uni-section {
-		background-color: #fff;
+  .uni-section {
+    background-color: #fff;
     .uni-section-header {
       position: relative;
       /* #ifndef APP-NVUE */
@@ -155,13 +155,15 @@
         }
       }
 
-      &__slot-right{
+      &__slot-right {
         font-size: 14px;
+        color: #333; /* 修改右侧文字颜色为黑色 */
+        margin-left: 20px; /* 添加右侧边距 */
       }
     }
 
-    .uni-section-content{
+    .uni-section-content {
       font-size: 14px;
     }
-	}
+  }
 </style>

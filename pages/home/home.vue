@@ -9,6 +9,7 @@
       </swiper-item>
     </swiper>
 		<view class="spacing"></view>
+		
     <!-- 主要功能区域 -->
         <view class="func1">
       <view class="func1_item" v-for="(item, i) in func_list" :key="i" @click="func1Click(item)">
@@ -16,14 +17,10 @@
         <text class="func1_text">{{ item.name }}</text>
       </view>
     </view>
-		<!-- <view class="func1">
-		  <view class="func1_item" v-for="(item, i) in func_list" :key="i" @click="func1Click(item)">
-		    <image :src="item.imgPath" class="func1_img"></image>
-		    <text class="func1_text">{{ item.name }}</text>
-		  </view>
-		</view> -->
+		
+		<!-- 未来倒计时 -->
 		<view class="spacing"></view>
-				 <uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home_picture/future_icon.png">
+				 <uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
 				    <text>这是分栏内容 {{ plan }}</text>
 					</uni-card>
   </view>
@@ -41,12 +38,12 @@ export default {
       ],
       func_list: [
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				 { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				  { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-					  { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-						{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-						 { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
-			] // 初始化 func_list 为一个空数组
+				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
+			] 
 			
     }
   },
@@ -60,11 +57,11 @@ export default {
   onLoad() {
     this.func_list = [ 
       { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-       { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-        { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      	  { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      		{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      		 { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
+      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
     ]
   }
 }
@@ -76,7 +73,6 @@ export default {
 }
 
 .swiper-image {
-  /* 让图片占满整个swiper区域 */
   width: 100%;
   height: 100%;
 }
@@ -94,9 +90,8 @@ export default {
 .func1_item {
   width: calc(25% - 20rpx);
   margin-bottom: 20rpx; 
-  border-radius: 16rpx; /* 添加圆角 */
+  border-radius: 16rpx; 
   padding: 20rpx;
-  /*box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);  添加内部阴影 */
   display: flex;
   flex-direction: column;
   align-items: center; 
