@@ -1,1 +1,1 @@
- this is myself 
+<view class="User"><image src="{{a}}" class="avatar"/><text class="avatarName">昵称</text></view><view class="func1"><view class="func1_list"><navigator wx:for="{{b}}" wx:for-item="item" wx:key="c" class="func1_item" url="{{item.d}}"><image src="{{item.a}}" class="func1_img"></image><text class="func1_text">{{item.b}}</text></navigator></view></view><view><button bindtap="{{c}}"><text>退出登录</text></button></view>
