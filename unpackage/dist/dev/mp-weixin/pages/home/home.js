@@ -65,7 +65,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     d: common_vendor.p({
       title: "未来倒计时",
       ["sub-title"]: "unique_words",
-      thumbnail: "../../../../static/home_picture/future_icon.png"
+      thumbnail: "../../../../static/home/future_icon.png"
     })
   };
 }

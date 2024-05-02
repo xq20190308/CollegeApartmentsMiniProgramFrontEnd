@@ -8,12 +8,12 @@
 	<!-- 功能区 -->
 	<uni-section title="个人信息" type="line">
 				<uni-list border-full>
-					<uni-list-item showArrow title="姓名" />
-					<uni-list-item showArrow title="学号" />
-					<uni-list-item showArrow title="学院" />
-					<uni-list-item showArrow title="专业" />
+					<uni-list-item showArrow title="姓名" rightText="小萪"/>
+					<uni-list-item showArrow title="学号" rightText="202311071111"/>
+					<uni-list-item showArrow title="学院" rightText="莱文克劳学院"/>
+					<uni-list-item showArrow title="专业" rightText="黑魔法"/>
 					<uni-list-item showArrow title="建言献策" />
-					<uni-list-item showArrow title="关于" />
+					<uni-list-item showArrow title="关于"/>
 				</uni-list>
 			</uni-section>
 
