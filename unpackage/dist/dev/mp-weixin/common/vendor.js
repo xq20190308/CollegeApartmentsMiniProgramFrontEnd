@@ -15,14 +15,13 @@ function makeMap(str, expectsLowerCase) {
   const set2 = new Set(str.split(","));
   return expectsLowerCase ? (val) => set2.has(val.toLowerCase()) : (val) => set2.has(val);
 }
-
 const EMPTY_OBJ = Object.freeze({});
 const EMPTY_ARR = Object.freeze([]);
 const NOOP = () => {
 };
 const NO = () => false;
 const isOn = (key) => key.charCodeAt(0) === 111 && key.charCodeAt(1) === 110 && // uppercase letter
-  (key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
+(key.charCodeAt(2) > 122 || key.charCodeAt(2) < 97);
 const isModelListener = (key) => key.startsWith("onUpdate:");
 const extend = Object.assign;
 const remove = (arr, el) => {
@@ -76,8 +75,8 @@ const capitalize = cacheStringFunction((str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 });
 const toHandlerKey = cacheStringFunction((str) => {
-  const s = str ? `on${capitalize(str)}` : ``;
-  return s;
+  const s2 = str ? `on${capitalize(str)}` : ``;
+  return s2;
 });
 const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
 const invokeArrayFns$1 = (fns, arg) => {
@@ -100,6 +99,56 @@ let _globalThis;
 const getGlobalThis = () => {
   return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
 };
+function normalizeStyle(value) {
+  if (isArray(value)) {
+    const res = {};
+    for (let i = 0; i < value.length; i++) {
+      const item = value[i];
+      const normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
+      if (normalized) {
+        for (const key in normalized) {
+          res[key] = normalized[key];
+        }
+      }
+    }
+    return res;
+  } else if (isString(value) || isObject(value)) {
+    return value;
+  }
+}
+const listDelimiterRE = /;(?![^(]*\))/g;
+const propertyDelimiterRE = /:([^]+)/;
+const styleCommentRE = /\/\*[^]*?\*\//g;
+function parseStringStyle(cssText) {
+  const ret = {};
+  cssText.replace(styleCommentRE, "").split(listDelimiterRE).forEach((item) => {
+    if (item) {
+      const tmp = item.split(propertyDelimiterRE);
+      tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
+    }
+  });
+  return ret;
+}
+function normalizeClass(value) {
+  let res = "";
+  if (isString(value)) {
+    res = value;
+  } else if (isArray(value)) {
+    for (let i = 0; i < value.length; i++) {
+      const normalized = normalizeClass(value[i]);
+      if (normalized) {
+        res += normalized + " ";
+      }
+    }
+  } else if (isObject(value)) {
+    for (const name in value) {
+      if (value[name]) {
+        res += name + " ";
+      }
+    }
+  }
+  return res.trim();
+}
 const toDisplayString = (val) => {
   return isString(val) ? val : val == null ? "" : isArray(val) || isObject(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
@@ -313,10 +362,10 @@ const invokeCreateErrorHandler = once((app, createErrorHandler2) => {
     return createErrorHandler2(app);
   }
 });
-const E = function () {
+const E = function() {
 };
 E.prototype = {
-  on: function (name, callback, ctx) {
+  on: function(name, callback, ctx) {
     var e2 = this.e || (this.e = {});
     (e2[name] || (e2[name] = [])).push({
       fn: callback,
@@ -324,7 +373,7 @@ E.prototype = {
     });
     return this;
   },
-  once: function (name, callback, ctx) {
+  once: function(name, callback, ctx) {
     var self2 = this;
     function listener() {
       self2.off(name, listener);
@@ -333,7 +382,7 @@ E.prototype = {
     listener._ = callback;
     return this.on(name, listener, ctx);
   },
-  emit: function (name) {
+  emit: function(name) {
     var data = [].slice.call(arguments, 1);
     var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
     var i = 0;
@@ -343,7 +392,7 @@ E.prototype = {
     }
     return this;
   },
-  off: function (name, callback) {
+  off: function(name, callback) {
     var e2 = this.e || (this.e = {});
     var evts = e2[name];
     var liveEvents = [];
@@ -528,7 +577,7 @@ function isBoolean$1(...args) {
   return args.some((elem) => elem.toLowerCase() === "boolean");
 }
 function tryCatch(fn) {
-  return function () {
+  return function() {
     try {
       return fn.apply(fn, arguments);
     } catch (e2) {
@@ -607,7 +656,7 @@ const HOOK_COMPLETE = "complete";
 const globalInterceptors = {};
 const scopedInterceptors = {};
 function wrapperHook(hook, params) {
-  return function (data) {
+  return function(data) {
     return hook(data, params) || data;
   };
 }
@@ -1069,7 +1118,7 @@ function shouldPromise(name) {
   return true;
 }
 if (!Promise.prototype.finally) {
-  Promise.prototype.finally = function (onfinally) {
+  Promise.prototype.finally = function(onfinally) {
     const promise = this.constructor;
     return this.then((value) => promise.resolve(onfinally && onfinally()).then(() => value), (reason) => promise.resolve(onfinally && onfinally()).then(() => {
       throw reason;
@@ -1098,7 +1147,7 @@ function promisify(name, api) {
 const CALLBACKS = ["success", "fail", "cancel", "complete"];
 function initWrapper(protocols2) {
   function processCallback(methodName, method, returnValue) {
-    return function (res) {
+    return function(res) {
       return method(processReturnValue(methodName, res, returnValue));
     };
   }
@@ -1150,11 +1199,11 @@ function initWrapper(protocols2) {
     }
     const protocol = protocols2[methodName];
     if (!protocol) {
-      return function () {
+      return function() {
         console.error(`微信小程序 暂不支持${methodName}`);
       };
     }
-    return function (arg1, arg2) {
+    return function(arg1, arg2) {
       let options = protocol;
       if (isFunction(protocol)) {
         options = protocol(arg1);
@@ -1406,7 +1455,7 @@ const getWindowInfo = {
   }
 };
 const getAppAuthorizeSetting = {
-  returnValue: function (fromRes, toRes) {
+  returnValue: function(fromRes, toRes) {
     const { locationReducedAccuracy } = fromRes;
     toRes.locationAccuracy = "unsupported";
     if (locationReducedAccuracy === true) {
@@ -1610,7 +1659,7 @@ function warn$1$1(msg, ...args) {
   } else {
     const warnArgs = [`[Vue warn]: ${msg}`, ...args];
     if (trace.length && // avoid spamming console during tests
-      true) {
+    true) {
       warnArgs.push(`
 `, ...formatTrace$1(trace));
     }
@@ -2404,7 +2453,7 @@ const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
 function createArrayInstrumentations() {
   const instrumentations = {};
   ["includes", "indexOf", "lastIndexOf"].forEach((key) => {
-    instrumentations[key] = function (...args) {
+    instrumentations[key] = function(...args) {
       const arr = toRaw(this);
       for (let i = 0, l = this.length; i < l; i++) {
         track(arr, "get", i + "");
@@ -2418,7 +2467,7 @@ function createArrayInstrumentations() {
     };
   });
   ["push", "pop", "shift", "unshift", "splice"].forEach((key) => {
-    instrumentations[key] = function (...args) {
+    instrumentations[key] = function(...args) {
       pauseTracking();
       pauseScheduling();
       const res = toRaw(this)[key].apply(this, args);
@@ -2449,8 +2498,8 @@ class BaseReactiveHandler2 {
       return isShallow2;
     } else if (key === "__v_raw") {
       if (receiver === (isReadonly2 ? isShallow2 ? shallowReadonlyMap : readonlyMap : isShallow2 ? shallowReactiveMap : reactiveMap).get(target) || // receiver is not the reactive proxy, but has the same prototype
-        // this means the reciever is a user proxy of the reactive proxy
-        Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
+      // this means the reciever is a user proxy of the reactive proxy
+      Object.getPrototypeOf(target) === Object.getPrototypeOf(receiver)) {
         return target;
       }
       return;
@@ -2679,7 +2728,7 @@ function createForEach(isReadonly2, isShallow2) {
   };
 }
 function createIterableMethod(method, isReadonly2, isShallow2) {
-  return function (...args) {
+  return function(...args) {
     const target = this["__v_raw"];
     const rawTarget = toRaw(target);
     const targetIsMap = isMap(rawTarget);
@@ -2709,7 +2758,7 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
   };
 }
 function createReadonlyMethod(type) {
-  return function (...args) {
+  return function(...args) {
     {
       const key = args[0] ? `on key "${args[0]}" ` : ``;
       warn$2(
@@ -3145,7 +3194,7 @@ function warn$1(msg, ...args) {
   } else {
     const warnArgs = [`[Vue warn]: ${msg}`, ...args];
     if (trace.length && // avoid spamming console during tests
-      true) {
+    true) {
       warnArgs.push(`
 `, ...formatTrace(trace));
     }
@@ -3556,7 +3605,7 @@ const _devtoolsComponentRemoved = /* @__PURE__ */ createDevtoolsComponentHook(
 );
 const devtoolsComponentRemoved = (component) => {
   if (devtools && typeof devtools.cleanupBuffer === "function" && // remove the component if it wasn't buffered
-    !devtools.cleanupBuffer(component)) {
+  !devtools.cleanupBuffer(component)) {
     _devtoolsComponentRemoved(component);
   }
 };
@@ -3657,7 +3706,7 @@ function emit(instance, event, ...rawArgs) {
   }
   let handlerName;
   let handler = props[handlerName = toHandlerKey(event)] || // also try camelCase event handler (#2249)
-    props[handlerName = toHandlerKey(camelize(event))];
+  props[handlerName = toHandlerKey(camelize(event))];
   if (!handler && isModelListener2) {
     handler = props[handlerName = toHandlerKey(hyphenate(event))];
   }
@@ -4186,213 +4235,6 @@ function inject(key, defaultValue, treatDefaultAsFactory = false) {
     warn$1(`inject() can only be used inside setup() or functional components.`);
   }
 }
-<<<<<<< HEAD
-=======
-const INITIAL_WATCHER_VALUE = {};
-function watch(source, cb, options) {
-  if (!isFunction(cb)) {
-    warn(`\`watch(fn, options?)\` signature has been moved to a separate API. Use \`watchEffect(fn, options?)\` instead. \`watch\` now only supports \`watch(source, cb, options?) signature.`);
-  }
-  return doWatch(source, cb, options);
-}
-function doWatch(source, cb, { immediate, deep, flush, onTrack, onTrigger } = EMPTY_OBJ) {
-  if (!cb) {
-    if (immediate !== void 0) {
-      warn(`watch() "immediate" option is only respected when using the watch(source, callback, options?) signature.`);
-    }
-    if (deep !== void 0) {
-      warn(`watch() "deep" option is only respected when using the watch(source, callback, options?) signature.`);
-    }
-  }
-  const warnInvalidSource = (s2) => {
-    warn(`Invalid watch source: `, s2, `A watch source can only be a getter/effect function, a ref, a reactive object, or an array of these types.`);
-  };
-  const instance = getCurrentScope() === (currentInstance === null || currentInstance === void 0 ? void 0 : currentInstance.scope) ? currentInstance : null;
-  let getter;
-  let forceTrigger = false;
-  let isMultiSource = false;
-  if (isRef(source)) {
-    getter = () => source.value;
-    forceTrigger = isShallow(source);
-  } else if (isReactive(source)) {
-    getter = () => source;
-    deep = true;
-  } else if (isArray(source)) {
-    isMultiSource = true;
-    forceTrigger = source.some((s2) => isReactive(s2) || isShallow(s2));
-    getter = () => source.map((s2) => {
-      if (isRef(s2)) {
-        return s2.value;
-      } else if (isReactive(s2)) {
-        return traverse(s2);
-      } else if (isFunction(s2)) {
-        return callWithErrorHandling(
-          s2,
-          instance,
-          2
-          /* ErrorCodes.WATCH_GETTER */
-        );
-      } else {
-        warnInvalidSource(s2);
-      }
-    });
-  } else if (isFunction(source)) {
-    if (cb) {
-      getter = () => callWithErrorHandling(
-        source,
-        instance,
-        2
-        /* ErrorCodes.WATCH_GETTER */
-      );
-    } else {
-      getter = () => {
-        if (instance && instance.isUnmounted) {
-          return;
-        }
-        if (cleanup) {
-          cleanup();
-        }
-        return callWithAsyncErrorHandling(source, instance, 3, [onCleanup]);
-      };
-    }
-  } else {
-    getter = NOOP;
-    warnInvalidSource(source);
-  }
-  if (cb && deep) {
-    const baseGetter = getter;
-    getter = () => traverse(baseGetter());
-  }
-  let cleanup;
-  let onCleanup = (fn) => {
-    cleanup = effect.onStop = () => {
-      callWithErrorHandling(
-        fn,
-        instance,
-        4
-        /* ErrorCodes.WATCH_CLEANUP */
-      );
-    };
-  };
-  let oldValue = isMultiSource ? new Array(source.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
-  const job = () => {
-    if (!effect.active) {
-      return;
-    }
-    if (cb) {
-      const newValue = effect.run();
-      if (deep || forceTrigger || (isMultiSource ? newValue.some((v, i) => hasChanged(v, oldValue[i])) : hasChanged(newValue, oldValue)) || false) {
-        if (cleanup) {
-          cleanup();
-        }
-        callWithAsyncErrorHandling(cb, instance, 3, [
-          newValue,
-          // pass undefined as the old value when it's changed for the first time
-          oldValue === INITIAL_WATCHER_VALUE ? void 0 : isMultiSource && oldValue[0] === INITIAL_WATCHER_VALUE ? [] : oldValue,
-          onCleanup
-        ]);
-        oldValue = newValue;
-      }
-    } else {
-      effect.run();
-    }
-  };
-  job.allowRecurse = !!cb;
-  let scheduler;
-  if (flush === "sync") {
-    scheduler = job;
-  } else if (flush === "post") {
-    scheduler = () => queuePostRenderEffect$1(job, instance && instance.suspense);
-  } else {
-    job.pre = true;
-    if (instance)
-      job.id = instance.uid;
-    scheduler = () => queueJob(job);
-  }
-  const effect = new ReactiveEffect(getter, scheduler);
-  {
-    effect.onTrack = onTrack;
-    effect.onTrigger = onTrigger;
-  }
-  if (cb) {
-    if (immediate) {
-      job();
-    } else {
-      oldValue = effect.run();
-    }
-  } else if (flush === "post") {
-    queuePostRenderEffect$1(effect.run.bind(effect), instance && instance.suspense);
-  } else {
-    effect.run();
-  }
-  const unwatch = () => {
-    effect.stop();
-    if (instance && instance.scope) {
-      remove(instance.scope.effects, effect);
-    }
-  };
-  return unwatch;
-}
-function instanceWatch(source, value, options) {
-  const publicThis = this.proxy;
-  const getter = isString(source) ? source.includes(".") ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
-  let cb;
-  if (isFunction(value)) {
-    cb = value;
-  } else {
-    cb = value.handler;
-    options = value;
-  }
-  const cur = currentInstance;
-  setCurrentInstance(this);
-  const res = doWatch(getter, cb.bind(publicThis), options);
-  if (cur) {
-    setCurrentInstance(cur);
-  } else {
-    unsetCurrentInstance();
-  }
-  return res;
-}
-function createPathGetter(ctx, path) {
-  const segments = path.split(".");
-  return () => {
-    let cur = ctx;
-    for (let i = 0; i < segments.length && cur; i++) {
-      cur = cur[segments[i]];
-    }
-    return cur;
-  };
-}
-function traverse(value, seen) {
-  if (!isObject(value) || value[
-    "__v_skip"
-    /* ReactiveFlags.SKIP */
-  ]) {
-    return value;
-  }
-  seen = seen || /* @__PURE__ */ new Set();
-  if (seen.has(value)) {
-    return value;
-  }
-  seen.add(value);
-  if (isRef(value)) {
-    traverse(value.value, seen);
-  } else if (isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      traverse(value[i], seen);
-    }
-  } else if (isSet(value) || isMap(value)) {
-    value.forEach((v) => {
-      traverse(v, seen);
-    });
-  } else if (isPlainObject(value)) {
-    for (const key in value) {
-      traverse(value[key], seen);
-    }
-  }
-  return value;
-}
->>>>>>> home
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
 function onActivated(hook, target) {
   registerKeepAliveHook(hook, "a", target);
@@ -4497,26 +4339,26 @@ const publicPropertiesMap = (
   // Move PURE marker to new line to workaround compiler discarding it
   // due to type annotation
   /* @__PURE__ */ extend(/* @__PURE__ */ Object.create(null), {
-  $: (i) => i,
-  // fixed by xxxxxx vue-i18n 在 dev 模式，访问了 $el，故模拟一个假的
-  // $el: i => i.vnode.el,
-  $el: (i) => i.__$el || (i.__$el = {}),
-  $data: (i) => i.data,
-  $props: (i) => shallowReadonly(i.props),
-  $attrs: (i) => shallowReadonly(i.attrs),
-  $slots: (i) => shallowReadonly(i.slots),
-  $refs: (i) => shallowReadonly(i.refs),
-  $parent: (i) => getPublicInstance(i.parent),
-  $root: (i) => getPublicInstance(i.root),
-  $emit: (i) => i.emit,
-  $options: (i) => resolveMergedOptions(i),
-  $forceUpdate: (i) => i.f || (i.f = () => {
-    i.effect.dirty = true;
-    queueJob(i.update);
-  }),
-  // $nextTick: i => i.n || (i.n = nextTick.bind(i.proxy!)),// fixed by xxxxxx
-  $watch: (i) => instanceWatch.bind(i)
-})
+    $: (i) => i,
+    // fixed by xxxxxx vue-i18n 在 dev 模式，访问了 $el，故模拟一个假的
+    // $el: i => i.vnode.el,
+    $el: (i) => i.__$el || (i.__$el = {}),
+    $data: (i) => i.data,
+    $props: (i) => shallowReadonly(i.props),
+    $attrs: (i) => shallowReadonly(i.attrs),
+    $slots: (i) => shallowReadonly(i.slots),
+    $refs: (i) => shallowReadonly(i.refs),
+    $parent: (i) => getPublicInstance(i.parent),
+    $root: (i) => getPublicInstance(i.root),
+    $emit: (i) => i.emit,
+    $options: (i) => resolveMergedOptions(i),
+    $forceUpdate: (i) => i.f || (i.f = () => {
+      i.effect.dirty = true;
+      queueJob(i.update);
+    }),
+    // $nextTick: i => i.n || (i.n = nextTick.bind(i.proxy!)),// fixed by xxxxxx
+    $watch: (i) => instanceWatch.bind(i)
+  })
 );
 const isReservedPrefix = (key) => key === "_" || key === "$";
 const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
@@ -4585,8 +4427,8 @@ const PublicInstanceProxyHandlers = {
         return globalProperties[key];
       }
     } else if (currentRenderingInstance && (!isString(key) || // #1091 avoid internal isRef/isVNode checks on component instance leading
-      // to infinite warning loop
-      key.indexOf("__v") !== 0)) {
+    // to infinite warning loop
+    key.indexOf("__v") !== 0)) {
       if (data !== EMPTY_OBJ && isReservedPrefix(key[0]) && hasOwn(data, key)) {
         warn$1(
           `Property ${JSON.stringify(
@@ -5222,13 +5064,13 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
     let kebabKey;
     for (const key in rawCurrentProps) {
       if (!rawProps || // for camelCase
-        !hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
-        // and converted to camelCase (#955)
-        ((kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
+      !hasOwn(rawProps, key) && // it's possible the original props was passed in as kebab-case
+      // and converted to camelCase (#955)
+      ((kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
         if (options) {
           if (rawPrevProps && // for camelCase
-            (rawPrevProps[key] !== void 0 || // for kebab-case
-              rawPrevProps[kebabKey] !== void 0)) {
+          (rawPrevProps[key] !== void 0 || // for kebab-case
+          rawPrevProps[kebabKey] !== void 0)) {
             props[key] = resolvePropValue(
               options,
               rawCurrentProps,
@@ -6708,7 +6550,7 @@ let realAtob;
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 const b64re = /^(?:[A-Za-z\d+/]{4})*?(?:[A-Za-z\d+/]{2}(?:==)?|[A-Za-z\d+/]{3}=?)?$/;
 if (typeof atob !== "function") {
-  realAtob = function (str) {
+  realAtob = function(str) {
     str = String(str).replace(/[\t\n\f\r ]+/g, "");
     if (!b64re.test(str)) {
       throw new Error("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.");
@@ -6719,7 +6561,7 @@ if (typeof atob !== "function") {
     var r1;
     var r2;
     var i = 0;
-    for (; i < str.length;) {
+    for (; i < str.length; ) {
       bitmap = b64.indexOf(str.charAt(i++)) << 18 | b64.indexOf(str.charAt(i++)) << 12 | (r1 = b64.indexOf(str.charAt(i++))) << 6 | (r2 = b64.indexOf(str.charAt(i++)));
       result += r1 === 64 ? String.fromCharCode(bitmap >> 16 & 255) : r2 === 64 ? String.fromCharCode(bitmap >> 16 & 255, bitmap >> 8 & 255) : String.fromCharCode(bitmap >> 16 & 255, bitmap >> 8 & 255, bitmap & 255);
     }
@@ -6729,7 +6571,7 @@ if (typeof atob !== "function") {
   realAtob = atob;
 }
 function b64DecodeUnicode(str) {
-  return decodeURIComponent(realAtob(str).split("").map(function (c2) {
+  return decodeURIComponent(realAtob(str).split("").map(function(c2) {
     return "%" + ("00" + c2.charCodeAt(0).toString(16)).slice(-2);
   }).join(""));
 }
@@ -6756,15 +6598,15 @@ function getCurrentUserInfo() {
   return userInfo;
 }
 function uniIdMixin(globalProperties) {
-  globalProperties.uniIDHasRole = function (roleId) {
+  globalProperties.uniIDHasRole = function(roleId) {
     const { role } = getCurrentUserInfo();
     return role.indexOf(roleId) > -1;
   };
-  globalProperties.uniIDHasPermission = function (permissionId) {
+  globalProperties.uniIDHasPermission = function(permissionId) {
     const { permission } = getCurrentUserInfo();
     return this.uniIDHasRole("admin") || permission.indexOf(permissionId) > -1;
   };
-  globalProperties.uniIDTokenValid = function () {
+  globalProperties.uniIDTokenValid = function() {
     const { tokenExpired } = getCurrentUserInfo();
     return tokenExpired > Date.now();
   };
@@ -7018,7 +6860,7 @@ function initBaseInstance(instance, options) {
       instance.slots.default = true;
     }
   }
-  ctx.getOpenerEventChannel = function () {
+  ctx.getOpenerEventChannel = function() {
     {
       return options.mpInstance.getOpenerEventChannel();
     }
@@ -7031,7 +6873,7 @@ function initComponentInstance(instance, options) {
   initBaseInstance(instance, options);
   const ctx = instance.ctx;
   MP_METHODS.forEach((method) => {
-    ctx[method] = function (...args) {
+    ctx[method] = function(...args) {
       const mpInstance = ctx.$scope;
       if (mpInstance && mpInstance[method]) {
         return mpInstance[method].apply(mpInstance, args);
@@ -7099,7 +6941,7 @@ function findHooks(vueOptions, hooks = /* @__PURE__ */ new Set()) {
 }
 function initHook(mpOptions, hook, excludes) {
   if (excludes.indexOf(hook) === -1 && !hasOwn(mpOptions, hook)) {
-    mpOptions[hook] = function (args) {
+    mpOptions[hook] = function(args) {
       return this.$vm && this.$vm.$callHook(hook, args);
     };
   }
@@ -7287,7 +7129,7 @@ function initWxsCallMethods(methods, wxsCallMethods) {
     return;
   }
   wxsCallMethods.forEach((callMethod) => {
-    methods[callMethod] = function (args) {
+    methods[callMethod] = function(args) {
       return this.$vm[callMethod](args);
     };
   });
@@ -7364,7 +7206,7 @@ function initDefaultProps(options, isBehavior = false) {
     properties.uS = {
       type: null,
       value: [],
-      observer: function (newVal) {
+      observer: function(newVal) {
         const $slots = /* @__PURE__ */ Object.create(null);
         newVal && newVal.forEach((slotName) => {
           $slots[slotName] = true;
@@ -7656,7 +7498,7 @@ function parsePage(vueOptions, parseOptions2) {
   });
   initPageProps(miniProgramPageOptions, (vueOptions.default || vueOptions).props);
   const methods = miniProgramPageOptions.methods;
-  methods.onLoad = function (query) {
+  methods.onLoad = function(query) {
     this.options = query;
     this.$page = {
       fullPath: addLeadingSlash(this.route + stringifyQuery(query))
@@ -7686,7 +7528,7 @@ const MPPage = Page;
 const MPComponent = Component;
 function initTriggerEvent(mpInstance) {
   const oldTriggerEvent = mpInstance.triggerEvent;
-  const newTriggerEvent = function (event, ...args) {
+  const newTriggerEvent = function(event, ...args) {
     return oldTriggerEvent.apply(mpInstance, [customizeEvent(event), ...args]);
   };
   try {
@@ -7698,21 +7540,21 @@ function initTriggerEvent(mpInstance) {
 function initMiniProgramHook(name, options, isComponent) {
   const oldHook = options[name];
   if (!oldHook) {
-    options[name] = function () {
+    options[name] = function() {
       initTriggerEvent(this);
     };
   } else {
-    options[name] = function (...args) {
+    options[name] = function(...args) {
       initTriggerEvent(this);
       return oldHook.apply(this, args);
     };
   }
 }
-Page = function (options) {
+Page = function(options) {
   initMiniProgramHook(ON_LOAD, options);
   return MPPage(options);
 };
-Component = function (options) {
+Component = function(options) {
   initMiniProgramHook("created", options);
   const isVueComponent = options.properties && options.properties.uP;
   if (!isVueComponent) {
