@@ -1,0 +1,44 @@
+
+.banner {
+  margin: 20rpx;
+}
+.swiper-image {
+  /* 让图片占满整个swiper区域 */
+  width: 100%;
+  height: 100%;
+}
+.func1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 15rpx;
+  border-radius: 20rpx;
+  /* background-color: #ffffff; */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+}
+.func1_item {
+  width: calc(25% - 20rpx);
+  margin-bottom: 20rpx; 
+  border-radius: 16rpx; /* 添加圆角 */
+  padding: 20rpx;
+  /*box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);  添加内部阴影 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+	border: 0;
+}
+.func1_img {
+  width: 80rpx;
+  height: 80rpx;
+  margin-bottom: 10rpx;
+  border-radius: 50%;
+}
+.func1_text {
+  font-size: 28rpx;
+  color: #333333;
+  text-align: center;
+}
+.thumbnail{
+	 margin-left: 20rpx;
+}
+
