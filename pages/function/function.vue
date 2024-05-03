@@ -62,10 +62,10 @@ export default {
   },
   onLoad() {
     this.navList1 = [ 
-     { name: "问卷投票", imgPath: "../../static/function/questionnaire.png"},
-     	{ name: "卫检成绩", imgPath: "../../static/function/score.png"},
-     	{ name: "接诉即办", imgPath: "../../static/function/complaint.png" },
-     	{ name: "更多", imgPath: "../../static/function/more.png"}
+     { name: "课程表", imgPath: "../../static/function/class.png"},
+     { name: "教室预约", imgPath: "../../static/function/classes.png"},
+     { name: "导师互动", imgPath: "../../static/function/mentor.png" },
+     { name: "更多", imgPath: "../../static/function/more.png"}
      ] ,
 	 this.navList2 = [
 		 { name: "问卷投票", imgPath: "../../static/function/questionnaire.png"},
