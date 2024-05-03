@@ -15,7 +15,8 @@
 		{
 			"path": "pages/function/function",
 			"style": {
-				"navigationBarTitleText": "功能"
+				"navigationBarTitleText": "功能",
+				"backgroundColor": "#000000"
 			}
 		},
 		{
