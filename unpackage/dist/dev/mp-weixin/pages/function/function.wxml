@@ -1,1 +1,1 @@
- this is function 
+<view class="nav-list"><view wx:for="{{a}}" wx:for-item="item" wx:key="b" class="nav-item"><image src="{{item.a}}" class="nav-img"></image></view></view>

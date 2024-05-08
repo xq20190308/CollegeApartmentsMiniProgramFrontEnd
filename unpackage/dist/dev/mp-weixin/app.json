@@ -3,7 +3,8 @@
     "pages/home/home",
     "pages/pu/pu",
     "pages/function/function",
-    "pages/myself/myself"
+    "pages/myself/myself",
+    "pages/questionnaire/questionnaire"
   ],
   "window": {
     "navigationBarTextStyle": "black",

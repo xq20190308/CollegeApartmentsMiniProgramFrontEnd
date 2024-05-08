@@ -1,0 +1,1 @@
+<view class="container"><view class="text-style">请写出您的诉求</view><view class="input-container"><view class="text-style1">请输入</view></view><view class="btn-container"><button class="btn" bindtap="{{a}}">提交</button></view></view>
