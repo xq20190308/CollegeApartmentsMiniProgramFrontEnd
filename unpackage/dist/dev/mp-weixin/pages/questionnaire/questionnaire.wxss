@@ -23,66 +23,25 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-/* 全局样式 */
-page, view {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.example {
+  padding: 15px;
+  background-color: #fff;
 }
-
-/* 主容器 */
-.container {
+.segmented-control {
+  margin-bottom: 15px;
+}
+.button-group {
+  margin-top: 15px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+}
+.form-item {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #F3F4F6;
 }
-
-/* 文本样式 */
-.text-style {
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 24px;
-  color: #333;
-  margin-bottom: 16px;
-}
-
-/* 输入容器样式 */
-.input-container {
-  background: #F0EBEB;
-  border-radius: 10px;
-  border: 1px solid #333;
-  padding: 16px;
-  width: 80%;
-  max-width: 400px;
-}
-
-/* 文本样式1 */
-.text-style1 {
-  font-size: 16px;
-  font-weight: 400;
-  color: #333;
-}
-
-/* 按钮容器 */
-.btn-container {
+.button {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 40px;
-}
-
-/* 按钮样式 */
-.btn {
-  background-color: #FFC300;
-  color: #fff;
-  padding: 8px 20px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.btn:active {
-  background-color: #FFB000;
+  align-items: center;
+  height: 35px;
+  margin-left: 10px;
 }
