@@ -4,7 +4,8 @@
     "pages/pu/pu",
     "pages/function/function",
     "pages/myself/myself",
-    "pages/questionnaire/questionnaire"
+    "pages/questionnaire/questionnaire",
+    "pages/feedback/feed_back"
   ],
   "window": {
     "navigationBarTextStyle": "black",
