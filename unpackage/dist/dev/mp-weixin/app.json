@@ -5,7 +5,7 @@
     "pages/function/function",
     "pages/myself/myself",
     "pages/questionnaire/questionnaire",
-    "pages/questionnaire/questionnaire_home",
+    "pages/feedback/feed_back",
     "pages/questionnaire/example_questionnarie"
   ],
   "window": {

@@ -37,10 +37,7 @@
 			}
 		},
 		{
-<<<<<<< HEAD
 			"path" : "pages/feedback/feed_back",
-=======
-			"path" : "pages/questionnaire/questionnaire_home",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -49,7 +46,6 @@
 		},
 		{
 			"path" : "pages/questionnaire/example_questionnarie",
->>>>>>> master
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
