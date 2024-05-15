@@ -1,6 +1,10 @@
 {
 	"easycom": {
-	 "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	 "custom": {
+	 	"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+	 	"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+	 	"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+	 }
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -37,7 +41,7 @@
 			}
 		},
 		{
-			"path" : "pages/feedback/feed_back",
+			"path" : "pages/feedback/feedback",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",

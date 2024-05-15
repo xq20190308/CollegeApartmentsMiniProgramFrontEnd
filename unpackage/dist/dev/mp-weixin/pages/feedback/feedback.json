@@ -2,8 +2,7 @@
   "navigationBarTitleText": "",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "uni-list-item": "../../uni_modules/uni-list/components/uni-list-item/uni-list-item",
-    "uni-list": "../../uni_modules/uni-list/components/uni-list/uni-list",
+    "uni-search-bar": "../../uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar",
     "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section"
   }
 }

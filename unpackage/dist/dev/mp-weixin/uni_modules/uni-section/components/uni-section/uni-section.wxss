@@ -70,10 +70,6 @@
 }
 .uni-section .uni-section-header__slot-right {
   font-size: 14px;
-  color: #333;
-  /* 修改右侧文字颜色为黑色 */
-  margin-left: 20px;
-  /* 添加右侧边距 */
 }
 .uni-section .uni-section-content {
   font-size: 14px;

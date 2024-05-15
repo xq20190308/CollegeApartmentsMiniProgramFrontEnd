@@ -1,28 +1,6 @@
 "use strict";
 const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
-  data() {
-    return {
-      plans: [
-        {
-          name: "目标",
-          count_time: "什么时候开始",
-          //要进到.vue文件
-          pagePath: "../../pages/myself/myself"
-        },
-        {
-          name: "计划二",
-          count_time: "什么时候开始",
-          pagePath: "../../pages/myself/myself"
-        },
-        {
-          name: "计划三",
-          count_time: "什么时候开始",
-          pagePath: "../../../../pages/myself"
-        }
-      ]
-    };
-  },
   name: "UniCard",
   emits: ["click"],
   props: {
@@ -80,32 +58,7 @@ const _sfc_main = {
   methods: {
     onClick(type) {
       this.$emit("click", type);
-    },
-    //点击那个计划进行跳转
-    onItemClick(plan) {
-      common_vendor.index.reLaunch({
-        url: plan.pagePath
-      });
     }
-  },
-  onLoad() {
-    this.plans = [
-      {
-        name: "目标",
-        count_time: "什么时候开始",
-        pagePath: "../../../../pages/myself"
-      },
-      {
-        name: "计划二",
-        count_time: "什么时候开始",
-        pagePath: "../../../../pages/myself"
-      },
-      {
-        name: "计划三",
-        count_time: "什么时候开始",
-        pagePath: "../../../../pages/myself"
-      }
-    ];
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -130,20 +83,15 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     k: common_vendor.t($props.extra),
     l: common_vendor.o(($event) => $options.onClick("extra"))
   }) : {}, {
-    m: common_vendor.f($data.plans, (plan, index, i0) => {
-      return {
-        a: common_vendor.t(plan.name),
-        b: index,
-        c: common_vendor.o(($event) => $options.onItemClick(plan), index)
-      };
-    }),
-    n: $props.padding,
-    o: $props.isFull ? 1 : "",
-    p: $props.isShadow ? 1 : "",
-    q: $props.border ? 1 : "",
-    r: $props.isFull ? 0 : $props.margin,
-    s: $props.spacing,
-    t: $props.isShadow ? $props.shadow : ""
+    m: $props.padding,
+    n: common_vendor.o(($event) => $options.onClick("content")),
+    o: common_vendor.o(($event) => $options.onClick("actions")),
+    p: $props.isFull ? 1 : "",
+    q: $props.isShadow ? 1 : "",
+    r: $props.border ? 1 : "",
+    s: $props.isFull ? 0 : $props.margin,
+    t: $props.spacing,
+    v: $props.isShadow ? $props.shadow : ""
   });
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/uni_modules/uni-card/components/uni-card/uni-card.vue"]]);

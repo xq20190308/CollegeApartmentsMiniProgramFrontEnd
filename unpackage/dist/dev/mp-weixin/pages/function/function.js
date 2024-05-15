@@ -12,7 +12,7 @@ const _sfc_main = {
       navList2: [
         { name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_home" },
         { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_home" },
-        { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../feedback/feedback" },
         { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
       ],
       navList3: [
@@ -32,7 +32,7 @@ const _sfc_main = {
     ], this.navList2 = [
       { name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_home" },
       { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../questionnaire/questionnaire_home" },
+      { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../feedback/feedback" },
       { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
     ], this.navList3 = [
       { name: "热水系统", imgPath: "../../static/function/water.png", pagePath: "../questionnaire/questionnaire_home" },
