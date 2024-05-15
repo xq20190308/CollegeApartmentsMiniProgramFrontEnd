@@ -7,6 +7,8 @@ if (!Math) {
   "./pages/function/function.js";
   "./pages/myself/myself.js";
   "./pages/questionnaire/questionnaire.js";
+  "./pages/questionnaire/questionnaire_home.js";
+  "./pages/questionnaire/example_questionnarie.js";
 }
 const _sfc_main = {
   onLaunch: function() {

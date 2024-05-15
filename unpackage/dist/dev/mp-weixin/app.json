@@ -5,7 +5,8 @@
     "pages/function/function",
     "pages/myself/myself",
     "pages/questionnaire/questionnaire",
-    "pages/feedback/feed_back"
+    "pages/questionnaire/questionnaire_home",
+    "pages/questionnaire/example_questionnarie"
   ],
   "window": {
     "navigationBarTextStyle": "black",
