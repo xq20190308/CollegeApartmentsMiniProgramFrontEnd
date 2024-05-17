@@ -8,6 +8,7 @@ if (!Math) {
   "./pages/myself/myself.js";
   "./pages/questionnaire/questionnaire.js";
   "./pages/feedback/feedback.js";
+  "./pages/feedback/feedbackSubmit.js";
   "./pages/questionnaire/example_questionnarie.js";
 }
 const _sfc_main = {

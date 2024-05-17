@@ -3,5 +3,18 @@
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/feedback/feedbackSubmit",
+          "pathName": "pages/feedback/feedbackSubmit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

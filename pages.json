@@ -49,6 +49,14 @@
 			}
 		},
 		{
+			"path": "pages/feedback/feedbackSubmit",
+			"style" :
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
 			"path" : "pages/questionnaire/example_questionnarie",
 			"style" : 
 			{

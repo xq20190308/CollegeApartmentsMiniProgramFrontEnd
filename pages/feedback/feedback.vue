@@ -1,17 +1,22 @@
 <template>
 	<view>
-
-		<uni-section title="请搜索" type="line">
+		<view class="spacing"></view>
+		<uni-section>
 			<uni-search-bar @confirm="search" :focus="true" v-model="searchValue" @blur="blur" @focus="focus" @input="input"
 				@cancel="cancel" @clear="clear">
 			</uni-search-bar>
 			<view class="search-result">
 				<text class="search-result-text">当前输入为：{{ searchValue }}</text>
 			</view>
-
 		</uni-section>
 
-		
+		<view class="container">
+			
+				<view class="warp">
+					<button class="button floating-button" type="primary" @click="onpress" ></button>
+				</view>
+
+		</view>
 	</view>
 </template>
 
@@ -55,6 +60,11 @@
 					title: '点击取消，输入值为：' + res.value,
 					icon: 'none'
 				})
+			},
+			onpress() {
+				uni.navigateTo({
+					url: '../feedback/feedbackSubmit'
+				});
 			}
 		},
 		onBackPress() {
@@ -65,6 +75,15 @@
 	}
 </script>
 
-
 <style>
+	.spacing {
+		height: 40rpx;
+		background-color: transparent;
+	}
+	.floating-button {
+			position: fixed;
+			bottom: 30rpx; /* 调整到底部的距离 */
+			right: 30rpx; /* 调整到右侧的距离 */
+			background-color: blue;
+		}
 </style>

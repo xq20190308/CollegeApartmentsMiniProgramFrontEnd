@@ -39,6 +39,11 @@ const _sfc_main = {
         title: "点击取消，输入值为：" + res.value,
         icon: "none"
       });
+    },
+    onpress() {
+      common_vendor.index.navigateTo({
+        url: "../feedback/feedbackSubmit"
+      });
     }
   },
   onBackPress() {
@@ -68,10 +73,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.searchValue
     }),
     i: common_vendor.t($data.searchValue),
-    j: common_vendor.p({
-      title: "请搜索",
-      type: "line"
-    })
+    j: common_vendor.o((...args) => $options.onpress && $options.onpress(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedback.vue"]]);
