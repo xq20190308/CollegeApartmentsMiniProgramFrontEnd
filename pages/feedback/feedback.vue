@@ -86,4 +86,8 @@
 			right: 30rpx; /* 调整到右侧的距离 */
 			background-color: blue;
 		}
+		.wrap{
+			color: red;
+			background-color:rebeccapurple;
+		}
 </style>
