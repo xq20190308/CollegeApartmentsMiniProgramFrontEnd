@@ -24,6 +24,7 @@
 				    <text>这是分栏内容 {{ plan }}</text>
 					</uni-card>
   </view>
+	
 </template>
 
 <script>

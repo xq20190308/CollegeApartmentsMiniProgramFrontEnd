@@ -48,3 +48,20 @@
   font-size: 16px;
   border-radius: 30px;
 }
+.example-body {
+  padding: 10px;
+  padding-top: 0;
+}
+.custom-image-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.text {
+  font-size: 14px;
+  color: #333;
+}
+.small-label {
+  font-size: 12px;
+}
