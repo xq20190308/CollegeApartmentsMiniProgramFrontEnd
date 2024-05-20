@@ -1,0 +1,1 @@
+<view class="qusnalist"><view wx:for="{{a}}" wx:for-item="item" wx:key="c" class="qusna" bindtap="{{item.d}}"><questionnaire wx:if="{{item.b}}" u-i="{{item.a}}" bind:__l="__l" u-p="{{item.b}}"></questionnaire></view></view>
