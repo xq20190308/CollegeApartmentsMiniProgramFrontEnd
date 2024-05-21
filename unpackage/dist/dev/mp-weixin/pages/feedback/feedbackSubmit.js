@@ -7,33 +7,67 @@ const _sfc_main = {
       baseFormData: {
         contactobject: "",
         describes: "",
-        category: "",
+        category: []
         //上传图片.
-        imageValue: []
+        //imageValue:[]
       },
       // 表单数据
-      alignmentFormData: {
-        name: "",
-        age: ""
-      },
-      // 分段器数据
-      current: 0,
-      items: ["左对齐", "顶部对齐"],
-      // 校验规则
-      rules: {
+      customRules: {
+        describes: {
+          rules: [{
+            required: true,
+            errorMessage: "问题描述不能为空"
+          }]
+        },
         contactobject: {
           rules: [{
             required: true,
-            errorMessage: "联系方式不能为空"
+            errorMessage: "手机号不能为空"
           }]
         }
+      },
+      onReady() {
+        console.log("onReady 生命周期钩子被调用");
+        this.$refs.baseForm.setRules(this.customRules);
       }
     };
   },
   methods: {
-    submit() {
+    submit(ref) {
+      this.$refs[ref].validate([""]).then((res) => {
+        console.log("success", res);
+        common_vendor.index.showToast({
+          title: `校验通过`
+        });
+        common_vendor.index.request({
+          url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions",
+          // 示例接口地址
+          method: "POST",
+          data: {
+            describes: this.baseFormData.describes,
+            contactobject: this.baseFormData.contactobject,
+            category: this.baseFormData.category
+          },
+          success: (res2) => {
+            console.log(res2.data);
+            this.text = "request success";
+            this.id = res2.id;
+            common_vendor.index.navigateTo({
+              url: "/pages/feedback/feedback"
+            });
+          },
+          fail: (err) => {
+            console.log("request failed", err);
+          }
+        });
+      }).catch((err) => {
+        console.log("err", err);
+      });
+    },
+    //保存和提交分别交到后端不同的地方
+    save() {
       common_vendor.index.request({
-        url: "https://www.example.com/request",
+        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestionsDraft",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
@@ -44,6 +78,7 @@ const _sfc_main = {
         success: (res) => {
           console.log(res.data);
           this.text = "request success";
+          this.id = res.id;
           common_vendor.index.navigateTo({
             url: "/pages/feedback/feedback"
           });
@@ -52,18 +87,26 @@ const _sfc_main = {
     },
     select(e) {
       console.log("选择文件：", e);
+      const files = e.tempFiles;
+      files.forEach((file) => {
+        this.uploadFile(file);
+      });
     },
-    // 获取上传进度
+    uploadFile(file) {
+      const formData = new FormData();
+      formData.append("file", file);
+      uno.uploadFile({
+        url: "http://10.17.78.66:8080/api/upload",
+        success: (res) => {
+          console.log("文件上传成功", res);
+        },
+        fail: (err) => {
+          console.log("文件上传失败", err);
+        }
+      });
+    },
     progress(e) {
       console.log("上传进度：", e);
-    },
-    // 上传成功
-    success(e) {
-      console.log("上传成功");
-    },
-    // 上传失败
-    fail(e) {
-      console.log("上传失败：", e);
     }
   }
 };
@@ -111,16 +154,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["label-style"]: "font-size: 14px;",
       required: true
     }),
-    g: common_vendor.p({
-      limit: "9",
-      title: "最多选择9张图片",
-      ["file-extname"]: "png,jpg",
-      required: true
-    }),
+    g: common_vendor.sr("uniFilePicker", "7239b3e8-7,7239b3e8-6"),
     h: common_vendor.p({
       limit: "9",
-      ["file-mediatype"]: "video",
-      title: "最多选择9个视频",
+      ["file-mediatype"]: "video,image",
+      title: "最多选择9个图片",
       required: true
     }),
     i: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
@@ -140,7 +178,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "投诉与意见",
       type: "line"
     }),
-    o: common_vendor.o((...args) => $options.submit && $options.submit(...args))
+    o: common_vendor.o(($event) => $options.submit("baseForm")),
+    p: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);

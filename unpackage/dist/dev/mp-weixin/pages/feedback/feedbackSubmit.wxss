@@ -39,6 +39,11 @@
   display: flex;
   align-items: center;
 }
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  /* 用于在按钮之间添加等间距 */
+}
 .button {
   background-color: dodgerblue;
   color: white;
@@ -47,6 +52,7 @@
   border: 0;
   font-size: 16px;
   border-radius: 30px;
+  margin: 10px;
 }
 .example-body {
   padding: 10px;

@@ -8,8 +8,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/feedback/feedbackSubmit",
-          "pathName": "pages/feedback/feedbackSubmit",
+          "name": "pages/feedback/feedback",
+          "pathName": "pages/feedback/feedback",
           "query": "",
           "launchMode": "default",
           "scene": null
