@@ -7150,6 +7150,20 @@ const pages = [
       navigationBarTitleText: "",
       enablePullDownRefresh: false
     }
+  },
+  {
+    path: "pages/notice/notice",
+    style: {
+      navigationBarTitleText: "",
+      enablePullDownRefresh: false
+    }
+  },
+  {
+    path: "pages/notice/noticedetail",
+    style: {
+      navigationBarTitleText: "",
+      enablePullDownRefresh: false
+    }
   }
 ];
 const globalStyle = {

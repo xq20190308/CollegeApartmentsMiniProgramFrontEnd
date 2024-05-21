@@ -7,7 +7,9 @@
     "pages/questionnaire/questionnaire",
     "pages/feedback/feedback",
     "pages/feedback/feedbackSubmit",
-    "pages/questionnaire/example_questionnarie"
+    "pages/questionnaire/example_questionnarie",
+    "pages/notice/notice",
+    "pages/notice/noticedetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",

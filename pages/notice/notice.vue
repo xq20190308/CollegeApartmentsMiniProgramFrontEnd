@@ -1,93 +1,89 @@
 <template>
 	<view>
-		<view class="spacing"></view>
-		<uni-section>
-			<uni-search-bar @confirm="search" :focus="true" v-model="searchValue" @blur="blur" @focus="focus" @input="input"
-				@cancel="cancel" @clear="clear">
-			</uni-search-bar>
-			<view class="search-result">
-				<text class="search-result-text">当前输入为：{{ searchValue }}</text>
+		<uni-section :title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;">
+			<view class="notice-list">
+				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(item.id)">
+					<text style="text-aign: center;">{{item.title}}</text>
+					<text>山东科技大学运动会圆满落幕</text>
+					<text style="text-align: right;">活动结束：{{item.publish_time}}</text>
+					<text style="text-align: right;">发布时间：{{item.is_active}}</text>
+				</view>
 			</view>
 		</uni-section>
-
-		<view class="container">
-			
-		<image class = "floating-button" src="../../static/feedback/plus.png" @click="onpress"></image>
-
-		</view>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
+	export default{
+		data(){
 			return {
-				searchValue: '123123'
+				articles:[
+					{id:'3', title:'通知', publish_time:'2024/5/20', is_active:'true'}
+				]
 			}
 		},
-		methods: {
-			search(res) {
-				uni.showToast({
-					title: '搜索：' + res.value,
-					icon: 'none'
-				})
-			},
-			input(res) {
-				console.log('----input:', res)
-			},
-			clear(res) {
-				uni.showToast({
-					title: 'clear事件，清除值为：' + res.value,
-					icon: 'none'
-				})
-			},
-			blur(res) {
-				uni.showToast({
-					title: 'blur事件，输入值为：' + res.value,
-					icon: 'none'
-				})
-			},
-			focus(e) {
-				uni.showToast({
-					title: 'focus事件，输出值为：' + e.value,
-					icon: 'none'
-				})
-			},
-			cancel(res) {
-				uni.showToast({
-					title: '点击取消，输入值为：' + res.value,
-					icon: 'none'
-				})
-			},
-			onpress() {
+		methods:{
+			todetail(id){
 				uni.navigateTo({
-					url: '../feedback/feedbackSubmit'
-				});
+					url:`../notice/noticedetail?articleId=${id}`
+				})
 			}
-		},
-		onBackPress() {
-			// #ifdef APP-PLUS
-			plus.key.hideSoftKeybord();
-			// #endif
 		}
 	}
 </script>
 
+
 <style>
-	.spacing {
-		height: 40rpx;
-		background-color: transparent;
+	.notice-list {
 	}
-	.floating-button {
-			position: fixed;
-			bottom:60rpx; 
-			right: 60rpx; 
-			width: 120rpx; 
-			height: 120rpx; 
-		/* 	box-shadow: 5rpx 5rpx 10rpx rgba(0, 0, 0, 0.5); */ /* 添加阴影样式 */
-		}
-		.wrap{
-			color: red;
-			background-color:rebeccapurple;
-		}
+	
+	.notice-item {
+		width: 89%;
+		height: auto;
+		border: 1px solid #e2e2e2;
+		border-radius: calc(18rpx * 2);
+		box-sizing: border-box;
+		padding: 10rpx 30rpx;
+		padding-top: 30rpx;
+		flex-shrink: 0;
+		margin-top: 24rpx!important;
+		margin-button: 24rpx;
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: calc(14rpx * 2);
+		line-height: calc(17rpx * 2);
+		color: #333333;
+		margin: auto;
+		
+	}
+
+	.notice-item>text {
+		display: block;
+	}
+	
+	.notice-item text:nth-child(2) {
+		text-indent: 2em;
+		display: flex;
+		padding-top: 10rpx;
+	}
+
+	.notice-item text:nth-child(3) {
+		padding-top: 24rpx;
+		font-size: 16rpx !important;
+	}
+	.notice-item text:nth-child(4) {
+		font-size: 16rpx !important;
+	}
+	
+	.notice-item text:nth-child(2),
+	.notice-item text:nth-child(3),
+	.notice-item text:nth-child(4) {
+		color: #999999;
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: calc(12rpx * 2);
+		line-height: calc(15rpx * 2);
+	}
 </style>

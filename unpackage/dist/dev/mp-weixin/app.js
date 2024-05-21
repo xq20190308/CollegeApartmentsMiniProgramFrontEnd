@@ -10,6 +10,8 @@ if (!Math) {
   "./pages/feedback/feedback.js";
   "./pages/feedback/feedbackSubmit.js";
   "./pages/questionnaire/example_questionnarie.js";
+  "./pages/notice/notice.js";
+  "./pages/notice/noticedetail.js";
 }
 const _sfc_main = {
   onLaunch: function() {

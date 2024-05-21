@@ -5,7 +5,7 @@
     <!-- 轮播图区域 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
       <swiper-item v-for="(item, index) in bannerList" :key="index">
-        <img :src="item.url" alt="" class="swiper-image">
+        <img :src="item.url" alt="" class="swiper-image" @click="bannerclick(item)">
       </swiper-item>
     </swiper>
 		<view class="spacing"></view>
@@ -53,7 +53,12 @@ export default {
 			uni.reLaunch({
 				url: item.pagePath
 			})
-		}
+		},
+		bannerclick(item){
+			uni.navigateTo({
+				url:'../notice/notice'
+			})
+		},
 	},
   onLoad() {
     this.func_list = [ 
