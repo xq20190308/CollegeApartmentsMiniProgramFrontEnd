@@ -3,6 +3,7 @@
 		<uni-section :title="naireinfo.name" type="line" titleFontSize=42rpx>
 		</uni-section>
 		<text>{{naireinfo.descr}}</text>
+		<view>{{naireinfo.questionList}}</view>
 		<view>截止到：{{naireinfo.startTime}}</view>
 		<!--<view class="questions" v-for="(item,index) in naireinfo.questions" :key="index">
 			<question :questioninfo="item"></question>

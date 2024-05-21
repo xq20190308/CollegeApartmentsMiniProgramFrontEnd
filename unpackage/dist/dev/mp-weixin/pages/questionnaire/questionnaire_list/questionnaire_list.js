@@ -3,15 +3,7 @@ const common_vendor = require("../../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      questionnairelist: [{
-        id: "",
-        type: 0,
-        name: "",
-        descr: null,
-        startTime: "",
-        endTime: "",
-        questionList: []
-      }],
+      questionnairelist: [],
       total: 0
     };
   },
@@ -23,17 +15,16 @@ const _sfc_main = {
         data: {},
         success: (res) => {
           this.questionnairelist = res.data.data;
-          console.log(this.questionnairelist);
-          console.log(res.data.data);
+          console.log("获取到列表", this.questionnairelist);
         },
         complete: (res) => {
-          console.log(res);
         }
       });
     },
-    gotonaire(item) {
+    gotonaire: (item) => {
+      console.log("问卷信息", item);
       common_vendor.index.navigateTo({
-        url: "../questionnaire_home/questionnaire_home"
+        url: "../questionnaire_home/questionnaire_home?questionidList=" + item.questionList + "&id=" + item.id + "&type=" + item.type + "&name=" + item.name + "&descr=" + item.descr + "&startTime=" + item.startTime + "&endTime =" + item.endTime
       });
     }
   },
@@ -57,8 +48,20 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.p({
           naireinfo: item
         }),
-        c: index,
-        d: common_vendor.o(($event) => $options.gotonaire(item), index)
+        c: "5548f501-1-" + i0,
+        d: common_vendor.p({
+          naireinfo: item
+        }),
+        e: "5548f501-2-" + i0,
+        f: common_vendor.p({
+          naireinfo: item
+        }),
+        g: "5548f501-3-" + i0,
+        h: common_vendor.p({
+          naireinfo: item
+        }),
+        i: index,
+        j: common_vendor.o(($event) => $options.gotonaire(item), index)
       };
     })
   };

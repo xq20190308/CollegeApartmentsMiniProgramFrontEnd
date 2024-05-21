@@ -2,27 +2,20 @@
 	<view class="qusnalist">
 		<view class="qusna" v-for="(item,index) in questionnairelist" :key="index" @click="gotonaire(item)">
 			<questionnaire :naireinfo="item"></questionnaire>
+			<questionnaire :naireinfo="item"></questionnaire>
+			<questionnaire :naireinfo="item"></questionnaire>
+			<questionnaire :naireinfo="item"></questionnaire>
 		</view>
 	</view>
 </template>
 
 <script>
 	import questionnaire from '../../../components/questionnaire/questionnaire.vue'
-
-	import { setLocalData, getLocalData } from "../../utils/cache.js";
 		
 	export default {
 		data() {
 			return {
-				questionnairelist:[{
-					id:"",
-					type: 0,
-					name: "",
-					descr: null,
-					startTime: "",
-					endTime: "",
-					questionList: [],
-				},],
+				questionnairelist:[],
 				total: 0
 			}
 		},
@@ -34,24 +27,19 @@
 					data:{},
 					success: (res)=> {
 						this.questionnairelist=res.data.data;
-						console.log(this.questionnairelist);	
-						console.log(res.data.data);				
+						console.log('获取到列表',this.questionnairelist);				
 					},
 					complete: (res)=>{
-						console.log(res);
 					}
 				});
 			},
 			gotonaire: (item) =>{
-				setLocalData("qeid", item.id)
-				setLocalData("qetype", item.type)
-				setLocalData("qename", item.name)
-				setLocalData("qedescr", item.descr)
-				setLocalData("qesTime", item.startTime)
-				setLocalData("qeeTime", item.endTime)
-				setLocalData("qidList", item.questionList)
+				console.log("问卷信息",item);
 				uni.navigateTo({
-					url:'../questionnaire_home/questionnaire_home'
+					url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
+					'&id='+item.id+'&type='+item.type+'&name='+item.name+
+					'&descr='+item.descr+'&startTime='+item.startTime+
+					'&endTime ='+item.endTime 
 				})
 			}
 		},
@@ -60,7 +48,6 @@
 		}
 	}
 </script>
-
 <style lang="scss">
 	
 .qusnalist{

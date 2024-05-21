@@ -10,11 +10,11 @@ const _sfc_main = {
       startTime: "",
       endTime: "",
       questionList: [],
+      questionidList: [],
       // 校验表单数据
       valiFormData: {
         name: "",
-        age: "",
-        introduction: ""
+        id: ""
       },
       // 校验规则
       rules: {
@@ -24,39 +24,28 @@ const _sfc_main = {
             errorMessage: "姓名不能为空"
           }]
         },
-        age: {
+        id: {
           rules: [{
             required: true,
             errorMessage: "年龄不能为空"
           }, {
-            format: "number",
-            errorMessage: "年龄只能输入数字"
-          }]
-        }
-      },
-      // 自定义表单数据
-      customFormData: {
-        name: "",
-        age: ""
-      },
-      // 自定义表单校验规则
-      customRules: {
-        name: {
-          rules: [{
-            required: true,
-            errorMessage: "姓名不能为空"
-          }]
-        },
-        age: {
-          rules: [{
-            required: true,
-            errorMessage: "年龄不能为空"
+            minLength: 12,
+            maxLength: 12,
+            errorMessage: "请输入12位学号"
           }]
         }
       }
     };
   },
-  props: {},
+  props: {
+    id: "",
+    type: 0,
+    name: "",
+    descr: null,
+    startTime: "",
+    endTime: "",
+    questionidList: []
+  },
   methods: {
     submit(ref) {
       this.$refs[ref].validate().then((res) => {
@@ -67,59 +56,100 @@ const _sfc_main = {
       }).catch((err) => {
         console.log("err", err);
       });
+    },
+    getquestions() {
+      common_vendor.index.request({
+        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById",
+        method: "POST",
+        data: {
+          idList: this.questionidList
+        },
+        success: (res) => {
+          this.questionList = res.data.data;
+          console.log("获取到问题", this.questionList);
+        },
+        complete: (res) => {
+          console.log();
+        }
+      });
     }
   },
   computed: {},
-  onLoad() {
+  onLoad(options) {
+    let opquidliexample = '["20181252102","20187874601"]';
+    this.questionidList = JSON.parse(opquidliexample);
+    console.log("问题列表：", this.questionidList);
+    console.log("参数列表", options);
+    this.id = options.id;
+    this.type = options.type;
+    this.name = options.name;
+    this.descr = options.descr;
+    this.startTime = options.startTime;
+    this.endTime = options.endTime;
+    this.getquestions();
+    console.log("问卷id", this.id);
   },
   onReady() {
   }
 };
 if (!Array) {
-  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
+  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2 + _easycom_uni_section2)();
+  (_easycom_uni_forms_item2 + _easycom_uni_easyinput2 + _easycom_uni_forms2 + _easycom_uni_section2)();
 }
-const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
+const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
 const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
 if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms + _easycom_uni_section)();
+  (_easycom_uni_forms_item + _easycom_uni_easyinput + _easycom_uni_forms + _easycom_uni_section)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o(($event) => $data.customFormData.name = $event),
-    b: common_vendor.p({
-      placeholder: "请输入姓名",
-      modelValue: $data.customFormData.name
+    a: common_vendor.f($data.questionList, (item, index, i0) => {
+      return {
+        a: common_vendor.t(item.descr),
+        b: index,
+        c: "30b3b361-1-" + i0 + ",30b3b361-0",
+        d: common_vendor.p({
+          label: item.name,
+          required: true,
+          ["label-width"]: "top"
+        })
+      };
     }),
+    b: common_vendor.o(($event) => $data.valiFormData.name = $event),
     c: common_vendor.p({
+      placeholder: "请输入姓名",
+      modelValue: $data.valiFormData.name
+    }),
+    d: common_vendor.p({
       label: "姓名",
       required: true,
       name: "name"
     }),
-    d: common_vendor.o(($event) => $data.customFormData.age = $event),
-    e: common_vendor.p({
-      placeholder: "请输入学号",
-      modelValue: $data.customFormData.age
-    }),
+    e: common_vendor.o(($event) => $data.valiFormData.id = $event),
     f: common_vendor.p({
+      placeholder: "请输入学号",
+      modelValue: $data.valiFormData.id
+    }),
+    g: common_vendor.p({
       label: "学号",
       required: true,
-      name: "age"
+      name: "id"
     }),
-    g: common_vendor.sr("customForm", "30b3b361-1,30b3b361-0"),
-    h: common_vendor.p({
-      rules: $data.customRules,
-      modelValue: $data.customFormData
+    h: common_vendor.sr("valiForm", "30b3b361-2,30b3b361-0"),
+    i: common_vendor.p({
+      rules: $data.rules,
+      modelValue: $data.valiFormData
     }),
-    i: common_vendor.o(($event) => $options.submit("customForm")),
-    j: common_vendor.p({
-      title: "自定义校验规则",
-      type: "line"
+    j: common_vendor.o(($event) => $options.submit("valiForm")),
+    k: common_vendor.p({
+      title: $props.id + "." + $props.name,
+      type: "line",
+      titleFontSize: "42rpx"
     })
   };
 }
