@@ -1,12 +1,15 @@
 <template>
-	<view class="question">
-		<view class="questiontitle">
-			{{questioninfo.questiontitle}}
-		</view>
-		<view class="questionchoice" v-for="(item,index) in questioninfo.choices" :key="index">
-			{{item}}
-		</view>
+	<view>	
+		<radio-group @change="radioChange">
+			<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in questions" :key="item.value">
+				<view>
+					<radio :value="item.value" :checked="index === current" />
+				</view>
+				<view>{{item.name}}</view>
+			</label>
+		</radio-group>
 	</view>
+	
 </template>
 
 <script>
@@ -14,19 +17,47 @@
 		name:"questionnaire",
 		data() {
 			return {
+				questions: [{
+						value: 'USA',
+						name: '美国',
+						checked: 'true'
+					},
+					{
+						value: 'CHN',
+						name: '中国'
+					},
+					{
+						value: 'BRA',
+						name: '巴西'
+					},
+					{
+						value: 'JPN',
+						name: '日本'
+					},
+					{
+						value: 'ENG',
+						name: '英国'
+					},
+					{
+						value: 'FRA',
+						name: '法国'
+					},
+				],
+				current: 0,
 			};
 		},
 		props:{
-			questioninfo:{
-				questionid: 1,
-				questiontitle: "问题1",
-				choices:[
-					{"value": 0, "text": "选项1"},
-					{"value": 1, "text": "选项2"},
-					{"value": 2, "text": "选项3"},
-					{"value": 3, "text": "选项4"},
-				],
-			}
+			questions:[]
+		},
+		methods:{
+			radioChange: function(evt) {
+			    for (let i = 0; i < this.items.length; i++) {
+			        if (this.items[i].value === evt.detail.value) {
+			            this.current = i;
+			            break;
+			        }
+			    }
+			},
 		}
 	}
 </script>
