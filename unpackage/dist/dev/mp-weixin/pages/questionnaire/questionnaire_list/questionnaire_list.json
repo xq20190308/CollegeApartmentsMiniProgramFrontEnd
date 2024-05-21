@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "调查问卷列表",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "questionnaire": "../../../components/questionnaire/questionnaire"
+  }
+}

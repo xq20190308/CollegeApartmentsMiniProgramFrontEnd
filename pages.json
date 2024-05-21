@@ -29,26 +29,18 @@
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire",
+			"path" : "pages/questionnaire/questionnaire_home/questionnaire_home",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "调查问卷",
 				"enablePullDownRefresh" : false
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire_home",
+			"path" : "pages/questionnaire/questionnaire_list/questionnaire_list",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "pages/questionnaire/example_questionnarie",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "调查问卷列表",
 				"enablePullDownRefresh" : false
 			}
 		}
