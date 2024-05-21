@@ -2,10 +2,9 @@
 	<view class="container">
 		<uni-section :title="id+'.'+name" type="line" titleFontSize=42rpx>
 			<view class="questionsform">
-				<uni-forms-item v-for="(item,index) in questionList " :key="index" :label="item.name" required label-width="top">
-					{{item.descr}}
+				<uni-forms-item v-for="(item,index) in questionList " :key="index" :label="item.name" required label-position="top" label-width="100%">
+					<question :questions="item"></question>
 				</uni-forms-item>
-				
 				<!-- 表单校验 -->
 				<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData">
 					<uni-forms-item label="姓名" required name="name">
@@ -21,10 +20,12 @@
 	</view>
 </template>
 <script>
+	import question from '../../../components/question/question.vue'
 	
 	export default {
 		data() {
 			return {
+				
 				id:"",
 				type: 0,
 				name: "",

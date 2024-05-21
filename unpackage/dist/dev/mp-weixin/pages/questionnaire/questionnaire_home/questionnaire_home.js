@@ -93,30 +93,36 @@ const _sfc_main = {
   }
 };
 if (!Array) {
+  const _easycom_question2 = common_vendor.resolveComponent("question");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_forms_item2 + _easycom_uni_easyinput2 + _easycom_uni_forms2 + _easycom_uni_section2)();
+  (_easycom_question2 + _easycom_uni_forms_item2 + _easycom_uni_easyinput2 + _easycom_uni_forms2 + _easycom_uni_section2)();
 }
+const _easycom_question = () => "../../../components/question/question.js";
 const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
 const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
 const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
 if (!Math) {
-  (_easycom_uni_forms_item + _easycom_uni_easyinput + _easycom_uni_forms + _easycom_uni_section)();
+  (_easycom_question + _easycom_uni_forms_item + _easycom_uni_easyinput + _easycom_uni_forms + _easycom_uni_section)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.questionList, (item, index, i0) => {
       return {
-        a: common_vendor.t(item.descr),
-        b: index,
-        c: "30b3b361-1-" + i0 + ",30b3b361-0",
-        d: common_vendor.p({
+        a: "30b3b361-2-" + i0 + "," + ("30b3b361-1-" + i0),
+        b: common_vendor.p({
+          questions: item
+        }),
+        c: index,
+        d: "30b3b361-1-" + i0 + ",30b3b361-0",
+        e: common_vendor.p({
           label: item.name,
           required: true,
-          ["label-width"]: "top"
+          ["label-position"]: "top",
+          ["label-width"]: "100%"
         })
       };
     }),
@@ -140,7 +146,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true,
       name: "id"
     }),
-    h: common_vendor.sr("valiForm", "30b3b361-2,30b3b361-0"),
+    h: common_vendor.sr("valiForm", "30b3b361-3,30b3b361-0"),
     i: common_vendor.p({
       rules: $data.rules,
       modelValue: $data.valiFormData
