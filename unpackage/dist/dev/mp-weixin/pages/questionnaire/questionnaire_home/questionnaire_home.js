@@ -112,7 +112,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.descr),
         b: index,
-        c: "30b3b361-1-" + i0 + ",30b3b361-0",
+        c: "a64b3572-1-" + i0 + ",a64b3572-0",
         d: common_vendor.p({
           label: item.name,
           required: true,
@@ -140,7 +140,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true,
       name: "id"
     }),
-    h: common_vendor.sr("valiForm", "30b3b361-2,30b3b361-0"),
+    h: common_vendor.sr("valiForm", "a64b3572-2,a64b3572-0"),
     i: common_vendor.p({
       rules: $data.rules,
       modelValue: $data.valiFormData
@@ -153,5 +153,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "F:/codes/CollegeApartmentsFrontE/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
 wx.createPage(MiniProgramPage);

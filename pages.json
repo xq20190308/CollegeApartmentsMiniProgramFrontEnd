@@ -1,6 +1,6 @@
 {
 	"easycom": {
-	 "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -29,22 +29,26 @@
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire_home/questionnaire_home",
-			"style" : 
-			{
-				"navigationBarTitleText" : "调查问卷",
-				"enablePullDownRefresh" : false
+			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
+			"style": {
+				"navigationBarTitleText": "调查问卷",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire_list/questionnaire_list",
-			"style" : 
-			{
-				"navigationBarTitleText" : "调查问卷列表",
-				"enablePullDownRefresh" : false
+			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
+			"style": {
+				"navigationBarTitleText": "调查问卷列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
 			}
 		}
-		
+
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -53,13 +57,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/home/home",
-				"text":"首页",
+				"text": "首页",
 				"iconPath": "static/tabBar/home_icon.png",
 				"selectedIconPath": "static/tabBar/home_icon.png"
-				
+
 			},
 			{
 				"pagePath": "pages/function/function",
@@ -68,8 +71,8 @@
 				"selectedIconPath": "static/tabBar/function_icon.png"
 			},
 			{
-				"pagePath":"pages/pu/pu",
-				"text":"pu活动",
+				"pagePath": "pages/pu/pu",
+				"text": "pu活动",
 				"iconPath": "static/tabBar/pu_icon.png",
 				"selectedIconPath": "static/tabBar/pu_icon.png"
 			},
