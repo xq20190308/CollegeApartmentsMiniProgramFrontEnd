@@ -1,78 +1,10 @@
 <template>
-<<<<<<< HEAD
-    <!-- 导航栏区域一 -->
-    <view class="nav-list">
-        <view class="nav-item" v-for="(item,i) in navList" :key="i">
-            <image :src="item.imgPath" class = "nav-img"></image>
-        </view>
-        
-    </view>
-</template>
-
-<script>
-    export default{
-        data() {
-            return{
-                //分类功能区的数据列表
-                navList: [
-									{
-									    imgPath:"../../static/function/class.png"
-									},
-									{
-									    imgPath:"../../static/function/classschedule.png"
-									},
-									{
-									    imgPath:"../../static/function/questionnaire.png"
-									},
-									{
-									    imgPath:"../../static/function/tutointeraction.png"
-									}
-								]
-                }
-        },
-    onload() {
-        //调用方法，获取数组中的数据
-        this.navList = [
-            {
-                imgPath:"../../static/function/class.png"
-            },
-            {
-                imgPath:"../../static/function/classschedule.png"
-            },
-            {
-                imgPath:"../../static/function/questionnaire.png"
-            },
-            {
-                imgPath:"../../static/function/tutointeraction.png"
-            }
-            
-        ]
-    },
-    methods: {
-        
-        }
-    }
-</script>
-
-<style>
-    .nav-list{
-        display:flex;
-        justify-content: space-around;
-        margin: 15px 0;
-        }
-        .nav-img{
-            width:128rpx;
-            height:140rpx;
-        }
-    
-=======
-	
 	<view class="container">
 		<view >
 		<text class="nav-t">学习</text>
 		</view>
 		<view class="nav-list">
-			<view class="nav-item" v-for="(item, i) in navList1" :key="i">
+			<view class="nav-item" v-for="(item, i) in navList1" :key="i" @click="Function1Click(item)">
 				<image :src="item.imgPath" class="nav-img"></image>
 				 <text class="func1_text">{{ item.name }}</text>
 			</view>
@@ -82,7 +14,7 @@
 	</view>
 	<view class="container">
 		<view class="nav-list">
-			<view class="nav-item" v-for="(item, i) in navList2" :key="i">
+			<view class="nav-item" v-for="(item, i) in navList2" :key="i" @click="Function2Click(item)">
 				<image :src="item.imgPath" class="nav-img"></image>
 				 <text class="func1_text">{{ item.name }}</text>
 			</view>
@@ -93,7 +25,7 @@
 	</view>
 	<view class="container">
 		<view class="nav-list">
-			<view class="nav-item" v-for="(item, i) in navList3" :key="i">
+			<view class="nav-item" v-for="(item, i) in navList3" :key="i" @click="Function3Click(item)">
 				<image :src="item.imgPath" class="nav-img"></image>
 				 <text class="func1_text">{{ item.name }}</text>
 			</view>
@@ -106,47 +38,48 @@
 export default {
   data() {
     return {
-     
-      navList1: [
-				{ name: "课程表", imgPath: "../../static/function/class.png"},
-				{ name: "教室预约", imgPath: "../../static/function/classes.png"},
-				{ name: "导师互动", imgPath: "../../static/function/mentor.png" },
-				{ name: "更多", imgPath: "../../static/function/more.png"}
-			] ,
-	  navList2: [
-		{ name: "问卷投票", imgPath: "../../static/function/questionnaire.png"},
-		     	{ name: "卫检成绩", imgPath: "../../static/function/score.png"},
-		     	{ name: "接诉即办", imgPath: "../../static/function/complaint.png" },
-		     	{ name: "更多", imgPath: "../../static/function/more.png"}
-	  ],
-		navList3:[
-			{ name: "热水系统", imgPath: "../../static/function/water.png"},
-			{ name: "公寓用电", imgPath: "../../static/function/electricity.png"},
-			{ name: "失物招领", imgPath: "../../static/function/find.png" },
-			{ name: "更多", imgPath: "../../static/function/more.png"}
-		]
+		navList1: [] ,
+		navList2: [],
+		navList3:[]
     }
   },
   onLoad() {
-    this.navList1 = [ 
-     { name: "课程表", imgPath: "../../static/function/class.png"},
-     { name: "教室预约", imgPath: "../../static/function/classes.png"},
-     { name: "导师互动", imgPath: "../../static/function/mentor.png" },
-     { name: "更多", imgPath: "../../static/function/more.png"}
+    this.navList1 = [
+     { name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+     { name: "教室预约", imgPath: "../../static/function/classes.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+     { name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list" },
+     { name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
      ] ,
 	 this.navList2 = [
-		 { name: "问卷投票", imgPath: "../../static/function/questionnaire.png"},
-		      	{ name: "卫检成绩", imgPath: "../../static/function/score.png"},
-		      	{ name: "接诉即办", imgPath: "../../static/function/complaint.png" },
-		      	{ name: "更多", imgPath: "../../static/function/more.png"}
+		 { name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		      	{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		      	{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		      	{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	 ],
 	 this.navList3 = [
-		 { name: "热水系统", imgPath: "../../static/function/water.png"},
-		 { name: "公寓用电", imgPath: "../../static/function/electricity.png"},
-		 { name: "失物招领", imgPath: "../../static/function/find.png" },
-		 { name: "更多", imgPath: "../../static/function/more.png"}
+		 { name: "热水系统", imgPath: "../../static/function/water.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		 { name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		 { name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		 { name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	 ]
-  }
+  },
+	methods: {
+		Function1Click(item) {
+			uni.reLaunch({
+				url: item.pagePath
+			})
+		},
+		Function2Click(item) {
+			uni.reLaunch({
+				url: item.pagePath
+			})
+		},
+		Function3Click(item) {
+			uni.reLaunch({
+				url: item.pagePath
+			})
+		}
+	}
 }
 </script>
 
@@ -192,5 +125,5 @@ export default {
 	      box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
 		  font-size: 20px;
 	    }
->>>>>>> f9621ead623975911c1cfbbb373534460caa9a1a
+
 </style>

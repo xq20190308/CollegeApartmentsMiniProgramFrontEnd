@@ -4,7 +4,8 @@
     "pages/pu/pu",
     "pages/function/function",
     "pages/myself/myself",
-    "pages/questionnaire/questionnaire"
+    "pages/questionnaire/questionnaire_home/questionnaire_home",
+    "pages/questionnaire/questionnaire_list/questionnaire_list"
   ],
   "window": {
     "navigationBarTextStyle": "black",
