@@ -9,8 +9,16 @@ const _sfc_main = {
       descr: null,
       startTime: "",
       endTime: "",
-      questionList: [],
+      questionList: [{
+        id: "20187874601",
+        type: 1,
+        name: "去几楼",
+        describe: "which floor",
+        content: '["1","2","3"]',
+        questionnaire: "20181215506"
+      }],
       questionidList: [],
+      current: [],
       // 校验表单数据
       valiFormData: {
         name: "",
@@ -47,6 +55,12 @@ const _sfc_main = {
     questionidList: []
   },
   methods: {
+    radioChange: function(evt, qindex) {
+      console.log(evt);
+      console.log(qindex);
+      this.current[qindex] = evt.detail.value;
+      console.log(this.current);
+    },
     submit(ref) {
       this.$refs[ref].validate().then((res) => {
         console.log("success", res);
@@ -65,7 +79,28 @@ const _sfc_main = {
           idList: this.questionidList
         },
         success: (res) => {
-          this.questionList = res.data.data;
+          this.questionList = [
+            {
+              id: "20181252102",
+              type: 1,
+              name: "去哪个餐厅",
+              describe: "那个餐厅你更想去",
+              content: '["A","B","C"]',
+              questionnaire: "20181215506"
+            },
+            {
+              id: "20187874601",
+              type: 1,
+              name: "去几楼",
+              describe: "which floor",
+              content: '["1","2","3"]',
+              questionnaire: "20181215506"
+            }
+          ];
+          let contentexample = '["A","B","C"]';
+          for (let i = 0; i < this.questionList.length; i++) {
+            this.questionList[i].content = JSON.parse(contentexample);
+          }
           console.log("获取到问题", this.questionList);
         },
         complete: (res) => {
@@ -87,43 +122,40 @@ const _sfc_main = {
     this.startTime = options.startTime;
     this.endTime = options.endTime;
     this.getquestions();
-    console.log("问卷id", this.id);
   },
   onReady() {
   }
 };
 if (!Array) {
-  const _easycom_question2 = common_vendor.resolveComponent("question");
-  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
+  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
   const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_question2 + _easycom_uni_forms_item2 + _easycom_uni_easyinput2 + _easycom_uni_forms2 + _easycom_uni_section2)();
+  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2 + _easycom_uni_section2)();
 }
-const _easycom_question = () => "../../../components/question/question.js";
-const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
 const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
+const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
 const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
 const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
 if (!Math) {
-  (_easycom_question + _easycom_uni_forms_item + _easycom_uni_easyinput + _easycom_uni_forms + _easycom_uni_section)();
+  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms + _easycom_uni_section)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.f($data.questionList, (item, index, i0) => {
+    a: common_vendor.f($data.questionList, (que, qindex, i0) => {
       return {
-        a: "30b3b361-2-" + i0 + "," + ("30b3b361-1-" + i0),
-        b: common_vendor.p({
-          questions: item
+        a: common_vendor.t(que.id),
+        b: common_vendor.t(que.name),
+        c: common_vendor.t(que.describe),
+        d: common_vendor.f(que.content, (item, index, i1) => {
+          return {
+            a: index,
+            b: common_vendor.t(item),
+            c: index
+          };
         }),
-        c: index,
-        d: "30b3b361-1-" + i0 + ",30b3b361-0",
-        e: common_vendor.p({
-          label: item.name,
-          required: true,
-          ["label-position"]: "top",
-          ["label-width"]: "100%"
-        })
+        e: common_vendor.o((e) => $options.radioChange(e, qindex), qindex),
+        f: qindex
       };
     }),
     b: common_vendor.o(($event) => $data.valiFormData.name = $event),
@@ -146,7 +178,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true,
       name: "id"
     }),
-    h: common_vendor.sr("valiForm", "30b3b361-3,30b3b361-0"),
+    h: common_vendor.sr("valiForm", "30b3b361-1,30b3b361-0"),
     i: common_vendor.p({
       rules: $data.rules,
       modelValue: $data.valiFormData

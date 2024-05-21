@@ -1,21 +1,31 @@
 <template>
 	<view class="container">
 		<uni-section :title="id+'.'+name" type="line" titleFontSize=42rpx>
-			<view class="questionsform">
-				<uni-forms-item v-for="(item,index) in questionList " :key="index" :label="item.name" required label-position="top" label-width="100%">
-					<question :questions="item"></question>
-				</uni-forms-item>
-				<!-- 表单校验 -->
-				<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData">
-					<uni-forms-item label="姓名" required name="name">
-						<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
-					</uni-forms-item>
-					<uni-forms-item label="学号" required name="id">
-						<uni-easyinput v-model="valiFormData.id" placeholder="请输入学号" />
-					</uni-forms-item>
-				</uni-forms>
-				<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
+			<view class="questionsform" v-for="(que,qindex) in questionList" :key="qindex">
+				<view class="quetitle">{{que.id}}.{{que.name}}</view>
+				<view class="quedes">描述:{{que.describe}}</view>
+				<view class="que-list">
+					<radio-group @change="(e) => radioChange(e,qindex)">
+						<label class="choitem" v-for="(item, index) in que.content" :key="index">
+							<view class="">
+								<radio :value="index" />
+								<text>{{item}}</text>
+							</view>
+						</label>
+					</radio-group>
+				</view>
 			</view>
+			<!-- 表单校验 -->
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData">
+				<uni-forms-item label="姓名" required name="name">
+					<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
+				</uni-forms-item>
+				<uni-forms-item label="学号" required name="id">
+					<uni-easyinput v-model="valiFormData.id" placeholder="请输入学号" />
+				</uni-forms-item>
+			</uni-forms>
+			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
+		
 		</uni-section>
 	</view>
 </template>
@@ -25,15 +35,22 @@
 	export default {
 		data() {
 			return {
-				
 				id:"",
 				type: 0,
 				name: "",
 				descr: null,
 				startTime: "",
 				endTime: "",
-				questionList: [],
+				questionList: [{
+					id: "20187874601",
+					type: 1,
+					name: "去几楼",
+					describe: "which floor",
+					content: "[\"1\",\"2\",\"3\"]",
+					questionnaire: "20181215506"
+				}],
 				questionidList: [],
+				current: [],
 				// 校验表单数据
 				valiFormData: {
 					name: '',
@@ -70,12 +87,20 @@
 			questionidList: [],
 		},
 		methods: {
+			radioChange: function(evt,qindex) {
+				console.log(evt);
+				console.log(qindex);
+				this.current[qindex]=evt.detail.value;
+				console.log(this.current);
+			},
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
 					console.log('success', res);
 					uni.showToast({
 						title: `校验通过`
 					})
+					//POST
+					
 				}).catch(err => {
 					console.log('err', err);
 				})
@@ -88,14 +113,40 @@
 						idList: this.questionidList
 					},
 					success: (res)=> {
-						this.questionList=res.data.data;
+						//this.questionList=res.data.data;
+						this.questionList=[
+						    {
+						      id: "20181252102",
+						      type: 1,
+						      name: "去哪个餐厅",
+						      describe: "那个餐厅你更想去",
+						      content: "[\"A\",\"B\",\"C\"]",
+						      questionnaire: "20181215506"
+						    },
+						    {
+						      id: "20187874601",
+						      type: 1,
+						      name: "去几楼",
+						      describe: "which floor",
+						      content: "[\"1\",\"2\",\"3\"]",
+						      questionnaire: "20181215506"
+						    }]
+						
+						
+						// 假设我们要修改的初始数据
+						let contentexample = "[\"A\",\"B\",\"C\"]";
+						
+						// 使用for循环来修改数据
+						for (let i = 0; i < this.questionList.length; i++) {
+						  this.questionList[i].content=JSON.parse(contentexample);
+						}
 						console.log('获取到问题',this.questionList);				
 					},
 					complete: (res)=>{
 						console.log();
 					}
 				});
-			}
+			},
 		},
 		computed: {
 			
@@ -115,7 +166,6 @@
 			
 			this.getquestions();
 			
-			console.log("问卷id",this.id);
 		},
 		onReady() {
 			
