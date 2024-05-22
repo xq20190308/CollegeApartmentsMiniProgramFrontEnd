@@ -55,6 +55,18 @@ const _sfc_main = {
     questionidList: []
   },
   methods: {
+    inputChange: function(evt, qindex) {
+      console.log(evt);
+      console.log(qindex);
+      this.current[qindex] = evt.detail.value;
+      console.log(this.current);
+    },
+    checkboxChange: function(evt, qindex) {
+      console.log(evt);
+      console.log(qindex);
+      this.current[qindex] = evt.detail.value;
+      console.log(this.current);
+    },
     radioChange: function(evt, qindex) {
       console.log(evt);
       console.log(qindex);
@@ -64,8 +76,26 @@ const _sfc_main = {
     submit(ref) {
       this.$refs[ref].validate().then((res) => {
         console.log("success", res);
-        common_vendor.index.showToast({
-          title: `校验通过`
+        if (this.current.length != this.questionList.length) {
+          common_vendor.index.showToast({
+            title: "请检查作答",
+            icon: "error"
+          });
+          return;
+        }
+        console.log("填写正确", this.current);
+        console.log(this.valiFormData);
+        common_vendor.index.request({
+          url: "",
+          method: "POST",
+          data: {},
+          success: (res2) => {
+            common_vendor.index.showToast({
+              title: "提交成功"
+            });
+          },
+          complete: (res2) => {
+          }
         });
       }).catch((err) => {
         console.log("err", err);
@@ -143,20 +173,36 @@ if (!Math) {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.questionList, (que, qindex, i0) => {
-      return {
+      return common_vendor.e({
         a: common_vendor.t(que.id),
         b: common_vendor.t(que.name),
         c: common_vendor.t(que.describe),
-        d: common_vendor.f(que.content, (item, index, i1) => {
+        d: que.type === 1
+      }, que.type === 1 ? {
+        e: common_vendor.f(que.content, (item, index, i1) => {
           return {
             a: index,
             b: common_vendor.t(item),
             c: index
           };
         }),
-        e: common_vendor.o((e) => $options.radioChange(e, qindex), qindex),
-        f: qindex
-      };
+        f: common_vendor.o((e) => $options.radioChange(e, qindex), qindex)
+      } : que.type === 2 ? {
+        h: common_vendor.f(que.content, (item, index, i1) => {
+          return {
+            a: index,
+            b: common_vendor.t(item),
+            c: index
+          };
+        }),
+        i: common_vendor.o((e) => $options.checkboxChange(e, qindex), qindex)
+      } : {
+        k: common_vendor.o((e) => $options.inputChange(e, qindex), qindex)
+      }, {
+        g: que.type === 2,
+        j: que.type === 3,
+        l: qindex
+      });
     }),
     b: common_vendor.o(($event) => $data.valiFormData.name = $event),
     c: common_vendor.p({

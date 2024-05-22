@@ -5,14 +5,32 @@
 				<view class="quetitle">{{que.id}}.{{que.name}}</view>
 				<view class="quedes">描述:{{que.describe}}</view>
 				<view class="que-list">
-					<radio-group @change="(e) => radioChange(e,qindex)">
-						<label class="choitem" v-for="(item, index) in que.content" :key="index">
-							<view class="">
-								<radio :value="index" />
-								<text>{{item}}</text>
-							</view>
-						</label>
-					</radio-group>
+					<view class="choice" v-if="que.type===1">
+						单选题
+						<radio-group @change="(e) => radioChange(e,qindex)">
+							<label class="choitem" v-for="(item, index) in que.content" :key="index">
+								<view class="">
+									<radio :value="index" />
+									<text>{{item}}</text>
+								</view>
+							</label>
+						</radio-group>
+					</view>
+					<view class="mulchoice" v-else-if="que.type===2">
+						多选题
+						<checkbox-group @change="(e) => checkboxChange(e,qindex)">
+							<label class="mulchoitem" v-for="(item, index) in que.content" :key="index">
+								<view>
+									<checkbox :value="index"  />
+									<text>{{item}}</text>
+								</view>
+							</label>
+						</checkbox-group>
+					</view>
+					<view v-else="que.type===3">
+						问答题
+						<input class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" />
+					</view>
 				</view>
 			</view>
 			<!-- 表单校验 -->
@@ -87,6 +105,18 @@
 			questionidList: [],
 		},
 		methods: {
+			inputChange: function (evt,qindex) {
+				console.log(evt);
+				console.log(qindex);
+				this.current[qindex]=evt.detail.value;
+				console.log(this.current);
+			},
+			checkboxChange: function (evt,qindex) {
+				console.log(evt);
+				console.log(qindex);
+				this.current[qindex]=evt.detail.value;
+				console.log(this.current);
+			},
 			radioChange: function(evt,qindex) {
 				console.log(evt);
 				console.log(qindex);
@@ -95,11 +125,32 @@
 			},
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
-					console.log('success', res);
-					uni.showToast({
-						title: `校验通过`
-					})
+					console.log('success', res);	
+					//检验问题
+					if(this.current.length != this.questionList.length){
+						uni.showToast({
+							title: "请检查作答",
+							icon: "error"
+						});
+						return;
+					};
+					console.log("填写正确",this.current);
+					console.log(this.valiFormData);
 					//POST
+					uni.request({
+						url:'',
+						method: 'POST',
+						data:{
+						},
+						success: (res)=> {
+							uni.showToast({
+								title: "提交成功"
+							})			
+						},
+						complete: (res)=>{
+							
+						}
+					});
 					
 				}).catch(err => {
 					console.log('err', err);
