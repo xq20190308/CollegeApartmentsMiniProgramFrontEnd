@@ -8,6 +8,10 @@ if (!Math) {
   "./pages/myself/myself.js";
   "./pages/questionnaire/questionnaire_home/questionnaire_home.js";
   "./pages/questionnaire/questionnaire_list/questionnaire_list.js";
+  "./pages/feedback/feedback.js";
+  "./pages/feedback/feedbackSubmit.js";
+  "./pages/notice/notice.js";
+  "./pages/notice/noticedetail.js";
 }
 const _sfc_main = {
   onLaunch: function() {

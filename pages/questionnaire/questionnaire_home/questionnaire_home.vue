@@ -60,12 +60,12 @@
 				startTime: "",
 				endTime: "",
 				questionList: [{
-					id: "20187874601",
+					id: "",
 					type: 1,
-					name: "去几楼",
-					describe: "which floor",
-					content: "[\"1\",\"2\",\"3\"]",
-					questionnaire: "20181215506"
+					name: "",
+					describe: "",
+					content: "[]",
+					questionnaire: ""
 				}],
 				questionidList: [],
 				current: [],
@@ -158,38 +158,20 @@
 			},
 			getquestions(){
 				uni.request({
-					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById',
-					method: 'POST',
+					url:'http://192.168.76.218:8080/question/selectById?idList='+this.questionidList,
+					method: 'GET',
+					header: 'Content-Type: application/json',
 					data:{
-						idList: this.questionidList
 					},
 					success: (res)=> {
-						//this.questionList=res.data.data;
-						this.questionList=[
-						    {
-						      id: "20181252102",
-						      type: 1,
-						      name: "去哪个餐厅",
-						      describe: "那个餐厅你更想去",
-						      content: "[\"A\",\"B\",\"C\"]",
-						      questionnaire: "20181215506"
-						    },
-						    {
-						      id: "20187874601",
-						      type: 1,
-						      name: "去几楼",
-						      describe: "which floor",
-						      content: "[\"1\",\"2\",\"3\"]",
-						      questionnaire: "20181215506"
-						    }]
-						// 假设我们要修改的初始数据
-						let contentexample = "[\"A\",\"B\",\"C\"]";
+						console.log("请求返回",res)
+						this.questionList=res.data.data;
+						console.log('获取到问题',this.questionList);		
 						
 						// 使用for循环来修改数据
 						for (let i = 0; i < this.questionList.length; i++) {
-						  this.questionList[i].content=JSON.parse(contentexample);
+						  this.questionList[i].content=JSON.parse(this.questionList[i].content);
 						}
-						console.log('获取到问题',this.questionList);				
 					},
 					complete: (res)=>{
 						console.log();
@@ -201,8 +183,8 @@
 			
 		},
 		onLoad(options) {
-			let opquidliexample="[\"20181252102\",\"20187874601\"]"
-			this.questionidList = JSON.parse(opquidliexample);
+			//let opquidliexample="[\"20181252102\",\"20187874601\"]"
+			this.questionidList = JSON.parse(options.questionidList);
 			console.log('问题列表：',this.questionidList);
 			console.log("参数列表",options);
 			

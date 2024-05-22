@@ -16,30 +16,13 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "ignoreUploadUnusedFiles": false
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
   "libVersion": "3.4.3",
   "appid": "wxb15ca50e7b2df763",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
-  "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
-      "list": []
-    },
-    "game": {
-      "current": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "current": -1,
-      "list": []
-    }
-  },
+  "condition": {},
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2

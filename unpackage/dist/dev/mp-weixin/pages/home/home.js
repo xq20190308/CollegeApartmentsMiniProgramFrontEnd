@@ -24,6 +24,11 @@ const _sfc_main = {
       common_vendor.index.reLaunch({
         url: item.pagePath
       });
+    },
+    bannerclick(item) {
+      common_vendor.index.navigateTo({
+        url: "../notice/notice"
+      });
     }
   },
   onLoad() {
@@ -50,7 +55,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.f($data.bannerList, (item, index, i0) => {
       return {
         a: item.url,
-        b: index
+        b: common_vendor.o(($event) => $options.bannerclick(item), index),
+        c: index
       };
     }),
     b: common_vendor.f($data.func_list, (item, i, i0) => {

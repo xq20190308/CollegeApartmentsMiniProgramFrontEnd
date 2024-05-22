@@ -123,12 +123,3 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.scroll-view-container {
-  height: 200rpx;
-  /* 设置滚动视图的高度 */
-  overflow: auto;
-  /* 启用滚动条 */
-}
-.scroll-view-item {
-  padding: 20rpx;
-}
