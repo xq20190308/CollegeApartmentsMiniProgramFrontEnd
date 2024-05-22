@@ -43,7 +43,7 @@
 			}
 		},
 		{
-			"path": "pages/login/login",
+			"path": "pages/login/loginPage",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
