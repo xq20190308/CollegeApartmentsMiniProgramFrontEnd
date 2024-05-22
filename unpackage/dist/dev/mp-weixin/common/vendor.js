@@ -7958,14 +7958,14 @@ const pages = [
   {
     path: "pages/notice/notice",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "通知列表",
       enablePullDownRefresh: false
     }
   },
   {
     path: "pages/notice/noticedetail",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "通知详情",
       enablePullDownRefresh: false
     }
   }

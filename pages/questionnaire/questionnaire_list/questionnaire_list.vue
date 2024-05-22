@@ -22,7 +22,8 @@
 		methods:{
 			getNaireslist(){
 				uni.request({
-					url:'http://192.168.76.218:8080/questionnaire/selectAll',
+					//url:'http://192.168.76.218:8080/questionnaire/selectAll',
+					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/questionnaire/selectAll',
 					method: 'GET',
 					data:{},
 					success: (res)=> {
