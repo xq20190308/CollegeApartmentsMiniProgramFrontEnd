@@ -45,7 +45,7 @@
 		},
 		onLoad(options) {
 			this.getNaireslist()
-		}
+		},
 	}
 </script>
 <style lang="scss">

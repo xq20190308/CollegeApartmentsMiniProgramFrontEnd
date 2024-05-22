@@ -182,8 +182,6 @@
 						      content: "[\"1\",\"2\",\"3\"]",
 						      questionnaire: "20181215506"
 						    }]
-						
-						
 						// 假设我们要修改的初始数据
 						let contentexample = "[\"A\",\"B\",\"C\"]";
 						
