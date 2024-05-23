@@ -23,25 +23,11 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.example {
-  padding: 15px;
-  background-color: #fff;
-}
-.segmented-control {
-  margin-bottom: 15px;
-}
-.button-group {
-  margin-top: 15px;
+.qusnalist {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
-.form-item {
-  display: flex;
-  align-items: center;
-}
-.button {
-  display: flex;
-  align-items: center;
-  height: 35px;
-  margin-left: 10px;
+.qusnalist questionnaire {
+  width: 100%;
 }

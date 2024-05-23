@@ -4,10 +4,10 @@
     "pages/pu/pu",
     "pages/function/function",
     "pages/myself/myself",
-    "pages/questionnaire/questionnaire",
+    "pages/questionnaire/questionnaire_home/questionnaire_home",
+    "pages/questionnaire/questionnaire_list/questionnaire_list",
     "pages/feedback/feedback",
     "pages/feedback/feedbackSubmit",
-    "pages/questionnaire/example_questionnarie",
     "pages/notice/notice",
     "pages/notice/noticedetail"
   ],

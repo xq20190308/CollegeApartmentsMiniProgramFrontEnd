@@ -6,10 +6,10 @@ if (!Math) {
   "./pages/pu/pu.js";
   "./pages/function/function.js";
   "./pages/myself/myself.js";
-  "./pages/questionnaire/questionnaire.js";
+  "./pages/questionnaire/questionnaire_home/questionnaire_home.js";
+  "./pages/questionnaire/questionnaire_list/questionnaire_list.js";
   "./pages/feedback/feedback.js";
   "./pages/feedback/feedbackSubmit.js";
-  "./pages/questionnaire/example_questionnarie.js";
   "./pages/notice/notice.js";
   "./pages/notice/noticedetail.js";
 }

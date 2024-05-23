@@ -7928,9 +7928,16 @@ const pages = [
     }
   },
   {
-    path: "pages/questionnaire/questionnaire",
+    path: "pages/questionnaire/questionnaire_home/questionnaire_home",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "调查问卷",
+      enablePullDownRefresh: false
+    }
+  },
+  {
+    path: "pages/questionnaire/questionnaire_list/questionnaire_list",
+    style: {
+      navigationBarTitleText: "调查问卷列表",
       enablePullDownRefresh: false
     }
   },
@@ -7949,23 +7956,16 @@ const pages = [
     }
   },
   {
-    path: "pages/questionnaire/example_questionnarie",
-    style: {
-      navigationBarTitleText: "",
-      enablePullDownRefresh: false
-    }
-  },
-  {
     path: "pages/notice/notice",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "通知列表",
       enablePullDownRefresh: false
     }
   },
   {
     path: "pages/notice/noticedetail",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "通知详情",
       enablePullDownRefresh: false
     }
   }

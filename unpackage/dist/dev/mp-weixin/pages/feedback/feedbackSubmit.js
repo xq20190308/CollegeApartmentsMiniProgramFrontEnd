@@ -7,7 +7,8 @@ const _sfc_main = {
       baseFormData: {
         contactobject: "",
         describes: "",
-        category: []
+        category: [],
+        pictures: []
         //上传图片.
         //imageValue:[]
       },
@@ -33,14 +34,40 @@ const _sfc_main = {
     };
   },
   methods: {
+    selectUpload(e) {
+      console.log(2);
+      common_vendor.index.uploadFile({
+        url: "http://172.20.10.2:8080/api/upload",
+        //仅为示例，非真实的接口地址
+        filePath: e.tempFilePaths[0],
+        name: "file",
+        // formData: {
+        // 	'file': ''
+        // },
+        success: (uploadFileRes) => {
+          console.log(uploadFileRes.data);
+        },
+        fail: (err) => {
+          console.log(err);
+        }
+      });
+    },
     submit(ref) {
+      console.log(this.baseFormData);
       this.$refs[ref].validate([""]).then((res) => {
         console.log("success", res);
         common_vendor.index.showToast({
           title: `校验通过`
         });
+        common_vendor.index.uploadFile({
+          url: "http://172.20.10.2:8080/api/upload",
+          files: this.baseFormData.pictures,
+          success: (res2) => {
+            console.log(res2);
+          }
+        });
         common_vendor.index.request({
-          url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions",
+          url: "http://172.20.10.2:8080/api/suggestions",
           // 示例接口地址
           method: "POST",
           data: {
@@ -67,7 +94,7 @@ const _sfc_main = {
     //保存和提交分别交到后端不同的地方
     save() {
       common_vendor.index.request({
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestionsDraft",
+        url: "http://172.20.10.2:8080/api/suggestionsDraft",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
@@ -95,8 +122,9 @@ const _sfc_main = {
     uploadFile(file) {
       const formData = new FormData();
       formData.append("file", file);
-      uno.uploadFile({
-        url: "http://10.17.78.66:8080/api/upload",
+      common_vendor.index.uploadFile({
+        url: "http://172.20.10.2:8080/api/upload",
+        files: formData,
         success: (res) => {
           console.log("文件上传成功", res);
         },
@@ -156,32 +184,34 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true
     }),
     g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
-    h: common_vendor.p({
+    h: common_vendor.o($options.selectUpload),
+    i: common_vendor.p({
       limit: "9",
       ["file-mediatype"]: "video,image",
       title: "最多选择9个图片",
       required: true
     }),
-    i: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
-    j: common_vendor.p({
+    j: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
+    k: common_vendor.p({
       placeholder: "请输入手机号",
       modelValue: $data.baseFormData.contactobject
     }),
-    k: common_vendor.p({
+    l: common_vendor.p({
       label: "手机号",
+      name: "contactobject",
       required: true
     }),
-    l: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
-    m: common_vendor.p({
+    m: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
+    n: common_vendor.p({
       rules: $data.customRules,
       modelValue: $data.baseFormData
     }),
-    n: common_vendor.p({
+    o: common_vendor.p({
       title: "投诉与意见",
       type: "line"
     }),
-    o: common_vendor.o(($event) => $options.submit("baseForm")),
-    p: common_vendor.o((...args) => $options.save && $options.save(...args))
+    p: common_vendor.o(($event) => $options.submit("baseForm")),
+    q: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
