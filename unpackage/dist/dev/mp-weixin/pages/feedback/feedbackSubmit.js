@@ -154,7 +154,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["label-style"]: "font-size: 14px;",
       required: true
     }),
-    g: common_vendor.sr("uniFilePicker", "7239b3e8-7,7239b3e8-6"),
+    g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
     h: common_vendor.p({
       limit: "9",
       ["file-mediatype"]: "video,image",
@@ -170,7 +170,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       label: "手机号",
       required: true
     }),
-    l: common_vendor.sr("baseForm", "7239b3e8-1,7239b3e8-0"),
+    l: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
     m: common_vendor.p({
       modelValue: $data.baseFormData
     }),
@@ -182,5 +182,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     p: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
 wx.createPage(MiniProgramPage);
