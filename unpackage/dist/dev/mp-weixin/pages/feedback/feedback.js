@@ -19,7 +19,7 @@ const _sfc_main = {
   methods: {
     fetchComplaintDrafts() {
       common_vendor.index.request({
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime=",
+        url: "http://localhost:8080/api/suggestions/?pushtime=",
         // 替换为您的服务器接口URL
         method: "GET",
         success: (res) => {

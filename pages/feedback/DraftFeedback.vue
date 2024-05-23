@@ -72,7 +72,7 @@ export default {
 	methods: {
 		submit() {
 			uni.request({
-				url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
+				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					describes: this.baseFormData.describes,

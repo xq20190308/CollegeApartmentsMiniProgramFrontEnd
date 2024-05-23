@@ -93,7 +93,7 @@ export default {
 		selectUpload(e) {
 			console.log(2)
 			uni.uploadFile({
-				url: 'http://172.20.10.2:8080/api/upload', //仅为示例，非真实的接口地址
+				url: 'http://localhost:8080/api/suggestions?describes=&category=&contactobject=', //仅为示例，非真实的接口地址
 				filePath: e.tempFilePaths[0],
 				name: 'file',
 				// formData: {

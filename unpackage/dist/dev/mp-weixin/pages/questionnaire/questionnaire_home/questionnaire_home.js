@@ -101,7 +101,7 @@ const _sfc_main = {
     getquestions() {
       common_vendor.index.request({
         //url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList=" + this.questionidList,
+        url: "http://localhost:8080/question/selectById?idList=" + this.questionidList,
         method: "GET",
         data: {
           idList: this.questionidList

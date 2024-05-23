@@ -33,7 +33,7 @@ const _sfc_main = {
   methods: {
     submit() {
       common_vendor.index.request({
-        url: "https://www.example.com/request",
+        url: "http://localhost:8080/api/suggestionsDraft",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
