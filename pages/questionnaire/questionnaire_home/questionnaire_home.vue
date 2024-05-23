@@ -50,6 +50,7 @@
 	export default {
 		data() {
 			return {
+				timer:null,//延时器，用于防抖处理
 				id:"",
 				type: 0,
 				name: "",
@@ -103,10 +104,14 @@
 		},
 		methods: {
 			inputChange: function (evt,qindex) {
-				console.log(evt);
-				console.log(qindex);
-				this.current[qindex]=evt.detail.value;
-				console.log(this.current);
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					console.log(evt);
+					console.log(qindex);
+					this.current[qindex]=evt.detail.value;
+					console.log(this.current);
+					
+				}, 500)
 			},
 			checkboxChange: function (evt,qindex) {
 				console.log(evt);
