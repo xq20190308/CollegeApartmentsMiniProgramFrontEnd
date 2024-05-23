@@ -152,6 +152,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       label: "  问题描述",
       ["label-width"]: "100px",
       ["label-style"]: "font-size: 14px;",
+      name: "describes",
       required: true
     }),
     g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
@@ -172,6 +173,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     l: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
     m: common_vendor.p({
+      rules: $data.customRules,
       modelValue: $data.baseFormData
     }),
     n: common_vendor.p({

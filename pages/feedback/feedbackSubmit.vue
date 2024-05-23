@@ -4,12 +4,12 @@
 		<uni-section title="投诉与意见" type="line">
 			<view class="example">
 				<!-- 基础用法，不包含校验规则 -->
-				<uni-forms ref="baseForm" :modelValue="baseFormData">
+				<uni-forms ref="baseForm" :rules="customRules" :modelValue="baseFormData">
 					<!-- 用labelstyle设置样式 -->
 					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" required >
-					        <uni-data-checkbox v-model="baseFormData.category" multiple :localdata="categories" />
+					        <uni-data-checkbox v-model="baseFormData.category" multiple :localdata="categories"/>
 					</uni-forms-item>
-					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;" class = "small" required>
+					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;"  name="describes" class = "small" required>
 						<uni-easyinput type="textarea" v-model="baseFormData.describes" placeholder="请输入您遇到的问题" />
 					</uni-forms-item>
 							<uni-section >
