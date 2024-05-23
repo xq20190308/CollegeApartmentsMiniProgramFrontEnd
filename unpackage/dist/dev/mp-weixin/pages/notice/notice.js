@@ -4,16 +4,41 @@ const _sfc_main = {
   data() {
     return {
       articles: [
-        { id: "3", title: "通知", publish_time: "2024/5/20", is_active: "true" }
+        {
+          //测试数据
+          content: "Lorem",
+          id: 87,
+          isActive: true,
+          publishTime: "1976-01-02 07:27:42",
+          title: "学府属习",
+          typeName: "律况平将体集题"
+        }
       ]
     };
   },
   methods: {
     todetail(id) {
       common_vendor.index.navigateTo({
-        url: `../notice/noticedetail?articleId=${id}`
+        url: "../notice/noticedetail?content=" + this.articles[id].content + "&id=" + this.articles[id].id + "&isActive=" + this.articles[id].isActive + "&publishTime=" + this.articles[id].publishTime + "&title=" + this.articles[id].title + "&typeName=" + this.articles[id].typeName
+      });
+    },
+    getarticles() {
+      common_vendor.index.request({
+        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications",
+        method: "GET",
+        success: (res) => {
+          console.log("success", res);
+          this.articles = res.data.data;
+          console.log(this.articles);
+        },
+        fail: (err) => {
+          console.error("Fetch error:", err);
+        }
       });
     }
+  },
+  onLoad() {
+    this.getarticles();
   }
 };
 if (!Array) {
@@ -28,19 +53,43 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.articles, (item, index, i0) => {
       return {
-        a: common_vendor.t(item.title),
-        b: common_vendor.t(item.publish_time),
-        c: common_vendor.t(item.is_active),
-        d: index,
-        e: common_vendor.o(($event) => $options.todetail(item.id), index)
+        a: common_vendor.t(item.id),
+        b: common_vendor.t(item.title),
+        c: common_vendor.t(item.content),
+        d: common_vendor.t(item.publishTime),
+        e: common_vendor.t(item.typeName),
+        f: index,
+        g: common_vendor.o(($event) => $options.todetail(index), index)
       };
     }),
-    b: common_vendor.p({
-      title: _ctx.学校通知,
+    b: common_vendor.f($data.articles, (item, index, i0) => {
+      return {
+        a: common_vendor.t(item.id),
+        b: common_vendor.t(item.title),
+        c: common_vendor.t(item.content),
+        d: common_vendor.t(item.publishTime),
+        e: common_vendor.t(item.typeName),
+        f: index,
+        g: common_vendor.o(($event) => $options.todetail(index), index)
+      };
+    }),
+    c: common_vendor.f($data.articles, (item, index, i0) => {
+      return {
+        a: common_vendor.t(item.id),
+        b: common_vendor.t(item.title),
+        c: common_vendor.t(item.content),
+        d: common_vendor.t(item.publishTime),
+        e: common_vendor.t(item.typeName),
+        f: index,
+        g: common_vendor.o(($event) => $options.todetail(index), index)
+      };
+    }),
+    d: common_vendor.p({
+      title: "学校通知",
       ["sub-title"]: "",
       type: "line"
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
 wx.createPage(MiniProgramPage);

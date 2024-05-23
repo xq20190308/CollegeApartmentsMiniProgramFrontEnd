@@ -25,20 +25,20 @@ const _sfc_main = {
   },
   onLoad() {
     this.navList1 = [
-      { name: "课程表", imgPath: "../../static/function/class.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "教室预约", imgPath: "../../static/function/classes.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      { name: "课程表", imgPath: "../../static/function/class.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "教室预约", imgPath: "../../static/function/classes.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" }
     ], this.navList2 = [
-      { name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_home" },
+      { name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
       { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../feedback/feedback" },
-      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" }
     ], this.navList3 = [
-      { name: "热水系统", imgPath: "../../static/function/water.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "失物招领", imgPath: "../../static/function/find.png", pagePath: "../questionnaire/questionnaire_home" },
-      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      { name: "热水系统", imgPath: "../../static/function/water.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "失物招领", imgPath: "../../static/function/find.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" }
     ];
   },
   methods: {
@@ -87,5 +87,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/function/function.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/function/function.vue"]]);
 wx.createPage(MiniProgramPage);

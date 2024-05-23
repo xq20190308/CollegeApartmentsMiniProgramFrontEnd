@@ -44,8 +44,8 @@ export default {
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
-			] 
-			
+		],
+	  plan:["planA","planB"],	
     }
   },
 	methods: {

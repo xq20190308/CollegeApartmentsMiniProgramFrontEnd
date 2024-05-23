@@ -1,0 +1,1 @@
+<view> 123 <label wx:for="{{a}}" wx:for-item="item" wx:key="d" class="uni-list-cell uni-list-cell-pd"><view><radio value="{{item.a}}" checked="{{item.b}}"/></view><view>{{item.c}}</view></label></view>

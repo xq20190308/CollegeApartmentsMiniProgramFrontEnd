@@ -2,11 +2,11 @@
 	<view style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
-				<text> {{articleData.title}}</text>
+				<text> {{title}}</text>
 			</view>
 			<view class="message" >
-				<text> {{articleData.type_name}}</text>
-				<text> {{articleData.content}} </text>
+				<view>{{typeName}}</view>
+				<view>{{content}}</view>
 			</view>
 		</view>
 	</view>
@@ -14,27 +14,27 @@
 
 <script >
 export default {
-  onLoad(options) {
-    const articleId = options;
-    console.log('Article ID:',options);
-    // 发送 GET 请求
-   uni.request({
-   	url: `前面是测试接口/api/articles/${articleId}`,
-   	success: (res) => {
-   		this.articleData = res;
-   	},
-   	fail: (err) => {
-   		 console.error('Fetch error:', err);
-   	}
-   });
-  },
   data() {
     return {
-      articleData: [
-				{id:'3', title:'山东科技大学运动会' ,content:'圆满落幕', type_name:'校级', publish_time:'2024.5.21', is_active:'true'}
-			] 
+		content: "Lorem",
+		id: 87,
+		isActive: true,
+		publishTime: "1976-01-02 07:27:42",
+		title: "学府属习",
+		typeName: "律况平将体集题",
     };
-  }
+  },
+ props:{
+ },
+  onLoad(options) {
+	console.log(options);
+	this.content=options.content
+	this.id=options.id
+	this.isActive=options.isActive
+	this.publishTime=options.publishTime
+	this.title=options.title
+	this.typeName=options.typeName
+  },
 }
 
 </script>

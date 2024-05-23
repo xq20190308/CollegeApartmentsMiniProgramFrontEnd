@@ -1,12 +1,24 @@
 <template>
 	<view>
-		<uni-section :title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;">
+		<uni-section title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(item.id)">
-					<text style="text-aign: center;">{{item.title}}</text>
-					<text>山东科技大学运动会圆满落幕</text>
-					<text style="text-align: right;">活动结束：{{item.publish_time}}</text>
-					<text style="text-align: right;">发布时间：{{item.is_active}}</text>
+				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
+					<text>{{item.content}}</text>
+					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
+					<text style="text-align: right;">类型：{{item.typeName}}</text>
+				</view>
+				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
+					<text>{{item.content}}</text>
+					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
+					<text style="text-align: right;">类型：{{item.typeName}}</text>
+				</view>
+				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
+					<text>{{item.content}}</text>
+					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
+					<text style="text-align: right;">类型：{{item.typeName}}</text>
 				</view>
 			</view>
 		</uni-section>
@@ -17,17 +29,47 @@
 	export default{
 		data(){
 			return {
-				articles:[
-					{id:'3', title:'通知', publish_time:'2024/5/20', is_active:'true'}
+				articles:[{//测试数据
+					content: "Lorem",
+					id: 87,
+					isActive: true,
+					publishTime: "1976-01-02 07:27:42",
+					title: "学府属习",
+					typeName: "律况平将体集题",
+					}
 				]
 			}
 		},
 		methods:{
 			todetail(id){
 				uni.navigateTo({
-					url:`../notice/noticedetail?articleId=${id}`
+					url:"../notice/noticedetail?content="+this.articles[id].content+
+					'&id='+this.articles[id].id+
+					'&isActive='+this.articles[id].isActive+
+					'&publishTime='+this.articles[id].publishTime+
+					'&title='+this.articles[id].title+
+					'&typeName='+this.articles[id].typeName
 				})
+			},
+			getarticles(){
+				//获取通知数据
+			   uni.request({
+				url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications",
+				method: 'GET',
+				success: (res) => {
+					console.log("success",res);
+					this.articles = res.data.data;
+					console.log(this.articles)
+				},
+				fail: (err) => {
+					 console.error('Fetch error:', err);
+				}
+			   });
+				
 			}
+		},
+		onLoad(){
+			this.getarticles();
 		}
 	}
 </script>
