@@ -14,7 +14,7 @@
 					</uni-forms-item>
 					<uni-section>
 						<view class="example-body">
-							<uni-file-picker limit="9" v-model="baseFormData.pictures" file-mediatype="video,image" title="最多选择9个图片"
+							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
 								ref="uniFilePicker" required></uni-file-picker>
 						</view>
 					</uni-section>
@@ -75,6 +75,23 @@
 
 
 		methods: {
+			selectUpload(e){
+				console.log(2)
+				uni.uploadFile({
+						url: 'http://172.20.10.2:8080/api/upload', //仅为示例，非真实的接口地址
+						filePath: e.tempFilePaths[0],
+						name: 'file',
+						// formData: {
+						// 	'file': ''
+						// },
+						success: (uploadFileRes) => {
+							console.log(uploadFileRes.data);
+						},
+						fail: (err) => {
+							console.log(err);
+						}
+					})
+			},
 			submit(ref) {
 				console.log(this.baseFormData)
 				uni.uploadFile({

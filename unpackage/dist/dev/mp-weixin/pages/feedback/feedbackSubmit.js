@@ -34,6 +34,24 @@ const _sfc_main = {
     };
   },
   methods: {
+    selectUpload(e) {
+      console.log(2);
+      common_vendor.index.uploadFile({
+        url: "http://172.20.10.2:8080/api/upload",
+        //仅为示例，非真实的接口地址
+        filePath: e.tempFilePaths[0],
+        name: "file",
+        // formData: {
+        // 	'file': ''
+        // },
+        success: (uploadFileRes) => {
+          console.log(uploadFileRes.data);
+        },
+        fail: (err) => {
+          console.log(err);
+        }
+      });
+    },
     submit(ref) {
       console.log(this.baseFormData);
       common_vendor.index.uploadFile({
@@ -136,13 +154,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true
     }),
     g: common_vendor.sr("uniFilePicker", "7239b3e8-7,7239b3e8-6"),
-    h: common_vendor.o(($event) => $data.baseFormData.pictures = $event),
+    h: common_vendor.o($options.selectUpload),
     i: common_vendor.p({
       limit: "9",
       ["file-mediatype"]: "video,image",
       title: "最多选择9个图片",
-      required: true,
-      modelValue: $data.baseFormData.pictures
+      required: true
     }),
     j: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
     k: common_vendor.p({
