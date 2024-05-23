@@ -20,7 +20,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.4.3",
-  "appid": "wxb15ca50e7b2df763",
+  "appid": "touristappid",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
   "condition": {
     "search": {

@@ -45,19 +45,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.questionnairelist, (item, index, i0) => {
       return {
-        a: "5548f501-0-" + i0,
+        a: "6c0c6788-0-" + i0,
         b: common_vendor.p({
           naireinfo: item
         }),
-        c: "5548f501-1-" + i0,
+        c: "6c0c6788-1-" + i0,
         d: common_vendor.p({
           naireinfo: item
         }),
-        e: "5548f501-2-" + i0,
+        e: "6c0c6788-2-" + i0,
         f: common_vendor.p({
           naireinfo: item
         }),
-        g: "5548f501-3-" + i0,
+        g: "6c0c6788-3-" + i0,
         h: common_vendor.p({
           naireinfo: item
         }),
@@ -67,5 +67,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_list/questionnaire_list.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_list/questionnaire_list.vue"]]);
 wx.createPage(MiniProgramPage);

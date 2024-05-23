@@ -54,12 +54,41 @@ const _sfc_main = {
     },
     submit(ref) {
       console.log(this.baseFormData);
-      common_vendor.index.uploadFile({
-        url: "http://172.20.10.2:8080/api/upload",
-        files: this.baseFormData.pictures,
-        success: (res) => {
-          console.log(res);
-        }
+      this.$refs[ref].validate([""]).then((res) => {
+        console.log("success", res);
+        common_vendor.index.showToast({
+          title: `校验通过`
+        });
+        common_vendor.index.uploadFile({
+          url: "http://172.20.10.2:8080/api/upload",
+          files: this.baseFormData.pictures,
+          success: (res2) => {
+            console.log(res2);
+          }
+        });
+        common_vendor.index.request({
+          url: "http://172.20.10.2:8080/api/suggestions",
+          // 示例接口地址
+          method: "POST",
+          data: {
+            describes: this.baseFormData.describes,
+            contactobject: this.baseFormData.contactobject,
+            category: this.baseFormData.category
+          },
+          success: (res2) => {
+            console.log(res2.data);
+            this.text = "request success";
+            this.id = res2.id;
+            common_vendor.index.navigateTo({
+              url: "/pages/feedback/feedback"
+            });
+          },
+          fail: (err) => {
+            console.log("request failed", err);
+          }
+        });
+      }).catch((err) => {
+        console.log("err", err);
       });
     },
     //保存和提交分别交到后端不同的地方
@@ -169,6 +198,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     l: common_vendor.p({
       label: "手机号",
+      name: "contactobject",
       required: true
     }),
     m: common_vendor.sr("baseForm", "7239b3e8-1,7239b3e8-0"),
