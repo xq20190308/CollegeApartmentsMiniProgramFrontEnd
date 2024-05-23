@@ -1,45 +1,45 @@
 <template>
-	<view>类型：{{newNaire.type}}</view>
-	<view>名称：{{newNaire.name}}</view>
-	<view>描述：{{newNaire.descr}}</view>
-	<view>开始时间：{{newNaire.startTime}}</view>
-	<view>结束时间：{{newNaire.endTime}}</view>
-	<view class="nairetype">
-		<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目类型" placeholder-class="answerplacehoder" />
+	<view class="nairetype" style="display: flex;flex-wrap: nowrap;">
+		问卷类型（下拉选择）：
+		<input @input="(e) => typeChange(e)" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairename">
-		<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目名称" placeholder-class="answerplacehoder" />
+	<view class="nairename" style="display: flex;flex-wrap: nowrap;">
+		问卷名称（填写）：
+		<input @input="(e) => nameChange(e)" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairedescri">
-		<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目描述" placeholder-class="answerplacehoder" />
+	<view class="nairedescri" style="display: flex;flex-wrap: nowrap;">
+		问卷描述（填写）：
+		<input @input="(e) => descriChange(e)" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairrest">
-		<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目开始时间" placeholder-class="answerplacehoder" />
+	<view class="nairrest" style="display: flex;flex-wrap: nowrap;">
+		开始时间（选择日期）：
+		<input @input="(e) => stChange(e)" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="naireet">
-		<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目结束时间" placeholder-class="answerplacehoder" />
+	<view class="naireet" style="display: flex;flex-wrap: nowrap;">
+		结束时间（选择日期）：
+		<input @input="(e) => etChange(e)" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
 	</view>
 	<view class="questionsform">
 		<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
 			<view v-if="que.type===1">{{qindex + 1}}.单选题</view>
 			<view v-else-if="que.type===2">{{qindex + 1}}.多选题</view>
-			<view v-else>{{qindex + 1}}.问答题</view>
+			<view v-else-if="que.type===3">{{qindex + 1}}.问答题</view>
 			<view class="answer">
-				<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目名称" placeholder-class="answerplacehoder" />
+				<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目名称"  />
 			</view>
 			<view class="answer">
-				<input @input="(e) => qdescriChange(e,qindex)" placeholder="请输入题目描述" placeholder-class="answerplacehoder" />
+				<input @input="(e) => qdescriChange(e,qindex)" placeholder="请输入题目描述"  />
 			</view>
 			<view class="choice" v-if="que.type===1">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px;border-radius: 50px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input  @input="(e) => qchitemChange(e,qindex)" placeholder="请输入选项" placeholder-class="answerplacehoder" />
+					<input  @input="(e) => qcChange(e,qindex,index)" placeholder="请输入选项"  />
 				</view>
 			</view>
 			<view class="mulchoice"  v-else-if="que.type===2">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input @input="(e) => qmulchitemChange(e,qindex)" placeholder="请输入选项" placeholder-class="answerplacehoder" />
+					<input @input="(e) => qcChange(e,qindex,index)" placeholder="请输入选项"  />
 				</view>
 			</view>
 		</view>
@@ -54,32 +54,97 @@
 	</view>
 </template>
 <script>
-	import question from '../../../components/question/question.vue'
+	import myinput from "../../../components/myinput/myinput.vue"
 	
 	export default {
 		data() {
 			return {
+				timer:null,//延时器，用于防抖处理
 				//传到后端的数据
 				newNaire:{//传到问卷列表页面中的数据
-					descr: "null",
-					endTime: "2000-03-17 20:08:53",
-					id: "51",
-					name: "与素系办",
+					/*descr: "",
+					endTime: "",
+					id: "",
+					name: "",
 					questionList: ["123","234","345"],
-					startTime: "2021-10-22 13:21:08",
-					type: 87,
+					startTime: "",
+					type: 1,*/
 				},
-				questionList: [{
+				questionList: [/*{
 					content: ["A", "B", "C"],
-					describe: "sed dolor ea mollit aute",
-					id: "32",
-					name: "转时决劳场候",
-					questionnaire: "nisi fugiat",
-					type: 8,
-				}],
+					describe: "",
+					id: "",
+					name: "",
+					questionnaire: "",
+					type: 1,
+				}*/],
 			}
 		},
 		methods: {
+			typeChange(e){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.newNaire.type=e.detail.value;
+					console.log(this.newNaire.type);
+					
+				}, 500)
+			},
+			nameChange(e){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.newNaire.name=e.detail.value;
+					console.log(this.newNaire.name);
+					
+				}, 500)
+			},
+			descriChange(e){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.newNaire.descri=e.detail.value;
+					console.log(this.newNaire.descri);
+					
+				}, 500)
+			},
+			stChange(e){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.newNaire.st=e.detail.value;
+					console.log(this.newNaire.st);
+					
+				}, 500)
+			},
+			etChange(e){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.newNaire.et=e.detail.value;
+					console.log(this.newNaire.et);
+					
+				}, 500)
+			},
+			qnameChange(e,qindex){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.questionList[qindex].name=e.detail.value;
+					console.log(qindex+ '.' +this.questionList[qindex].name);
+					
+				}, 500)
+			},
+			qdescriChange(e,qindex){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.questionList[qindex].describe=e.detail.value;
+					console.log(qindex+ '.' +this.questionList[qindex].describe);
+					
+				}, 500)
+			},
+			qcChange(e,qindex,index){
+				clearTimeout(this.timer);
+				this.timer = setTimeout(()=>{
+					this.questionList[qindex].content[index]=e.detail.value;
+					console.log(qindex+ '.'+ index+ '.' +this.questionList[qindex].content[index]);
+					
+				}, 500)
+			},
 			add(e,option){
 				console.log(option);
 				this.questionList.push({
@@ -93,6 +158,8 @@
 				console.log(this.questionList)
 			},
 			submit() {
+				console.log(this.newList)
+				console.log(this.questionList)
 				//提交到后端
 				uni.request({
 					url:'',
@@ -150,5 +217,8 @@
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
+}
+::v-deep .answerplacehoder{
+	//text-align: center;
 }
 </style>
