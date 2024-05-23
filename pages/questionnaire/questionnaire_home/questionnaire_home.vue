@@ -1,40 +1,37 @@
 <template>
 	<view class="container">
 		<uni-section :title="id+'.'+name" type="line" titleFontSize=42rpx>
-			<view class="questionsform" v-for="(que,qindex) in questionList" :key="qindex">
-				<view class="quetitle">{{que.id}}.{{que.name}}</view>
-				<view class="quedes">描述:{{que.describe}}</view>
-				<view class="que-list">
+			<view class="questionsform">
+				<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
+					<view class="quetitle">{{que.id}}.{{que.name}}</view>
+					<view class="quedes">描述:{{que.describe}}</view>
 					<view class="choice" v-if="que.type===1">
-						单选题
 						<radio-group @change="(e) => radioChange(e,qindex)">
-							<label class="choitem" v-for="(item, index) in que.content" :key="index">
-								<view class="">
+							<label v-for="(item, index) in que.content" :key="index">
+								<view class="choitem">
 									<radio :value="index" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</radio-group>
 					</view>
-					<view class="mulchoice" v-else-if="que.type===2">
-						多选题
+					<view class="mulchoice"  v-else-if="que.type===2">
 						<checkbox-group @change="(e) => checkboxChange(e,qindex)">
-							<label class="mulchoitem" v-for="(item, index) in que.content" :key="index">
-								<view>
+							<label v-for="(item, index) in que.content" :key="index">
+								<view class="mulchoitem">
 									<checkbox :value="index"  />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</checkbox-group>
 					</view>
-					<view v-else="que.type===3">
-						问答题
-						<input class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" />
+					<view v-else class="answer">
+						<input class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
 					</view>
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData">
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData" label-position="top">
 				<uni-forms-item label="姓名" required name="name">
 					<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
@@ -159,8 +156,8 @@
 			getquestions(){
 				uni.request({
 					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById',
-					method: 'POST',
+					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
+					method: 'GET',
 					header: 'Content-Type: application/json',
 					data:{
 						idList:this.questionidList,
@@ -208,5 +205,64 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	::v-deep .uni-forms-item{
+		margin-left: 10px;
+		margin-right: 10px;
+		background-color: ghostwhite;
+	}
+	.questionsform{
+		margin-left: 10px;
+		margin-right: 10px;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.questionitem{
+		width: 100%;
+		margin-bottom: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: column;
+		.quetitle{
+			width: 100%;
+			background-color: ghostwhite;
+		}
+		.quedes{
+			width: 100%;
+			background-color: ghostwhite;
+			padding-bottom: 10px;
+			
+		}
+		.answer{
+			border: 1px solid #dcdfe6;
+			border-radius: 4px;
+			.answerinput{
+				font-size: 14px;
+				height: 35px;
+				padding-left: 10px;
+			}
+			
+		}
+		.choice{
+			border: 1px solid #dcdfe6;
+			border-radius: 4px;
+			.choitem{
+				border-bottom: 1px solid #dcdfe6;
+				padding-top: 10px;
+				padding-bottom: 3px;
+			}
+		}
+		.mulchoice{
+			border: 1px solid #dcdfe6;
+			border-radius: 4px;
+			.mulchoitem{
+				border-bottom: 1px solid #dcdfe6;
+				padding-top: 10px;
+				padding-bottom: 3px;
+			}
+		}
+		::v-deep .answerplacehoder{
+			font-size: 12px;
+		}
+	}
 </style>
