@@ -32,10 +32,10 @@
 			</view>
 			<!-- 表单校验 -->
 			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData" label-position="top">
-				<uni-forms-item label="姓名" required name="name">
+				<uni-forms-item class="form-item" label="姓名" required name="name">
 					<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item label="学号" required name="id">
+				<uni-forms-item class="form-item" label="学号" required name="id">
 					<uni-easyinput v-model="valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
@@ -94,13 +94,6 @@
 			}
 		},
 		props:{
-			id:"",
-			type: 0,
-			name: "",
-			descr: null,
-			startTime: "",
-			endTime: "",
-			questionidList: [],
 		},
 		methods: {
 			inputChange: function (evt,qindex) {
@@ -163,7 +156,6 @@
 					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
 					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
 					method: 'GET',
-					header: 'Content-Type: application/json',
 					data:{
 						idList:this.questionidList,
 					},

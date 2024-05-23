@@ -7935,6 +7935,13 @@ const pages = [
     }
   },
   {
+    path: "pages/questionnaire/addquestionnaire/addquestionnaire",
+    style: {
+      navigationBarTitleText: "创建调查问卷",
+      enablePullDownRefresh: false
+    }
+  },
+  {
     path: "pages/questionnaire/questionnaire_list/questionnaire_list",
     style: {
       navigationBarTitleText: "调查问卷列表",

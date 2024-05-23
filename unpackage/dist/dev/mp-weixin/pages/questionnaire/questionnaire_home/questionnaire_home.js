@@ -47,15 +47,7 @@ const _sfc_main = {
       }
     };
   },
-  props: {
-    id: "",
-    type: 0,
-    name: "",
-    descr: null,
-    startTime: "",
-    endTime: "",
-    questionidList: []
-  },
+  props: {},
   methods: {
     inputChange: function(evt, qindex) {
       clearTimeout(this.timer);
@@ -111,7 +103,6 @@ const _sfc_main = {
         //url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
         url: "http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList=" + this.questionidList,
         method: "GET",
-        header: "Content-Type: application/json",
         data: {
           idList: this.questionidList
         },
@@ -220,7 +211,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     j: common_vendor.o(($event) => $options.submit("valiForm")),
     k: common_vendor.p({
-      title: $props.id + "." + $props.name,
+      title: $data.id + "." + $data.name,
       type: "line",
       titleFontSize: "42rpx"
     })

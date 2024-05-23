@@ -4,11 +4,24 @@ const _sfc_main = {
   data() {
     return {
       questionnairelist: [],
-      total: 0
+      newNaire: null,
+      total: 0,
+      cates: [{
+        id: 0,
+        name: "全部"
+      }, {
+        id: 1,
+        name: "未完成"
+      }, {
+        id: 2,
+        name: "已完成"
+      }],
+      active: 0
     };
   },
   methods: {
-    getNaireslist() {
+    getNaireslist(cates) {
+      console.log("分类请求的参数", cates);
       common_vendor.index.request({
         //url:'http://192.168.76.218:8080/questionnaire/selectAll',
         url: "http://127.0.0.1:4523/m1/4414254-4059226-default/questionnaire/selectAll",
@@ -16,7 +29,12 @@ const _sfc_main = {
         data: {},
         success: (res) => {
           this.questionnairelist = res.data.data;
-          console.log("获取到列表", this.questionnairelist);
+          if (this.newNaire != null) {
+            this.loadNewlist();
+          } else {
+            console.log("newList为空");
+            console.log("获取到列表", this.questionnairelist);
+          }
         },
         complete: (res) => {
         }
@@ -27,9 +45,33 @@ const _sfc_main = {
       common_vendor.index.navigateTo({
         url: "../questionnaire_home/questionnaire_home?questionidList=" + item.questionList + "&id=" + item.id + "&type=" + item.type + "&name=" + item.name + "&descr=" + item.descr + "&startTime=" + item.startTime + "&endTime =" + item.endTime
       });
+    },
+    addnaire() {
+      common_vendor.index.navigateTo({
+        url: "../addquestionnaire/addquestionnaire"
+      });
+    },
+    dircate(options) {
+      this.active = options;
+      console.log("点击事件的参数", options);
+      if (options === 0) {
+        this.getNaireslist();
+      } else {
+        this.getNaireslist(options);
+      }
+    },
+    loadNewlist() {
+      this.questionnairelist.push(this.newNaire);
+      console.log("创建新问卷后的列表", this.questionnairelist);
+      this.newNaire = null;
     }
   },
   onLoad(options) {
+    console.log("列表参数", options);
+    if (options.newNaire != null) {
+      this.newNaire = JSON.parse(options.newNaire);
+      console.log("组件数据", this.newNaire);
+    }
     this.getNaireslist();
   }
 };
@@ -43,7 +85,15 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.f($data.questionnairelist, (item, index, i0) => {
+    a: common_vendor.f($data.cates, (cate, index, i0) => {
+      return {
+        a: common_vendor.t(cate.name),
+        b: index == $data.active ? 1 : "",
+        c: index,
+        d: common_vendor.o(($event) => $options.dircate(index), index)
+      };
+    }),
+    b: common_vendor.f($data.questionnairelist, (item, index, i0) => {
       return {
         a: "5548f501-0-" + i0,
         b: common_vendor.p({
@@ -64,7 +114,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         i: index,
         j: common_vendor.o(($event) => $options.gotonaire(item), index)
       };
-    })
+    }),
+    c: common_vendor.o((...args) => $options.addnaire && $options.addnaire(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_list/questionnaire_list.vue"]]);

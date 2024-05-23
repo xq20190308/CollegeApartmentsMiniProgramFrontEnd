@@ -1,4 +1,21 @@
 
+.cates{
+		display: flex;
+		flex-direction: row;
+		background-color: #fff;
+		height: 40px;
+		justify-content: space-between;
+}
+.cateitem{
+		text-align: center;
+		width: 33.33%;
+		padding-top: 9px;
+		padding-bottom: 9px;
+		background-color: #008cff;
+}
+.cateactive{
+		background-color: #fff;
+}
 .notice-list {
 }
 .notice-item {

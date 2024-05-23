@@ -1,0 +1,1 @@
+<view><button class="submit" type="primary" bindtap="{{a}}">创建</button></view>

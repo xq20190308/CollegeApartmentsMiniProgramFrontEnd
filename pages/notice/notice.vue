@@ -1,6 +1,11 @@
 <template>
 	<view>
-		<uni-section title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;">
+		<view class="cates">
+			<view v-for="(cate,index) in cates" :class="{'cateitem':true,'cateactive':index==active,}" :key="index" @click="dircate(index)">
+				{{cate.name}}
+			</view>
+		</view>
+		<uni-section v-for="(item,index) in catenotice" :key="index" :title="item" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
@@ -37,7 +42,19 @@
 					title: "学府属习",
 					typeName: "律况平将体集题",
 					}
-				]
+				],
+				catenotice:["学校通知","个人通知"],
+				cates:[{
+						id:0,
+						name:"全部"
+					},{
+						id:1,
+						name:"未结束"
+					},{
+						id:2,
+						name:"已结束"
+				}],
+				active:0
 			}
 		},
 		methods:{
@@ -51,7 +68,9 @@
 					'&typeName='+this.articles[id].typeName
 				})
 			},
-			getarticles(){
+			getarticles(cates){
+				console.log("分类请求的参数",cates);
+				
 				//获取通知数据
 			   uni.request({
 				url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications",
@@ -65,10 +84,16 @@
 					 console.error('Fetch error:', err);
 				}
 			   });
-				
-			}
+			},
+			dircate(options){
+				this.active=options;
+				console.log("点击事件的参数",options)
+				if(options===0){this.getarticles();}
+				else{this.getarticles(options);}
+			},
 		},
-		onLoad(){
+		onLoad(options) {
+			console.log("通知列表参数",options);
 			this.getarticles();
 		}
 	}
@@ -76,9 +101,25 @@
 
 
 <style>
+	.cates{
+		display: flex;
+		flex-direction: row;
+		background-color: #fff;
+		height: 40px;
+		justify-content: space-between;
+	}
+	.cateitem{
+		text-align: center;
+		width: 33.33%;
+		padding-top: 9px;
+		padding-bottom: 9px;
+		background-color: #008cff;
+	}
+	.cateactive{
+		background-color: #fff;
+	}
 	.notice-list {
 	}
-	
 	.notice-item {
 		width: 89%;
 		height: auto;

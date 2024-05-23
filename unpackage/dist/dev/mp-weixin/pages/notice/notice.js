@@ -13,7 +13,19 @@ const _sfc_main = {
           title: "学府属习",
           typeName: "律况平将体集题"
         }
-      ]
+      ],
+      catenotice: ["学校通知", "个人通知"],
+      cates: [{
+        id: 0,
+        name: "全部"
+      }, {
+        id: 1,
+        name: "未结束"
+      }, {
+        id: 2,
+        name: "已结束"
+      }],
+      active: 0
     };
   },
   methods: {
@@ -22,7 +34,8 @@ const _sfc_main = {
         url: "../notice/noticedetail?content=" + this.articles[id].content + "&id=" + this.articles[id].id + "&isActive=" + this.articles[id].isActive + "&publishTime=" + this.articles[id].publishTime + "&title=" + this.articles[id].title + "&typeName=" + this.articles[id].typeName
       });
     },
-    getarticles() {
+    getarticles(cates) {
+      console.log("分类请求的参数", cates);
       common_vendor.index.request({
         url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications",
         method: "GET",
@@ -35,9 +48,19 @@ const _sfc_main = {
           console.error("Fetch error:", err);
         }
       });
+    },
+    dircate(options) {
+      this.active = options;
+      console.log("点击事件的参数", options);
+      if (options === 0) {
+        this.getarticles();
+      } else {
+        this.getarticles(options);
+      }
     }
   },
-  onLoad() {
+  onLoad(options) {
+    console.log("通知列表参数", options);
     this.getarticles();
   }
 };
@@ -51,43 +74,57 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.f($data.articles, (item, index, i0) => {
+    a: common_vendor.f($data.cates, (cate, index, i0) => {
       return {
-        a: common_vendor.t(item.id),
-        b: common_vendor.t(item.title),
-        c: common_vendor.t(item.content),
-        d: common_vendor.t(item.publishTime),
-        e: common_vendor.t(item.typeName),
-        f: index,
-        g: common_vendor.o(($event) => $options.todetail(index), index)
+        a: common_vendor.t(cate.name),
+        b: index == $data.active ? 1 : "",
+        c: index,
+        d: common_vendor.o(($event) => $options.dircate(index), index)
       };
     }),
-    b: common_vendor.f($data.articles, (item, index, i0) => {
+    b: common_vendor.f($data.catenotice, (item, index, i0) => {
       return {
-        a: common_vendor.t(item.id),
-        b: common_vendor.t(item.title),
-        c: common_vendor.t(item.content),
-        d: common_vendor.t(item.publishTime),
-        e: common_vendor.t(item.typeName),
-        f: index,
-        g: common_vendor.o(($event) => $options.todetail(index), index)
+        a: common_vendor.f($data.articles, (item2, index2, i1) => {
+          return {
+            a: common_vendor.t(item2.id),
+            b: common_vendor.t(item2.title),
+            c: common_vendor.t(item2.content),
+            d: common_vendor.t(item2.publishTime),
+            e: common_vendor.t(item2.typeName),
+            f: index2,
+            g: common_vendor.o(($event) => $options.todetail(index2), index2)
+          };
+        }),
+        b: common_vendor.f($data.articles, (item2, index2, i1) => {
+          return {
+            a: common_vendor.t(item2.id),
+            b: common_vendor.t(item2.title),
+            c: common_vendor.t(item2.content),
+            d: common_vendor.t(item2.publishTime),
+            e: common_vendor.t(item2.typeName),
+            f: index2,
+            g: common_vendor.o(($event) => $options.todetail(index2), index2)
+          };
+        }),
+        c: common_vendor.f($data.articles, (item2, index2, i1) => {
+          return {
+            a: common_vendor.t(item2.id),
+            b: common_vendor.t(item2.title),
+            c: common_vendor.t(item2.content),
+            d: common_vendor.t(item2.publishTime),
+            e: common_vendor.t(item2.typeName),
+            f: index2,
+            g: common_vendor.o(($event) => $options.todetail(index2), index2)
+          };
+        }),
+        d: index,
+        e: "27fa4ea6-0-" + i0,
+        f: common_vendor.p({
+          title: item,
+          ["sub-title"]: "",
+          type: "line"
+        })
       };
-    }),
-    c: common_vendor.f($data.articles, (item, index, i0) => {
-      return {
-        a: common_vendor.t(item.id),
-        b: common_vendor.t(item.title),
-        c: common_vendor.t(item.content),
-        d: common_vendor.t(item.publishTime),
-        e: common_vendor.t(item.typeName),
-        f: index,
-        g: common_vendor.o(($event) => $options.todetail(index), index)
-      };
-    }),
-    d: common_vendor.p({
-      title: "学校通知",
-      ["sub-title"]: "",
-      type: "line"
     })
   };
 }
