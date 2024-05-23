@@ -19,7 +19,7 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "3.4.3",
+  "libVersion": "",
   "appid": "wxb15ca50e7b2df763",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
   "condition": {
