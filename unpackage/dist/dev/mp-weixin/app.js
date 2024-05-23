@@ -11,6 +11,7 @@ if (!Math) {
   "./pages/questionnaire/questionnaire_list/questionnaire_list.js";
   "./pages/feedback/feedback.js";
   "./pages/feedback/feedbackSubmit.js";
+  "./pages/feedback/DraftFeedback.js";
   "./pages/notice/notice.js";
   "./pages/notice/noticedetail.js";
 }

@@ -1,10 +1,16 @@
 <template>
 	<view>
-		<uni-section :title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
+		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in complaintDrafts" :key="index" @click="change(item)">
-					<button @click="delet(item.id)" class="button" style="background-color:red; color: #ffffff; ">删除</button>
-					<text style="">{{item.describe}}</text>
+				<view class="notice-item" v-for="(item,index) in complaintDrafts" :key="index" >
+					<view style="display: flex; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
+						<view>id：{{item.id}}</view>
+						<view>describe：{{item.describe}}</view>
+						<view>category：{{item.category}}</view>
+						<view>contactobject：{{item.contactobject}}</view>
+						<view>pushtime：{{item.pushtime}}</view>
+					</view>
+					<button @click="delet(index)" class="deletbutton">删除</button>
 				</view>
 			</view>
 		</uni-section>
@@ -20,10 +26,13 @@
 	export default {
 		data() {
 			return {
-				complaintDrafts: [
-					{ describe:"问题投诉" ,id:2 }
-					
-				] // 初始为空数组
+				complaintDrafts: [{
+					id: "91",
+					describe: "cillum ex",
+					category: "in Duis fugiat qui aute",
+					contactobject: "in eu ullamco irure aliqua",
+					pushtime: "2014-03-04 03:56:28"
+				},] // 初始为空数组
 			}
 		},
 		onLoad() {
@@ -32,12 +41,23 @@
 		methods: {
 			fetchComplaintDrafts() {
 				uni.request({
-					url: 'https://yourserver.com/api/complaint-drafts', // 替换为您的服务器接口URL
+					url: 'http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime='+"", // 替换为您的服务器接口URL
 					method: 'GET',
 					success: (res) => {
 						if (res.statusCode === 200) {
-							// 假设后端返回的数据格式是 [{id: 1, title: '标题1', rightText: '右侧文字1'}, ...]
-							this.complaintDrafts = res.data; // 直接使用返回的列表
+							//this.complaintDrafts = res.data; // 直接使用返回的列表	
+							//示例数据
+							for (let i = 0; i < 10; i++) {
+								this.complaintDrafts.push(
+								  {
+									id: i,
+									describe: "cillum ex",
+									category: "in Duis fugiat qui aute",
+									contactobject: "in eu ullamco irure aliqua",
+									pushtime: "2014-03-04 03:56:28"
+								  });
+							  }
+							console.log(this.complaintDrafts)
 						} else {
 							// 处理错误情况
 							console.error('Failed to fetch complaint drafts:', res);
@@ -50,23 +70,27 @@
 				});
 			},
 			onpress() {
-					uni.navigateTo({
-						url: '../feedback/feedbackSubmit'
-					});
-				},
-			onchange(){
 				uni.navigateTo({
-					url:'../feedback/DraftFeedback'
+					url: '../feedback/feedbackSubmit'
+				});
+			},
+			change(item){
+				console.log(item)
+				uni.navigateTo({
+					url: '../feedback/DraftFeedback'
 				})
 			},
-			delet(thisid){
-				uni.request({
-					url:'11',
-					method:"DEL",
+			delet(index){
+				this.complaintDrafts.splice(index, 1);
+				console.log(this.complaintDrafts)
+				//提交到后端
+				/*uni.request({
+					url:'',
+					method:"",
 					data:{
 						id:thisid
 					}
-				})
+				})*/
 			}
 		}
 	}
@@ -83,7 +107,6 @@
 		width: 89%;
 		height: auto;
 		border: 1px solid #e2e2e2;
-		box-sizing: border-box;
 		padding: 10rpx 30rpx;
 		padding-top: 30rpx;
 		flex-shrink: 0;
@@ -96,13 +119,10 @@
 		line-height: calc(17rpx * 2);
 		color: #333333;
 		margin: auto;
-		
-			display: flex;
-			justify-content: center; /* 水平居中 */
-			align-items: center; /* 垂直居中 */
-			height: 50px; /* 根据需要设置高度 */
-	
-		
+		display: flex;
+		justify-content: center; /* 水平居中 */
+		align-items: center; /* 垂直居中 */
+		flex-direction: row;
 	}
 
 	.notice-item>text {
@@ -135,23 +155,25 @@
 		line-height: calc(15rpx * 2);
 	}
 	.floating-button {
-			position: fixed;
-			bottom:60rpx; 
-			right: 60rpx; 
-			width: 120rpx; 
-			height: 120rpx; 
-		/* 	box-shadow: 5rpx 5rpx 10rpx rgba(0, 0, 0, 0.5); */ /* 添加阴影样式 */
-		}
-.button{
-		            background-color:dodgerblue;
-		            color:white;
-		            width: 50px;
-		            height: 47px;
-		            border:0;
-		            font-size: 10px;			
-	                border-radius: 30px;
-									margin: 10px;
-					} 
+		position: fixed;
+		bottom:60rpx; 
+		right: 60rpx; 
+		width: 120rpx; 
+		height: 120rpx; 
+	/* 	box-shadow: 5rpx 5rpx 10rpx rgba(0, 0, 0, 0.5); */ /* 添加阴影样式 */
+	}
+	.deletbutton{
+		background-color:red;
+		color:white;
+		width: 50px;
+		height: 47px;
+		border:0;
+		font-size: 10px;			
+	    border-radius: 30px;
+		margin: 10px;
+		text-align: center;
+		padding-top: 10px;
+	} 
 </style>
 
 

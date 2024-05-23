@@ -7951,14 +7951,21 @@ const pages = [
   {
     path: "pages/feedback/feedback",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "草稿列表",
       enablePullDownRefresh: false
     }
   },
   {
     path: "pages/feedback/feedbackSubmit",
     style: {
-      navigationBarTitleText: "",
+      navigationBarTitleText: "增加草稿",
+      enablePullDownRefresh: false
+    }
+  },
+  {
+    path: "pages/feedback/DraftFeedback",
+    style: {
+      navigationBarTitleText: "修改草稿",
       enablePullDownRefresh: false
     }
   },

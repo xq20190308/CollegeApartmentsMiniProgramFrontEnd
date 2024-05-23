@@ -7,8 +7,8 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/questionnaire/addquestionnaire/addquestionnaire",
-          "pathName": "pages/questionnaire/addquestionnaire/addquestionnaire",
+          "name": "pages/feedback/feedback",
+          "pathName": "pages/feedback/feedback",
           "query": "",
           "launchMode": "default",
           "scene": null

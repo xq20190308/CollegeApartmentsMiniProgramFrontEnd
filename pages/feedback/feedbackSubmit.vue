@@ -14,7 +14,7 @@
 
 						<uni-easyinput type="textarea" v-model="baseFormData.describes" placeholder="请输入您遇到的问题" />
 					</uni-forms-item>
-					<uni-section>
+					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
 								ref="uniFilePicker" required></uni-file-picker>
@@ -41,6 +41,16 @@
 export default {
 	data() {
 		return {
+			categories: [{
+				text: '课程',
+				value: 0
+			}, {
+				text: '安全',
+				value: 1
+			}, {
+				text: '其他',
+				value: 2
+			}],
 			// 基础表单数据
 			baseFormData: {
 				contactobject: '',
@@ -49,7 +59,6 @@ export default {
 				pictures: []
 				//上传图片.
 				//imageValue:[]
-
 			},
 			// 表单数据
 			customRules: {
@@ -63,7 +72,11 @@ export default {
 					rules: [{
 						required: true,
 						errorMessage: '手机号不能为空'
-					}]
+					}, {
+							minLength: 11,
+							maxLength: 11,
+							errorMessage: '请输入11位手机号'
+						}]
 				}
 
 			},

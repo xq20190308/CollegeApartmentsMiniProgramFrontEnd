@@ -9,6 +9,7 @@
     "pages/questionnaire/questionnaire_list/questionnaire_list",
     "pages/feedback/feedback",
     "pages/feedback/feedbackSubmit",
+    "pages/feedback/DraftFeedback",
     "pages/notice/notice",
     "pages/notice/noticedetail"
   ],

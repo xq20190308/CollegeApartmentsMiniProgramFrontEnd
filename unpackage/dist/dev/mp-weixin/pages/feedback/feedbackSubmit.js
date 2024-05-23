@@ -3,6 +3,16 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
+      categories: [{
+        text: "课程",
+        value: 0
+      }, {
+        text: "安全",
+        value: 1
+      }, {
+        text: "其他",
+        value: 2
+      }],
       // 基础表单数据
       baseFormData: {
         contactobject: "",
@@ -24,6 +34,10 @@ const _sfc_main = {
           rules: [{
             required: true,
             errorMessage: "手机号不能为空"
+          }, {
+            minLength: 11,
+            maxLength: 11,
+            errorMessage: "请输入11位手机号"
           }]
         }
       },
@@ -161,7 +175,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.o(($event) => $data.baseFormData.category = $event),
     b: common_vendor.p({
       multiple: true,
-      localdata: _ctx.categories,
+      localdata: $data.categories,
       modelValue: $data.baseFormData.category
     }),
     c: common_vendor.p({
@@ -191,27 +205,30 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "最多选择9个图片",
       required: true
     }),
-    j: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
-    k: common_vendor.p({
+    j: common_vendor.p({
+      title: ""
+    }),
+    k: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
+    l: common_vendor.p({
       placeholder: "请输入手机号",
       modelValue: $data.baseFormData.contactobject
     }),
-    l: common_vendor.p({
+    m: common_vendor.p({
       label: "手机号",
       name: "contactobject",
       required: true
     }),
-    m: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
-    n: common_vendor.p({
+    n: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
+    o: common_vendor.p({
       rules: $data.customRules,
       modelValue: $data.baseFormData
     }),
-    o: common_vendor.p({
+    p: common_vendor.p({
       title: "投诉与意见",
       type: "line"
     }),
-    p: common_vendor.o(($event) => $options.submit("baseForm")),
-    q: common_vendor.o((...args) => $options.save && $options.save(...args))
+    q: common_vendor.o(($event) => $options.submit("baseForm")),
+    r: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);

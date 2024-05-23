@@ -3,9 +3,13 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      complaintDrafts: [
-        { describe: "问题投诉", id: 2 }
-      ]
+      complaintDrafts: [{
+        id: "91",
+        describe: "cillum ex",
+        category: "in Duis fugiat qui aute",
+        contactobject: "in eu ullamco irure aliqua",
+        pushtime: "2014-03-04 03:56:28"
+      }]
       // 初始为空数组
     };
   },
@@ -15,12 +19,23 @@ const _sfc_main = {
   methods: {
     fetchComplaintDrafts() {
       common_vendor.index.request({
-        url: "https://yourserver.com/api/complaint-drafts",
+        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime=",
         // 替换为您的服务器接口URL
         method: "GET",
         success: (res) => {
           if (res.statusCode === 200) {
-            this.complaintDrafts = res.data;
+            for (let i = 0; i < 10; i++) {
+              this.complaintDrafts.push(
+                {
+                  id: i,
+                  describe: "cillum ex",
+                  category: "in Duis fugiat qui aute",
+                  contactobject: "in eu ullamco irure aliqua",
+                  pushtime: "2014-03-04 03:56:28"
+                }
+              );
+            }
+            console.log(this.complaintDrafts);
           } else {
             console.error("Failed to fetch complaint drafts:", res);
           }
@@ -35,19 +50,15 @@ const _sfc_main = {
         url: "../feedback/feedbackSubmit"
       });
     },
-    onchange() {
+    change(item) {
+      console.log(item);
       common_vendor.index.navigateTo({
         url: "../feedback/DraftFeedback"
       });
     },
-    delet(thisid) {
-      common_vendor.index.request({
-        url: "11",
-        method: "DEL",
-        data: {
-          id: thisid
-        }
-      });
+    delet(index) {
+      this.complaintDrafts.splice(index, 1);
+      console.log(this.complaintDrafts);
     }
   }
 };
@@ -63,14 +74,18 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.f($data.complaintDrafts, (item, index, i0) => {
       return {
-        a: common_vendor.o(($event) => $options.delet(item.id), index),
+        a: common_vendor.t(item.id),
         b: common_vendor.t(item.describe),
-        c: index,
-        d: common_vendor.o(($event) => _ctx.change(item), index)
+        c: common_vendor.t(item.category),
+        d: common_vendor.t(item.contactobject),
+        e: common_vendor.t(item.pushtime),
+        f: common_vendor.o(($event) => $options.change(item), index),
+        g: common_vendor.o(($event) => $options.delet(index), index),
+        h: index
       };
     }),
     b: common_vendor.p({
-      title: _ctx.我的草稿,
+      title: "我的草稿",
       ["sub-title"]: "",
       type: "line"
     }),
