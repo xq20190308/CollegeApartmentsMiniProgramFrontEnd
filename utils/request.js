@@ -1,4 +1,4 @@
-import sysurl from "../system.config.js"
+import sysurl from "../systemconfig.js"
 
 export const service = (url, method, data) => {
 	return new Promise((resolve, reject) => {
