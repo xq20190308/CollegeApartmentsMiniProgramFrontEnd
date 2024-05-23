@@ -29,39 +29,11 @@ const _sfc_main = {
     };
   },
   methods: {
-    typeChange(e) {
+    newdata(value) {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.newNaire.type = e.detail.value;
-        console.log(this.newNaire.type);
-      }, 500);
-    },
-    nameChange(e) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.newNaire.name = e.detail.value;
-        console.log(this.newNaire.name);
-      }, 500);
-    },
-    descriChange(e) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.newNaire.descri = e.detail.value;
-        console.log(this.newNaire.descri);
-      }, 500);
-    },
-    stChange(e) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.newNaire.st = e.detail.value;
-        console.log(this.newNaire.st);
-      }, 500);
-    },
-    etChange(e) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.newNaire.et = e.detail.value;
-        console.log(this.newNaire.et);
+        console.log(value);
+        return value;
       }, 500);
     },
     qnameChange(e, qindex) {
@@ -124,11 +96,21 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((e) => $options.typeChange(e)),
-    b: common_vendor.o((e) => $options.nameChange(e)),
-    c: common_vendor.o((e) => $options.descriChange(e)),
-    d: common_vendor.o((e) => $options.stChange(e)),
-    e: common_vendor.o((e) => $options.etChange(e)),
+    a: common_vendor.o((e) => {
+      $data.newNaire.type = $options.newdata(e.detail.value);
+    }),
+    b: common_vendor.o((e) => {
+      $data.newNaire.name = $options.newdata(e.detail.value);
+    }),
+    c: common_vendor.o((e) => {
+      $data.newNaire.descr = $options.newdata(e.detail.value);
+    }),
+    d: common_vendor.o((e) => {
+      $data.newNaire.startTime = this.newdata(e.detail.value);
+    }),
+    e: common_vendor.o((e) => {
+      $data.newNaire.endTime = this.newdata(e.detail.value);
+    }),
     f: common_vendor.f($data.questionList, (que, qindex, i0) => {
       return common_vendor.e({
         a: que.type === 1

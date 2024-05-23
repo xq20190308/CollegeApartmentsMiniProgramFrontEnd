@@ -1,23 +1,18 @@
 <template>
-	<view class="nairetype" style="display: flex;flex-wrap: nowrap;">
-		问卷类型（下拉选择）：
-		<input @input="(e) => typeChange(e)" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
+	<view style="display: flex;flex-wrap: nowrap;">
+		问卷类型（下拉选择）：<input @input="(e) => {newNaire.type=newdata(e.detail.value);}" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairename" style="display: flex;flex-wrap: nowrap;">
-		问卷名称（填写）：
-		<input @input="(e) => nameChange(e)" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
+	<view style="display: flex;flex-wrap: nowrap;">
+		问卷名称（填写）：<input @input="(e) => {newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairedescri" style="display: flex;flex-wrap: nowrap;">
-		问卷描述（填写）：
-		<input @input="(e) => descriChange(e)" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
+	<view style="display: flex;flex-wrap: nowrap;">
+		问卷描述（填写）：<input @input="(e) => {newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="nairrest" style="display: flex;flex-wrap: nowrap;">
-		开始时间（选择日期）：
-		<input @input="(e) => stChange(e)" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
+	<view style="display: flex;flex-wrap: nowrap;">
+		开始时间（选择日期）：<input @input="(e) => {newNaire.startTime=this.newdata(e.detail.value);}" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
 	</view>
-	<view class="naireet" style="display: flex;flex-wrap: nowrap;">
-		结束时间（选择日期）：
-		<input @input="(e) => etChange(e)" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
+	<view style="display: flex;flex-wrap: nowrap;">
+		结束时间（选择日期）：<input @input="(e) => {newNaire.endTime=this.newdata(e.detail.value);}" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
 	</view>
 	<view class="questionsform">
 		<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
@@ -81,44 +76,11 @@
 			}
 		},
 		methods: {
-			typeChange(e){
+			newdata(value){
 				clearTimeout(this.timer);
 				this.timer = setTimeout(()=>{
-					this.newNaire.type=e.detail.value;
-					console.log(this.newNaire.type);
-					
-				}, 500)
-			},
-			nameChange(e){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.newNaire.name=e.detail.value;
-					console.log(this.newNaire.name);
-					
-				}, 500)
-			},
-			descriChange(e){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.newNaire.descri=e.detail.value;
-					console.log(this.newNaire.descri);
-					
-				}, 500)
-			},
-			stChange(e){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.newNaire.st=e.detail.value;
-					console.log(this.newNaire.st);
-					
-				}, 500)
-			},
-			etChange(e){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.newNaire.et=e.detail.value;
-					console.log(this.newNaire.et);
-					
+					console.log(value);
+					return value;
 				}, 500)
 			},
 			qnameChange(e,qindex){
@@ -217,8 +179,5 @@
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;
-}
-::v-deep .answerplacehoder{
-	//text-align: center;
 }
 </style>
