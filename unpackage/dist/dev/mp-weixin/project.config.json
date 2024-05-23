@@ -19,8 +19,8 @@
     "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
-  "libVersion": "",
-  "appid": "wxb15ca50e7b2df763",
+  "libVersion": "latest",
+  "appid": "wx3b5ec6e4e336f19e",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
   "condition": {
     "search": {
