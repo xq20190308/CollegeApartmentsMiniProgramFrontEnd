@@ -2,39 +2,35 @@
 	<view style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
-				<text> {{detail.title}}</text>
+				<text> {{data.detail.title}}</text>
 			</view>
 			<view class="message" >
-				<view>{{detail.typeName}}</view>
-				<view>{{detail.content}}</view>
+				<view>{{data.detail.typeName}}</view>
+				<view>{{data.detail.content}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
-<script >
-	
+<script setup>
+import {onLoad} from "@dcloudio/uni-app";
+import {reactive} from "vue";
 import sysurl from '../../system.config.js';
-export default {
-  data() {
-    return {
-		detail:{
-			content: "Lorem",
-			id: 87,
-			isActive: true,
-			publishTime: "1976-01-02 07:27:42",
-			title: "学府属习",
-			typeName: "律况平将体集题",
-		}
-    };
-  },
- props:{
- },
-  onLoad(options) {
+const data = reactive({
+	detail:{
+		content: "Lorem",
+		id: 87,
+		isActive: true,
+		publishTime: "1976-01-02 07:27:42",
+		title: "学府属习",
+		typeName: "律况平将体集题",
+	}
+})
+onLoad((options) => {
 	console.log(options);
-	this.detail=JSON.parse(options.detail);
-  },
-}
+	data.detail=JSON.parse(options.detail);
+})
+
 
 </script>
 <style>

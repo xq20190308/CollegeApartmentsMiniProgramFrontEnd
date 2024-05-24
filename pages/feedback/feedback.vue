@@ -2,7 +2,7 @@
 	<view>
 		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in complaintDrafts" :key="index" >
+				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
 						<view>id：{{item.id}}</view>
 						<view>describe：{{item.describe}}</view>
@@ -22,94 +22,89 @@
 	</view>
 </template>
 
-<script>
-	
-	import sysurl from '../../system.config.js';
-	export default {
-		data() {
-			return {
-				ismodified:0,
-				pushtime:" ",
-				complaintDrafts: [{
-					id: "1",
-					describe: "初始数据",
-					category: "宿舍",
-					contactobject: "18765248196",
-					pushtime: "2014-03-04 03:56:28"
-				},] // 初始为空数组
-			}
-		},
-		onLoad() {
-			if(this.ismodified){
-				// 确保路由对象已经初始化
-				console.log("query",this.$route.query.pushtime);
-				this.fetchComplaintDrafts(this.$route.query.pushtime);
-				this.ismodified=0;
-			}
-			else{
-				console.log("无query");
-				this.fetchComplaintDrafts(); // 页面加载时获取数据
-			}
-		},
-		methods: {
-			fetchComplaintDrafts(pushtime) {
-				uni.request({
-					url: sysurl.developUrl +'/api/suggestions/pushtime', // 替换为您的服务器接口URL
-					method: 'GET',
-					success: (res) => {
-						// let jsonString = JSON.stringify(res.data);
-						this.complaintDrafts.push(res.data)
-						if (res.statusCode === 200) {
-							//this.complaintDrafts = res.data; // 直接使用返回的列表	
-							//示例数据
-							console.log(res)
-							for (let i = 0; i < 3; i++) {
-								this.complaintDrafts.push(
-								  {
-									id: i,
-									describe: "静态示例",
-									category: "课程",
-									contactobject: "18765248196",
-									pushtime: "2014-03-04 03:56:28"
-								  });
-							  }
-							console.log(this.complaintDrafts)
-						} else {
-							// 处理错误情况
-							console.error('Failed to fetch complaint drafts:', res);
-						}
-					},
-					fail: (err) => {
-						// 处理请求失败的情况
-						console.error('Request failed:', err);
-					}
-				});
-			},
-			onpress() {
-				uni.navigateTo({
-					url: '../feedback/feedbackSubmit'
-				});
-			},
-			change(item){
-				console.log(item)
-				uni.navigateTo({
-					url: '../feedback/DraftFeedback'
-				})
-			},
-			delet(index){
-				this.complaintDrafts.splice(index, 1);
-				console.log(this.complaintDrafts)
-				//提交到后端
-				/*uni.request({
-					url:'',
-					method:"",
-					data:{
-						id:thisid
-					}
-				})*/
-			}
-		}
+<script setup>
+import {onLoad} from "@dcloudio/uni-app";
+import {reactive} from "vue";
+import sysurl from '../../system.config.js';
+const data = reactive({
+	ismodified:0,
+	pushtime:" ",
+	complaintDrafts: [{
+		id: "1",
+		describe: "初始数据",
+		category: "宿舍",
+		contactobject: "18765248196",
+		pushtime: "2014-03-04 03:56:28"
+	},] // 初始为空数组
+})
+onLoad(()=> {
+	if(data.ismodified){
+		// 确保路由对象已经初始化
+		console.log("query",this.$route.query.pushtime);
+		fetchComplaintDrafts(this.$route.query.pushtime);
+		data.ismodified=0;
 	}
+	else{
+		console.log("无query");
+		fetchComplaintDrafts(); // 页面加载时获取数据
+	}
+})
+const fetchComplaintDrafts = (pushtime) => {
+	uni.request({
+		url: sysurl.developUrl +'/api/suggestions/pushtime', // 替换为您的服务器接口URL
+		method: 'GET',
+		success: (res) => {
+			// let jsonString = JSON.stringify(res.data);
+			data.complaintDrafts.push(res.data)
+			if (res.statusCode === 200) {
+				//this.complaintDrafts = res.data; // 直接使用返回的列表	
+				//示例数据
+				console.log(res)
+				for (let i = 0; i < 3; i++) {
+					data.complaintDrafts.push(
+					  {
+						id: i,
+						describe: "静态示例",
+						category: "课程",
+						contactobject: "18765248196",
+						pushtime: "2014-03-04 03:56:28"
+						  });
+					  }
+					console.log(data.complaintDrafts)
+			} else {
+				// 处理错误情况
+				console.error('Failed to fetch complaint drafts:', res);
+			}
+		},
+		fail: (err) => {
+			// 处理请求失败的情况
+			console.error('Request failed:', err);
+		}
+	});
+}
+const onpress=()=> {
+	uni.navigateTo({
+		url: '../feedback/feedbackSubmit'
+	});
+}
+const change=(item)=> {
+	console.log(item)
+	uni.navigateTo({
+		url: '../feedback/DraftFeedback'
+	})
+}
+const delet=(index)=> {
+	data.complaintDrafts.splice(index, 1);
+	console.log(data.complaintDrafts)
+	//提交到后端
+	/*uni.request({
+		url:'',
+		method:"",
+		data:{
+			id:thisid
+		}
+	})*/
+}
 </script>
 
 

@@ -1,25 +1,25 @@
 <template>
 	<view>
 		<view class="cates">
-			<view v-for="(cate,index) in cates" :class="{'cateitem':true,'cateactive':index==active,}" :key="index" @click="dircate(index)">
+			<view v-for="(cate,index) in data.cates" :class="{'cateitem':true,'cateactive':index==data.active,}" :key="index" @click="dircate(index)">
 				{{cate.name}}
 			</view>
 		</view>
-		<uni-section v-for="(item,index) in catenotice" :key="index" :title="item" sub-title="" type="line" style="width: 98%;margin: auto;">
+		<uni-section v-for="(item,index) in data.catenotice" :key="index" :title="item" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
 					<text>{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 					<text style="text-align: right;">类型：{{item.typeName}}</text>
 				</view>
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
 					<text>{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 					<text style="text-align: right;">类型：{{item.typeName}}</text>
 				</view>
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
+				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
 					<text>{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
@@ -30,74 +30,69 @@
 	</view>
 </template>
 
-<script>
-	
-	import sysurl from '../../system.config.js';
-	export default{
-		data(){
-			return {
-				articles:[{//测试数据
-					content: "Lorem",
-					id: 87,
-					isActive: true,
-					publishTime: "1976-01-02 07:27:42",
-					title: "学府属习",
-					typeName: "律况平将体集题",
-					}
-				],
-				catenotice:["学校通知","个人通知"],
-				cates:[{
-						id:0,
-						name:"全部"
-					},{
-						id:1,
-						name:"未结束"
-					},{
-						id:2,
-						name:"已结束"
-				}],
-				active:0
-			}
-		},
-		methods:{
-			todetail(id){
-				console.log(JSON.stringify(this.articles[id]))
-				uni.navigateTo({
-					url:"../notice/noticedetail?detail="+JSON.stringify(this.articles[id])
-				})
-			},
-			getarticles(cates){
-				console.log("分类请求的参数",cates);
-				let noticeurl=sysurl.developUrl +'/notifications';
-				if(cates!=null){
-					noticeurl=sysurl.developUrl +'/notifications?isActive='+(cates-1);
-				}
-				//获取通知数据
-			   uni.request({
-				url: noticeurl,
-				method: 'GET',
-				success: (res) => {
-					console.log("success",res);
-					this.articles = res.data.data;
-					console.log(this.articles)
-				},
-				fail: (err) => {
-					 console.error('Fetch error:', err);
-				}
-			   });
-			},
-			dircate(options){
-				this.active=options;
-				console.log("点击事件的参数",options)
-				if(options===0){this.getarticles();}
-				else{this.getarticles(options);}
-			},
-		},
-		onLoad(options) {
-			console.log("通知列表参数",options);
-			this.getarticles();
+<script setup>
+import {onLoad} from "@dcloudio/uni-app";
+import {reactive} from "vue";
+import sysurl from '../../system.config.js';
+const data = reactive({
+	articles:[{//测试数据
+		content: "Lorem",
+		id: 87,
+		isActive: true,
+		publishTime: "1976-01-02 07:27:42",
+		title: "学府属习",
+		typeName: "律况平将体集题",
 		}
+	],
+	catenotice:["学校通知","个人通知"],
+	cates:[{
+			id:0,
+			name:"全部"
+		},{
+			id:1,
+			name:"未结束"
+		},{
+			id:2,
+			name:"已结束"
+	}],
+	active:0
+})
+const todetail = (id) =>{
+	console.log(JSON.stringify(data.articles[id]))
+	uni.navigateTo({
+		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[id])
+	})
+}
+const getarticles = (cates) =>{
+	console.log("分类请求的参数",cates);
+	let noticeurl=sysurl.developUrl +'/notifications';
+	if(cates!=null){
+		noticeurl=sysurl.developUrl +'/notifications?isActive='+(cates-1);
 	}
+	//获取通知数据
+   uni.request({
+	url: noticeurl,
+	method: 'GET',
+	success: (res) => {
+		console.log("success",res);
+		data.articles = res.data.data;
+		console.log(data.articles)
+	},
+	fail: (err) => {
+		 console.error('Fetch error:', err);
+	}
+   });
+}
+const dircate = (options)=>{
+		data.active=options;
+		console.log("点击事件的参数",options)
+		if(options===0){getarticles();}
+		else{getarticles(options);}
+	}
+onLoad((options) => {
+	console.log("通知列表参数",options);
+	getarticles();
+})
 </script>
 
 

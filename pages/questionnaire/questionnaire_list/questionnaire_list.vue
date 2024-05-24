@@ -16,10 +16,11 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app"
+import {onLoad} from "@dcloudio/uni-app";
+import {reactive} from "vue";
 import sysurl from '../../../system.config.js';
 import questionnaire from '../../../components/questionnaire/questionnaire.vue'
-import {reactive} from "vue";
+
 const data = reactive({
 	questionnairelist:[],
 	newNaire:null,

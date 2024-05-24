@@ -1,9 +1,18 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const system_config = require("../../system.config.js");
+if (!Array) {
+  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
+  _easycom_uni_section2();
+}
+const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
+if (!Math) {
+  _easycom_uni_section();
+}
 const _sfc_main = {
-  data() {
-    return {
+  __name: "notice",
+  setup(__props) {
+    const data = common_vendor.reactive({
       articles: [
         {
           //测试数据
@@ -27,16 +36,14 @@ const _sfc_main = {
         name: "已结束"
       }],
       active: 0
-    };
-  },
-  methods: {
-    todetail(id) {
-      console.log(JSON.stringify(this.articles[id]));
+    });
+    const todetail = (id) => {
+      console.log(JSON.stringify(data.articles[id]));
       common_vendor.index.navigateTo({
-        url: "../notice/noticedetail?detail=" + JSON.stringify(this.articles[id])
+        url: "../notice/noticedetail?detail=" + JSON.stringify(data.articles[id])
       });
-    },
-    getarticles(cates) {
+    };
+    const getarticles = (cates) => {
       console.log("分类请求的参数", cates);
       let noticeurl = system_config.sysurl.developUrl + "/notifications";
       if (cates != null) {
@@ -47,92 +54,84 @@ const _sfc_main = {
         method: "GET",
         success: (res) => {
           console.log("success", res);
-          this.articles = res.data.data;
-          console.log(this.articles);
+          data.articles = res.data.data;
+          console.log(data.articles);
         },
         fail: (err) => {
           console.error("Fetch error:", err);
         }
       });
-    },
-    dircate(options) {
-      this.active = options;
+    };
+    const dircate = (options) => {
+      data.active = options;
       console.log("点击事件的参数", options);
       if (options === 0) {
-        this.getarticles();
+        getarticles();
       } else {
-        this.getarticles(options);
+        getarticles(options);
       }
-    }
-  },
-  onLoad(options) {
-    console.log("通知列表参数", options);
-    this.getarticles();
-  }
-};
-if (!Array) {
-  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  _easycom_uni_section2();
-}
-const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
-if (!Math) {
-  _easycom_uni_section();
-}
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
-    a: common_vendor.f($data.cates, (cate, index, i0) => {
+    };
+    common_vendor.onLoad((options) => {
+      console.log("通知列表参数", options);
+      getarticles();
+    });
+    return (_ctx, _cache) => {
       return {
-        a: common_vendor.t(cate.name),
-        b: index == $data.active ? 1 : "",
-        c: index,
-        d: common_vendor.o(($event) => $options.dircate(index), index)
-      };
-    }),
-    b: common_vendor.f($data.catenotice, (item, index, i0) => {
-      return {
-        a: common_vendor.f($data.articles, (item2, index2, i1) => {
+        a: common_vendor.f(data.cates, (cate, index, i0) => {
           return {
-            a: common_vendor.t(item2.id),
-            b: common_vendor.t(item2.title),
-            c: common_vendor.t(item2.content),
-            d: common_vendor.t(item2.publishTime),
-            e: common_vendor.t(item2.typeName),
-            f: index2,
-            g: common_vendor.o(($event) => $options.todetail(index2), index2)
+            a: common_vendor.t(cate.name),
+            b: index == data.active ? 1 : "",
+            c: index,
+            d: common_vendor.o(($event) => dircate(index), index)
           };
         }),
-        b: common_vendor.f($data.articles, (item2, index2, i1) => {
+        b: common_vendor.f(data.catenotice, (item, index, i0) => {
           return {
-            a: common_vendor.t(item2.id),
-            b: common_vendor.t(item2.title),
-            c: common_vendor.t(item2.content),
-            d: common_vendor.t(item2.publishTime),
-            e: common_vendor.t(item2.typeName),
-            f: index2,
-            g: common_vendor.o(($event) => $options.todetail(index2), index2)
+            a: common_vendor.f(data.articles, (item2, index2, i1) => {
+              return {
+                a: common_vendor.t(item2.id),
+                b: common_vendor.t(item2.title),
+                c: common_vendor.t(item2.content),
+                d: common_vendor.t(item2.publishTime),
+                e: common_vendor.t(item2.typeName),
+                f: index2,
+                g: common_vendor.o(($event) => todetail(index2), index2)
+              };
+            }),
+            b: common_vendor.f(data.articles, (item2, index2, i1) => {
+              return {
+                a: common_vendor.t(item2.id),
+                b: common_vendor.t(item2.title),
+                c: common_vendor.t(item2.content),
+                d: common_vendor.t(item2.publishTime),
+                e: common_vendor.t(item2.typeName),
+                f: index2,
+                g: common_vendor.o(($event) => todetail(index2), index2)
+              };
+            }),
+            c: common_vendor.f(data.articles, (item2, index2, i1) => {
+              return {
+                a: common_vendor.t(item2.id),
+                b: common_vendor.t(item2.title),
+                c: common_vendor.t(item2.content),
+                d: common_vendor.t(item2.publishTime),
+                e: common_vendor.t(item2.typeName),
+                f: index2,
+                g: common_vendor.o(($event) => todetail(index2), index2)
+              };
+            }),
+            d: index,
+            e: "27fa4ea6-0-" + i0,
+            f: common_vendor.p({
+              title: item,
+              ["sub-title"]: "",
+              type: "line"
+            })
           };
-        }),
-        c: common_vendor.f($data.articles, (item2, index2, i1) => {
-          return {
-            a: common_vendor.t(item2.id),
-            b: common_vendor.t(item2.title),
-            c: common_vendor.t(item2.content),
-            d: common_vendor.t(item2.publishTime),
-            e: common_vendor.t(item2.typeName),
-            f: index2,
-            g: common_vendor.o(($event) => $options.todetail(index2), index2)
-          };
-        }),
-        d: index,
-        e: "27fa4ea6-0-" + i0,
-        f: common_vendor.p({
-          title: item,
-          ["sub-title"]: "",
-          type: "line"
         })
       };
-    })
-  };
-}
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
+    };
+  }
+};
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
 wx.createPage(MiniProgramPage);

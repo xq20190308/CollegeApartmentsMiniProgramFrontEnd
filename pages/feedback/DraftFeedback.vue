@@ -3,13 +3,13 @@
 
 		<uni-section title="投诉与意见" type="line">
 			<view class="example">
-				<uni-forms ref="baseForm" :modelValue="baseFormData">
+				<uni-forms ref="baseForm" :modelValue="data.baseFormData">
 
 					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" required >
-						<uni-data-checkbox v-model="baseFormData.category" multiple :localdata="categories" />
+						<uni-data-checkbox v-model="data.baseFormData.category" multiple :localdata="data.categories" />
 					</uni-forms-item>
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;" class = "small" required>
-						<uni-easyinput type="textarea" v-model="baseFormData.describes" placeholder="请输入您遇到的问题" />
+						<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入您遇到的问题" />
 					</uni-forms-item>
 					<uni-section  title="">
 								<view class="example-body">
@@ -22,7 +22,7 @@
 								</view>
 							</uni-section>
 					<uni-forms-item label="手机号" required>
-						<uni-easyinput v-model="baseFormData.contactobject" placeholder="请输入手机号" />
+						<uni-easyinput v-model="data.baseFormData.contactobject" placeholder="请输入手机号" />
 					</uni-forms-item>
 				</uni-forms>
 			</view>
@@ -35,84 +35,81 @@
 
 	
 
-<script>
-	import sysurl from '../../system.config.js';
-	export default {
-		data() {
-			return {
-				categories: [{
-					text: '课程',
-					value: 0
-				}, {
-					text: '安全',
-					value: 1
-				}, {
-					text: '其他',
-					value: 2
-				}],
-				// 基础表单数据
-				baseFormData: {
-					contactobject: '',
-					describes: '',
-					category: '',
-					//上传图片.
-					imageValue:[]
-					
-				},
-				// 表单数据
-				alignmentFormData: {
-					name: '',
-					age: '',
-				},
-				// 分段器数据
-				current: 0,
-				items: ['左对齐', '顶部对齐'],
-				// 校验规则
-				rules: {
-					contactobject: {
-						rules: [{
-							required: true,
-							errorMessage: '联系方式不能为空'
-						}]
-					}
-				}
-			}
-		},
-		methods: {
-			submit() {
-				uni.request({
-					url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
-					method: 'POST',
-					data: {
-						describes: this.baseFormData.describes,
-						contactobject: this.baseFormData.contactobject,
-						category: this.baseFormData.category
-					},
-					success: (res) => {
-						console.log(res.data);
-						uni.navigateTo({
-							url:'/pages/feedback/feedback',
-						});
-					}
-				})
-			},
-			select(e){
-				console.log('选择文件：',e)
-			},
-			// 获取上传进度
-			progress(e){
-				console.log('上传进度：',e)
-			},
-			// 上传成功
-			success(e){
-				console.log('上传成功')
-			},
-			// 上传失败
-			fail(e){
-				console.log('上传失败：',e)
-			}
+<script setup>
+import {onLoad} from "@dcloudio/uni-app";
+import {reactive} from "vue";
+import sysurl from '../../system.config.js';
+
+const data = reactive({
+	categories: [{
+		text: '课程',
+		value: 0
+	}, {
+		text: '安全',
+		value: 1
+	}, {
+		text: '其他',
+		value: 2
+	}],
+	// 基础表单数据
+	baseFormData: {
+		contactobject: '',
+		describes: '',
+		category: '',
+		//上传图片.
+		imageValue:[]
+		
+	},
+	// 表单数据
+	alignmentFormData: {
+		name: '',
+		age: '',
+	},
+	// 分段器数据
+	current: 0,
+	items: ['左对齐', '顶部对齐'],
+	// 校验规则
+	rules: {
+		contactobject: {
+			rules: [{
+				required: true,
+				errorMessage: '联系方式不能为空'
+			}]
 		}
 	}
+})
+const submit=()=> {
+	uni.request({
+		url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
+		method: 'POST',
+		data: {
+			describes: data.baseFormData.describes,
+			contactobject: data.baseFormData.contactobject,
+			category: data.baseFormData.category
+		},
+		success: (res) => {
+			console.log(res.data);
+			uni.navigateTo({
+				url:'/pages/feedback/feedback',
+			});
+		}
+	})
+}
+const select=(e)=>{
+	console.log('选择文件：',e)
+}
+			// 获取上传进度
+const progress=(e)=>{
+	console.log('上传进度：',e)
+}
+			// 上传成功
+const success=(e)=>{
+	console.log('上传成功')
+}
+			// 上传失败
+const fail=(e)=>{
+	console.log('上传失败：',e)
+}
 </script>
 
 
