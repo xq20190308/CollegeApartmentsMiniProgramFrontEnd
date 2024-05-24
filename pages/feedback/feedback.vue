@@ -117,28 +117,21 @@
 
 <style>
 	.notice-list {
+		width: 95%;
+		margin-left: 8px;
 	}
-	
 	.notice-item {
+		margin-top: 24rpx!important;
 		width: 90%;
 		height: auto;
 		border: 1px solid #e2e2e2;
 		border-radius: 25px;
 		padding: 10rpx 30rpx;
 		padding-top: 30rpx;
-		flex-shrink: 0;
-		margin-top: 24rpx!important;
-		margin-button: 24rpx;
-		font-family: 'Inter';
-		font-style: normal;
-		font-weight: 400;
-		font-size: calc(14rpx * 2);
-		line-height: calc(17rpx * 2);
-		color: #333333;
-		margin: auto;
+		padding-bottom: 30rpx;
 		display: flex;
-		justify-content: center; /* 水平居中 */
-		align-items: center; /* 垂直居中 */
+		justify-content: center;
+		align-items: center;
 		flex-direction: row;
 		background-color: azure;
 		box-shadow: #999999 2px 2px 2px 2px;

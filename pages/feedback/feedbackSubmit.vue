@@ -32,99 +32,116 @@
 		</view>
 	</view>
 </template>
-
-
-
-
-
 <script>
 	
 	import sysurl from '../../system.config.js';
-export default {
-	data() {
-		pushtime:'';
-		return {
-			id:null,
-			categories: [{
-				text: '课程',
-				value: 0
-			}, {
-				text: '安全',
-				value: 1
-			}, {
-				text: '其他',
-				value: 2
-			}],
-			// 基础表单数据
-			baseFormData: {
-				contactobject: '',
-				describes: '',
-				category: [],
-				pictures: []
-				//上传图片.
-				//imageValue:[]
-			},
-			// 表单数据
-			customRules: {
-				describes: {
-					rules: [{
-						required: true,
-						errorMessage: '问题描述不能为空'
-					}]
+	export default {
+		data() {
+			pushtime:'';
+			return {
+				id:null,
+				categories: [{
+					text: '课程',
+					value: 0
+				}, {
+					text: '安全',
+					value: 1
+				}, {
+					text: '其他',
+					value: 2
+				}],
+				// 基础表单数据
+				baseFormData: {
+					contactobject: '',
+					describes: '',
+					category: [],
+					pictures: []
+					//上传图片.
+					//imageValue:[]
 				},
-				contactobject: {
-					rules: [{
-						required: true,
-						errorMessage: '手机号不能为空'
-					}, {
-							minLength: 11,
-							maxLength: 11,
-							errorMessage: '请输入11位手机号'
+				// 表单数据
+				customRules: {
+					describes: {
+						rules: [{
+							required: true,
+							errorMessage: '问题描述不能为空'
 						}]
-				}
-
-			},
-			onReady() {
-				console.log('onReady 生命周期钩子被调用');
-				this.$refs.baseForm.setRules(this.customRules)
-			}
-
-		}
-	},
-	methods: {
-		selectUpload(e) {
-			console.log(2)
-			uni.uploadFile({
-				url: sysurl.developUrl +'/api/upload', //仅为示例，非真实的接口地址
-				filePath: e.tempFilePaths[0],
-				name: 'file',
-				success: (uploadFileRes) => {
-					console.log(uploadFileRes.data);
-				},
-				fail: (err) => {
-					console.log(err);
-				}
-			})
-		},
-		submit(ref) {
-			console.log(this.baseFormData)
-			this.$refs[ref].validate(['']).then(res => {
-				console.log('success', res);
-				uni.showToast({
-					title: `校验通过`,
-				});
-				uni.uploadFile({
-					url: sysurl.developUrl +'/api/upload',
-					files: this.baseFormData.pictures,
-					success: (res) => {
-						console.log("uploadFile",res)
 					},
-					fail:(err)=>{
+					contactobject: {
+						rules: [{
+							required: true,
+							errorMessage: '手机号不能为空'
+						}, {
+								minLength: 11,
+								maxLength: 11,
+								errorMessage: '请输入11位手机号'
+							}]
+					}
+
+				},
+			}
+		},
+		methods: {
+			selectUpload(e) {
+				console.log(2)
+				uni.uploadFile({
+					url: sysurl.developUrl +'/api/upload', //仅为示例，非真实的接口地址
+					filePath: e.tempFilePaths[0],
+					name: 'file',
+					success: (uploadFileRes) => {
+						console.log(uploadFileRes.data);
+					},
+					fail: (err) => {
 						console.log(err);
 					}
-				});
+				})
+			},
+			submit(ref) {
+				console.log(this.baseFormData)
+				this.$refs[ref].validate(['']).then(res => {
+					console.log('success', res);
+					uni.showToast({
+						title: `校验通过`,
+					});
+					uni.uploadFile({
+						url: sysurl.developUrl +'/api/upload',
+						files: this.baseFormData.pictures,
+						success: (res) => {
+							console.log("uploadFile",res)
+						},
+						fail:(err)=>{
+							console.log(err);
+						}
+					});
+					uni.request({
+						url: sysurl.developUrl +'/api/suggestions', // 示例接口地址
+						method: 'POST',
+						data: {
+							describes: this.baseFormData.describes,
+							contactobject: this.baseFormData.contactobject,
+							// category: this.baseFormData.category
+						},
+						success: (res) => {
+							console.log(res.data);
+							this.text = 'request success';
+							this.id = res.id;
+							uni.navigateTo({
+								url: '/pages/feedback/feedback',
+							})
+						},
+						fail: (err) => {
+							console.log('request failed', err);
+						}
+					})
+				}).catch(err => {
+					console.log('err', err);
+					// 处理验证失败的情况
+				})
+			},
+			//保存和提交分别交到后端不同的地方
+			save() {
 				uni.request({
-					url: sysurl.developUrl +'/api/suggestions', // 示例接口地址
+					url: sysurl.developUrl +'/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 					method: 'POST',
 					data: {
 						describes: this.baseFormData.describes,
@@ -132,71 +149,42 @@ export default {
 						// category: this.baseFormData.category
 					},
 					success: (res) => {
-						console.log(res.data);
+						console.log("save:",res.data);
 						this.text = 'request success';
-						this.id = res.id;
+						this.id = res.data.id;
 						uni.navigateTo({
-							url: '/pages/feedback/feedback',
+							url: '/pages/feedback/feedback?pushtime='+res.data+'&ismodified='+1,
 						})
-					},
-					fail: (err) => {
-						console.log('request failed', err);
 					}
 				})
-			}).catch(err => {
-				console.log('err', err);
-				// 处理验证失败的情况
-			})
-		},
-
-		//保存和提交分别交到后端不同的地方
-		save() {
-			uni.request({
-				url: sysurl.developUrl +'/api/suggestionsDraft', //仅为示例，并非真实接口地址。
-				method: 'POST',
-				data: {
-					describes: this.baseFormData.describes,
-					contactobject: this.baseFormData.contactobject,
-					// category: this.baseFormData.category
-				},
-				success: (res) => {
-					console.log("save:",res.data);
-					this.text = 'request success';
-					this.id = res.data.id;
-					uni.navigateTo({
-						url: '/pages/feedback/feedback?pushtime='+res.data+'&ismodified='+1,
-					})
-				}
-			})
-		},
-		select(e) {
-			// 文件选择后的处理
-			console.log('选择文件：', e);
-			const files = e.tempFiles;
-			files.forEach(file => {
-				this.uploadFile(file);
-			});
-		},
-		uploadFile(file) {
-			const formData = new FormData();
-			formData.append('file', file);
-			uni.uploadFile({
-				url: sysurl.developUrl +'/api/upload',
-				files: formData,
-				success: (res) => {
-					console.log('文件上传成功', res);
-				},
-				fail: (err) => {
-					console.log('文件上传失败', err);
-				}
-			})
-		},
-		progress(e) {
-			console.log('上传进度：', e)
-		},
-
+			},
+			select(e) {
+				// 文件选择后的处理
+				console.log('选择文件：', e);
+				const files = e.tempFiles;
+				files.forEach(file => {
+					this.uploadFile(file);
+				});
+			},
+			uploadFile(file) {
+				const formData = new FormData();
+				formData.append('file', file);
+				uni.uploadFile({
+					url: sysurl.developUrl +'/api/upload',
+					files: formData,
+					success: (res) => {
+						console.log('文件上传成功', res);
+					},
+					fail: (err) => {
+						console.log('文件上传失败', err);
+					}
+				})
+			},
+			progress(e) {
+				console.log('上传进度：', e)
+			},
+		}
 	}
-}
 </script>
 
 
