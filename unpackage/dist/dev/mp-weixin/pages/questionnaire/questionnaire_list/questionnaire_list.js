@@ -30,15 +30,16 @@ const _sfc_main = {
         data: {},
         success: (res) => {
           this.questionnairelist = res.data.data;
+        },
+        complete: (res) => {
+          console.log(res);
           if (this.newNaire != null) {
+            console.log("新问卷", this.newNaire);
             this.loadNewlist();
           } else {
             console.log("newList为空");
             console.log("获取到列表", this.questionnairelist);
           }
-        },
-        complete: (res) => {
-          console.log(res);
         }
       });
     },
@@ -73,6 +74,8 @@ const _sfc_main = {
     if (options.newNaire != null) {
       this.newNaire = JSON.parse(options.newNaire);
       console.log("组件数据", this.newNaire);
+    } else {
+      console.log("newNaire为null");
     }
     this.getNaireslist();
   }

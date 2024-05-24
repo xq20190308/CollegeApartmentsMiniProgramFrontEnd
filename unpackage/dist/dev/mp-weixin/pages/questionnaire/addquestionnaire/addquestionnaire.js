@@ -9,24 +9,22 @@ const _sfc_main = {
       //传到后端的数据
       newNaire: {
         //传到问卷列表页面中的数据
-        /*descr: "",
+        descr: "",
         endTime: "",
         id: "",
         name: "",
-        questionList: ["123","234","345"],
+        questionList: ["", "", ""],
         startTime: "",
-        type: 1,*/
+        type: 1
       },
-      questionList: [
-        /*{
-        	content: ["A", "B", "C"],
-        	describe: "",
-        	id: "",
-        	name: "",
-        	questionnaire: "",
-        	type: 1,
-        }*/
-      ]
+      questionList: [{
+        content: ["", "", ""],
+        describe: "",
+        id: "",
+        name: "",
+        questionnaire: "",
+        type: 1
+      }]
     };
   },
   methods: {
@@ -34,8 +32,8 @@ const _sfc_main = {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         console.log(value);
-        return value;
       }, 500);
+      return value;
     },
     qnameChange(e, qindex) {
       clearTimeout(this.timer);
@@ -71,8 +69,14 @@ const _sfc_main = {
       console.log(this.questionList);
     },
     submit() {
-      console.log(this.newList);
-      console.log(this.questionList);
+      console.log("新问卷", this.newNaire);
+      console.log("新问卷的问题", this.questionList);
+      common_vendor.index.showToast({
+        title: "创建成功"
+      });
+      common_vendor.index.navigateTo({
+        url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(this.newNaire)
+      });
       common_vendor.index.request({
         url: system_config.sysurl.developUrl + "",
         method: "POST",
@@ -83,13 +87,6 @@ const _sfc_main = {
           });
         },
         complete: (res) => {
-          common_vendor.index.showToast({
-            title: "创建成功"
-          });
-          console.log("问卷提交", res);
-          common_vendor.index.navigateTo({
-            url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(this.newNaire)
-          });
         }
       });
     }
@@ -98,19 +95,19 @@ const _sfc_main = {
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
     a: common_vendor.o((e) => {
-      $data.newNaire.type = $options.newdata(e.detail.value);
+      this.newNaire.type = $options.newdata(e.detail.value);
     }),
     b: common_vendor.o((e) => {
-      $data.newNaire.name = $options.newdata(e.detail.value);
+      this.newNaire.name = $options.newdata(e.detail.value);
     }),
     c: common_vendor.o((e) => {
-      $data.newNaire.descr = $options.newdata(e.detail.value);
+      this.newNaire.descr = $options.newdata(e.detail.value);
     }),
     d: common_vendor.o((e) => {
-      $data.newNaire.startTime = this.newdata(e.detail.value);
+      this.newNaire.startTime = this.newdata(e.detail.value);
     }),
     e: common_vendor.o((e) => {
-      $data.newNaire.endTime = this.newdata(e.detail.value);
+      this.newNaire.endTime = this.newdata(e.detail.value);
     }),
     f: common_vendor.f($data.questionList, (que, qindex, i0) => {
       return common_vendor.e({

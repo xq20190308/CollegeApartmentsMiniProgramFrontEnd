@@ -49,21 +49,23 @@
 					data:{},
 					success: (res)=> {
 						this.questionnairelist=res.data.data;
-						if(this.newNaire!=null){this.loadNewlist();}
+					},
+					complete: (res)=>{
+						console.log(res);
+						if(this.newNaire!=null){
+							console.log("新问卷",this.newNaire);
+							this.loadNewlist();
+						}
 						else{
 							console.log("newList为空");
 							console.log('获取到列表',this.questionnairelist);
 						}
-					},
-					complete: (res)=>{
-						console.log(res);
 					}
 				});
 			},
 			gotonaire: (item) =>{
 				console.log("问卷信息",item);
 				uni.navigateTo({
-					
 					url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
 					'&id='+item.id+'&type='+item.type+'&name='+item.name+
 					'&descr='+item.descr+'&startTime='+item.startTime+
@@ -92,6 +94,9 @@
 			if(options.newNaire!=null){
 				this.newNaire=JSON.parse(options.newNaire);
 				console.log("组件数据",this.newNaire);
+			}
+			else{
+				console.log("newNaire为null");
 			}
 			this.getNaireslist()
 		},

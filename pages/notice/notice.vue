@@ -72,10 +72,9 @@
 			},
 			getarticles(cates){
 				console.log("分类请求的参数",cates);
-				
 				//获取通知数据
 			   uni.request({
-				url: sysurl.developUrl +'/notifications?isActive='+cates,
+				url: sysurl.developUrl +'/notifications?isActive='+cates-1,
 				method: 'GET',
 				success: (res) => {
 					console.log("success",res);

@@ -1,18 +1,18 @@
 <template>
 	<view style="display: flex;flex-wrap: nowrap;">
-		问卷类型（下拉选择）：<input @input="(e) => {newNaire.type=newdata(e.detail.value);}" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
+		问卷类型（下拉选择）：<input @input="(e) => {this.newNaire.type=newdata(e.detail.value);}" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
 	</view>
 	<view style="display: flex;flex-wrap: nowrap;">
-		问卷名称（填写）：<input @input="(e) => {newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
+		问卷名称（填写）：<input @input="(e) => {this.newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
 	</view>
 	<view style="display: flex;flex-wrap: nowrap;">
-		问卷描述（填写）：<input @input="(e) => {newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
+		问卷描述（填写）：<input @input="(e) => {this.newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
 	</view>
 	<view style="display: flex;flex-wrap: nowrap;">
-		开始时间（选择日期）：<input @input="(e) => {newNaire.startTime=this.newdata(e.detail.value);}" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
+		开始时间（选择日期）：<input @input="(e) => {this.newNaire.startTime=this.newdata(e.detail.value);}" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
 	</view>
 	<view style="display: flex;flex-wrap: nowrap;">
-		结束时间（选择日期）：<input @input="(e) => {newNaire.endTime=this.newdata(e.detail.value);}" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
+		结束时间（选择日期）：<input @input="(e) => {this.newNaire.endTime=this.newdata(e.detail.value);}" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
 	</view>
 	<view class="questionsform">
 		<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
@@ -58,22 +58,22 @@
 				timer:null,//延时器，用于防抖处理
 				//传到后端的数据
 				newNaire:{//传到问卷列表页面中的数据
-					/*descr: "",
+					descr: "",
 					endTime: "",
 					id: "",
 					name: "",
-					questionList: ["123","234","345"],
+					questionList: ["","",""],
 					startTime: "",
-					type: 1,*/
+					type: 1,
 				},
-				questionList: [/*{
-					content: ["A", "B", "C"],
+				questionList: [{
+					content: ["", "", ""],
 					describe: "",
 					id: "",
 					name: "",
 					questionnaire: "",
 					type: 1,
-				}*/],
+				}],
 			}
 		},
 		methods: {
@@ -81,8 +81,8 @@
 				clearTimeout(this.timer);
 				this.timer = setTimeout(()=>{
 					console.log(value);
-					return value;
 				}, 500)
+				return value;
 			},
 			qnameChange(e,qindex){
 				clearTimeout(this.timer);
@@ -121,9 +121,20 @@
 				console.log(this.questionList)
 			},
 			submit() {
-				console.log(this.newList)
-				console.log(this.questionList)
+				console.log("新问卷",this.newNaire)
+				console.log("新问卷的问题",this.questionList)
 				//提交到后端
+				
+				//begin
+				uni.showToast({
+					title: "创建成功"
+				});
+				//返回问卷列表界面
+				uni.navigateTo({
+					url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
+				});
+				//end
+				
 				uni.request({
 					url:sysurl.developUrl +'',
 					method: 'POST',
@@ -135,17 +146,16 @@
 						})			
 					},
 					complete: (res)=>{
-						uni.showToast({
+						/*uni.showToast({
 							title: "创建成功"
 						});
 						console.log("问卷提交",res)
 						//返回问卷列表界面
 						uni.navigateTo({
 							url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
-						});
+						});*/
 					}
 				});
-				
 			}
 		},
 	}

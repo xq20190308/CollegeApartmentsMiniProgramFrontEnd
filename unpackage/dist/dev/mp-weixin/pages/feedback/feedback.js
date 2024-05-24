@@ -6,10 +6,10 @@ const _sfc_main = {
       ismodified: 0,
       pushtime: " ",
       complaintDrafts: [{
-        id: "91",
-        describe: "cillum ex",
-        category: "in Duis fugiat qui aute",
-        contactobject: "in eu ullamco irure aliqua",
+        id: "1",
+        describe: "宿舍生活",
+        category: "宿舍",
+        contactobject: "18765248196",
         pushtime: "2014-03-04 03:56:28"
       }]
       // 初始为空数组
@@ -39,9 +39,9 @@ const _sfc_main = {
               this.complaintDrafts.push(
                 {
                   id: i,
-                  describe: "cillum ex",
-                  category: "in Duis fugiat qui aute",
-                  contactobject: "in eu ullamco irure aliqua",
+                  describe: "课程反馈",
+                  category: "课程",
+                  contactobject: "18765248196",
                   pushtime: "2014-03-04 03:56:28"
                 }
               );
