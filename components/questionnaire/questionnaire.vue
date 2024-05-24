@@ -5,14 +5,10 @@
 		<text>{{naireinfo.descr}}</text>
 		<view>{{naireinfo.questionList}}</view>
 		<view>截止到：{{naireinfo.startTime}}</view>
-		<!--<view class="questions" v-for="(item,index) in naireinfo.questions" :key="index">
-			<question :questioninfo="item"></question>
-		</view>-->
 	</view>
 </template>
 
 <script>
-	import question from '../question/question.vue'
 	
 	export default {
 		name:"questionnaire",

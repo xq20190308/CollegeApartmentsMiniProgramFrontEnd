@@ -45,8 +45,7 @@
 	</view>
 </template>
 <script>
-	import sysurl from '../../../system.config.js';
-	import question from '../../../components/question/question.vue'
+	import sysurl from '../../../system.config.js'; 
 	
 	export default {
 		data() {
