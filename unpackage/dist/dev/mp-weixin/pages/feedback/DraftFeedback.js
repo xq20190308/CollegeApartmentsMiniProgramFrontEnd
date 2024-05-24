@@ -132,7 +132,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       label: "手机号",
       required: true
     }),
-    l: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
+    l: common_vendor.sr("baseForm", "70e80326-1,70e80326-0"),
     m: common_vendor.p({
       modelValue: $data.baseFormData
     }),
@@ -143,5 +143,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     o: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/新建文件夹 (3)/pages/feedback/DraftFeedback.vue"]]);
 wx.createPage(MiniProgramPage);

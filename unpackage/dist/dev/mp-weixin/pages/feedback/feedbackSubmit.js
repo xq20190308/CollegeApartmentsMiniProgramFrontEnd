@@ -3,6 +3,7 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
+      id: null,
       categories: [{
         text: "课程",
         value: 0
@@ -51,7 +52,7 @@ const _sfc_main = {
     selectUpload(e) {
       console.log(2);
       common_vendor.index.uploadFile({
-        url: "http://172.20.10.2:8080/api/upload",
+        url: "http://localhost:8080/api/upload",
         //仅为示例，非真实的接口地址
         filePath: e.tempFilePaths[0],
         name: "file",
@@ -74,20 +75,20 @@ const _sfc_main = {
           title: `校验通过`
         });
         common_vendor.index.uploadFile({
-          url: "http://172.20.10.2:8080/api/upload",
+          url: "http://localhost:8080/api/upload",
           files: this.baseFormData.pictures,
           success: (res2) => {
             console.log(res2);
           }
         });
         common_vendor.index.request({
-          url: "http://172.20.10.2:8080/api/suggestions",
+          url: "http://localhost:8080/api/suggestions",
           // 示例接口地址
           method: "POST",
           data: {
             describes: this.baseFormData.describes,
-            contactobject: this.baseFormData.contactobject,
-            category: this.baseFormData.category
+            contactobject: this.baseFormData.contactobject
+            // category: this.baseFormData.category
           },
           success: (res2) => {
             console.log(res2.data);
@@ -108,20 +109,20 @@ const _sfc_main = {
     //保存和提交分别交到后端不同的地方
     save() {
       common_vendor.index.request({
-        url: "http://172.20.10.2:8080/api/suggestionsDraft",
+        url: "http://localhost:8080/api/suggestionsDraft",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
           describes: this.baseFormData.describes,
-          contactobject: this.baseFormData.contactobject,
-          category: this.baseFormData.category
+          contactobject: this.baseFormData.contactobject
+          // category: this.baseFormData.category
         },
         success: (res) => {
-          console.log(res.data);
+          console.log("save:", res.data);
           this.text = "request success";
-          this.id = res.id;
+          this.id = res.data.id;
           common_vendor.index.navigateTo({
-            url: "/pages/feedback/feedback"
+            url: "/pages/feedback/feedback?pushtime=" + res.data
           });
         }
       });
@@ -137,7 +138,7 @@ const _sfc_main = {
       const formData = new FormData();
       formData.append("file", file);
       common_vendor.index.uploadFile({
-        url: "http://172.20.10.2:8080/api/upload",
+        url: "http://localhost:8080/api/upload",
         files: formData,
         success: (res) => {
           console.log("文件上传成功", res);
@@ -197,7 +198,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "describes",
       required: true
     }),
-    g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
+    g: common_vendor.sr("uniFilePicker", "76fe6dad-7,76fe6dad-6"),
     h: common_vendor.o($options.selectUpload),
     i: common_vendor.p({
       limit: "9",
@@ -218,7 +219,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "contactobject",
       required: true
     }),
-    n: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
+    n: common_vendor.sr("baseForm", "76fe6dad-1,76fe6dad-0"),
     o: common_vendor.p({
       rules: $data.customRules,
       modelValue: $data.baseFormData
@@ -231,5 +232,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     r: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/新建文件夹 (3)/pages/feedback/feedbackSubmit.vue"]]);
 wx.createPage(MiniProgramPage);

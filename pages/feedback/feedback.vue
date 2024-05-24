@@ -25,6 +25,7 @@
 <script>
 	export default {
 		data() {
+		    pushtime:" ";
 			return {
 				complaintDrafts: [{
 					id: "91",
@@ -38,15 +39,25 @@
 		onLoad() {
 			this.fetchComplaintDrafts(); // 页面加载时获取数据
 		},
+		onShow() {
+		  // 确保路由对象已经初始化
+		  if (this.$route.query) {
+			  console.log(this.$route.query.pushtime)
+		    this.fetchComplaintDrafts(this.$route.query.pushtime);
+		  }
+		},
 		methods: {
-			fetchComplaintDrafts() {
+			fetchComplaintDrafts(pushtime) {
 				uni.request({
-					url: 'http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime='+"", // 替换为您的服务器接口URL
+					url: 'http://localhost:8080/api/suggestions/pushtime', // 替换为您的服务器接口URL
 					method: 'GET',
 					success: (res) => {
+						// let jsonString = JSON.stringify(res.data);
+						this.complaintDrafts.push(res.data)
 						if (res.statusCode === 200) {
 							//this.complaintDrafts = res.data; // 直接使用返回的列表	
 							//示例数据
+							console.log(res)
 							for (let i = 0; i < 10; i++) {
 								this.complaintDrafts.push(
 								  {

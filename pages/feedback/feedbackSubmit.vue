@@ -40,7 +40,9 @@
 <script>
 export default {
 	data() {
+		pushtime:'';
 		return {
+			id:null,
 			categories: [{
 				text: '课程',
 				value: 0
@@ -93,7 +95,7 @@ export default {
 		selectUpload(e) {
 			console.log(2)
 			uni.uploadFile({
-				url: 'http://172.20.10.2:8080/api/upload', //仅为示例，非真实的接口地址
+				url: 'http://localhost:8080/api/upload', //仅为示例，非真实的接口地址
 				filePath: e.tempFilePaths[0],
 				name: 'file',
 				// formData: {
@@ -115,19 +117,19 @@ export default {
 					title: `校验通过`,
 				});
 				uni.uploadFile({
-					url: "http://172.20.10.2:8080/api/upload",
+					url: "http://localhost:8080/api/upload",
 					files: this.baseFormData.pictures,
 					success: (res) => {
 						console.log(res)
 					}
 				});
 				uni.request({
-					url: 'http://172.20.10.2:8080/api/suggestions', // 示例接口地址
+					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
 					method: 'POST',
 					data: {
 						describes: this.baseFormData.describes,
 						contactobject: this.baseFormData.contactobject,
-						category: this.baseFormData.category
+						// category: this.baseFormData.category
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -150,19 +152,19 @@ export default {
 		//保存和提交分别交到后端不同的地方
 		save() {
 			uni.request({
-				url: 'http://172.20.10.2:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
+				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					describes: this.baseFormData.describes,
 					contactobject: this.baseFormData.contactobject,
-					category: this.baseFormData.category
+					// category: this.baseFormData.category
 				},
 				success: (res) => {
-					console.log(res.data);
+					console.log("save:",res.data);
 					this.text = 'request success';
-					this.id = res.id;
+					this.id = res.data.id;
 					uni.navigateTo({
-						url: '/pages/feedback/feedback',
+						url: '/pages/feedback/feedback?pushtime='+res.data,
 					})
 				}
 			})
@@ -180,7 +182,7 @@ export default {
 			formData.append('file', file);
 
 			uni.uploadFile({
-				url: 'http://172.20.10.2:8080/api/upload',
+				url: 'http://localhost:8080/api/upload',
 				files: formData,
 				success: (res) => {
 					console.log('文件上传成功', res);

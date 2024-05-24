@@ -73,7 +73,7 @@
 				
 				//获取通知数据
 			   uni.request({
-				url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications?isActive="+cates,
+				url: "http://localhost:8080/notifications?isActive="+cates,
 				method: 'GET',
 				success: (res) => {
 					console.log("success",res);

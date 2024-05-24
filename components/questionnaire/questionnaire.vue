@@ -30,7 +30,7 @@
 					descr: null,
 					startTime: "",
 					endTime: "",
-					questionList: [],
+					questionList: null,
 				},
 			}
 		},

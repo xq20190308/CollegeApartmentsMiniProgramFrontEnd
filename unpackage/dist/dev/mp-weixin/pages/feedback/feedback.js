@@ -16,14 +16,22 @@ const _sfc_main = {
   onLoad() {
     this.fetchComplaintDrafts();
   },
+  onShow() {
+    if (this.$route.query) {
+      console.log(this.$route.query.pushtime);
+      this.fetchComplaintDrafts(this.$route.query.pushtime);
+    }
+  },
   methods: {
-    fetchComplaintDrafts() {
+    fetchComplaintDrafts(pushtime) {
       common_vendor.index.request({
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime=",
+        url: "http://localhost:8080/api/suggestions/pushtime",
         // 替换为您的服务器接口URL
         method: "GET",
         success: (res) => {
+          this.complaintDrafts.push(res.data);
           if (res.statusCode === 200) {
+            console.log(res);
             for (let i = 0; i < 10; i++) {
               this.complaintDrafts.push(
                 {
@@ -92,5 +100,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: common_vendor.o((...args) => $options.onpress && $options.onpress(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedback.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/新建文件夹 (3)/pages/feedback/feedback.vue"]]);
 wx.createPage(MiniProgramPage);
