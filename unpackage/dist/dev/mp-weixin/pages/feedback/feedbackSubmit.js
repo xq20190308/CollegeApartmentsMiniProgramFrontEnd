@@ -198,7 +198,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "describes",
       required: true
     }),
-    g: common_vendor.sr("uniFilePicker", "76fe6dad-7,76fe6dad-6"),
+    g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
     h: common_vendor.o($options.selectUpload),
     i: common_vendor.p({
       limit: "9",
@@ -219,7 +219,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       name: "contactobject",
       required: true
     }),
-    n: common_vendor.sr("baseForm", "76fe6dad-1,76fe6dad-0"),
+    n: common_vendor.sr("baseForm", "0d147305-1,0d147305-0"),
     o: common_vendor.p({
       rules: $data.customRules,
       modelValue: $data.baseFormData
@@ -232,5 +232,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     r: common_vendor.o((...args) => $options.save && $options.save(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/Desktop/新建文件夹 (3)/pages/feedback/feedbackSubmit.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
 wx.createPage(MiniProgramPage);
