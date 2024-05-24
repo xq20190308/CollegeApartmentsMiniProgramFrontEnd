@@ -1,9 +1,10 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const system_config = require("../../system.config.js");
 const _sfc_main = {
   data() {
     return {
+      ismodified: 0,
+      pushtime: " ",
       complaintDrafts: [{
         id: "91",
         describe: "cillum ex",
@@ -15,17 +16,25 @@ const _sfc_main = {
     };
   },
   onLoad() {
-    this.fetchComplaintDrafts();
+    if (this.ismodified) {
+      console.log("query", this.$route.query.pushtime);
+      this.fetchComplaintDrafts(this.$route.query.pushtime);
+      this.ismodified = 0;
+    } else {
+      console.log("无query");
+      this.fetchComplaintDrafts();
+    }
   },
   methods: {
-    fetchComplaintDrafts() {
+    fetchComplaintDrafts(pushtime) {
       common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/api/suggestions/1?pushtime=",
+        url: "http://localhost:8080/api/suggestions/pushtime",
         // 替换为您的服务器接口URL
         method: "GET",
         success: (res) => {
-          console.log(res);
+          this.complaintDrafts.push(res.data);
           if (res.statusCode === 200) {
+            console.log(res);
             for (let i = 0; i < 10; i++) {
               this.complaintDrafts.push(
                 {

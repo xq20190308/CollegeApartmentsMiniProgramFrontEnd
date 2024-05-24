@@ -91,8 +91,8 @@ const _sfc_main = {
           method: "POST",
           data: {
             describes: this.baseFormData.describes,
-            contactobject: this.baseFormData.contactobject,
-            category: this.baseFormData.category
+            contactobject: this.baseFormData.contactobject
+            // category: this.baseFormData.category
           },
           success: (res2) => {
             console.log(res2.data);
@@ -118,15 +118,15 @@ const _sfc_main = {
         method: "POST",
         data: {
           describes: this.baseFormData.describes,
-          contactobject: this.baseFormData.contactobject,
-          category: this.baseFormData.category
+          contactobject: this.baseFormData.contactobject
+          // category: this.baseFormData.category
         },
         success: (res) => {
-          console.log(res.data);
+          console.log("save:", res.data);
           this.text = "request success";
-          this.id = res.id;
+          this.id = res.data.id;
           common_vendor.index.navigateTo({
-            url: "/pages/feedback/feedback"
+            url: "/pages/feedback/feedback?pushtime=" + res.data + "&ismodified=1"
           });
         }
       });

@@ -66,7 +66,7 @@
 					content: "[]",
 					questionnaire: ""
 				}],
-				questionidList: [],
+				questionidList: null,
 				current: [],
 				// 校验表单数据
 				valiFormData: {
@@ -160,6 +160,7 @@
 					success: (res)=> {
 						
 						console.log("请求返回",res)
+						console.log("test",this.idList)
 						this.questionList=res.data.data;
 						console.log('获取到问题',this.questionList);
 						
@@ -180,8 +181,8 @@
 		},
 		onLoad(options) {
 			console.log("参数列表",options);
-			this.questionidList=["20181252102","20187874601"]
-			//this.questionidList = JSON.parse(options.questionidList);
+			//this.questionidList=["20181252102","20187874601"]
+			this.questionidList = JSON.parse(options.questionidList);
 			console.log('问题列表：',this.questionidList);
 			
 			this.id=options.id;

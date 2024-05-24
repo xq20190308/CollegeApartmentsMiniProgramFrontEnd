@@ -28,6 +28,8 @@
 	export default {
 		data() {
 			return {
+				ismodified:0,
+				pushtime:" ",
 				complaintDrafts: [{
 					id: "91",
 					describe: "cillum ex",
@@ -38,18 +40,29 @@
 			}
 		},
 		onLoad() {
-			this.fetchComplaintDrafts(); // 页面加载时获取数据
+			if(this.ismodified){
+				// 确保路由对象已经初始化
+				console.log("query",this.$route.query.pushtime);
+				this.fetchComplaintDrafts(this.$route.query.pushtime);
+				this.ismodified=0;
+			}
+			else{
+				console.log("无query");
+				this.fetchComplaintDrafts(); // 页面加载时获取数据
+			}
 		},
 		methods: {
-			fetchComplaintDrafts() {
+			fetchComplaintDrafts(pushtime) {
 				uni.request({
-					url:sysurl.developUrl +'/api/suggestions/1?pushtime='+"", // 替换为您的服务器接口URL
+					url: 'http://localhost:8080/api/suggestions/pushtime', // 替换为您的服务器接口URL
 					method: 'GET',
 					success: (res) => {
-						console.log(res);
+						// let jsonString = JSON.stringify(res.data);
+						this.complaintDrafts.push(res.data)
 						if (res.statusCode === 200) {
 							//this.complaintDrafts = res.data; // 直接使用返回的列表	
 							//示例数据
+							console.log(res)
 							for (let i = 0; i < 10; i++) {
 								this.complaintDrafts.push(
 								  {
@@ -163,10 +176,9 @@
 	.floating-button {
 		position: fixed;
 		bottom:60rpx; 
-		right: 60rpx; 
-		width: 120rpx; 
-		height: 120rpx; 
-	/* 	box-shadow: 5rpx 5rpx 10rpx rgba(0, 0, 0, 0.5); */ /* 添加阴影样式 */
+		right: 50rpx; 
+		width: 80rpx; 
+		height: 80rpx; 
 	}
 	.deletbutton{
 		background-color:indianred;

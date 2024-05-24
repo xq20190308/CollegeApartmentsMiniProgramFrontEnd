@@ -42,6 +42,7 @@
 	import sysurl from '../../system.config.js';
 export default {
 	data() {
+		pushtime:'';
 		return {
 			id:null,
 			categories: [{
@@ -133,7 +134,7 @@ export default {
 					data: {
 						describes: this.baseFormData.describes,
 						contactobject: this.baseFormData.contactobject,
-						category: this.baseFormData.category
+						// category: this.baseFormData.category
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -161,14 +162,14 @@ export default {
 				data: {
 					describes: this.baseFormData.describes,
 					contactobject: this.baseFormData.contactobject,
-					category: this.baseFormData.category
+					// category: this.baseFormData.category
 				},
 				success: (res) => {
-					console.log(res.data);
+					console.log("save:",res.data);
 					this.text = 'request success';
-					this.id = res.id;
+					this.id = res.data.id;
 					uni.navigateTo({
-						url: '/pages/feedback/feedback',
+						url: '/pages/feedback/feedback?pushtime='+res.data+'&ismodified='+1,
 					})
 				}
 			})

@@ -15,7 +15,7 @@ const _sfc_main = {
         descr: null,
         startTime: "",
         endTime: "",
-        questionList: []
+        questionList: null
       }
     }
   },

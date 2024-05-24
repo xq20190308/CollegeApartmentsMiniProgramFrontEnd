@@ -50,8 +50,8 @@
 }
 .addnaireicon {
   position: fixed;
-  bottom: 160rpx;
-  right: 60rpx;
+  bottom: 60rpx;
+  right: 50rpx;
   width: 80rpx;
   height: 80rpx;
 }
