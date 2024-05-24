@@ -1,8 +1,10 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const system_config = require("../../system.config.js");
 const _sfc_main = {
   data() {
     return {
+      id: null,
       categories: [{
         text: "课程",
         value: 0
@@ -51,7 +53,7 @@ const _sfc_main = {
     selectUpload(e) {
       console.log(2);
       common_vendor.index.uploadFile({
-        url: "http://172.20.10.2:8080/api/upload",
+        url: system_config.sysurl.developUrl + "/api/upload",
         //仅为示例，非真实的接口地址
         filePath: e.tempFilePaths[0],
         name: "file",
@@ -74,14 +76,17 @@ const _sfc_main = {
           title: `校验通过`
         });
         common_vendor.index.uploadFile({
-          url: "http://172.20.10.2:8080/api/upload",
+          url: system_config.sysurl.developUrl + "/api/upload",
           files: this.baseFormData.pictures,
           success: (res2) => {
-            console.log(res2);
+            console.log("uploadFile", res2);
+          },
+          fail: (err) => {
+            console.log(err);
           }
         });
         common_vendor.index.request({
-          url: "http://172.20.10.2:8080/api/suggestions",
+          url: system_config.sysurl.developUrl + "/api/suggestions",
           // 示例接口地址
           method: "POST",
           data: {
@@ -108,7 +113,7 @@ const _sfc_main = {
     //保存和提交分别交到后端不同的地方
     save() {
       common_vendor.index.request({
-        url: "http://172.20.10.2:8080/api/suggestionsDraft",
+        url: system_config.sysurl.developUrl + "/api/suggestionsDraft",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
@@ -137,7 +142,7 @@ const _sfc_main = {
       const formData = new FormData();
       formData.append("file", file);
       common_vendor.index.uploadFile({
-        url: "http://172.20.10.2:8080/api/upload",
+        url: system_config.sysurl.developUrl + "/api/upload",
         files: formData,
         success: (res) => {
           console.log("文件上传成功", res);

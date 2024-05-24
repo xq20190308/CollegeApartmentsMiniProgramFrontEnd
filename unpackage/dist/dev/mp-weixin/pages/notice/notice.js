@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const system_config = require("../../system.config.js");
 const _sfc_main = {
   data() {
     return {
@@ -37,7 +38,7 @@ const _sfc_main = {
     getarticles(cates) {
       console.log("分类请求的参数", cates);
       common_vendor.index.request({
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/notifications?isActive=" + cates,
+        url: system_config.sysurl.developUrl + "/notifications?isActive=" + cates,
         method: "GET",
         success: (res) => {
           console.log("success", res);

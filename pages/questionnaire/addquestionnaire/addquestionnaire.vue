@@ -49,6 +49,7 @@
 	</view>
 </template>
 <script>
+	import sysurl from '../../../system.config.js';
 	import myinput from "../../../components/myinput/myinput.vue"
 	
 	export default {
@@ -124,7 +125,7 @@
 				console.log(this.questionList)
 				//提交到后端
 				uni.request({
-					url:'',
+					url:sysurl.developUrl +'',
 					method: 'POST',
 					data:{
 					},

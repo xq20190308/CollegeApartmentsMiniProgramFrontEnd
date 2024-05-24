@@ -1,8 +1,19 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const system_config = require("../../system.config.js");
 const _sfc_main = {
   data() {
     return {
+      categories: [{
+        text: "课程",
+        value: 0
+      }, {
+        text: "安全",
+        value: 1
+      }, {
+        text: "其他",
+        value: 2
+      }],
       // 基础表单数据
       baseFormData: {
         contactobject: "",
@@ -33,7 +44,7 @@ const _sfc_main = {
   methods: {
     submit() {
       common_vendor.index.request({
-        url: "https://www.example.com/request",
+        url: system_config.sysurl.developUrl + "/api/suggestions",
         //仅为示例，并非真实接口地址。
         method: "POST",
         data: {
@@ -43,7 +54,6 @@ const _sfc_main = {
         },
         success: (res) => {
           console.log(res.data);
-          this.text = "request success";
           common_vendor.index.navigateTo({
             url: "/pages/feedback/feedback"
           });
@@ -90,7 +100,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.o(($event) => $data.baseFormData.category = $event),
     b: common_vendor.p({
       multiple: true,
-      localdata: _ctx.categories,
+      localdata: $data.categories,
       modelValue: $data.baseFormData.category
     }),
     c: common_vendor.p({
@@ -118,29 +128,35 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       required: true
     }),
     h: common_vendor.p({
+      title: ""
+    }),
+    i: common_vendor.p({
       limit: "9",
       ["file-mediatype"]: "video",
       title: "最多选择9个视频",
       required: true
     }),
-    i: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
     j: common_vendor.p({
+      title: ""
+    }),
+    k: common_vendor.o(($event) => $data.baseFormData.contactobject = $event),
+    l: common_vendor.p({
       placeholder: "请输入手机号",
       modelValue: $data.baseFormData.contactobject
     }),
-    k: common_vendor.p({
+    m: common_vendor.p({
       label: "手机号",
       required: true
     }),
-    l: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
-    m: common_vendor.p({
+    n: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
+    o: common_vendor.p({
       modelValue: $data.baseFormData
     }),
-    n: common_vendor.p({
+    p: common_vendor.p({
       title: "投诉与意见",
       type: "line"
     }),
-    o: common_vendor.o((...args) => $options.submit && $options.submit(...args))
+    q: common_vendor.o((...args) => $options.submit && $options.submit(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);

@@ -11,12 +11,12 @@
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;" class = "small" required>
 						<uni-easyinput type="textarea" v-model="baseFormData.describes" placeholder="请输入您遇到的问题" />
 					</uni-forms-item>
-					<uni-section  >
+					<uni-section  title="">
 								<view class="example-body">
 									<uni-file-picker limit="9" title="最多选择9张图片" file-extname="png,jpg" required></uni-file-picker>
 								</view>
 							</uni-section>
-							<uni-section >
+							<uni-section title="">
 								<view class="example-body">
 									<uni-file-picker limit="9" file-mediatype="video" title="最多选择9个视频" required></uni-file-picker>
 								</view>
@@ -36,9 +36,20 @@
 	
 
 <script>
+	import sysurl from '../../system.config.js';
 export default {
 	data() {
 		return {
+			categories: [{
+				text: '课程',
+				value: 0
+			}, {
+				text: '安全',
+				value: 1
+			}, {
+				text: '其他',
+				value: 2
+			}],
 			// 基础表单数据
 			baseFormData: {
 				contactobject: '',
@@ -72,7 +83,7 @@ export default {
 	methods: {
 		submit() {
 			uni.request({
-				url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
+				url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					describes: this.baseFormData.describes,
@@ -81,7 +92,6 @@ export default {
 				},
 				success: (res) => {
 					console.log(res.data);
-					this.text = 'request success';
 					uni.navigateTo({
 						url:'/pages/feedback/feedback',
 					})
@@ -133,38 +143,33 @@ export default {
 	}
 
 	.button{
-		            background-color:dodgerblue;
-		            color:white;
-		            width: 300px;
-		            height: 47px;
-		            border:0;
-		            font-size: 16px;			
-	                border-radius: 30px;
-					} 
-					
-								.example-body {
-									padding: 10px;
-									padding-top: 0;
-								}
-							
-								.custom-image-box {
-									/* #ifndef APP-NVUE */
-									display: flex;
-									/* #endif */
-									flex-direction: row;
-									justify-content: space-between;
-									align-items: center;
-								}
-							
-								.text {
-									font-size: 14px;
-									color: #333;
-								}
-								.small-label {
-										font-size: 12px; // 调整投诉分类标签文字大小
-									}
-							
-							
+	background-color:dodgerblue;
+	color:white;
+	width: 300px;
+	height: 47px;
+	border:0;
+	font-size: 16px;			
+	border-radius: 30px;
+	}
+	.example-body {
+		padding: 10px;
+		padding-top: 0;
+	}
 
+	.custom-image-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.text {
+		font-size: 14px;
+		color: #333;
+	}
+	.small-label {
+		font-size: 12px; // 调整投诉分类标签文字大小
+	}
 </style>
 

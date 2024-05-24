@@ -45,6 +45,7 @@
 	</view>
 </template>
 <script>
+	import sysurl from '../../../system.config.js';
 	import question from '../../../components/question/question.vue'
 	
 	export default {
@@ -154,11 +155,8 @@
 			getquestions(){
 				uni.request({
 					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
+					url:sysurl.developUrl +'/question/selectById?idList='+this.questionidList,
 					method: 'GET',
-					data:{
-						idList:this.questionidList,
-					},
 					success: (res)=> {
 						
 						console.log("请求返回",res)

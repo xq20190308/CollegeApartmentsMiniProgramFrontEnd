@@ -13,6 +13,8 @@
 </template>
 
 <script >
+	
+import sysurl from '../../system.config.js';
 export default {
   data() {
     return {

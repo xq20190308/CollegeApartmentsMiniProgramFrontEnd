@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
+const system_config = require("../../../system.config.js");
 const _sfc_main = {
   data() {
     return {
@@ -101,11 +102,8 @@ const _sfc_main = {
     getquestions() {
       common_vendor.index.request({
         //url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-        url: "http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList=" + this.questionidList,
+        url: system_config.sysurl.developUrl + "/question/selectById?idList=" + this.questionidList,
         method: "GET",
-        data: {
-          idList: this.questionidList
-        },
         success: (res) => {
           console.log("请求返回", res);
           this.questionList = res.data.data;

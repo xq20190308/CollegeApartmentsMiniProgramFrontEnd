@@ -18,6 +18,7 @@
 </template>
 
 <script>
+	import sysurl from '../../../system.config.js';
 	import questionnaire from '../../../components/questionnaire/questionnaire.vue'
 	export default {
 		data() {
@@ -43,7 +44,7 @@
 				console.log("分类请求的参数",cates);
 				uni.request({
 					//url:'http://192.168.76.218:8080/questionnaire/selectAll',
-					url:'http://127.0.0.1:4523/m1/4414254-4059226-default/questionnaire/selectAll',
+					url:sysurl.developUrl + '/questionnaire/selectAll', 
 					method: 'GET',
 					data:{},
 					success: (res)=> {
@@ -55,16 +56,18 @@
 						}
 					},
 					complete: (res)=>{
+						console.log(res);
 					}
 				});
 			},
 			gotonaire: (item) =>{
 				console.log("问卷信息",item);
 				uni.navigateTo({
+					
 					url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
 					'&id='+item.id+'&type='+item.type+'&name='+item.name+
 					'&descr='+item.descr+'&startTime='+item.startTime+
-					'&endTime ='+item.endTime 
+					'&endTime ='+item.endTime
 				})
 			},
 			addnaire() {

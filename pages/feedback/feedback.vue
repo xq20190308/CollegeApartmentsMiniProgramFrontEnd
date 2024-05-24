@@ -23,6 +23,8 @@
 </template>
 
 <script>
+	
+	import sysurl from '../../system.config.js';
 	export default {
 		data() {
 			return {
@@ -41,9 +43,10 @@
 		methods: {
 			fetchComplaintDrafts() {
 				uni.request({
-					url: 'http://127.0.0.1:4523/m1/4414254-4059226-default/api/suggestions/1?pushtime='+"", // 替换为您的服务器接口URL
+					url:sysurl.developUrl +'/api/suggestions/1?pushtime='+"", // 替换为您的服务器接口URL
 					method: 'GET',
 					success: (res) => {
+						console.log(res);
 						if (res.statusCode === 200) {
 							//this.complaintDrafts = res.data; // 直接使用返回的列表	
 							//示例数据
@@ -104,9 +107,10 @@
 	}
 	
 	.notice-item {
-		width: 89%;
+		width: 90%;
 		height: auto;
 		border: 1px solid #e2e2e2;
+		border-radius: 25px;
 		padding: 10rpx 30rpx;
 		padding-top: 30rpx;
 		flex-shrink: 0;
@@ -123,8 +127,10 @@
 		justify-content: center; /* 水平居中 */
 		align-items: center; /* 垂直居中 */
 		flex-direction: row;
+		background-color: azure;
+		box-shadow: #999999 2px 2px 2px 2px;
+		place-items: flex-start;
 	}
-
 	.notice-item>text {
 		display: block;
 	}
@@ -163,16 +169,12 @@
 	/* 	box-shadow: 5rpx 5rpx 10rpx rgba(0, 0, 0, 0.5); */ /* 添加阴影样式 */
 	}
 	.deletbutton{
-		background-color:red;
+		background-color:indianred;
 		color:white;
 		width: 50px;
-		height: 47px;
-		border:0;
-		font-size: 10px;			
-	    border-radius: 30px;
-		margin: 10px;
+		height:40x;
+		font-size: 10px;
 		text-align: center;
-		padding-top: 10px;
 	} 
 </style>
 

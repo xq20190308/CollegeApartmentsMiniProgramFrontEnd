@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
+const system_config = require("../../../system.config.js");
 const _sfc_main = {
   data() {
     return {
@@ -73,7 +74,7 @@ const _sfc_main = {
       console.log(this.newList);
       console.log(this.questionList);
       common_vendor.index.request({
-        url: "",
+        url: system_config.sysurl.developUrl + "",
         method: "POST",
         data: {},
         success: (res) => {

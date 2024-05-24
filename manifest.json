@@ -1,4 +1,27 @@
 {
+	/*
+
+	*/
+	"h5": {
+		"devServer": {
+			"port": 8000,
+			"disableHostCheck": true,
+			"proxy": {
+				"/api": {
+					"target": "http://127.0.0.1:4523/m1/4414254-4059226-default",//代理的接口
+					 "changeOrigin": true,//是否跨域
+			         "secure": false  // 设置支持https协议的代理
+				     //"pathRewrite": {	"^/api": "" }  //如需去掉前缀则加上此配置 
+				}
+				//"/web": {
+				//	"target": "http://121.204.170.197:8000/i8",
+				//	"changeOrigin": true,//是否跨域
+			    //   "secure": false   // 设置支持https协议的代理
+				//	//"pathRewrite": {	"^/web": "" }  //如需去掉前缀则加上此配置 
+				//}
+			}
+		}
+	},
     "name" : "CollegeApartmentsMiniProgramFrontEnd",
     "appid" : "__UNI__D77540C",
     "description" : "",
