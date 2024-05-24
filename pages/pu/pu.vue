@@ -1,5 +1,5 @@
 <template>
-	this is pu
+	<image src="../../static/pu/pu.jpg" mode="widthFix"></image>
 </template>
 
 <script>

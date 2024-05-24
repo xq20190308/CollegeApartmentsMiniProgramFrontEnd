@@ -1,11 +1,11 @@
 <template>
-	<view class="cates">
-		<view v-for="(cate,index) in cates" :class="{'cateitem':true,'cateactive':index==active,}" :key="index" @click="dircate(index)">
+	<view class="qcates">
+		<view v-for="(cate,index) in data.cates" :class="{'cateitem':true,'cateactive':index==data.active,}" :key="index" @click="dircate(index)">
 			{{cate.name}}
 		</view>
 	</view>
 	<view class="qusnalist">
-		<view class="qusna" v-for="(item,index) in questionnairelist" :key="index" @click="gotonaire(item)">
+		<view class="qusna" v-for="(item,index) in data.questionnairelist" :key="index" @click="gotonaire(item)">
 			<questionnaire :naireinfo="item"></questionnaire>
 			<questionnaire :naireinfo="item"></questionnaire>
 		</view>
@@ -15,93 +15,89 @@
 	</view>
 </template>
 
-<script>
-	import sysurl from '../../../system.config.js';
-	import questionnaire from '../../../components/questionnaire/questionnaire.vue'
-	export default {
-		data() {
-			return {
-				questionnairelist:[],
-				newNaire:null,
-				total: 0,
-				cates:[{
-						id:0,
-						name:"全部"
-					},{
-						id:1,
-						name:"未完成"
-					},{
-						id:2,
-						name:"已完成"
-				}],
-				active:0
-			}
+<script setup>
+import {onLoad} from "@dcloudio/uni-app"
+import sysurl from '../../../system.config.js';
+import questionnaire from '../../../components/questionnaire/questionnaire.vue'
+import {reactive} from "vue";
+const data = reactive({
+	questionnairelist:[],
+	newNaire:null,
+	total: 0,
+	cates:[{
+			id:0,
+			name:"全部"
+		},{
+			id:1,
+			name:"未完成"
+		},{
+			id:2,
+			name:"已完成"
+	}],
+	active:0
+})
+const getNaireslist = (cates)=>{
+	console.log("分类请求的参数",cates);
+	uni.request({
+		//url:'http://192.168.76.218:8080/questionnaire/selectAll',
+		url:sysurl.developUrl + '/questionnaire/selectAll', 
+		method: 'GET',
+		data:{},
+		success: (res)=> {
+			data.questionnairelist=res.data.data;
 		},
-		methods:{
-			getNaireslist(cates){
-				console.log("分类请求的参数",cates);
-				uni.request({
-					//url:'http://192.168.76.218:8080/questionnaire/selectAll',
-					url:sysurl.developUrl + '/questionnaire/selectAll', 
-					method: 'GET',
-					data:{},
-					success: (res)=> {
-						this.questionnairelist=res.data.data;
-					},
-					complete: (res)=>{
-						console.log(res);
-						if(this.newNaire!=null){
-							console.log("新问卷",this.newNaire);
-							this.loadNewlist();
-						}
-						else{
-							console.log("newList为空");
-							console.log('获取到列表',this.questionnairelist);
-						}
-					}
-				});
-			},
-			gotonaire: (item) =>{
-				console.log("问卷信息",item);
-				uni.navigateTo({
-					url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
-					'&id='+item.id+'&type='+item.type+'&name='+item.name+
-					'&descr='+item.descr+'&startTime='+item.startTime+
-					'&endTime='+item.endTime,
-				})
-			},
-			addnaire() {
-				uni.navigateTo({
-					url: '../addquestionnaire/addquestionnaire'
-				});
-			},
-			dircate(options){
-				this.active=options;
-				console.log("点击事件的参数",options)
-				if(options===0){this.getNaireslist();}
-				else{this.getNaireslist(options);}
-			},
-			loadNewlist(){
-				this.questionnairelist.push(this.newNaire);
-				console.log("创建新问卷后的列表",this.questionnairelist);
-				this.newNaire=null;
-			}
-		},
-		onLoad(options) {
-			console.log("列表参数",options);
-			if(options.newNaire!=null){
-				this.newNaire=JSON.parse(options.newNaire);
-				console.log("组件数据",this.newNaire);
+		complete: (res)=>{
+			console.log(res);
+			if(data.newNaire!=null){
+				console.log("新问卷",data.newNaire);
+				loadNewlist();
 			}
 			else{
-				console.log("newNaire为null");
+				console.log("newList为空");
+				console.log('获取到列表',data.questionnairelist);
 			}
-			this.getNaireslist()
-		},
+		}
+	});
+}
+const gotonaire = (item) =>{
+	console.log("问卷信息",item);
+	uni.navigateTo({
+		url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
+		'&id='+item.id+'&type='+item.type+'&name='+item.name+
+		'&descr='+item.descr+'&startTime='+item.startTime+
+		'&endTime='+item.endTime,
+	})
+}
+const addnaire = ()=> {
+	uni.navigateTo({
+		url: '../addquestionnaire/addquestionnaire'
+	});
+}
+const dircate=(options)=>{
+	data.active=options;
+	console.log("点击事件的参数",options)
+	if(options===0){getNaireslist();}
+	else{getNaireslist(options);}
+}
+const loadNewlist = ()=>{
+	data.questionnairelist.push(data.newNaire);
+	console.log("创建新问卷后的列表",data.questionnairelist);
+	data.newNaire=null;
+}
+onLoad((options) => {
+	console.log("列表参数",options);
+	if(options.newNaire!=null){
+		data.newNaire=JSON.parse(options.newNaire);
+		console.log("组件数据",data.newNaire);
 	}
+	else{
+		console.log("newNaire为null");
+	}
+	getNaireslist()
+})
 </script>
 <style lang="scss">
-.cates{
+.qcates{
 	display: flex;
 	flex-direction: row;
 	background-color: #fff;

@@ -4548,21 +4548,21 @@ function injectHook(type, hook, target = currentInstance, prepend = false) {
     );
   }
 }
-const createHook = (lifecycle) => (hook, target = currentInstance) => (
+const createHook$1 = (lifecycle) => (hook, target = currentInstance) => (
   // post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
   (!isInSSRComponentSetup || lifecycle === "sp") && injectHook(lifecycle, (...args) => hook(...args), target)
 );
-const onBeforeMount = createHook("bm");
-const onMounted = createHook("m");
-const onBeforeUpdate = createHook("bu");
-const onUpdated = createHook("u");
-const onBeforeUnmount = createHook("bum");
-const onUnmounted = createHook("um");
-const onServerPrefetch = createHook("sp");
-const onRenderTriggered = createHook(
+const onBeforeMount = createHook$1("bm");
+const onMounted = createHook$1("m");
+const onBeforeUpdate = createHook$1("bu");
+const onUpdated = createHook$1("u");
+const onBeforeUnmount = createHook$1("bum");
+const onUnmounted = createHook$1("um");
+const onServerPrefetch = createHook$1("sp");
+const onRenderTriggered = createHook$1(
   "rtg"
 );
-const onRenderTracked = createHook(
+const onRenderTracked = createHook$1(
   "rtc"
 );
 function onErrorCaptured(hook, target = currentInstance) {
@@ -7894,6 +7894,10 @@ const createSubpackageApp = initCreateSubpackageApp();
   wx.createPluginApp = global.createPluginApp = createPluginApp;
   wx.createSubpackageApp = global.createSubpackageApp = createSubpackageApp;
 }
+const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
+  !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
+};
+const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
 const easycom = {
   custom: {
     "^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
@@ -10729,7 +10733,9 @@ exports.index = index;
 exports.initVueI18n = initVueI18n;
 exports.n = n$1;
 exports.o = o$1;
+exports.onLoad = onLoad;
 exports.p = p$1;
+exports.reactive = reactive;
 exports.resolveComponent = resolveComponent;
 exports.s = s$1;
 exports.sr = sr;
