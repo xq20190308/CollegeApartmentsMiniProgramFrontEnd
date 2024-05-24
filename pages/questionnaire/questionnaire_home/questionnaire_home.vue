@@ -181,8 +181,11 @@
 		},
 		onLoad(options) {
 			console.log("参数列表",options);
-			//this.questionidList=["20181252102","20187874601"]
-			this.questionidList = JSON.parse(options.questionidList);
+			
+			//测试数据
+			this.questionidList=["20181252102","20187874601"];
+			
+			//this.questionidList = JSON.parse(options.questionidList);
 			console.log('问题列表：',this.questionidList);
 			
 			this.id=options.id;

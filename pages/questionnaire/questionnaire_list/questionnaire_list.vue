@@ -8,8 +8,6 @@
 		<view class="qusna" v-for="(item,index) in questionnairelist" :key="index" @click="gotonaire(item)">
 			<questionnaire :naireinfo="item"></questionnaire>
 			<questionnaire :naireinfo="item"></questionnaire>
-			<questionnaire :naireinfo="item"></questionnaire>
-			<questionnaire :naireinfo="item"></questionnaire>
 		</view>
 	</view>
 	<view>
@@ -69,7 +67,7 @@
 					url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
 					'&id='+item.id+'&type='+item.type+'&name='+item.name+
 					'&descr='+item.descr+'&startTime='+item.startTime+
-					'&endTime ='+item.endTime
+					'&endTime='+item.endTime,
 				})
 			},
 			addnaire() {
@@ -121,6 +119,7 @@
 	background-color: #fff;
 }
 .qusnalist{
+	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;

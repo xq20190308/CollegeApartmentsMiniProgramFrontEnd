@@ -46,7 +46,7 @@ const _sfc_main = {
     gotonaire: (item) => {
       console.log("问卷信息", item);
       common_vendor.index.navigateTo({
-        url: "../questionnaire_home/questionnaire_home?questionidList=" + item.questionList + "&id=" + item.id + "&type=" + item.type + "&name=" + item.name + "&descr=" + item.descr + "&startTime=" + item.startTime + "&endTime =" + item.endTime
+        url: "../questionnaire_home/questionnaire_home?questionidList=" + item.questionList + "&id=" + item.id + "&type=" + item.type + "&name=" + item.name + "&descr=" + item.descr + "&startTime=" + item.startTime + "&endTime=" + item.endTime
       });
     },
     addnaire() {
@@ -108,16 +108,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         d: common_vendor.p({
           naireinfo: item
         }),
-        e: "5548f501-2-" + i0,
-        f: common_vendor.p({
-          naireinfo: item
-        }),
-        g: "5548f501-3-" + i0,
-        h: common_vendor.p({
-          naireinfo: item
-        }),
-        i: index,
-        j: common_vendor.o(($event) => $options.gotonaire(item), index)
+        e: index,
+        f: common_vendor.o(($event) => $options.gotonaire(item), index)
       };
     }),
     c: common_vendor.o((...args) => $options.addnaire && $options.addnaire(...args))

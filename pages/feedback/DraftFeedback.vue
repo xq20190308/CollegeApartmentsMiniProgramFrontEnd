@@ -37,86 +37,82 @@
 
 <script>
 	import sysurl from '../../system.config.js';
-export default {
-	data() {
-		return {
-			categories: [{
-				text: '课程',
-				value: 0
-			}, {
-				text: '安全',
-				value: 1
-			}, {
-				text: '其他',
-				value: 2
-			}],
-			// 基础表单数据
-			baseFormData: {
-				contactobject: '',
-				describes: '',
-				category: '',
-				//上传图片.
-				imageValue:[]
-				
-			},
-			// 表单数据
-			alignmentFormData: {
-				name: '',
-				age: '',
-			},
-			// 分段器数据
-			current: 0,
-			items: ['左对齐', '顶部对齐'],
-			// 校验规则
-			rules: {
-				contactobject: {
-					rules: [{
-						required: true,
-						errorMessage: '联系方式不能为空'
-					}]
+	export default {
+		data() {
+			return {
+				categories: [{
+					text: '课程',
+					value: 0
+				}, {
+					text: '安全',
+					value: 1
+				}, {
+					text: '其他',
+					value: 2
+				}],
+				// 基础表单数据
+				baseFormData: {
+					contactobject: '',
+					describes: '',
+					category: '',
+					//上传图片.
+					imageValue:[]
+					
+				},
+				// 表单数据
+				alignmentFormData: {
+					name: '',
+					age: '',
+				},
+				// 分段器数据
+				current: 0,
+				items: ['左对齐', '顶部对齐'],
+				// 校验规则
+				rules: {
+					contactobject: {
+						rules: [{
+							required: true,
+							errorMessage: '联系方式不能为空'
+						}]
+					}
 				}
 			}
-		}
-	},
-	
-
-	methods: {
-		submit() {
-			uni.request({
-				url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
-				method: 'POST',
-				data: {
-					describes: this.baseFormData.describes,
-					contactobject: this.baseFormData.contactobject,
-					category: this.baseFormData.category
-				},
-				success: (res) => {
-					console.log(res.data);
-					uni.navigateTo({
-						url:'/pages/feedback/feedback',
-					})
-				}
-			})
 		},
-		select(e){
-						console.log('选择文件：',e)
+		methods: {
+			submit() {
+				uni.request({
+					url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
+					method: 'POST',
+					data: {
+						describes: this.baseFormData.describes,
+						contactobject: this.baseFormData.contactobject,
+						category: this.baseFormData.category
 					},
-					// 获取上传进度
-		progress(e){
-						console.log('上传进度：',e)
-					},
-					
-					// 上传成功
-		success(e){
-						console.log('上传成功')
-					},
-					
-					// 上传失败
-		fail(e){
-						console.log('上传失败：',e)
+					success: (res) => {
+						console.log(res.data);
+						uni.navigateTo({
+							url:'/pages/feedback/feedback',
+						});
 					}
+				})
+			},
+			select(e){
+				console.log('选择文件：',e)
+			},
+			// 获取上传进度
+			progress(e){
+				console.log('上传进度：',e)
+			},
+			// 上传成功
+			success(e){
+				console.log('上传成功')
+			},
+			// 上传失败
+			fail(e){
+				console.log('上传失败：',e)
+			}
 		}
-}
+	}
 </script>
 
 

@@ -91,8 +91,6 @@ export default {
 
 		}
 	},
-
-
 	methods: {
 		selectUpload(e) {
 			console.log(2)
@@ -100,9 +98,6 @@ export default {
 				url: sysurl.developUrl +'/api/upload', //仅为示例，非真实的接口地址
 				filePath: e.tempFilePaths[0],
 				name: 'file',
-				// formData: {
-				// 	'file': ''
-				// },
 				success: (uploadFileRes) => {
 					console.log(uploadFileRes.data);
 				},
@@ -185,7 +180,6 @@ export default {
 		uploadFile(file) {
 			const formData = new FormData();
 			formData.append('file', file);
-
 			uni.uploadFile({
 				url: sysurl.developUrl +'/api/upload',
 				files: formData,

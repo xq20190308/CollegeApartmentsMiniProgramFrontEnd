@@ -57,9 +57,6 @@ const _sfc_main = {
         //仅为示例，非真实的接口地址
         filePath: e.tempFilePaths[0],
         name: "file",
-        // formData: {
-        // 	'file': ''
-        // },
         success: (uploadFileRes) => {
           console.log(uploadFileRes.data);
         },

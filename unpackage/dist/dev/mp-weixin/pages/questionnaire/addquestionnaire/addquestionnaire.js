@@ -9,22 +9,24 @@ const _sfc_main = {
       //传到后端的数据
       newNaire: {
         //传到问卷列表页面中的数据
-        descr: "",
+        /*descr: "",
         endTime: "",
-        id: "",
         name: "",
-        questionList: ["", "", ""],
         startTime: "",
-        type: 1
-      },
-      questionList: [{
-        content: ["", "", ""],
-        describe: "",
+        type: 1,
         id: "",
-        name: "",
-        questionnaire: "",
-        type: 1
-      }]
+        questionList: “["","",""]”,*/
+      },
+      questionList: [
+        /*{
+        	content: ["", "", ""],
+        	describe: "",
+        	name: "",
+        	type: 1,
+        	id: "",
+        	questionnaire: "",// 用questionnaire的id标记
+        }*/
+      ]
     };
   },
   methods: {
@@ -35,26 +37,12 @@ const _sfc_main = {
       }, 500);
       return value;
     },
-    qnameChange(e, qindex) {
+    qnewdata(e, qindex) {
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.questionList[qindex].name = e.detail.value;
         console.log(qindex + "." + this.questionList[qindex].name);
       }, 500);
-    },
-    qdescriChange(e, qindex) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.questionList[qindex].describe = e.detail.value;
-        console.log(qindex + "." + this.questionList[qindex].describe);
-      }, 500);
-    },
-    qcChange(e, qindex, index) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        this.questionList[qindex].content[index] = e.detail.value;
-        console.log(qindex + "." + index + "." + this.questionList[qindex].content[index]);
-      }, 500);
+      return e.detail.value;
     },
     add(e, option) {
       console.log(option);
@@ -71,22 +59,31 @@ const _sfc_main = {
     submit() {
       console.log("新问卷", this.newNaire);
       console.log("新问卷的问题", this.questionList);
-      common_vendor.index.showToast({
-        title: "创建成功"
-      });
-      common_vendor.index.navigateTo({
-        url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(this.newNaire)
-      });
       common_vendor.index.request({
         url: system_config.sysurl.developUrl + "",
         method: "POST",
-        data: {},
+        data: {
+          newNaire: this.newNaire
+        },
         success: (res) => {
+          this.newNaire.questionList = '["一","二","三"]';
+          this.newNaire.id = "this.newNaire.id";
           common_vendor.index.showToast({
-            title: "提交成功"
+            title: "创建成功"
+          });
+          console.log("问卷提交", res);
+          common_vendor.index.navigateTo({
+            url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(this.newNaire)
           });
         },
         complete: (res) => {
+          common_vendor.index.showToast({
+            title: "创建成功"
+          });
+          console.log("问卷提交", res);
+          common_vendor.index.navigateTo({
+            url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(this.newNaire)
+          });
         }
       });
     }
@@ -121,20 +118,28 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       } : {}, {
         c: que.type === 2,
         e: que.type === 3,
-        g: common_vendor.o((e) => $options.qnameChange(e, qindex), qindex),
-        h: common_vendor.o((e) => $options.qdescriChange(e, qindex), qindex),
+        g: common_vendor.o((e) => {
+          this.questionList[qindex].name = $options.qnewdata(e, qindex);
+        }, qindex),
+        h: common_vendor.o((e) => {
+          this.questionList[qindex].describe = $options.qnewdata(e, qindex);
+        }, qindex),
         i: que.type === 1
       }, que.type === 1 ? {
         j: common_vendor.f(que.content, (item, index, i1) => {
           return {
-            a: common_vendor.o((e) => $options.qcChange(e, qindex, index), index),
+            a: common_vendor.o((e) => {
+              this.questionList[qindex].content[index] = $options.qnewdata(e, qindex);
+            }, index),
             b: index
           };
         })
       } : que.type === 2 ? {
         l: common_vendor.f(que.content, (item, index, i1) => {
           return {
-            a: common_vendor.o((e) => $options.qcChange(e, qindex, index), index),
+            a: common_vendor.o((e) => {
+              this.questionList[qindex].content[index] = $options.qnewdata(e, qindex);
+            }, index),
             b: index
           };
         })

@@ -37,8 +37,12 @@ const _sfc_main = {
     },
     getarticles(cates) {
       console.log("分类请求的参数", cates);
+      let noticeurl = system_config.sysurl.developUrl + "/notifications";
+      if (cates != null) {
+        noticeurl = system_config.sysurl.developUrl + "/notifications?isActive=" + (cates - 1);
+      }
       common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/notifications?isActive=" + cates - 1,
+        url: noticeurl,
         method: "GET",
         success: (res) => {
           console.log("success", res);

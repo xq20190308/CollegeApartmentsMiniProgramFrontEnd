@@ -3,7 +3,7 @@
 		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in complaintDrafts" :key="index" >
-					<view style="display: flex; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
+					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
 						<view>id：{{item.id}}</view>
 						<view>describe：{{item.describe}}</view>
 						<view>category：{{item.category}}</view>
@@ -32,7 +32,7 @@
 				pushtime:" ",
 				complaintDrafts: [{
 					id: "1",
-					describe: "宿舍生活",
+					describe: "初始数据",
 					category: "宿舍",
 					contactobject: "18765248196",
 					pushtime: "2014-03-04 03:56:28"
@@ -54,7 +54,7 @@
 		methods: {
 			fetchComplaintDrafts(pushtime) {
 				uni.request({
-					url: 'http://localhost:8080/api/suggestions/pushtime', // 替换为您的服务器接口URL
+					url: sysurl.developUrl +'/api/suggestions/pushtime', // 替换为您的服务器接口URL
 					method: 'GET',
 					success: (res) => {
 						// let jsonString = JSON.stringify(res.data);
@@ -63,11 +63,11 @@
 							//this.complaintDrafts = res.data; // 直接使用返回的列表	
 							//示例数据
 							console.log(res)
-							for (let i = 0; i < 10; i++) {
+							for (let i = 0; i < 3; i++) {
 								this.complaintDrafts.push(
 								  {
 									id: i,
-									describe: "课程反馈",
+									describe: "静态示例",
 									category: "课程",
 									contactobject: "18765248196",
 									pushtime: "2014-03-04 03:56:28"

@@ -72,9 +72,13 @@
 			},
 			getarticles(cates){
 				console.log("分类请求的参数",cates);
+				let noticeurl=sysurl.developUrl +'/notifications';
+				if(cates!=null){
+					noticeurl=sysurl.developUrl +'/notifications?isActive='+(cates-1);
+				}
 				//获取通知数据
 			   uni.request({
-				url: sysurl.developUrl +'/notifications?isActive='+cates-1,
+				url: noticeurl,
 				method: 'GET',
 				success: (res) => {
 					console.log("success",res);

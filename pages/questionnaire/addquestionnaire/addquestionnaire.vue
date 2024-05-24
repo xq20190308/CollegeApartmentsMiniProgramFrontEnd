@@ -20,21 +20,21 @@
 			<view v-else-if="que.type===2">{{qindex + 1}}.多选题</view>
 			<view v-else-if="que.type===3">{{qindex + 1}}.问答题</view>
 			<view class="answer">
-				<input @input="(e) => qnameChange(e,qindex)" placeholder="请输入题目名称"  />
+				<input @input="(e) => {this.questionList[qindex].name=qnewdata(e,qindex)}" placeholder="请输入题目名称"  />
 			</view>
 			<view class="answer">
-				<input @input="(e) => qdescriChange(e,qindex)" placeholder="请输入题目描述"  />
+				<input @input="(e) => {this.questionList[qindex].describe=qnewdata(e,qindex)}" placeholder="请输入题目描述"  />
 			</view>
 			<view class="choice" v-if="que.type===1">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px;border-radius: 50px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input  @input="(e) => qcChange(e,qindex,index)" placeholder="请输入选项"  />
+					<input  @input="(e) => {this.questionList[qindex].content[index]=qnewdata(e,qindex)}" placeholder="请输入选项"  />
 				</view>
 			</view>
 			<view class="mulchoice"  v-else-if="que.type===2">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input @input="(e) => qcChange(e,qindex,index)" placeholder="请输入选项"  />
+					<input @input="(e) => {this.questionList[qindex].content[index]=qnewdata(e,qindex)}" placeholder="请输入选项"  />
 				</view>
 			</view>
 		</view>
@@ -58,22 +58,22 @@
 				timer:null,//延时器，用于防抖处理
 				//传到后端的数据
 				newNaire:{//传到问卷列表页面中的数据
-					descr: "",
+					/*descr: "",
 					endTime: "",
-					id: "",
 					name: "",
-					questionList: ["","",""],
 					startTime: "",
 					type: 1,
+					id: "",
+					questionList: “["","",""]”,*/
 				},
-				questionList: [{
+				questionList: [/*{
 					content: ["", "", ""],
 					describe: "",
-					id: "",
 					name: "",
-					questionnaire: "",
 					type: 1,
-				}],
+					id: "",
+					questionnaire: "",// 用questionnaire的id标记
+				}*/],
 			}
 		},
 		methods: {
@@ -84,29 +84,12 @@
 				}, 500)
 				return value;
 			},
-			qnameChange(e,qindex){
+			qnewdata(e,qindex){
 				clearTimeout(this.timer);
 				this.timer = setTimeout(()=>{
-					this.questionList[qindex].name=e.detail.value;
 					console.log(qindex+ '.' +this.questionList[qindex].name);
-					
 				}, 500)
-			},
-			qdescriChange(e,qindex){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.questionList[qindex].describe=e.detail.value;
-					console.log(qindex+ '.' +this.questionList[qindex].describe);
-					
-				}, 500)
-			},
-			qcChange(e,qindex,index){
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					this.questionList[qindex].content[index]=e.detail.value;
-					console.log(qindex+ '.'+ index+ '.' +this.questionList[qindex].content[index]);
-					
-				}, 500)
+				return e.detail.value;
 			},
 			add(e,option){
 				console.log(option);
@@ -123,9 +106,7 @@
 			submit() {
 				console.log("新问卷",this.newNaire)
 				console.log("新问卷的问题",this.questionList)
-				//提交到后端
-				
-				//begin
+				/*begin
 				uni.showToast({
 					title: "创建成功"
 				});
@@ -133,27 +114,45 @@
 				uni.navigateTo({
 					url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
 				});
-				//end
-				
+				end*/
+				//提交到后端,获取id 和 questionidList				
 				uni.request({
 					url:sysurl.developUrl +'',
 					method: 'POST',
 					data:{
+						newNaire: this.newNaire,
 					},
 					success: (res)=> {
+						
+						//校验
+						
+						/*this.newNaire.questionList=//后端生成并返回每个问题的id组成的数组并且“[]”*/		
+						/*this.newNaire.id=后端生成questionnaire的id*/
+						/*for (let i = 0; i < this.questionList.length; i++) {
+							this.questionList[i].questionnaire=后端生成questionnaire的id*/
+						
+						//测试数据
+						this.newNaire.questionList="[\"一\",\"二\",\"三\"]";
+						this.newNaire.id="this.newNaire.id";
+						
 						uni.showToast({
-							title: "提交成功"
-						})			
-					},
-					complete: (res)=>{
-						/*uni.showToast({
 							title: "创建成功"
 						});
 						console.log("问卷提交",res)
 						//返回问卷列表界面
 						uni.navigateTo({
 							url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
-						});*/
+						});
+					},
+					complete: (res)=>{
+						uni.showToast({
+							title: "创建成功"
+						});
+						console.log("问卷提交",res)
+						//返回问卷列表界面
+						uni.navigateTo({
+							url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
+						});
 					}
 				});
 			}

@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const system_config = require("../../system.config.js");
 const _sfc_main = {
   data() {
     return {
@@ -7,7 +8,7 @@ const _sfc_main = {
       pushtime: " ",
       complaintDrafts: [{
         id: "1",
-        describe: "宿舍生活",
+        describe: "初始数据",
         category: "宿舍",
         contactobject: "18765248196",
         pushtime: "2014-03-04 03:56:28"
@@ -28,18 +29,18 @@ const _sfc_main = {
   methods: {
     fetchComplaintDrafts(pushtime) {
       common_vendor.index.request({
-        url: "http://localhost:8080/api/suggestions/pushtime",
+        url: system_config.sysurl.developUrl + "/api/suggestions/pushtime",
         // 替换为您的服务器接口URL
         method: "GET",
         success: (res) => {
           this.complaintDrafts.push(res.data);
           if (res.statusCode === 200) {
             console.log(res);
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 3; i++) {
               this.complaintDrafts.push(
                 {
                   id: i,
-                  describe: "课程反馈",
+                  describe: "静态示例",
                   category: "课程",
                   contactobject: "18765248196",
                   pushtime: "2014-03-04 03:56:28"
