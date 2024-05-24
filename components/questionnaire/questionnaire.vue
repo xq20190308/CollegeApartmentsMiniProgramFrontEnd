@@ -8,34 +8,21 @@
 	</view>
 </template>
 
-<script>
-	
-	export default {
-		name:"questionnaire",
-		data() {
-			return {
-			};
+<script setup>
+const props = defineProps({
+	naireinfo:{
+		type: Object,
+		default: {
+			id:"",
+			type: 0,
+			name: "",
+			descr: null,
+			startTime: "",
+			endTime: "",
+			questionList: null,
 		},
-		props:{
-			naireinfo:{
-				type: Object,
-				default: {
-					id:"",
-					type: 0,
-					name: "",
-					descr: null,
-					startTime: "",
-					endTime: "",
-					questionList: null,
-				},
-			}
-		},
-		methods:{
-		},
-		onLoad(){
-			
-		}
 	}
+})
 </script>
 <style>
 .questionnaire{

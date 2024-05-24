@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
-		<uni-section :title="id+'.'+name" type="line" titleFontSize=42rpx>
+		<uni-section :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
 			<view class="questionsform">
-				<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
+				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
 					<view class="quetitle">{{que.id}}.{{que.name}}</view>
 					<view class="quedes">描述:{{que.describe}}</view>
 					<view class="choice" v-if="que.type===1">
@@ -31,12 +31,12 @@
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData" label-position="top">
+			<uni-forms ref="valiForm" :rules="data.rules" :modelValue="data.valiFormData" label-position="top">
 				<uni-forms-item class="form-item" label="姓名" required name="name">
-					<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
+					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
 				<uni-forms-item class="form-item" label="学号" required name="id">
-					<uni-easyinput v-model="valiFormData.id" placeholder="请输入学号" />
+					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
 			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
@@ -44,93 +44,88 @@
 		</uni-section>
 	</view>
 </template>
-<script>
-	import sysurl from '../../../system.config.js'; 
-	
-	export default {
-		data() {
-			return {
-				timer:null,//延时器，用于防抖处理
-				id:"",
-				type: 0,
-				name: "",
-				descr: null,
-				startTime: "",
-				endTime: "",
-				questionList: [{
-					id: "",
-					type: 1,
-					name: "",
-					describe: "",
-					content: "[]",
-					questionnaire: ""
-				}],
-				questionidList: null,
-				current: [],
-				// 校验表单数据
-				valiFormData: {
-					name: '',
-					id: '',
-				},
-				// 校验规则
-				rules: {
-					name: {
-						rules: [{
-							required: true,
-							errorMessage: '姓名不能为空'
-						}]
-					},
-					id: {
-						rules: [{
-							required: true,
-							errorMessage: '年龄不能为空'
-						}, {
-							minLength: 12,
-							maxLength: 12,
-							errorMessage: '请输入12位学号'
-						}]
-					}
-				},
-			}
+<script setup>
+import sysurl from '../../../system.config.js';
+import {reactive} from "vue"; 
+import {onLoad} from "@dcloudio/uni-app";
+const data = reactive({
+	timer:null,//延时器，用于防抖处理
+	id:"",
+	type: 0,
+	name: "",
+	descr: null,
+	startTime: "",
+	endTime: "",
+	questionList: [{
+		id: "",
+		type: 1,
+		name: "",
+		describe: "",
+		content: "[]",
+		questionnaire: ""
+	}],
+	questionidList: null,
+	current: [],
+	// 校验表单数据
+	valiFormData: {
+		name: '',
+		id: '',
+	},
+	// 校验规则
+	rules: {
+		name: {
+			rules: [{
+				required: true,
+				errorMessage: '姓名不能为空'
+			}]
 		},
-		props:{
-		},
-		methods: {
-			inputChange: function (evt,qindex) {
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
+		id: {
+			rules: [{
+				required: true,
+				errorMessage: '年龄不能为空'
+			}, {
+				minLength: 12,
+				maxLength: 12,
+				errorMessage: '请输入12位学号'
+			}]
+		}
+	},
+}) 
+			const inputChange = (evt,qindex) => {
+				clearTimeout(data.timer);
+				data.timer = setTimeout(()=>{
 					console.log(evt);
 					console.log(qindex);
-					this.current[qindex]=evt.detail.value;
-					console.log(this.current);
+					data.current[qindex]=evt.detail.value;
+					console.log(data.current);
 					
 				}, 500)
-			},
-			checkboxChange: function (evt,qindex) {
+			}
+			const checkboxChange = (evt,qindex) => {
 				console.log(evt);
 				console.log(qindex);
-				this.current[qindex]=evt.detail.value;
-				console.log(this.current);
-			},
-			radioChange: function(evt,qindex) {
+				data.current[qindex]=evt.detail.value;
+				console.log(data.current);
+			}
+			const radioChange = (evt,qindex) => {
 				console.log(evt);
 				console.log(qindex);
-				this.current[qindex]=evt.detail.value;
-				console.log(this.current);
-			},
-			submit(ref) {
+				data.current[qindex]=evt.detail.value;
+				console.log(data.current);
+			}
+			const submit = (ref) => {
 				this.$refs[ref].validate().then(res => {
 					console.log('success', res);	
 					//检验问题
-					if(this.current.length != this.questionList.length){
+					if(data.current.length != data.questionList.length){
 						uni.showToast({
 							title: "请检查作答",
 							icon: "error"
 						});
 						return;
 					};
-					console.log("填写正确",this.current);
-					console.log(this.valiFormData);
+					console.log("填写正确",data.current);
+					console.log(data.valiFormData);
 					//POST
 					uni.request({
 						url:'',
@@ -150,57 +145,50 @@
 				}).catch(err => {
 					console.log('err', err);
 				})
-			},
-			getquestions(){
+			}
+			const getquestions = () => {
 				uni.request({
 					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-					url:sysurl.developUrl +'/question/selectById?idList='+this.questionidList,
+					url:sysurl.developUrl +'/question/selectById?idList='+data.questionidList,
 					method: 'GET',
 					success: (res)=> {
 						
 						console.log("请求返回",res)
-						console.log("test",this.idList)
-						this.questionList=res.data.data;
-						console.log('获取到问题',this.questionList);
+						console.log("test",data.idList)
+						data.questionList=res.data.data;
+						console.log('获取到问题',data.questionList);
 						
 						// 使用for循环来修改数据
-						for (let i = 0; i < this.questionList.length; i++) {
+						for (let i = 0; i < data.questionList.length; i++) {
 						  //this.questionList[i].content=JSON.parse(this.questionList[i].content);
-							this.questionList[i].content=["A","B","C"]
+							data.questionList[i].content=["A","B","C"]
 						}
 					},
 					complete: (res)=>{
 						console.log();
 					}
 				});
-			},
-		},
-		computed: {
-			
-		},
-		onLoad(options) {
+			}
+		onLoad((options) => {
 			console.log("参数列表",options);
 			
 			//测试数据
-			this.questionidList=["20181252102","20187874601"];
+			data.questionidList=["20181252102","20187874601"];
 			
 			//this.questionidList = JSON.parse(options.questionidList);
-			console.log('问题列表：',this.questionidList);
+			console.log('问题列表：',data.questionidList);
 			
-			this.id=options.id;
-			this.type=options.type;
-			this.name=options.name;
-			this.descr=options.descr;
-			this.startTime=options.startTime;
-			this.endTime =options.endTime ;
+			data.id=options.id;
+			data.type=options.type;
+			data.name=options.name;
+			data.descr=options.descr;
+			data.startTime=options.startTime;
+			data.endTime =options.endTime ;
 			
-			this.getquestions();
+			getquestions();
 			
-		},
-		onReady() {
-			
-		}
-	}
+		})
+
 </script>
 
 <style lang="scss" scoped>

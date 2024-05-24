@@ -1,9 +1,24 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
 const system_config = require("../../../system.config.js");
+if (!Array) {
+  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
+  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
+  const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
+  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
+  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2 + _easycom_uni_section2)();
+}
+const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
+const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
+const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
+const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
+if (!Math) {
+  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms + _easycom_uni_section)();
+}
 const _sfc_main = {
-  data() {
-    return {
+  __name: "questionnaire_home",
+  setup(__props) {
+    const data = common_vendor.reactive({
       timer: null,
       //延时器，用于防抖处理
       id: "",
@@ -46,43 +61,40 @@ const _sfc_main = {
           }]
         }
       }
-    };
-  },
-  props: {},
-  methods: {
-    inputChange: function(evt, qindex) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
+    });
+    const inputChange = (evt, qindex) => {
+      clearTimeout(data.timer);
+      data.timer = setTimeout(() => {
         console.log(evt);
         console.log(qindex);
-        this.current[qindex] = evt.detail.value;
-        console.log(this.current);
+        data.current[qindex] = evt.detail.value;
+        console.log(data.current);
       }, 500);
-    },
-    checkboxChange: function(evt, qindex) {
+    };
+    const checkboxChange = (evt, qindex) => {
       console.log(evt);
       console.log(qindex);
-      this.current[qindex] = evt.detail.value;
-      console.log(this.current);
-    },
-    radioChange: function(evt, qindex) {
+      data.current[qindex] = evt.detail.value;
+      console.log(data.current);
+    };
+    const radioChange = (evt, qindex) => {
       console.log(evt);
       console.log(qindex);
-      this.current[qindex] = evt.detail.value;
-      console.log(this.current);
-    },
-    submit(ref) {
+      data.current[qindex] = evt.detail.value;
+      console.log(data.current);
+    };
+    const submit = (ref) => {
       this.$refs[ref].validate().then((res) => {
         console.log("success", res);
-        if (this.current.length != this.questionList.length) {
+        if (data.current.length != data.questionList.length) {
           common_vendor.index.showToast({
             title: "请检查作答",
             icon: "error"
           });
           return;
         }
-        console.log("填写正确", this.current);
-        console.log(this.valiFormData);
+        console.log("填写正确", data.current);
+        console.log(data.valiFormData);
         common_vendor.index.request({
           url: "",
           method: "POST",
@@ -98,123 +110,106 @@ const _sfc_main = {
       }).catch((err) => {
         console.log("err", err);
       });
-    },
-    getquestions() {
+    };
+    const getquestions = () => {
       common_vendor.index.request({
         //url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-        url: system_config.sysurl.developUrl + "/question/selectById?idList=" + this.questionidList,
+        url: system_config.sysurl.developUrl + "/question/selectById?idList=" + data.questionidList,
         method: "GET",
         success: (res) => {
           console.log("请求返回", res);
-          console.log("test", this.idList);
-          this.questionList = res.data.data;
-          console.log("获取到问题", this.questionList);
-          for (let i = 0; i < this.questionList.length; i++) {
-            this.questionList[i].content = ["A", "B", "C"];
+          console.log("test", data.idList);
+          data.questionList = res.data.data;
+          console.log("获取到问题", data.questionList);
+          for (let i = 0; i < data.questionList.length; i++) {
+            data.questionList[i].content = ["A", "B", "C"];
           }
         },
         complete: (res) => {
           console.log();
         }
       });
-    }
-  },
-  computed: {},
-  onLoad(options) {
-    console.log("参数列表", options);
-    this.questionidList = ["20181252102", "20187874601"];
-    console.log("问题列表：", this.questionidList);
-    this.id = options.id;
-    this.type = options.type;
-    this.name = options.name;
-    this.descr = options.descr;
-    this.startTime = options.startTime;
-    this.endTime = options.endTime;
-    this.getquestions();
-  },
-  onReady() {
+    };
+    common_vendor.onLoad((options) => {
+      console.log("参数列表", options);
+      data.questionidList = ["20181252102", "20187874601"];
+      console.log("问题列表：", data.questionidList);
+      data.id = options.id;
+      data.type = options.type;
+      data.name = options.name;
+      data.descr = options.descr;
+      data.startTime = options.startTime;
+      data.endTime = options.endTime;
+      getquestions();
+    });
+    return (_ctx, _cache) => {
+      return {
+        a: common_vendor.f(data.questionList, (que, qindex, i0) => {
+          return common_vendor.e({
+            a: common_vendor.t(que.id),
+            b: common_vendor.t(que.name),
+            c: common_vendor.t(que.describe),
+            d: que.type === 1
+          }, que.type === 1 ? {
+            e: common_vendor.f(que.content, (item, index, i1) => {
+              return {
+                a: index,
+                b: common_vendor.t(item),
+                c: index
+              };
+            }),
+            f: common_vendor.o((e) => radioChange(e, qindex), qindex)
+          } : que.type === 2 ? {
+            h: common_vendor.f(que.content, (item, index, i1) => {
+              return {
+                a: index,
+                b: common_vendor.t(item),
+                c: index
+              };
+            }),
+            i: common_vendor.o((e) => checkboxChange(e, qindex), qindex)
+          } : {
+            j: common_vendor.o((e) => inputChange(e, qindex), qindex)
+          }, {
+            g: que.type === 2,
+            k: qindex
+          });
+        }),
+        b: common_vendor.o(($event) => data.valiFormData.name = $event),
+        c: common_vendor.p({
+          placeholder: "请输入姓名",
+          modelValue: data.valiFormData.name
+        }),
+        d: common_vendor.p({
+          label: "姓名",
+          required: true,
+          name: "name"
+        }),
+        e: common_vendor.o(($event) => data.valiFormData.id = $event),
+        f: common_vendor.p({
+          placeholder: "请输入学号",
+          modelValue: data.valiFormData.id
+        }),
+        g: common_vendor.p({
+          label: "学号",
+          required: true,
+          name: "id"
+        }),
+        h: common_vendor.sr("valiForm", "276a9552-1,276a9552-0"),
+        i: common_vendor.p({
+          rules: data.rules,
+          modelValue: data.valiFormData,
+          ["label-position"]: "top"
+        }),
+        j: common_vendor.o(($event) => submit("valiForm")),
+        k: common_vendor.p({
+          title: data.id + "." + data.name,
+          type: "line",
+          titleFontSize: "42rpx"
+        })
+      };
+    };
   }
 };
-if (!Array) {
-  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
-  const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
-  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2 + _easycom_uni_section2)();
-}
-const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
-const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
-const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
-if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms + _easycom_uni_section)();
-}
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
-    a: common_vendor.f($data.questionList, (que, qindex, i0) => {
-      return common_vendor.e({
-        a: common_vendor.t(que.id),
-        b: common_vendor.t(que.name),
-        c: common_vendor.t(que.describe),
-        d: que.type === 1
-      }, que.type === 1 ? {
-        e: common_vendor.f(que.content, (item, index, i1) => {
-          return {
-            a: index,
-            b: common_vendor.t(item),
-            c: index
-          };
-        }),
-        f: common_vendor.o((e) => $options.radioChange(e, qindex), qindex)
-      } : que.type === 2 ? {
-        h: common_vendor.f(que.content, (item, index, i1) => {
-          return {
-            a: index,
-            b: common_vendor.t(item),
-            c: index
-          };
-        }),
-        i: common_vendor.o((e) => $options.checkboxChange(e, qindex), qindex)
-      } : {
-        j: common_vendor.o((e) => $options.inputChange(e, qindex), qindex)
-      }, {
-        g: que.type === 2,
-        k: qindex
-      });
-    }),
-    b: common_vendor.o(($event) => $data.valiFormData.name = $event),
-    c: common_vendor.p({
-      placeholder: "请输入姓名",
-      modelValue: $data.valiFormData.name
-    }),
-    d: common_vendor.p({
-      label: "姓名",
-      required: true,
-      name: "name"
-    }),
-    e: common_vendor.o(($event) => $data.valiFormData.id = $event),
-    f: common_vendor.p({
-      placeholder: "请输入学号",
-      modelValue: $data.valiFormData.id
-    }),
-    g: common_vendor.p({
-      label: "学号",
-      required: true,
-      name: "id"
-    }),
-    h: common_vendor.sr("valiForm", "276a9552-1,276a9552-0"),
-    i: common_vendor.p({
-      rules: $data.rules,
-      modelValue: $data.valiFormData,
-      ["label-position"]: "top"
-    }),
-    j: common_vendor.o(($event) => $options.submit("valiForm")),
-    k: common_vendor.p({
-      title: $data.id + "." + $data.name,
-      type: "line",
-      titleFontSize: "42rpx"
-    })
-  };
-}
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-276a9552"], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-276a9552"], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
 wx.createPage(MiniProgramPage);
