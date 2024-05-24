@@ -4,7 +4,10 @@
 }
 .swiper-image {
   width: 100%;
-  height: 100%;
+  height: 120px;
+}
+.describe{
+	height: 20px;
 }
 .func1 {
   display: flex;

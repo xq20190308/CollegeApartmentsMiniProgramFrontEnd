@@ -61,13 +61,9 @@
 		},
 		methods:{
 			todetail(id){
+				console.log(JSON.stringify(this.articles[id]))
 				uni.navigateTo({
-					url:"../notice/noticedetail?content="+this.articles[id].content+
-					'&id='+this.articles[id].id+
-					'&isActive='+this.articles[id].isActive+
-					'&publishTime='+this.articles[id].publishTime+
-					'&title='+this.articles[id].title+
-					'&typeName='+this.articles[id].typeName
+					url:"../notice/noticedetail?detail="+JSON.stringify(this.articles[id])
 				})
 			},
 			getarticles(cates){

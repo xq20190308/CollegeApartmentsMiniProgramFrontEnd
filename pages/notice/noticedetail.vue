@@ -2,11 +2,11 @@
 	<view style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
-				<text> {{title}}</text>
+				<text> {{detail.title}}</text>
 			</view>
 			<view class="message" >
-				<view>{{typeName}}</view>
-				<view>{{content}}</view>
+				<view>{{detail.typeName}}</view>
+				<view>{{detail.content}}</view>
 			</view>
 		</view>
 	</view>
@@ -18,24 +18,21 @@ import sysurl from '../../system.config.js';
 export default {
   data() {
     return {
-		content: "Lorem",
-		id: 87,
-		isActive: true,
-		publishTime: "1976-01-02 07:27:42",
-		title: "学府属习",
-		typeName: "律况平将体集题",
+		detail:{
+			content: "Lorem",
+			id: 87,
+			isActive: true,
+			publishTime: "1976-01-02 07:27:42",
+			title: "学府属习",
+			typeName: "律况平将体集题",
+		}
     };
   },
  props:{
  },
   onLoad(options) {
 	console.log(options);
-	this.content=options.content
-	this.id=options.id
-	this.isActive=options.isActive
-	this.publishTime=options.publishTime
-	this.title=options.title
-	this.typeName=options.typeName
+	this.detail=JSON.parse(options.detail);
   },
 }
 
