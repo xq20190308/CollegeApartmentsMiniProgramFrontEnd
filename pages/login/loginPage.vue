@@ -40,7 +40,7 @@ import {setLocalData} from "../../utils/cache.js"
 // 校验规则
 const data = reactive({
 rules : {
-	studentid: {
+	username: {
 		rules: [{
 			required: true,
 			errorMessage: '请输入学号'
@@ -59,7 +59,7 @@ rules : {
 },
 reqdata : {
 	code:"",
-	studentid: "",
+	username: "",
 	password: "",
 },
 })

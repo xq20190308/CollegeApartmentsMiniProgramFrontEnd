@@ -19,7 +19,7 @@ const _sfc_main = {
   setup(__props) {
     const data = common_vendor.reactive({
       rules: {
-        studentid: {
+        username: {
           rules: [{
             required: true,
             errorMessage: "请输入学号"
@@ -38,7 +38,7 @@ const _sfc_main = {
       },
       reqdata: {
         code: "",
-        studentid: "",
+        username: "",
         password: ""
       }
     });
