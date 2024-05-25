@@ -19,8 +19,8 @@
 
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
-	<view>
-		<button class="btn" style="text-align:center" @click="">
+	<view style="margin-top: 40px;">
+		<button class="btn" style="text-align:center"  @click="delogin">
 			<text>退出登录</text>
 		</button>
 	</view>
@@ -39,7 +39,15 @@
 			}
 		},
 		methods: {
-
+			delogin(){
+				uni.showLoading({
+					title: "正在退出"
+				})
+				setTimeout(()=>{
+				uni.navigateTo({
+					url: "/pages/login/loginPage"
+				})}, 2000)
+			}
 		}
 		// onLoad() {
 		// 	this.func1_List = [{
@@ -133,7 +141,7 @@
 	}
 	
 	.btn{
-				background-color:red;
+				background-color:#dd7d7d;
 			  color:white;
 				width: 300px;
 				height: 47px;

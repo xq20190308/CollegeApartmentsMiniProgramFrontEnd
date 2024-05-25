@@ -8,7 +8,7 @@
       "list": [
         {
           "name": "pages/login/loginPage",
-          "pathName": "pages/login/loginPage",
+          "pathName": "pages/myself/myself",
           "query": "",
           "launchMode": "default",
           "scene": null

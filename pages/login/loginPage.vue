@@ -1,5 +1,5 @@
 <template>
-	<view style="">
+	<view style="width: 95%; margin-left: 10px; margin-top: 10px;">
 		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 180px;">
 		
 		<view style="width:90%;margin-left: 19px;">
@@ -26,7 +26,7 @@
 				</view>
 			</view>
 			<view>
-				<button type="primary" style="backgroundColor:#008cff; width:90%; margin-left: 19px;"  @click="loginConfirm('req')">点击登录</button>
+				<button type="primary" style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"  @click="loginConfirm('req')">点击登录</button>
 			</view>
 		</view>
 	</view>

@@ -12,7 +12,18 @@ const _sfc_main = {
       func1_List: []
     };
   },
-  methods: {}
+  methods: {
+    delogin() {
+      common_vendor.index.showLoading({
+        title: "正在退出"
+      });
+      setTimeout(() => {
+        common_vendor.index.navigateTo({
+          url: "/pages/login/loginPage"
+        });
+      }, 2e3);
+    }
+  }
   // onLoad() {
   // 	this.func1_List = [{
   // 			name: "个人信息",
@@ -92,8 +103,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       title: "个人信息",
       type: "line"
     }),
-    j: common_vendor.o(() => {
-    })
+    j: common_vendor.o((...args) => $options.delogin && $options.delogin(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/myself/myself.vue"]]);
