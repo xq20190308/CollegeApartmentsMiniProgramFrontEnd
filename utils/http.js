@@ -43,3 +43,28 @@ export const http=(url,method,data)=>{
 		})
 	})
 }
+export const service = (url, method, data) => {
+	return new Promise((resolve, reject) => {
+		uni.request({
+			url: url,
+			method: method,
+			data: data,
+			header: {
+				'Authorization': `${uni.getStorageSync('token')}`
+			},
+			success: (res) => {
+				console.log("success",res)
+				resolve(res)
+			},
+			fail: (err) => {
+				console.log("fail",err)
+				reject(err)
+			},
+			complete:(res)=>{
+				console.log("complete",res)
+			}
+		})
+
+	})
+
+}

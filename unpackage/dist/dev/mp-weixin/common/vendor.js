@@ -7940,16 +7940,22 @@ const pages = [
     }
   },
   {
-    path: "pages/questionnaire/addquestionnaire/addquestionnaire",
+    path: "pages/questionnaire/questionnaire_list/questionnaire_list",
     style: {
-      navigationBarTitleText: "创建调查问卷",
+      navigationBarTitleText: "调查问卷列表",
       enablePullDownRefresh: false
     }
   },
   {
-    path: "pages/questionnaire/questionnaire_list/questionnaire_list",
+    path: "pages/login/loginPage",
     style: {
-      navigationBarTitleText: "调查问卷列表",
+      navigationBarTitleText: "登录"
+    }
+  },
+  {
+    path: "pages/questionnaire/addquestionnaire/addquestionnaire",
+    style: {
+      navigationBarTitleText: "创建调查问卷",
       enablePullDownRefresh: false
     }
   },
@@ -10743,4 +10749,5 @@ exports.resolveComponent = resolveComponent;
 exports.s = s$1;
 exports.sr = sr;
 exports.t = t$1;
+exports.unref = unref;
 exports.wx$1 = wx$1;

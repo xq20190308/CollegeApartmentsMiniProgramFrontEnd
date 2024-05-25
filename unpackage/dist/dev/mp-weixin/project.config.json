@@ -5,7 +5,7 @@
     "include": []
   },
   "setting": {
-    "urlCheck": false,
+    "urlCheck": true,
     "es6": true,
     "postcss": false,
     "minified": false,
@@ -20,7 +20,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "latest",
-  "appid": "wxb15ca50e7b2df763",
+  "appid": "wx3b5ec6e4e336f19e",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
   "condition": {
     "search": {

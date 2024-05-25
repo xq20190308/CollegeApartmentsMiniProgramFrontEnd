@@ -7,21 +7,13 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/questionnaire/questionnaire_list/questionnaire_list",
-          "pathName": "pages/questionnaire/addquestionnaire/addquestionnaire",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "pages/feedback/feedback",
-          "pathName": "pages/questionnaire/addquestionnaire/addquestionnaire",
+          "name": "pages/login/loginPage",
+          "pathName": "pages/login/loginPage",
           "query": "",
           "launchMode": "default",
           "scene": null
         }
       ]
     }
-  },
-  "libVersion": "2.16.1"
+  }
 }

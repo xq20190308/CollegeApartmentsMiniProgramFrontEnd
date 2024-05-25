@@ -1,10 +1,10 @@
 {
 	"easycom": {
-	 "custom": {
-	 	"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
-	 	"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
-	 	"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
-	 }
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -33,70 +33,69 @@
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire_home/questionnaire_home",
-			"style" : 
-			{
-				"navigationBarTitleText" : "调查问卷",
-				"enablePullDownRefresh" : false
+			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
+			"style": {
+				"navigationBarTitleText": "调查问卷",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/questionnaire/addquestionnaire/addquestionnaire",
-			"style" : 
-			{
-				"navigationBarTitleText" : "创建调查问卷",
-				"enablePullDownRefresh" : false
+			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
+			"style": {
+				"navigationBarTitleText": "调查问卷列表",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/questionnaire/questionnaire_list/questionnaire_list",
-			"style" : 
-			{
-				"navigationBarTitleText" : "调查问卷列表",
-				"enablePullDownRefresh" : false
+			"path": "pages/login/loginPage",
+			"style": {
+				"navigationBarTitleText": "登录"
 			}
 		},
 		{
-			"path" : "pages/feedback/feedback",
-			"style" : 
-			{
-				"navigationBarTitleText" : "草稿列表",
-				"enablePullDownRefresh" : false
+
+			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
+			"style": {
+				"navigationBarTitleText": "创建调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "草稿列表",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/feedback/feedbackSubmit",
-			"style" :
-			{
-				"navigationBarTitleText" : "增加草稿",
-				"enablePullDownRefresh" : false
+			"style": {
+				"navigationBarTitleText": "增加草稿",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/feedback/DraftFeedback",
-			"style" :
-			{
-				"navigationBarTitleText" : "修改草稿",
-				"enablePullDownRefresh" : false
+			"style": {
+				"navigationBarTitleText": "修改草稿",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/notice/notice",
-			"style" : 
-			{
-				"navigationBarTitleText" : "通知列表",
-				"enablePullDownRefresh" : false
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "通知列表",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path" : "pages/notice/noticedetail",
-			"style" : 
-			{
-				"navigationBarTitleText" : "通知详情",
-				"enablePullDownRefresh" : false
+			"path": "pages/notice/noticedetail",
+			"style": {
+				"navigationBarTitleText": "通知详情",
+				"enablePullDownRefresh": false
 			}
 		}
-		
+
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -105,13 +104,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/home/home",
-				"text":"首页",
+				"text": "首页",
 				"iconPath": "static/tabBar/home_icon.png",
 				"selectedIconPath": "static/tabBar/home_icon.png"
-				
+
 			},
 			{
 				"pagePath": "pages/function/function",
@@ -120,8 +118,8 @@
 				"selectedIconPath": "static/tabBar/function_icon.png"
 			},
 			{
-				"pagePath":"pages/pu/pu",
-				"text":"pu活动",
+				"pagePath": "pages/pu/pu",
+				"text": "pu活动",
 				"iconPath": "static/tabBar/pu_icon.png",
 				"selectedIconPath": "static/tabBar/pu_icon.png"
 			},
