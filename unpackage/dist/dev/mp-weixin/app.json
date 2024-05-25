@@ -4,9 +4,15 @@
     "pages/pu/pu",
     "pages/function/function",
     "pages/myself/myself",
-    "pages/questionnaire/questionnaire",
-    "pages/questionnaire/questionnaire_home",
-    "pages/questionnaire/example_questionnarie"
+    "pages/questionnaire/questionnaire_home/questionnaire_home",
+    "pages/questionnaire/questionnaire_list/questionnaire_list",
+    "pages/login/loginPage",
+    "pages/questionnaire/addquestionnaire/addquestionnaire",
+    "pages/feedback/feedback",
+    "pages/feedback/feedbackSubmit",
+    "pages/feedback/DraftFeedback",
+    "pages/notice/notice",
+    "pages/notice/noticedetail"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -5,7 +5,7 @@
     <!-- 轮播图区域 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
       <swiper-item v-for="(item, index) in bannerList" :key="index">
-        <img :src="item.url" alt="" class="swiper-image">
+        <img :src="item.url" alt="" class="swiper-image" @click="bannerclick(item)">
       </swiper-item>
     </swiper>
 		<view class="spacing"></view>
@@ -24,6 +24,7 @@
 				    <text>这是分栏内容 {{ plan }}</text>
 					</uni-card>
   </view>
+	
 </template>
 
 <script>
@@ -43,8 +44,8 @@ export default {
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
 				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
-			] 
-			
+		],
+	  plan:["planA","planB"],	
     }
   },
 	methods: {
@@ -52,7 +53,12 @@ export default {
 			uni.reLaunch({
 				url: item.pagePath
 			})
-		}
+		},
+		bannerclick(item){
+			uni.navigateTo({
+				url:'../notice/notice'
+			})
+		},
 	},
   onLoad() {
     this.func_list = [ 
