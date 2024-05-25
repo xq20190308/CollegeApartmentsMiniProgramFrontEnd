@@ -1,10 +1,10 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
-const systemconfig = require("../systemconfig.js");
+const system_config = require("../system.config.js");
 const service = (url, method, data) => {
   return new Promise((resolve, reject) => {
     common_vendor.index.request({
-      url: systemconfig.sysurl.developUrl + url,
+      url: system_config.sysurl.developUrl + url,
       method,
       data,
       header: {

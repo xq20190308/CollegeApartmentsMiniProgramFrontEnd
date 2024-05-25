@@ -3,9 +3,24 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      navList1: [],
-      navList2: [],
-      navList3: []
+      navList1: [
+        { name: "课程表", imgPath: "../../static/function/class.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "教室预约", imgPath: "../../static/function/classes.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      ],
+      navList2: [
+        { name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../feedback/feedback" },
+        { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      ],
+      navList3: [
+        { name: "热水系统", imgPath: "../../static/function/water.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "失物招领", imgPath: "../../static/function/find.png", pagePath: "../questionnaire/questionnaire_home" },
+        { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_home" }
+      ]
     };
   },
   onLoad() {
@@ -17,7 +32,7 @@ const _sfc_main = {
     ], this.navList2 = [
       { name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
       { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
-      { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },
+      { name: "接诉即办", imgPath: "../../static/function/complaint.png", pagePath: "../feedback/feedback" },
       { name: "更多", imgPath: "../../static/function/more.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" }
     ], this.navList3 = [
       { name: "热水系统", imgPath: "../../static/function/water.png", pagePath: "../questionnaire/questionnaire_list/questionnaire_list" },

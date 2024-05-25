@@ -1,6 +1,10 @@
 {
 	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
@@ -46,6 +50,49 @@
 			"path": "pages/login/loginPage",
 			"style": {
 				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+
+			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
+			"style": {
+				"navigationBarTitleText": "创建调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "草稿列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/feedbackSubmit",
+			"style": {
+				"navigationBarTitleText": "增加草稿",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/DraftFeedback",
+			"style": {
+				"navigationBarTitleText": "修改草稿",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "通知列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notice/noticedetail",
+			"style": {
+				"navigationBarTitleText": "通知详情",
+				"enablePullDownRefresh": false
 			}
 		}
 

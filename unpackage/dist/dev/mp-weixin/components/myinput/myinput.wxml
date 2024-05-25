@@ -1,0 +1,1 @@
+<view><view class="nairetype" style="display:flex;flex-wrap:nowrap"><slot></slot><input bindinput="{{a}}" placeholder="{{b}}" placeholder-class="answerplacehoder"/></view></view>

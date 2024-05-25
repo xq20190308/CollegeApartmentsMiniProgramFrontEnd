@@ -1,13 +1,12 @@
 <template>
 	<view>	
-		<radio-group @change="radioChange">
-			<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in questions" :key="item.value">
-				<view>
-					<radio :value="item.value" :checked="index === current" />
-				</view>
-				<view>{{item.name}}</view>
-			</label>
-		</radio-group>
+		123
+		<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in questions" :key="item.value">
+			<view>
+				<radio :value="item.value" :checked="index === current" />
+			</view>
+			<view>{{item.name}}</view>
+		</label>
 	</view>
 	
 </template>
@@ -47,17 +46,19 @@
 			};
 		},
 		props:{
-			questions:[]
+			naireinfo:{
+				type: Object,
+				default: {
+					id:"",
+					type: 0,
+					name: "",
+					describe: null,
+					content: "",
+					questionList: "",
+				},
+			}
 		},
 		methods:{
-			radioChange: function(evt) {
-			    for (let i = 0; i < this.items.length; i++) {
-			        if (this.items[i].value === evt.detail.value) {
-			            this.current = i;
-			            break;
-			        }
-			    }
-			},
 		}
 	}
 </script>

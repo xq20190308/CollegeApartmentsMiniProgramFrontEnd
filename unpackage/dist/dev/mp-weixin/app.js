@@ -9,6 +9,12 @@ if (!Math) {
   "./pages/questionnaire/questionnaire_home/questionnaire_home.js";
   "./pages/questionnaire/questionnaire_list/questionnaire_list.js";
   "./pages/login/loginPage.js";
+  "./pages/questionnaire/addquestionnaire/addquestionnaire.js";
+  "./pages/feedback/feedback.js";
+  "./pages/feedback/feedbackSubmit.js";
+  "./pages/feedback/DraftFeedback.js";
+  "./pages/notice/notice.js";
+  "./pages/notice/noticedetail.js";
 }
 const _sfc_main = {
   onLaunch: function() {

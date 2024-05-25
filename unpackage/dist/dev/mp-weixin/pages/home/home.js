@@ -16,13 +16,19 @@ const _sfc_main = {
         { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
         { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
         { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
-      ]
+      ],
+      plan: ["planA", "planB"]
     };
   },
   methods: {
     func1Click(item) {
       common_vendor.index.reLaunch({
         url: item.pagePath
+      });
+    },
+    bannerclick(item) {
+      common_vendor.index.navigateTo({
+        url: "../notice/notice"
       });
     }
   },
@@ -50,7 +56,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.f($data.bannerList, (item, index, i0) => {
       return {
         a: item.url,
-        b: index
+        b: common_vendor.o(($event) => $options.bannerclick(item), index),
+        c: index
       };
     }),
     b: common_vendor.f($data.func_list, (item, i, i0) => {
@@ -61,7 +68,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         d: common_vendor.o(($event) => $options.func1Click(item), i)
       };
     }),
-    c: common_vendor.t(_ctx.plan),
+    c: common_vendor.t($data.plan),
     d: common_vendor.p({
       title: "未来倒计时",
       ["sub-title"]: "unique_words",

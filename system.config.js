@@ -7,3 +7,4 @@ export default {
 
 	// baseUrl: ''
 }
+//用来放接口的
