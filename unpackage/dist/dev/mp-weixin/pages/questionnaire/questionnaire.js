@@ -221,7 +221,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       label: "自我介绍",
       name: "introduction"
     }),
-    j: common_vendor.sr("valiForm", "06940c08-1,06940c08-0"),
+    j: common_vendor.sr("valiForm", "01d3bb16-1,01d3bb16-0"),
     k: common_vendor.p({
       rules: $data.rules,
       modelValue: $data.valiFormData
@@ -233,5 +233,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/智慧社区/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire.vue"]]);
 wx.createPage(MiniProgramPage);
