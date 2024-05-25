@@ -124,7 +124,7 @@ const _sfc_main = {
           label: "手机号",
           required: true
         }),
-        n: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
+        n: common_vendor.sr("baseForm", "1395517e-1,1395517e-0"),
         o: common_vendor.p({
           modelValue: data.baseFormData
         }),
@@ -137,5 +137,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);
 wx.createPage(MiniProgramPage);

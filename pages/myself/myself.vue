@@ -7,26 +7,29 @@
 
 	<!-- 功能区 -->
 	<uni-section title="个人信息" type="line">
-				<uni-list border-full>
-					<uni-list-item showArrow title="姓名" rightText="小萪"/>
-					<uni-list-item showArrow title="学号" rightText="202311071111"/>
-					<uni-list-item showArrow title="学院" rightText="莱文克劳学院"/>
-					<uni-list-item showArrow title="专业" rightText="黑魔法"/>
-					<uni-list-item showArrow title="建言献策" />
-					<uni-list-item showArrow title="关于"/>
-				</uni-list>
-			</uni-section>
+		<uni-list border-full>
+			<uni-list-item showArrow title="姓名" rightText="小萪" />
+			<uni-list-item showArrow title="学号" rightText="202311071111" />
+			<uni-list-item showArrow title="学院" rightText="莱文克劳学院" />
+			<uni-list-item showArrow title="专业" rightText="黑魔法" />
+			<uni-list-item showArrow title="建言献策" />
+			<uni-list-item showArrow title="关于" />
+		</uni-list>
+	</uni-section>
 
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
 	<view style="margin-top: 40px;">
-		<button class="btn" style="text-align:center"  @click="delogin">
+		<button class="btn" style="text-align:center" @click="delogin">
 			<text>退出登录</text>
 		</button>
 	</view>
 </template>
 
 <script>
+	import {
+		getLocalData
+	} from "../../utils/cache.js"
 	export default {
 		data() {
 			return {
@@ -39,16 +42,17 @@
 			}
 		},
 		methods: {
-			delogin(){
+			delogin() {
 				uni.showLoading({
 					title: "正在退出"
 				})
-				setTimeout(()=>{
-				uni.navigateTo({
-					url: "/pages/login/loginPage"
-				})}, 2000)
+				setTimeout(() => {
+					uni.navigateTo({
+						url: "/pages/login/loginPage"
+					})
+				}, 2000)
 			}
-		}
+		},
 		// onLoad() {
 		// 	this.func1_List = [{
 		// 			name: "个人信息",
@@ -77,6 +81,9 @@
 		// 		}
 		// 	]
 		// }
+		onLoad() {
+			console.log("token", uni.getStorageSync("token"));
+		}
 	}
 </script>
 
@@ -139,21 +146,19 @@
 		margin-left: 15rpx;
 		margin-top: 35rpx;
 	}
-	
-	.btn{
-				background-color:#dd7d7d;
-			  color:white;
-				width: 300px;
-				height: 47px;
-				border:0;
-				font-size: 16px;			
-				border-radius: 30px;
-	}
-	.spacing 
-	{
-	  height: 40rpx; 
-	  background-color: transparent; 
+
+	.btn {
+		background-color: #dd7d7d;
+		color: white;
+		width: 300px;
+		height: 47px;
+		border: 0;
+		font-size: 16px;
+		border-radius: 30px;
 	}
 
-
+	.spacing {
+		height: 40rpx;
+		background-color: transparent;
+	}
 </style>

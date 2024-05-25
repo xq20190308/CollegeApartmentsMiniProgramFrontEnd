@@ -84,11 +84,11 @@ const _sfc_main = {
         }),
         b: common_vendor.f(data.questionnairelist, (item, index, i0) => {
           return {
-            a: "5548f501-0-" + i0,
+            a: "6d43575e-0-" + i0,
             b: common_vendor.p({
               naireinfo: item
             }),
-            c: "5548f501-1-" + i0,
+            c: "6d43575e-1-" + i0,
             d: common_vendor.p({
               naireinfo: item
             }),
@@ -101,5 +101,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_list/questionnaire_list.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_list/questionnaire_list.vue"]]);
 wx.createPage(MiniProgramPage);

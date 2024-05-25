@@ -19,7 +19,7 @@ const _sfc_main = {
   setup(__props) {
     const data = common_vendor.reactive({
       rules: {
-        studentid: {
+        username: {
           rules: [{
             required: true,
             errorMessage: "请输入学号"
@@ -38,7 +38,7 @@ const _sfc_main = {
       },
       reqdata: {
         code: "",
-        studentid: "",
+        username: "",
         password: ""
       }
     });
@@ -76,7 +76,6 @@ const _sfc_main = {
     const req = common_vendor.ref();
     const loginConfirm = async (ref) => {
       var _a;
-      console.log("data.reqdata", data.reqdata);
       await ((_a = req.value) == null ? void 0 : _a.validate().then(async (res1) => {
         if (!licenseDisagree.value) {
           common_vendor.index.showToast({
@@ -86,13 +85,19 @@ const _sfc_main = {
           return false;
         }
         data.reqdata.code = await getCode();
-        console.log("req: ", req);
-        await pages_login_api_login.login(data.reqdata).then((res) => {
+        console.log("---data.reqdata", data.reqdata);
+        await pages_login_api_login.login(data.reqdata).then(async (res) => {
           if (res.statusCode == 200) {
             console.log("登陆成功");
+            console.log("---登陆成功data.reqdata", data.reqdata);
             console.log("res", res);
-            utils_cache.setLocalData("token", res.data.token);
-            console.log("token", res.data.token);
+            await utils_cache.setLocalData("token", res.data.data.token);
+            console.log("返回的token", res.data.data.token);
+            try {
+              console.log("get--token", utils_cache.getLocalData("token"));
+            } catch (e) {
+              console.log("get不对", e);
+            }
             show.value = false;
             common_vendor.index.showToast({
               title: "登录成功"
@@ -120,15 +125,15 @@ const _sfc_main = {
     };
     return (_ctx, _cache) => {
       return {
-        a: common_vendor.o(($event) => data.reqdata.studentid = $event),
+        a: common_vendor.o(($event) => data.reqdata.username = $event),
         b: common_vendor.p({
           placeholder: "请输入学号",
-          modelValue: data.reqdata.studentid
+          modelValue: data.reqdata.username
         }),
         c: common_vendor.p({
           label: "学号",
           required: true,
-          name: "studentid"
+          name: "username"
         }),
         d: common_vendor.o(($event) => data.reqdata.password = $event),
         e: common_vendor.p({
@@ -140,7 +145,7 @@ const _sfc_main = {
           required: true,
           name: "password"
         }),
-        g: common_vendor.sr(req, "259083a0-0", {
+        g: common_vendor.sr(req, "5c728580-0", {
           "k": "req"
         }),
         h: common_vendor.p({
@@ -157,5 +162,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/login/loginPage.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/login/loginPage.vue"]]);
 wx.createPage(MiniProgramPage);

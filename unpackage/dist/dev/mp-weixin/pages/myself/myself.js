@@ -23,7 +23,7 @@ const _sfc_main = {
         });
       }, 2e3);
     }
-  }
+  },
   // onLoad() {
   // 	this.func1_List = [{
   // 			name: "个人信息",
@@ -52,6 +52,9 @@ const _sfc_main = {
   // 		}
   // 	]
   // }
+  onLoad() {
+    console.log("token", common_vendor.index.getStorageSync("token"));
+  }
 };
 if (!Array) {
   const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
@@ -106,5 +109,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     j: common_vendor.o((...args) => $options.delogin && $options.delogin(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/myself/myself.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/myself/myself.vue"]]);
 wx.createPage(MiniProgramPage);
