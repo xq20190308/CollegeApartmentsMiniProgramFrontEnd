@@ -12,7 +12,8 @@ export function setLocalData(key, data) {
 
 
 // 取数据
-export const getLocalData = key => uni.getStorageSync(key) ? JSON.parse(uni.getStorageSync(key)) : null
+export const getLocalData = key => uni.getStorageSync(key) ? JSON.parse(uni.getStorageSync(key))?.JSON.parse(uni
+	.getStorageSync(key)) : null
 
 // 清数据
 export const delLocalData = key => uni.removeStorageSync(key)

@@ -1,5 +1,5 @@
 //用来放接口的
-export default{
+export default {
 	// 开发 测试 用
 	developUrl: 'http://127.0.0.1:4523/m1/4414254-4059226-default',
 	bkDevelopUrl: 'http://localhost:8080',

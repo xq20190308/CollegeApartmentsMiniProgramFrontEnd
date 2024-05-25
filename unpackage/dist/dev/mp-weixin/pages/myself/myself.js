@@ -23,7 +23,7 @@ const _sfc_main = {
         });
       }, 2e3);
     }
-  }
+  },
   // onLoad() {
   // 	this.func1_List = [{
   // 			name: "个人信息",
@@ -52,6 +52,9 @@ const _sfc_main = {
   // 		}
   // 	]
   // }
+  onLoad() {
+    console.log("token", common_vendor.index.getStorageSync("token"));
+  }
 };
 if (!Array) {
   const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
