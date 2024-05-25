@@ -44,11 +44,11 @@ rules : {
 		rules: [{
 			required: true,
 			errorMessage: '请输入学号'
-		}, {
+		}/*, {
 			minLength: 12,
 			maxLength: 12,
 			errorMessage: '请输入12位学号'
-		}]
+		}*/]
 	},
 	password: {
 		rules: [{
