@@ -83,8 +83,10 @@ const _sfc_main = {
       data.current[qindex] = evt.detail.value;
       console.log(data.current);
     };
+    const valiForm = common_vendor.ref();
     const submit = (ref) => {
-      this.$refs[ref].validate().then((res) => {
+      var _a;
+      (_a = valiForm.value) == null ? void 0 : _a.validate().then((res) => {
         console.log("success", res);
         if (data.current.length != data.questionList.length) {
           common_vendor.index.showToast({
@@ -142,6 +144,8 @@ const _sfc_main = {
       data.endTime = options.endTime;
       getquestions();
     });
+    common_vendor.onReady(() => {
+    });
     return (_ctx, _cache) => {
       return {
         a: common_vendor.f(data.questionList, (que, qindex, i0) => {
@@ -195,13 +199,15 @@ const _sfc_main = {
           required: true,
           name: "id"
         }),
-        h: common_vendor.sr("valiForm", "276a9552-1,276a9552-0"),
+        h: common_vendor.sr(valiForm, "276a9552-1,276a9552-0", {
+          "k": "valiForm"
+        }),
         i: common_vendor.p({
           rules: data.rules,
           modelValue: data.valiFormData,
           ["label-position"]: "top"
         }),
-        j: common_vendor.o(($event) => submit("valiForm")),
+        j: common_vendor.o(($event) => submit()),
         k: common_vendor.p({
           title: data.id + "." + data.name,
           type: "line",

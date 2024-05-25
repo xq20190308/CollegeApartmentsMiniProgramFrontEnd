@@ -46,8 +46,8 @@
 </template>
 <script setup>
 import sysurl from '../../../system.config.js';
-import {reactive} from "vue"; 
-import {onLoad} from "@dcloudio/uni-app";
+import {reactive, ref} from "vue"; 
+import {onLoad,onReady} from "@dcloudio/uni-app";
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	id:"",
@@ -113,8 +113,9 @@ const data = reactive({
 				data.current[qindex]=evt.detail.value;
 				console.log(data.current);
 			}
+			const valiForm = ref()
 			const submit = (ref) => {
-				this.$refs[ref].validate().then(res => {
+				valiForm.value?.validate().then(res => {
 					console.log('success', res);	
 					//检验问题
 					if(data.current.length != data.questionList.length){
@@ -188,6 +189,10 @@ const data = reactive({
 			getquestions();
 			
 		})
+		onReady(()=>{
+			// 如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则
+			//this.$refs.valiForm.setRules(data.rules)
+		}) 
 
 </script>
 

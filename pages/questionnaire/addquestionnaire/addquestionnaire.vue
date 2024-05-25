@@ -49,7 +49,7 @@
 	</view>
 </template>
 <script setup>
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import sysurl from '../../../system.config.js'; 
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
