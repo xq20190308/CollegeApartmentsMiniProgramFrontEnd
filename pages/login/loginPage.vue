@@ -121,15 +121,17 @@ const loginConfirm = async (ref) => {
 		await login(data.reqdata).then((res) => {
 			if (res.statusCode == 200) {
 				console.log("登陆成功")
+				console.log("res", res)
 				setLocalData("token", res.data.token)
-				console.log("res", res.data.token)
+				console.log("token", res.data.token)
 				show.value = false
-				uni.switchTab({
-					url: "/pages/myself/myself"
-				})
 				uni.showToast({
 					title: "登录成功"
 				})
+				setTimeout(()=>{
+				uni.switchTab({
+					url: "/pages/myself/myself"
+				})}, 2000)
 			} else {
 				console.log("登陆失败")
 				reject("error")

@@ -90,15 +90,18 @@ const _sfc_main = {
         await pages_login_api_login.login(data.reqdata).then((res) => {
           if (res.statusCode == 200) {
             console.log("登陆成功");
+            console.log("res", res);
             utils_cache.setLocalData("token", res.data.token);
-            console.log("res", res.data.token);
+            console.log("token", res.data.token);
             show.value = false;
-            common_vendor.index.switchTab({
-              url: "/pages/myself/myself"
-            });
             common_vendor.index.showToast({
               title: "登录成功"
             });
+            setTimeout(() => {
+              common_vendor.index.switchTab({
+                url: "/pages/myself/myself"
+              });
+            }, 2e3);
           } else {
             console.log("登陆失败");
             reject("error");
