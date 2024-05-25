@@ -1,9 +1,9 @@
-uni_modules
-a.vue
-
-//修改
-node_modules/
-.project
-unpackage/
+# Mac
 .DS_Store
-.hbuilderx/ 
+**/.DS_Store
+
+# JavaScript
+node_modules/
+
+# uni-app
+unpackage/
