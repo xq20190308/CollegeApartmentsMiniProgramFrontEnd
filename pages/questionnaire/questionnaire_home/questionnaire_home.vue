@@ -45,9 +45,10 @@
 	</view>
 </template>
 <script setup>
-import sysurl from '../../../system.config.js';
+import '@/utils/http'
 import {reactive, ref} from "vue"; 
 import {onLoad,onReady} from "@dcloudio/uni-app";
+import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	id:"",
@@ -91,109 +92,96 @@ const data = reactive({
 		}
 	},
 }) 
-			const inputChange = (evt,qindex) => {
-				clearTimeout(data.timer);
-				data.timer = setTimeout(()=>{
-					console.log(evt);
-					console.log(qindex);
-					data.current[qindex]=evt.detail.value;
-					console.log(data.current);
-					
-				}, 500)
-			}
-			const checkboxChange = (evt,qindex) => {
-				console.log(evt);
-				console.log(qindex);
-				data.current[qindex]=evt.detail.value;
-				console.log(data.current);
-			}
-			const radioChange = (evt,qindex) => {
-				console.log(evt);
-				console.log(qindex);
-				data.current[qindex]=evt.detail.value;
-				console.log(data.current);
-			}
-			const valiForm = ref()
-			const submit = (ref) => {
-				valiForm.value?.validate().then(res => {
-					console.log('success', res);	
-					//检验问题
-					if(data.current.length != data.questionList.length){
-						uni.showToast({
-							title: "请检查作答",
-							icon: "error"
-						});
-						return;
-					};
-					console.log("填写正确",data.current);
-					console.log(data.valiFormData);
-					//POST
-					uni.request({
-						url:'',
-						method: 'POST',
-						data:{
-						},
-						success: (res)=> {
-							uni.showToast({
-								title: "提交成功"
-							})			
-						},
-						complete: (res)=>{
-							
-						}
-					});
-					
-				}).catch(err => {
-					console.log('err', err);
-				})
-			}
-			const getquestions = () => {
-				uni.request({
-					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-					url:sysurl.developUrl +'/question/selectById?idList='+data.questionidList,
-					method: 'GET',
-					success: (res)=> {
-						
-						console.log("请求返回",res)
-						console.log("test",data.idList)
-						data.questionList=res.data.data;
-						console.log('获取到问题',data.questionList);
-						
-						// 使用for循环来修改数据
-						for (let i = 0; i < data.questionList.length; i++) {
-						  //this.questionList[i].content=JSON.parse(this.questionList[i].content);
-							data.questionList[i].content=["A","B","C"]
-						}
-					},
-					complete: (res)=>{
-						console.log();
-					}
-				});
-			}
-		onLoad((options) => {
-			console.log("参数列表",options);
-			
-			//测试数据
-			data.questionidList=["20181252102","20187874601"];
-			
-			//this.questionidList = JSON.parse(options.questionidList);
-			console.log('问题列表：',data.questionidList);
-			
-			data.id=options.id;
-			data.type=options.type;
-			data.name=options.name;
-			data.descr=options.descr;
-			data.startTime=options.startTime;
-			data.endTime =options.endTime ;
-			
-			getquestions();
-			
+const inputChange = (evt,qindex) => {
+	clearTimeout(data.timer);
+	data.timer = setTimeout(()=>{
+		console.log(evt);
+		console.log(qindex);
+		data.current[qindex]=evt.detail.value;
+		console.log(data.current);
+		
+	}, 500)
+}
+const checkboxChange = (evt,qindex) => {
+	console.log(evt);
+	console.log(qindex);
+	data.current[qindex]=evt.detail.value;
+	console.log(data.current);
+}
+const radioChange = (evt,qindex) => {
+	console.log(evt);
+	console.log(qindex);
+	data.current[qindex]=evt.detail.value;
+	console.log(data.current);
+}
+const valiForm = ref()
+const submit = async (ref) => {
+	//先检验必填信息项
+	valiForm.value?.validate().then(async res1 => {
+		console.log('success', res1);	
+		//再检验问题
+		if(data.current.length != data.questionList.length){
+			uni.showToast({
+				title: "请检查作答",
+				icon: "error"
+			});
+			return;
+		};
+		console.log("填写正确",data.current);
+		console.log(data.valiFormData);
+		//POST提交到后端
+		
+		//参数需要改
+		const res = await http('/questionnaire/selectAll','GET',{},);
+	
+		console.log("封装后请求的结果",res)
+		uni.showToast({
+			title: "提交成功"
 		})
-		onReady(()=>{
-			// 如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则
-			//this.$refs.valiForm.setRules(data.rules)
-		}) 
-
+		
+		
+	}).catch(err => {
+		console.log('err', err);
+	})
+}
+const getquestions = async () => { 
+	const res = await http('/question/selectById?idList='+data.questionidList,'GET',{},)
+	
+	console.log("封装后请求的结果",res);
+	
+	console.log("test",data.idList)
+	data.questionList=res.data;
+	console.log('获取到问题',data.questionList);
+	// 使用for循环来修改数据
+	for (let i = 0; i < data.questionList.length; i++) {
+	  //this.questionList[i].content=JSON.parse(this.questionList[i].content);
+		data.questionList[i].content=["A","B","C"]
+	}
+	
+}
+onLoad((options) => {
+	console.log("参数列表",options);
+	
+	//测试数据
+	data.questionidList=["20181252102","20187874601"];
+	
+	//this.questionidList = JSON.parse(options.questionidList);
+	console.log('问题列表：',data.questionidList);
+	
+	data.id=options.id;
+	data.type=options.type;
+	data.name=options.name;
+	data.descr=options.descr;
+	data.startTime=options.startTime;
+	data.endTime =options.endTime ;
+	
+	getquestions();
+	
+})
+onReady(()=>{
+	// 如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则
+	//this.$refs.valiForm.setRules(data.rules)
+}) 
 </script>
 
 <style lang="scss" scoped>

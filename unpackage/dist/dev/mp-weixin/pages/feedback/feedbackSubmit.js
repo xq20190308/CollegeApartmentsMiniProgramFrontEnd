@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const system_config = require("../../system.config.js");
+const utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_data_checkbox2 = common_vendor.resolveComponent("uni-data-checkbox");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
@@ -79,11 +80,11 @@ const _sfc_main = {
       });
     };
     const baseForm = common_vendor.ref();
-    const submit = (ref) => {
+    const submit = async (ref) => {
       var _a;
       console.log(data.baseFormData);
-      (_a = baseForm.value) == null ? void 0 : _a.validate([""]).then((res) => {
-        console.log("success", res);
+      (_a = baseForm.value) == null ? void 0 : _a.validate([""]).then(async (res1) => {
+        console.log("success", res1);
         common_vendor.index.showToast({
           title: `校验通过`
         });
@@ -97,50 +98,44 @@ const _sfc_main = {
             console.log(err);
           }
         });
-        common_vendor.index.request({
-          url: system_config.sysurl.developUrl + "/api/suggestions",
-          // 示例接口地址
-          method: "POST",
-          data: {
-            describes: data.baseFormData.describes,
-            contactobject: data.baseFormData.contactobject
-            // category: this.baseFormData.category
-          },
-          success: (res2) => {
-            console.log(res2.data);
-            data.text = "request success";
-            data.id = res2.id;
-            common_vendor.index.navigateTo({
-              url: "/pages/feedback/feedback"
-            });
-          },
-          fail: (err) => {
-            console.log("request failed", err);
-          }
+        const res = await utils_http.http("/api/suggestions", "POST", {
+          describes: data.baseFormData.describes,
+          contactobject: data.baseFormData.contactobject
+          // category: this.baseFormData.category
         });
+        console.log("封装后请求的结果", res);
+        data.text = "request success";
+        data.id = res.id;
+        common_vendor.index.showToast({
+          title: "提交成功"
+        });
+        setTimeout(() => {
+          common_vendor.index.navigateTo({
+            //提交逻辑未与保存逻辑同步
+            url: "/pages/feedback/feedback"
+          });
+        }, 2e3);
       }).catch((err) => {
         console.log("err", err);
       });
     };
-    const save = () => {
-      common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/api/suggestionsDraft",
-        //仅为示例，并非真实接口地址。
-        method: "POST",
-        data: {
-          describes: data.baseFormData.describes,
-          contactobject: data.baseFormData.contactobject
-          // category: this.baseFormData.category
-        },
-        success: (res) => {
-          console.log("save:", res.data);
-          data.text = "request success";
-          data.id = res.data.id;
-          common_vendor.index.navigateTo({
-            url: "/pages/feedback/feedback?pushtime=" + res.data + "&ismodified=1"
-          });
-        }
+    const save = async () => {
+      const res = await utils_http.http("/api/suggestionsDraft", "POST", {
+        describes: data.baseFormData.describes,
+        contactobject: data.baseFormData.contactobject
+        // category: this.baseFormData.category
       });
+      console.log("封装后请求的结果", res);
+      data.text = "request success";
+      data.id = res.id;
+      common_vendor.index.showToast({
+        title: "保存成功"
+      });
+      setTimeout(() => {
+        common_vendor.index.navigateTo({
+          url: "/pages/feedback/feedback?pushtime=" + res[0] + "&ismodified=1"
+        });
+      }, 2e3);
     };
     return (_ctx, _cache) => {
       return {

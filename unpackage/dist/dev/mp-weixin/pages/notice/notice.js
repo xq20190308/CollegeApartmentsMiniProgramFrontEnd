@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const system_config = require("../../system.config.js");
+const utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
   _easycom_uni_section2();
@@ -43,24 +43,16 @@ const _sfc_main = {
         url: "../notice/noticedetail?detail=" + JSON.stringify(data.articles[id])
       });
     };
-    const getarticles = (cates) => {
+    const getarticles = async (cates) => {
       console.log("分类请求的参数", cates);
-      let noticeurl = system_config.sysurl.developUrl + "/notifications";
+      let noticeurl = "/notifications";
       if (cates != null) {
-        noticeurl = system_config.sysurl.developUrl + "/notifications?isActive=" + (cates - 1);
+        noticeurl = "/notifications?isActive=" + (cates - 1);
       }
-      common_vendor.index.request({
-        url: noticeurl,
-        method: "GET",
-        success: (res) => {
-          console.log("success", res);
-          data.articles = res.data.data;
-          console.log(data.articles);
-        },
-        fail: (err) => {
-          console.error("Fetch error:", err);
-        }
-      });
+      const res = await utils_http.http(noticeurl, "GET", {});
+      console.log("封装后请求的结果", res);
+      data.articles = res.data;
+      console.log(data.articles);
     };
     const dircate = (options) => {
       data.active = options;

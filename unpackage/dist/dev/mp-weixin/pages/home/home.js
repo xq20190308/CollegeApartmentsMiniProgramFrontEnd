@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const system_config = require("../../system.config.js");
+const utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   _easycom_uni_card2();
@@ -30,32 +30,24 @@ const _sfc_main = {
         url: item.pagePath
       });
     };
-    const getonearticle = () => {
-      common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/notifications",
-        method: "GET",
-        success: (res) => {
-          console.log("获得轮播图的数据", res);
-          data.articles = res.data.data;
-          for (let i = data.articles.length; i < 2; i++) {
-            data.articles.push({
-              content: "Lorem",
-              id: 87,
-              isActive: true,
-              publishTime: "1976-01-02 07:27:42",
-              title: "学府属习",
-              typeName: "律况平将体集题"
-            });
-          }
-          console.log("轮播图数据", data.articles);
-          for (let i = 0; i < data.articles.length; i++) {
-            data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });
-          }
-        },
-        fail: (err) => {
-          console.error("Fetch error:", err);
-        }
-      });
+    const getonearticle = async () => {
+      const res = await utils_http.http("/notifications", "GET", {});
+      console.log("封装后请求的结果", res);
+      data.articles = res.data;
+      for (let i = data.articles.length; i < 2; i++) {
+        data.articles.push({
+          content: "Lorem",
+          id: 87,
+          isActive: true,
+          publishTime: "1976-01-02 07:27:42",
+          title: "学府属习",
+          typeName: "律况平将体集题"
+        });
+      }
+      console.log("轮播图数据", data.articles);
+      for (let i = 0; i < data.articles.length; i++) {
+        data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });
+      }
     };
     const bannerclick = (index) => {
       console.log(data.articles);

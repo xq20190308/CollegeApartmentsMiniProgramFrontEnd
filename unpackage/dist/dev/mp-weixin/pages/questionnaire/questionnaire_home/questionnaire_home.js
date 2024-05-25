@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
-const system_config = require("../../../system.config.js");
+const utils_http = require("../../../utils/http.js");
 if (!Array) {
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
@@ -84,10 +84,10 @@ const _sfc_main = {
       console.log(data.current);
     };
     const valiForm = common_vendor.ref();
-    const submit = (ref) => {
+    const submit = async (ref) => {
       var _a;
-      (_a = valiForm.value) == null ? void 0 : _a.validate().then((res) => {
-        console.log("success", res);
+      (_a = valiForm.value) == null ? void 0 : _a.validate().then(async (res1) => {
+        console.log("success", res1);
         if (data.current.length != data.questionList.length) {
           common_vendor.index.showToast({
             title: "请检查作答",
@@ -97,40 +97,24 @@ const _sfc_main = {
         }
         console.log("填写正确", data.current);
         console.log(data.valiFormData);
-        common_vendor.index.request({
-          url: "",
-          method: "POST",
-          data: {},
-          success: (res2) => {
-            common_vendor.index.showToast({
-              title: "提交成功"
-            });
-          },
-          complete: (res2) => {
-          }
+        const res = await utils_http.http("/questionnaire/selectAll", "GET", {});
+        console.log("封装后请求的结果", res);
+        common_vendor.index.showToast({
+          title: "提交成功"
         });
       }).catch((err) => {
         console.log("err", err);
       });
     };
-    const getquestions = () => {
-      common_vendor.index.request({
-        //url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-        url: system_config.sysurl.developUrl + "/question/selectById?idList=" + data.questionidList,
-        method: "GET",
-        success: (res) => {
-          console.log("请求返回", res);
-          console.log("test", data.idList);
-          data.questionList = res.data.data;
-          console.log("获取到问题", data.questionList);
-          for (let i = 0; i < data.questionList.length; i++) {
-            data.questionList[i].content = ["A", "B", "C"];
-          }
-        },
-        complete: (res) => {
-          console.log();
-        }
-      });
+    const getquestions = async () => {
+      const res = await utils_http.http("/question/selectById?idList=" + data.questionidList, "GET", {});
+      console.log("封装后请求的结果", res);
+      console.log("test", data.idList);
+      data.questionList = res.data;
+      console.log("获取到问题", data.questionList);
+      for (let i = 0; i < data.questionList.length; i++) {
+        data.questionList[i].content = ["A", "B", "C"];
+      }
     };
     common_vendor.onLoad((options) => {
       console.log("参数列表", options);

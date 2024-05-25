@@ -51,6 +51,7 @@
 <script setup>
 import {reactive,ref} from "vue";
 import sysurl from '../../../system.config.js'; 
+import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	//传到后端的数据
@@ -98,58 +99,38 @@ const add=(e,option)=>{
 	});
 	console.log(data.questionList)
 } 
-const submit = ()=> {
+const submit = async ()=> {
 	console.log("新问卷",data.newNaire)
 	console.log("新问卷的问题",data.questionList)
-	/*begin
+	//校验
+	
+	//提交到后端
+	
+	//const res = await http('','POST',{newNaire: data.newNaire},);
+	
+	//console.log("封装后请求的结果",res)
+	
+	/*this.newNaire.questionList=//后端生成并返回每个问题的id组成的数组并且“[]”*/		
+	/*this.newNaire.id=后端生成questionnaire的id*/
+	/*for (let i = 0; i < this.questionList.length; i++) {
+	this.questionList[i].questionnaire=后端生成questionnaire的id*/
+
+	//测试数据
+	data.newNaire.questionList="[\"一\",\"二\",\"三\"]";
+	data.newNaire.id="this.newNaire.id";
+
 	uni.showToast({
 		title: "创建成功"
 	});
-	//返回问卷列表界面
-	uni.navigateTo({
-		url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(this.newNaire)
-	});
-	end*/
-	//提交到后端,获取id 和 questionidList				
-	uni.request({
-		url:sysurl.developUrl +'',
-		method: 'POST',
-		data:{
-			newNaire: data.newNaire,
-		},
-		success: (res)=> {
-			
-			//校验
-			
-			/*this.newNaire.questionList=//后端生成并返回每个问题的id组成的数组并且“[]”*/		
-			/*this.newNaire.id=后端生成questionnaire的id*/
-			/*for (let i = 0; i < this.questionList.length; i++) {
-				this.questionList[i].questionnaire=后端生成questionnaire的id*/
-			
-			//测试数据
-			data.newNaire.questionList="[\"一\",\"二\",\"三\"]";
-			data.newNaire.id="this.newNaire.id";
-			
-			uni.showToast({
-				title: "创建成功"
-			});
-			console.log("问卷提交",res)
-			//返回问卷列表界面
-			uni.navigateTo({
-				url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(data.newNaire)
-			});
-		},
-		complete: (res)=>{
-			uni.showToast({
-				title: "创建成功"
-			});
-			console.log("问卷提交",res)
-			//返回问卷列表界面
-			uni.navigateTo({
-				url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(data.newNaire)
-			});
-		}
-	});
+	setTimeout(() => {
+		//返回问卷列表界面
+		//uni.navigateBack({//如何传参？
+		  //delta: 1
+		//});
+		uni.navigateTo({//返回逻辑不对
+			url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(data.newNaire)
+		});
+	}, 2000); // 3000毫秒后执行页面跳转
 }
 
 </script>

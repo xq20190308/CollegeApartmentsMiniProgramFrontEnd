@@ -1,5 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+require("../../utils/http.js");
 const _sfc_main = {
   __name: "noticedetail",
   setup(__props) {

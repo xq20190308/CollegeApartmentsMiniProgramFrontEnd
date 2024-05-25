@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const system_config = require("../../system.config.js");
+const utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
   _easycom_uni_section2();
@@ -34,35 +34,23 @@ const _sfc_main = {
         fetchComplaintDrafts();
       }
     });
-    const fetchComplaintDrafts = (pushtime) => {
-      common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/api/suggestions/pushtime",
-        // 替换为您的服务器接口URL
-        method: "GET",
-        success: (res) => {
-          data.complaintDrafts.push(res.data);
-          if (res.statusCode === 200) {
-            console.log(res);
-            for (let i = 0; i < 3; i++) {
-              data.complaintDrafts.push(
-                {
-                  id: i,
-                  describe: "静态示例",
-                  category: "课程",
-                  contactobject: "18765248196",
-                  pushtime: "2014-03-04 03:56:28"
-                }
-              );
-            }
-            console.log(data.complaintDrafts);
-          } else {
-            console.error("Failed to fetch complaint drafts:", res);
+    const fetchComplaintDrafts = async (pushtime) => {
+      const res = await utils_http.http("/api/suggestions/pushtime", "GET", {});
+      console.log("封装后请求的结果", res);
+      data.complaintDrafts.push(res);
+      console.log(res);
+      for (let i = 0; i < 3; i++) {
+        data.complaintDrafts.push(
+          {
+            id: i,
+            describe: "静态示例",
+            category: "课程",
+            contactobject: "18765248196",
+            pushtime: "2014-03-04 03:56:28"
           }
-        },
-        fail: (err) => {
-          console.error("Request failed:", err);
-        }
-      });
+        );
+      }
+      console.log(data.complaintDrafts);
     };
     const onpress = () => {
       common_vendor.index.navigateTo({

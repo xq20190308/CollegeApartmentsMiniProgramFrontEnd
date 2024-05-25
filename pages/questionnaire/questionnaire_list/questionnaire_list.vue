@@ -18,9 +18,8 @@
 <script setup>
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
-import sysurl from '../../../system.config.js';
 import questionnaire from '../../../components/questionnaire/questionnaire.vue'
-
+import {http} from '@/utils/http'
 const data = reactive({
 	questionnairelist:[],
 	newNaire:null,
@@ -37,28 +36,22 @@ const data = reactive({
 	}],
 	active:0
 })
-const getNaireslist = (cates)=>{
+const getNaireslist = async (cates)=>{
 	console.log("分类请求的参数",cates);
-	uni.request({
-		//url:'http://192.168.76.218:8080/questionnaire/selectAll',
-		url:sysurl.developUrl + '/questionnaire/selectAll', 
-		method: 'GET',
-		data:{},
-		success: (res)=> {
-			data.questionnairelist=res.data.data;
-		},
-		complete: (res)=>{
-			console.log(res);
-			if(data.newNaire!=null){
-				console.log("新问卷",data.newNaire);
-				loadNewlist();
-			}
-			else{
-				console.log("newList为空");
-				console.log('获取到列表',data.questionnairelist);
-			}
-		}
-	});
+	
+	const res = await http('/questionnaire/selectAll','GET',{},);
+	
+	console.log("封装后请求的结果",res)
+	
+	data.questionnairelist=res.data;
+	if(data.newNaire!=null){
+		console.log("新问卷",data.newNaire);
+		loadNewlist();
+	}
+	else{
+		console.log("newList为空");
+		console.log('获取到列表',data.questionnairelist);
+	}
 }
 const gotonaire = (item) =>{
 	console.log("问卷信息",item);

@@ -25,7 +25,7 @@
 <script setup>
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
-import sysurl from '../../system.config.js';
+import {http} from '@/utils/http'
 const data = reactive({
 	ismodified:0,
 	pushtime:" ",
@@ -49,38 +49,24 @@ onLoad(()=> {
 		fetchComplaintDrafts(); // 页面加载时获取数据
 	}
 })
-const fetchComplaintDrafts = (pushtime) => {
-	uni.request({
-		url: sysurl.developUrl +'/api/suggestions/pushtime', // 替换为您的服务器接口URL
-		method: 'GET',
-		success: (res) => {
-			// let jsonString = JSON.stringify(res.data);
-			data.complaintDrafts.push(res.data)
-			if (res.statusCode === 200) {
-				//this.complaintDrafts = res.data; // 直接使用返回的列表	
-				//示例数据
-				console.log(res)
-				for (let i = 0; i < 3; i++) {
-					data.complaintDrafts.push(
-					  {
-						id: i,
-						describe: "静态示例",
-						category: "课程",
-						contactobject: "18765248196",
-						pushtime: "2014-03-04 03:56:28"
-						  });
-					  }
-					console.log(data.complaintDrafts)
-			} else {
-				// 处理错误情况
-				console.error('Failed to fetch complaint drafts:', res);
-			}
-		},
-		fail: (err) => {
-			// 处理请求失败的情况
-			console.error('Request failed:', err);
-		}
-	});
+const fetchComplaintDrafts = async (pushtime) => {
+	const res = await http('/api/suggestions/pushtime','GET',{},)
+	
+	console.log("封装后请求的结果",res);
+	data.complaintDrafts.push(res)//与问卷的返回不同
+	console.log(res)
+	for (let i = 0; i < 3; i++) {
+		data.complaintDrafts.push(
+		  {
+			id: i,
+			describe: "静态示例",
+			category: "课程",
+			contactobject: "18765248196",
+			pushtime: "2014-03-04 03:56:28"
+			  });
+		  }
+	console.log(data.complaintDrafts)
+			
 }
 const onpress=()=> {
 	uni.navigateTo({

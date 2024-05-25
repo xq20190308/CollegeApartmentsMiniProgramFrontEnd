@@ -36,6 +36,7 @@
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive, ref} from "vue";
 import sysurl from '../../system.config.js';
+import {http} from '@/utils/http'
 const data = reactive({
 	id:null,
 	categories: [{
@@ -94,10 +95,10 @@ const selectUpload=(e)=> {
 //组合式api需要创建表单数据实例
 const baseForm = ref()
 
-const submit=(ref)=> {
-		console.log(data.baseFormData)
-		baseForm.value?.validate(['']).then(res => {
-			console.log('success', res);
+const submit=async (ref)=> {
+	console.log(data.baseFormData)
+	baseForm.value?.validate(['']).then(async (res1) => {
+		console.log('success', res1);
 		uni.showToast({
 			title: `校验通过`,
 		});
@@ -111,50 +112,52 @@ const submit=(ref)=> {
 				console.log(err);
 			}
 		});
-		uni.request({
-			url: sysurl.developUrl +'/api/suggestions', // 示例接口地址
-			method: 'POST',
-			data: {
+		//缺少类型选择的校验
+	
+		const res = await http('/api/suggestions','POST',{
 				describes: data.baseFormData.describes,
 				contactobject: data.baseFormData.contactobject,
 				// category: this.baseFormData.category
-			},
-			success: (res) => {
-				console.log(res.data);
+			},);
+			
+		console.log("封装后请求的结果",res)
 				data.text = 'request success';
 				data.id = res.id;
-				uni.navigateTo({
-					url: '/pages/feedback/feedback',
-				})
-			},
-			fail: (err) => {
-				console.log('request failed', err);
-			}
-		})
+		uni.showToast({
+			title: "提交成功"
+		});
+		setTimeout(() => {
+		//返回问卷列表界面
+			uni.navigateTo({
+				//提交逻辑未与保存逻辑同步
+				url: '/pages/feedback/feedback'
+			});
+		}, 2000);
 	}).catch(err => {
 		console.log('err', err);
 		// 处理验证失败的情况
 	})
 }
 //保存和提交分别交到后端不同的地方
-const save=()=> {
-	uni.request({
-		url: sysurl.developUrl +'/api/suggestionsDraft', //仅为示例，并非真实接口地址。
-		method: 'POST',
-		data: {
-			describes: data.baseFormData.describes,
-			contactobject: data.baseFormData.contactobject,
-			// category: this.baseFormData.category
-		},
-		success: (res) => {
-			console.log("save:",res.data);
-			data.text = 'request success';
-			data.id = res.data.id;
-			uni.navigateTo({
-				url: '/pages/feedback/feedback?pushtime='+res.data+'&ismodified='+1,
-			})
-		}
-	})
+const save=async ()=> {
+	const res = await http('/api/suggestionsDraft','POST',{
+		describes: data.baseFormData.describes,
+		contactobject: data.baseFormData.contactobject,
+		// category: this.baseFormData.category
+	},);
+
+	console.log("封装后请求的结果",res)
+	data.text = 'request success';
+	data.id = res.id;
+	uni.showToast({
+		title: "保存成功"
+	});
+	setTimeout(() => {
+	//返回问卷列表界面
+		uni.navigateTo({
+			url: '/pages/feedback/feedback?pushtime='+res[0]+'&ismodified='+1,
+		});
+	}, 2000);
 }
 const select=(e)=> {
 	// 文件选择后的处理

@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
-const system_config = require("../../../system.config.js");
+const utils_http = require("../../../utils/http.js");
 if (!Math) {
   questionnaire();
 }
@@ -24,27 +24,18 @@ const _sfc_main = {
       }],
       active: 0
     });
-    const getNaireslist = (cates) => {
+    const getNaireslist = async (cates) => {
       console.log("分类请求的参数", cates);
-      common_vendor.index.request({
-        //url:'http://192.168.76.218:8080/questionnaire/selectAll',
-        url: system_config.sysurl.developUrl + "/questionnaire/selectAll",
-        method: "GET",
-        data: {},
-        success: (res) => {
-          data.questionnairelist = res.data.data;
-        },
-        complete: (res) => {
-          console.log(res);
-          if (data.newNaire != null) {
-            console.log("新问卷", data.newNaire);
-            loadNewlist();
-          } else {
-            console.log("newList为空");
-            console.log("获取到列表", data.questionnairelist);
-          }
-        }
-      });
+      const res = await utils_http.http("/questionnaire/selectAll", "GET", {});
+      console.log("封装后请求的结果", res);
+      data.questionnairelist = res.data;
+      if (data.newNaire != null) {
+        console.log("新问卷", data.newNaire);
+        loadNewlist();
+      } else {
+        console.log("newList为空");
+        console.log("获取到列表", data.questionnairelist);
+      }
     };
     const gotonaire = (item) => {
       console.log("问卷信息", item);

@@ -39,6 +39,7 @@
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import sysurl from '../../system.config.js';
+import {http} from '@/utils/http'
 
 const data = reactive({
 	categories: [{
@@ -78,22 +79,17 @@ const data = reactive({
 		}
 	}
 })
-const submit=()=> {
-	uni.request({
-		url: sysurl.developUrl +'/api/suggestions', //仅为示例，并非真实接口地址。
-		method: 'POST',
-		data: {
-			describes: data.baseFormData.describes,
-			contactobject: data.baseFormData.contactobject,
-			category: data.baseFormData.category
-		},
-		success: (res) => {
-			console.log(res.data);
-			uni.navigateTo({
-				url:'/pages/feedback/feedback',
-			});
-		}
-	})
+const submit=async ()=> {
+	const res = await http('/api/suggestions','POST',{
+		describes: data.baseFormData.describes,
+		contactobject: data.baseFormData.contactobject,
+		category: data.baseFormData.category
+	},);
+	console.log("封装后请求的结果",res)	
+	console.log(res.data);
+	uni.navigateTo({
+		url:'/pages/feedback/feedback',
+	});
 }
 const select=(e)=>{
 	console.log('选择文件：',e)

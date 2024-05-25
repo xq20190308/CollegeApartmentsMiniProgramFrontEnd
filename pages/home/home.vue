@@ -26,7 +26,7 @@
 <script setup>
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
-import sysurl from '../../system.config.js';
+import {http} from '@/utils/http'
 const data = reactive({
 	articles:[],
 	bannerList: [],
@@ -45,33 +45,27 @@ const func1Click=(item)=> {
 		url: item.pagePath
 	})
 }
-const getonearticle=()=>{
+const getonearticle= async ()=>{
 	//获取通知数据
-   uni.request({
-	    url: sysurl.developUrl +'/notifications',
-	    method: 'GET',
-	    success: (res) => {
-			console.log("获得轮播图的数据",res);
-			data.articles = res.data.data;
-		   for (let i = data.articles.length; i < 2; i++) {
-				data.articles.push({
-					content: "Lorem",
-					id: 87,
-					isActive: true,
-					publishTime: "1976-01-02 07:27:42",
-					title: "学府属习",
-					typeName: "律况平将体集题",
-				   });
-		   }//静态示例用于展示
-			console.log("轮播图数据",data.articles);
-			for (let i = 0; i < data.articles.length; i++) {
-				data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });
-			}
-	    },
-	    fail: (err) => {
-	    	 console.error('Fetch error:', err);
-	    }
-   });
+	const res = await http('/notifications','GET',{},)
+	
+	console.log("封装后请求的结果",res);
+	data.articles = res.data;
+	for (let i = data.articles.length; i < 2; i++) {
+		data.articles.push({
+			content: "Lorem",
+			id: 87,
+			isActive: true,
+			publishTime: "1976-01-02 07:27:42",
+			title: "学府属习",
+			typeName: "律况平将体集题",
+		   });
+	}//静态示例用于展示
+	console.log("轮播图数据",data.articles);
+	for (let i = 0; i < data.articles.length; i++) {
+		data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });
+	}
+
 }
 const bannerclick=(index)=>{
 		console.log(data.articles);

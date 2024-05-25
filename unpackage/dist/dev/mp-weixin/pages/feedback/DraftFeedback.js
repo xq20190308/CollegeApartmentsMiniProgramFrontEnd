@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const system_config = require("../../system.config.js");
+const utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_data_checkbox2 = common_vendor.resolveComponent("uni-data-checkbox");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
@@ -59,22 +59,16 @@ const _sfc_main = {
         }
       }
     });
-    const submit = () => {
-      common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "/api/suggestions",
-        //仅为示例，并非真实接口地址。
-        method: "POST",
-        data: {
-          describes: data.baseFormData.describes,
-          contactobject: data.baseFormData.contactobject,
-          category: data.baseFormData.category
-        },
-        success: (res) => {
-          console.log(res.data);
-          common_vendor.index.navigateTo({
-            url: "/pages/feedback/feedback"
-          });
-        }
+    const submit = async () => {
+      const res = await utils_http.http("/api/suggestions", "POST", {
+        describes: data.baseFormData.describes,
+        contactobject: data.baseFormData.contactobject,
+        category: data.baseFormData.category
+      });
+      console.log("封装后请求的结果", res);
+      console.log(res.data);
+      common_vendor.index.navigateTo({
+        url: "/pages/feedback/feedback"
       });
     };
     return (_ctx, _cache) => {

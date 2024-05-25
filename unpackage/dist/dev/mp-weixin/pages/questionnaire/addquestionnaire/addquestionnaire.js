@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
-const system_config = require("../../../system.config.js");
+require("../../../utils/http.js");
 const _sfc_main = {
   __name: "addquestionnaire",
   setup(__props) {
@@ -55,36 +55,20 @@ const _sfc_main = {
       });
       console.log(data.questionList);
     };
-    const submit = () => {
+    const submit = async () => {
       console.log("新问卷", data.newNaire);
       console.log("新问卷的问题", data.questionList);
-      common_vendor.index.request({
-        url: system_config.sysurl.developUrl + "",
-        method: "POST",
-        data: {
-          newNaire: data.newNaire
-        },
-        success: (res) => {
-          data.newNaire.questionList = '["一","二","三"]';
-          data.newNaire.id = "this.newNaire.id";
-          common_vendor.index.showToast({
-            title: "创建成功"
-          });
-          console.log("问卷提交", res);
-          common_vendor.index.navigateTo({
-            url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(data.newNaire)
-          });
-        },
-        complete: (res) => {
-          common_vendor.index.showToast({
-            title: "创建成功"
-          });
-          console.log("问卷提交", res);
-          common_vendor.index.navigateTo({
-            url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(data.newNaire)
-          });
-        }
+      data.newNaire.questionList = '["一","二","三"]';
+      data.newNaire.id = "this.newNaire.id";
+      common_vendor.index.showToast({
+        title: "创建成功"
       });
+      setTimeout(() => {
+        common_vendor.index.navigateTo({
+          //返回逻辑不对
+          url: "../questionnaire_list/questionnaire_list?newNaire=" + JSON.stringify(data.newNaire)
+        });
+      }, 2e3);
     };
     return (_ctx, _cache) => {
       return {
