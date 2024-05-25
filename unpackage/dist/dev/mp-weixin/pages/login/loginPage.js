@@ -76,9 +76,8 @@ const _sfc_main = {
     const req = common_vendor.ref();
     const loginConfirm = async (ref) => {
       var _a;
-      console.log(data.reqdata);
-      console.log("1111", req);
-      (_a = req.value) == null ? void 0 : _a.validate().then(async (res1) => {
+      console.log("data.reqdata", data.reqdata);
+      await ((_a = req.value) == null ? void 0 : _a.validate().then(async (res1) => {
         if (!licenseDisagree.value) {
           common_vendor.index.showToast({
             title: "请先阅读并同意协议",
@@ -86,9 +85,9 @@ const _sfc_main = {
           });
           return false;
         }
-        req.code = await getCode();
+        data.reqdata.code = await getCode();
         console.log("req: ", req);
-        await pages_login_api_login.login(req).then((res) => {
+        await pages_login_api_login.login(data.reqdata).then((res) => {
           if (res.statusCode == 200) {
             console.log("登陆成功");
             utils_cache.setLocalData("token", res.data.token);
@@ -113,7 +112,7 @@ const _sfc_main = {
         });
       }).catch((err) => {
         console.log("填写错误", err);
-      });
+      }));
       console.log("结束");
     };
     return (_ctx, _cache) => {

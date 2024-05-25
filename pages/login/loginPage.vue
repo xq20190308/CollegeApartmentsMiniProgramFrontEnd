@@ -99,9 +99,8 @@ const changeConfirm = (e)=>{
 	}	
 const req = ref()
 const loginConfirm = async (ref) => {
-	console.log(data.reqdata)
-	console.log("1111",req);
-	req.value?.validate().then(async res1 => {
+	console.log("data.reqdata",data.reqdata)
+	await req.value?.validate().then(async res1 => {
 		//检查是否勾选 阅读同意所有要求
 		if (!licenseDisagree.value) {
 			uni.showToast({
@@ -111,15 +110,15 @@ const loginConfirm = async (ref) => {
 			return false;
 		}
 		//获取code
-		req.code = await getCode();
+		data.reqdata.code = await getCode();
+		console.log("req: ", req)
 		/*console.log("userInfo:", userInfo)
 		if (userInfo) {
 			studentid = userInfo.studentid;
 			password = userInfo.password;
 		}*/
-		console.log("req: ", req)
 		//发送请求
-		await login(req).then((res) => {
+		await login(data.reqdata).then((res) => {
 			if (res.statusCode == 200) {
 				console.log("登陆成功")
 				setLocalData("token", res.data.token)
