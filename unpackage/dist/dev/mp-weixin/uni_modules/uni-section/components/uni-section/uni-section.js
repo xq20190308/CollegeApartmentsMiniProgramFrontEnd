@@ -79,5 +79,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     l: $options._padding
   });
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/uni_modules/uni-section/components/uni-section/uni-section.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/uni_modules/uni-section/components/uni-section/uni-section.vue"]]);
 wx.createComponent(Component);

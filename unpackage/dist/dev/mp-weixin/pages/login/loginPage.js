@@ -145,7 +145,7 @@ const _sfc_main = {
           required: true,
           name: "password"
         }),
-        g: common_vendor.sr(req, "5c728580-0", {
+        g: common_vendor.sr(req, "259083a0-0", {
           "k": "req"
         }),
         h: common_vendor.p({
@@ -162,5 +162,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/login/loginPage.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/login/loginPage.vue"]]);
 wx.createPage(MiniProgramPage);

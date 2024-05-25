@@ -113,7 +113,7 @@ const _sfc_main = {
               };
             }),
             d: index,
-            e: "fa319806-0-" + i0,
+            e: "27fa4ea6-0-" + i0,
             f: common_vendor.p({
               title: item,
               ["sub-title"]: "",
@@ -125,5 +125,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "F:/codes/CollegeApartmentsFrontE/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
 wx.createPage(MiniProgramPage);
