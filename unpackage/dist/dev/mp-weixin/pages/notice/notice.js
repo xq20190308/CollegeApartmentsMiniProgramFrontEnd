@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const utils_http = require("../../utils/http.js");
+require("../../system.config.js");
 if (!Array) {
   const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
   _easycom_uni_section2();
@@ -113,7 +114,7 @@ const _sfc_main = {
               };
             }),
             d: index,
-            e: "27fa4ea6-0-" + i0,
+            e: "7f469730-0-" + i0,
             f: common_vendor.p({
               title: item,
               ["sub-title"]: "",
@@ -125,5 +126,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/notice/notice.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/notice/notice.vue"]]);
 wx.createPage(MiniProgramPage);

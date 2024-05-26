@@ -5,10 +5,9 @@
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
 						<view>id：{{item.id}}</view>
-						<view>describe：{{item.describe}}</view>
+						<view>describes：{{item.describes}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
-						<view>pushtime：{{item.pushtime}}</view>
 					</view>
 					<button @click="delet(index)" class="deletbutton">删除</button>
 				</view>
@@ -27,42 +26,29 @@ import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
-	ismodified:0,
-	pushtime:" ",
 	complaintDrafts: [{
 		id: "1",
-		describe: "初始数据",
+		describes: "初始数据",
 		category: "宿舍",
 		contactobject: "18765248196",
-		pushtime: "2014-03-04 03:56:28"
 	},] // 初始为空数组
 })
 onLoad(()=> {
-	if(data.ismodified){
-		// 确保路由对象已经初始化
-		console.log("query",this.$route.query.pushtime);
-		fetchComplaintDrafts(this.$route.query.pushtime);
-		data.ismodified=0;
-	}
-	else{
-		console.log("无query");
 		fetchComplaintDrafts(); // 页面加载时获取数据
-	}
 })
-const fetchComplaintDrafts = async (pushtime) => {
-	const res = await http('/api/suggestions/pushtime','GET',{},)
+const fetchComplaintDrafts = async () => {
+	const res = await http('/api/suggestions','GET',{},)
 	
-	console.log("封装后请求的结果",res);
-	data.complaintDrafts.push(res)//与问卷的返回不同
-	console.log(res)
+	console.log("封装后请求的结果",res.data.data);
+	await data.complaintDrafts.concat(res.data)//与问卷的返回不同
+	console.log("data.complaintDrafts",data.complaintDrafts)
 	for (let i = 0; i < 3; i++) {
 		data.complaintDrafts.push(
 		  {
 			id: i,
-			describe: "静态示例",
+			describes: "静态示例",
 			category: "课程",
 			contactobject: "18765248196",
-			pushtime: "2014-03-04 03:56:28"
 			  });
 		  }
 	console.log(data.complaintDrafts)

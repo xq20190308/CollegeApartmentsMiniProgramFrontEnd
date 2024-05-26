@@ -110,7 +110,7 @@ const _sfc_main = {
           title: "提交成功"
         });
         setTimeout(() => {
-          common_vendor.index.navigateTo({
+          common_vendor.index.navigateBack({
             //提交逻辑未与保存逻辑同步
             url: "/pages/feedback/feedback"
           });
@@ -132,8 +132,8 @@ const _sfc_main = {
         title: "保存成功"
       });
       setTimeout(() => {
-        common_vendor.index.navigateTo({
-          url: "/pages/feedback/feedback?pushtime=" + res[0] + "&ismodified=1"
+        common_vendor.index.navigateBack({
+          url: "/pages/feedback/feedback"
         });
       }, 2e3);
     };
@@ -164,7 +164,7 @@ const _sfc_main = {
           name: "describes",
           required: true
         }),
-        g: common_vendor.sr("uniFilePicker", "0d147305-7,0d147305-6"),
+        g: common_vendor.sr("uniFilePicker", "d36bac70-7,d36bac70-6"),
         h: common_vendor.o(selectUpload),
         i: common_vendor.p({
           limit: "9",
@@ -185,7 +185,7 @@ const _sfc_main = {
           name: "contactobject",
           required: true
         }),
-        n: common_vendor.sr(baseForm, "0d147305-1,0d147305-0", {
+        n: common_vendor.sr(baseForm, "d36bac70-1,d36bac70-0", {
           "k": "baseForm"
         }),
         o: common_vendor.p({
@@ -202,5 +202,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/feedbackSubmit.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/feedback/feedbackSubmit.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,6 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const utils_http = require("../../utils/http.js");
+require("../../system.config.js");
 if (!Array) {
   const _easycom_uni_data_checkbox2 = common_vendor.resolveComponent("uni-data-checkbox");
   const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
@@ -124,7 +125,7 @@ const _sfc_main = {
           label: "手机号",
           required: true
         }),
-        n: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
+        n: common_vendor.sr("baseForm", "b91250aa-1,b91250aa-0"),
         o: common_vendor.p({
           modelValue: data.baseFormData
         }),
@@ -137,5 +138,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/feedback/DraftFeedback.vue"]]);
 wx.createPage(MiniProgramPage);

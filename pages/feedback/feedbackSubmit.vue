@@ -128,7 +128,7 @@ const submit=async (ref)=> {
 		});
 		setTimeout(() => {
 		//返回问卷列表界面
-			uni.navigateTo({
+			uni.navigateBack({
 				//提交逻辑未与保存逻辑同步
 				url: '/pages/feedback/feedback'
 			});
@@ -154,36 +154,36 @@ const save=async ()=> {
 	});
 	setTimeout(() => {
 	//返回问卷列表界面
-		uni.navigateTo({
-			url: '/pages/feedback/feedback?pushtime='+res[0]+'&ismodified='+1,
+		uni.navigateBack({
+			url: '/pages/feedback/feedback',
 		});
 	}, 2000);
 }
-const select=(e)=> {
-	// 文件选择后的处理
-	console.log('选择文件：', e);
-	const files = e.tempFiles;
-	files.forEach(file => {
-		uploadFile(file);
-	});
-}
-const uploadFile=(file)=> {
-	const formData = new FormData();
-	formData.append('file', file);
-	uni.uploadFile({
-		url: sysurl.developUrl +'/api/upload',
-		files: formData,
-		success: (res) => {
-			console.log('文件上传成功', res);
-		},
-		fail: (err) => {
-			console.log('文件上传失败', err);
-		}
-	})
-}
-const progress=(e)=> {
-	console.log('上传进度：', e)
-}
+// const select=(e)=> {
+// 	// 文件选择后的处理
+// 	console.log('选择文件：', e);
+// 	const files = e.tempFiles;
+// 	files.forEach(file => {
+// 		uploadFile(file);
+// 	});
+// }
+// const uploadFile=(file)=> {
+// 	const formData = new FormData();
+// 	formData.append('file', file);
+// 	uni.uploadFile({
+// 		url: sysurl.developUrl +'/api/upload',
+// 		files: formData,
+// 		success: (res) => {
+// 			console.log('文件上传成功', res);
+// 		},
+// 		fail: (err) => {
+// 			console.log('文件上传失败', err);
+// 		}
+// 	})
+// }
+// const progress=(e)=> {
+// 	console.log('上传进度：', e)
+// }
 </script>
 
 

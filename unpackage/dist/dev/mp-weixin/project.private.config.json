@@ -9,7 +9,7 @@
       "list": [
         {
           "name": "pages/login/loginPage",
-          "pathName": "pages/myself/myself",
+          "pathName": "pages/feedback/feedback",
           "query": "",
           "launchMode": "default",
           "scene": null

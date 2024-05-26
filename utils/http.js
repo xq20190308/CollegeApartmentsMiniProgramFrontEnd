@@ -8,6 +8,8 @@ const httpInterceptor = {
 		options.timeout = 10000
 		console.log("拦截器", options)
 		//添加请求头
+		
+		
 	},
 
 }
@@ -23,6 +25,7 @@ export const http = (url, method, data) => {
 			//请求成功
 			success(res) {
 				//需对状态码进行分类处理，登录信息token
+				console.log("--",res);
 				if (res.statusCode >= 200 && res.statusCode < 300) {
 					resolve(res.data)
 				} else {
