@@ -80,14 +80,14 @@ const data = reactive({
 	}
 })
 const submit=async ()=> {
-	const res = await http('/api/suggestions','POST',{
+	const res = await http('/api/suggestionsDraft','POST',{
 		describes: data.baseFormData.describes,
 		contactobject: data.baseFormData.contactobject,
 		category: data.baseFormData.category
 	},);
 	console.log("封装后请求的结果",res)	
 	console.log(res.data);
-	uni.navigateTo({
+	uni.navigateBack({//接口没有返回数据哦
 		url:'/pages/feedback/feedback',
 	});
 }

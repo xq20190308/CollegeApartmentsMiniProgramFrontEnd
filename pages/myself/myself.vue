@@ -1,4 +1,8 @@
 <template>
+	<view class="mask" v-if="userInfo.token===''">
+		
+	</view>
+	
 	<!-- 头像昵称区域 -->
 	<view class="User">
 		<image :src="userInfo.avatarUrl" class="avatar" />
@@ -20,7 +24,7 @@
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
 	<view style="margin-top: 40px;">
-		<button class="btn" style="text-align:center" @click="delogin">
+		<button class="btn" style="text-align:center" @click="delogin('正在退出')">
 			<text>退出登录</text>
 		</button>
 	</view>
@@ -28,7 +32,8 @@
 
 <script>
 	import {
-		getLocalData
+		getLocalData,
+		delLocalData
 	} from "../../utils/cache.js"
 	export default {
 		data() {
@@ -36,53 +41,45 @@
 				userInfo: { //默认头像
 					avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
 					nickName: '',
+					token:null,
 				},
 				useravatarImg: "",
 				func1_List: []
 			}
 		},
 		methods: {
-			delogin() {
+			delogin(meg) {
 				uni.showLoading({
-					title: "正在退出"
+					title: meg,
+					mask:true,
 				})
 				setTimeout(() => {
+					uni.hideLoading();
 					uni.navigateTo({
 						url: "/pages/login/loginPage"
 					})
-				}, 2000)
+				}, 1000)
 			}
 		},
-		// onLoad() {
-		// 	this.func1_List = [{
-		// 			name: "个人信息",
-		// 			imgPath: "../../static/self_func1_img/MyInformation.png",
-		// 			navigator_url: "../../pagesOfMyself/self_information/self_information"
-		// 		},
-		// 		{
-		// 			name: "业主认证",
-		// 			imgPath: "../../static/self_func1_img/Owner.png",
-		// 			navigator_url: "../../pagesOfMyself/Owner_Certified/Owner_Certified"
-		// 		},
-		// 		{
-		// 			name: "我的通知",
-		// 			imgPath: "../../static/self_func1_img/Information.png",
-		// 			navigator_url: "../../pagesOfMyself/My_notification/My_notification"
-		// 		},
-		// 		{
-		// 			name: "维修记录",
-		// 			imgPath: "../../static/self_func1_img/Maintenance.png",
-		// 			navigator_url: "../../pagesOfMyself/Repair_records/Repair_records"
-		// 		},
-		// 		{
-		// 			name: "服务政策",
-		// 			imgPath: "../../static/self_func1_img/Policy.png",
-		// 			navigator_url: "../../pagesOfMyself/Service_Policy/Service_Policy"
-		// 		}
-		// 	]
-		// }
+		onShow() {
+			if(this.userInfo.token===""){
+				uni.showModal({
+					title: '提示',
+					content: '未登录影响功能的使用',
+					success: (res) => {
+						if (res.confirm) {
+							console.log('用户点击确定');
+							this.delogin("正在跳转")
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			}
+		},
 		onLoad() {
-			console.log("token", uni.getStorageSync("token"));
+			this.userInfo.token=getLocalData("token")
+			console.log("this.userInfo.token",this.userInfo.token);
 		}
 	}
 </script>
@@ -160,5 +157,14 @@
 	.spacing {
 		height: 40rpx;
 		background-color: transparent;
+	}
+	.mask {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #fff; // 半透明遮罩
+	  z-index: 999; /* 确保遮罩在其他内容之上 */
 	}
 </style>

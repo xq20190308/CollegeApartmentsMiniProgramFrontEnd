@@ -20,14 +20,17 @@ const _sfc_main = {
     const data = common_vendor.reactive({
       rules: {
         username: {
-          rules: [{
-            required: true,
-            errorMessage: "请输入学号"
-          }, {
-            minLength: 12,
-            maxLength: 12,
-            errorMessage: "请输入12位学号"
-          }]
+          rules: [
+            {
+              required: true,
+              errorMessage: "请输入学号"
+            }
+            //{
+            // 	minLength: 12,
+            // 	maxLength: 12,
+            // 	errorMessage: '请输入12位学号'
+            // }
+          ]
         },
         password: {
           rules: [{
@@ -103,7 +106,7 @@ const _sfc_main = {
               title: "登录成功"
             });
             setTimeout(() => {
-              common_vendor.index.switchTab({
+              common_vendor.index.navigateBack({
                 url: "/pages/myself/myself"
               });
             }, 2e3);

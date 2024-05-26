@@ -58,11 +58,12 @@
 				rules: [{
 					required: true,
 					errorMessage: '请输入学号'
-				}, {
-					minLength: 12,
-					maxLength: 12,
-					errorMessage: '请输入12位学号'
-				}]
+				}, //{
+				// 	minLength: 12,
+				// 	maxLength: 12,
+				// 	errorMessage: '请输入12位学号'
+				// }
+				]
 			},
 			password: {
 				rules: [{
@@ -148,7 +149,7 @@
 						title: "登录成功"
 					})
 					setTimeout(() => {
-						uni.switchTab({
+						uni.navigateBack({
 							url: "/pages/myself/myself"
 						})
 					}, 2000)

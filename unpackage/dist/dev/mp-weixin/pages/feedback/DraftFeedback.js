@@ -60,14 +60,15 @@ const _sfc_main = {
       }
     });
     const submit = async () => {
-      const res = await utils_http.http("/api/suggestions", "POST", {
+      const res = await utils_http.http("/api/suggestionsDraft", "POST", {
         describes: data.baseFormData.describes,
         contactobject: data.baseFormData.contactobject,
         category: data.baseFormData.category
       });
       console.log("封装后请求的结果", res);
       console.log(res.data);
-      common_vendor.index.navigateTo({
+      common_vendor.index.navigateBack({
+        //接口没有返回数据哦
         url: "/pages/feedback/feedback"
       });
     };

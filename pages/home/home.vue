@@ -51,16 +51,6 @@ const getonearticle= async ()=>{
 	
 	console.log("封装后请求的结果",res);
 	data.articles = res.data;
-	for (let i = data.articles.length; i < 2; i++) {
-		data.articles.push({
-			content: "Lorem",
-			id: 87,
-			isActive: true,
-			publishTime: "1976-01-02 07:27:42",
-			title: "学府属习",
-			typeName: "律况平将体集题",
-		   });
-	}//静态示例用于展示
 	console.log("轮播图数据",data.articles);
 	for (let i = 0; i < data.articles.length; i++) {
 		data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });

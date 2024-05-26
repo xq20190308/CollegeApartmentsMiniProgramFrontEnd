@@ -7897,6 +7897,7 @@ const createSubpackageApp = initCreateSubpackageApp();
 const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
   !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
 };
+const onShow = /* @__PURE__ */ createHook(ON_SHOW);
 const onLoad = /* @__PURE__ */ createHook(ON_LOAD);
 const onReady = /* @__PURE__ */ createHook(ON_READY);
 const easycom = {
@@ -10742,6 +10743,7 @@ exports.n = n$1;
 exports.o = o$1;
 exports.onLoad = onLoad;
 exports.onReady = onReady;
+exports.onShow = onShow;
 exports.p = p$1;
 exports.reactive = reactive;
 exports.ref = ref;

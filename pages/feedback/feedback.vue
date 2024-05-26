@@ -8,9 +8,8 @@
 						<view>describe：{{item.describe}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
-						<view>pushtime：{{item.pushtime}}</view>
 					</view>
-					<button @click="delet(index)" class="deletbutton">删除</button>
+					<button @click="delet(item,index)" class="deletbutton">删除</button>
 				</view>
 			</view>
 		</uni-section>
@@ -23,63 +22,44 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
-	ismodified:0,
-	pushtime:" ",
 	complaintDrafts: [{
 		id: "1",
 		describe: "初始数据",
 		category: "宿舍",
 		contactobject: "18765248196",
-		pushtime: "2014-03-04 03:56:28"
 	},] // 初始为空数组
 })
 onLoad(()=> {
-	if(data.ismodified){
-		// 确保路由对象已经初始化
-		console.log("query",this.$route.query.pushtime);
-		fetchComplaintDrafts(this.$route.query.pushtime);
-		data.ismodified=0;
-	}
-	else{
-		console.log("无query");
-		fetchComplaintDrafts(); // 页面加载时获取数据
-	}
+	// 页面加载时获取数据
 })
-const fetchComplaintDrafts = async (pushtime) => {
-	const res = await http('/api/suggestions/pushtime','GET',{},)
+onShow(()=>{
+	fetchComplaintDrafts();
+})
+const fetchComplaintDrafts = async () => {
+	const res = await http('/api/suggestions','POST',{},)
 	
 	console.log("封装后请求的结果",res);
-	data.complaintDrafts.push(res)//与问卷的返回不同
-	console.log(res)
-	for (let i = 0; i < 3; i++) {
-		data.complaintDrafts.push(
-		  {
-			id: i,
-			describe: "静态示例",
-			category: "课程",
-			contactobject: "18765248196",
-			pushtime: "2014-03-04 03:56:28"
-			  });
-		  }
-	console.log(data.complaintDrafts)
-			
+	data.complaintDrafts=res.data//与问卷的返回不同
+	console.log("data.complaintDrafts",data.complaintDrafts)
 }
 const onpress=()=> {
+	console.log("跳转到添加草稿，不需要携带id")
 	uni.navigateTo({
 		url: '../feedback/feedbackSubmit'
 	});
 }
 const change=(item)=> {
-	console.log(item)
+	console.log("要修改id为",item.id,"的草稿")
 	uni.navigateTo({
-		url: '../feedback/DraftFeedback'
+		url: '../feedback/DraftFeedback?id='+item.id,
 	})
 }
-const delet=(index)=> {
+const delet=(item,index)=> {
+	console.log("要删除id为",item.id,"的草稿")
 	data.complaintDrafts.splice(index, 1);
 	console.log(data.complaintDrafts)
 	//提交到后端

@@ -1,1 +1,1 @@
-<view class="questionnaire"><uni-section wx:if="{{a}}" u-i="46d1a835-0" bind:__l="__l" u-p="{{a}}"></uni-section><text>{{b}}</text><view>{{c}}</view><view>截止到：{{d}}</view></view>
+<view class="questionnaire"><uni-section wx:if="{{a}}" u-i="732234f6-0" bind:__l="__l" u-p="{{a}}"></uni-section><text>{{b}}</text><view>{{c}}</view><view>截止到：{{d}}</view></view>

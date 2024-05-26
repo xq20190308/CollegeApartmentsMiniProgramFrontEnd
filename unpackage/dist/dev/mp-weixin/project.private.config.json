@@ -8,9 +8,9 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/login/loginPage",
-          "pathName": "pages/myself/myself",
-          "query": "",
+          "name": "pages/feedback/feedback",
+          "pathName": "pages/feedback/feedback",
+          "query": "id=64",
           "launchMode": "default",
           "scene": null
         }
