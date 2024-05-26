@@ -1,7 +1,6 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
 require("../../../utils/http.js");
-require("../../../system.config.js");
 const _sfc_main = {
   __name: "addquestionnaire",
   setup(__props) {
@@ -138,5 +137,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-09980780"], ["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/questionnaire/addquestionnaire/addquestionnaire.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-09980780"], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/addquestionnaire/addquestionnaire.vue"]]);
 wx.createPage(MiniProgramPage);

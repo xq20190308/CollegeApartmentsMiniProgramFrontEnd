@@ -2,19 +2,11 @@
 const common_vendor = require("../../common/vendor.js");
 const pages_login_api_login = require("./api/login.js");
 const utils_cache = require("../../utils/cache.js");
-require("../../utils/http.js");
-require("../../system.config.js");
 if (!Array) {
-  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
-  const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2)();
-}
-const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_forms_item = () => "../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
-const _easycom_uni_forms = () => "../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
-if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms)();
+  const _component_uni_easyinput = common_vendor.resolveComponent("uni-easyinput");
+  const _component_uni_forms_item = common_vendor.resolveComponent("uni-forms-item");
+  const _component_uni_forms = common_vendor.resolveComponent("uni-forms");
+  (_component_uni_easyinput + _component_uni_forms_item + _component_uni_forms)();
 }
 const _sfc_main = {
   __name: "loginPage",
@@ -147,7 +139,7 @@ const _sfc_main = {
           required: true,
           name: "password"
         }),
-        g: common_vendor.sr(req, "82f4301a-0", {
+        g: common_vendor.sr(req, "259083a0-0", {
           "k": "req"
         }),
         h: common_vendor.p({
@@ -164,5 +156,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/login/loginPage.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/login/loginPage.vue"]]);
 wx.createPage(MiniProgramPage);

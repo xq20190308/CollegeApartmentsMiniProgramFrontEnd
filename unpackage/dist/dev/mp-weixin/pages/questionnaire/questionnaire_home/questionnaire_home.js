@@ -1,20 +1,12 @@
 "use strict";
 const common_vendor = require("../../../common/vendor.js");
 const utils_http = require("../../../utils/http.js");
-require("../../../system.config.js");
 if (!Array) {
-  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
-  const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
-  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_easyinput2 + _easycom_uni_forms_item2 + _easycom_uni_forms2 + _easycom_uni_section2)();
-}
-const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_forms_item = () => "../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
-const _easycom_uni_forms = () => "../../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
-const _easycom_uni_section = () => "../../../uni_modules/uni-section/components/uni-section/uni-section.js";
-if (!Math) {
-  (_easycom_uni_easyinput + _easycom_uni_forms_item + _easycom_uni_forms + _easycom_uni_section)();
+  const _component_uni_easyinput = common_vendor.resolveComponent("uni-easyinput");
+  const _component_uni_forms_item = common_vendor.resolveComponent("uni-forms-item");
+  const _component_uni_forms = common_vendor.resolveComponent("uni-forms");
+  const _component_uni_section = common_vendor.resolveComponent("uni-section");
+  (_component_uni_easyinput + _component_uni_forms_item + _component_uni_forms + _component_uni_section)();
 }
 const _sfc_main = {
   __name: "questionnaire_home",
@@ -202,5 +194,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-276a9552"], ["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-276a9552"], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/questionnaire/questionnaire_home/questionnaire_home.vue"]]);
 wx.createPage(MiniProgramPage);

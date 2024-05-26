@@ -57,16 +57,10 @@ const _sfc_main = {
   }
 };
 if (!Array) {
-  const _easycom_uni_list_item2 = common_vendor.resolveComponent("uni-list-item");
-  const _easycom_uni_list2 = common_vendor.resolveComponent("uni-list");
-  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  (_easycom_uni_list_item2 + _easycom_uni_list2 + _easycom_uni_section2)();
-}
-const _easycom_uni_list_item = () => "../../uni_modules/uni-list/components/uni-list-item/uni-list-item.js";
-const _easycom_uni_list = () => "../../uni_modules/uni-list/components/uni-list/uni-list.js";
-const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
-if (!Math) {
-  (_easycom_uni_list_item + _easycom_uni_list + _easycom_uni_section)();
+  const _component_uni_list_item = common_vendor.resolveComponent("uni-list-item");
+  const _component_uni_list = common_vendor.resolveComponent("uni-list");
+  const _component_uni_section = common_vendor.resolveComponent("uni-section");
+  (_component_uni_list_item + _component_uni_list + _component_uni_section)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
@@ -109,5 +103,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     j: common_vendor.o((...args) => $options.delogin && $options.delogin(...args))
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/myself/myself.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/myself/myself.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,24 +1,14 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const utils_http = require("../../utils/http.js");
-require("../../system.config.js");
 if (!Array) {
-  const _easycom_uni_data_checkbox2 = common_vendor.resolveComponent("uni-data-checkbox");
-  const _easycom_uni_forms_item2 = common_vendor.resolveComponent("uni-forms-item");
-  const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
-  const _easycom_uni_file_picker2 = common_vendor.resolveComponent("uni-file-picker");
-  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
-  const _easycom_uni_forms2 = common_vendor.resolveComponent("uni-forms");
-  (_easycom_uni_data_checkbox2 + _easycom_uni_forms_item2 + _easycom_uni_easyinput2 + _easycom_uni_file_picker2 + _easycom_uni_section2 + _easycom_uni_forms2)();
-}
-const _easycom_uni_data_checkbox = () => "../../uni_modules/uni-data-checkbox/components/uni-data-checkbox/uni-data-checkbox.js";
-const _easycom_uni_forms_item = () => "../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item.js";
-const _easycom_uni_easyinput = () => "../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
-const _easycom_uni_file_picker = () => "../../uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.js";
-const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
-const _easycom_uni_forms = () => "../../uni_modules/uni-forms/components/uni-forms/uni-forms.js";
-if (!Math) {
-  (_easycom_uni_data_checkbox + _easycom_uni_forms_item + _easycom_uni_easyinput + _easycom_uni_file_picker + _easycom_uni_section + _easycom_uni_forms)();
+  const _component_uni_data_checkbox = common_vendor.resolveComponent("uni-data-checkbox");
+  const _component_uni_forms_item = common_vendor.resolveComponent("uni-forms-item");
+  const _component_uni_easyinput = common_vendor.resolveComponent("uni-easyinput");
+  const _component_uni_file_picker = common_vendor.resolveComponent("uni-file-picker");
+  const _component_uni_section = common_vendor.resolveComponent("uni-section");
+  const _component_uni_forms = common_vendor.resolveComponent("uni-forms");
+  (_component_uni_data_checkbox + _component_uni_forms_item + _component_uni_easyinput + _component_uni_file_picker + _component_uni_section + _component_uni_forms)();
 }
 const _sfc_main = {
   __name: "DraftFeedback",
@@ -125,7 +115,7 @@ const _sfc_main = {
           label: "手机号",
           required: true
         }),
-        n: common_vendor.sr("baseForm", "b91250aa-1,b91250aa-0"),
+        n: common_vendor.sr("baseForm", "90601a64-1,90601a64-0"),
         o: common_vendor.p({
           modelValue: data.baseFormData
         }),
@@ -138,5 +128,5 @@ const _sfc_main = {
     };
   }
 };
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/lenovo/Desktop/CollegeApartmentsMiniProgramFrontEnd-questionnaire/pages/feedback/DraftFeedback.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/86187/Desktop/CollegeApartmentsMiniProgramFrontEnd/pages/feedback/DraftFeedback.vue"]]);
 wx.createPage(MiniProgramPage);
