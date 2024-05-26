@@ -24,7 +24,7 @@
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
 	<view style="margin-top: 40px;">
-		<button class="btn" style="text-align:center" @click="delogin('正在退出')">
+		<button class="btn" style="text-align:center" @click="delogin('退出登录影响功能的使用')">
 			<text>退出登录</text>
 		</button>
 	</view>
@@ -49,6 +49,22 @@
 		},
 		methods: {
 			delogin(meg) {
+				uni.showModal({
+					title: '提示',
+					content: meg,
+					success: (res) => {
+						if (res.confirm) {
+							delLocalData("token")
+							this.userInfo.token=getLocalData("token")
+							console.log('用户点击确定');
+							this.tologin("正在跳转")
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			},
+			tologin(meg) {
 				uni.showLoading({
 					title: meg,
 					mask:true,
@@ -62,6 +78,7 @@
 			}
 		},
 		onShow() {
+			this.userInfo.token=getLocalData("token")
 			if(this.userInfo.token===""){
 				uni.showModal({
 					title: '提示',
@@ -69,7 +86,7 @@
 					success: (res) => {
 						if (res.confirm) {
 							console.log('用户点击确定');
-							this.delogin("正在跳转")
+							this.tologin("正在跳转")
 						} else if (res.cancel) {
 							console.log('用户点击取消');
 						}
@@ -79,7 +96,7 @@
 		},
 		onLoad() {
 			this.userInfo.token=getLocalData("token")
-			console.log("this.userInfo.token",this.userInfo.token);
+			console.log("OnLoad this.userInfo.token",this.userInfo.token);
 		}
 	}
 </script>
