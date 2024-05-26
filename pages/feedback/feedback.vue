@@ -5,7 +5,7 @@
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
 						<view>id：{{item.id}}</view>
-						<view>describe：{{item.describe}}</view>
+						<view>describes：{{item.describes}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
 					</view>
@@ -26,12 +26,7 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
-	complaintDrafts: [{
-		id: "1",
-		describe: "初始数据",
-		category: "宿舍",
-		contactobject: "18765248196",
-	},] // 初始为空数组
+	complaintDrafts: [] // 初始为空数组
 })
 onLoad(()=> {
 	// 页面加载时获取数据
@@ -40,7 +35,7 @@ onShow(()=>{
 	fetchComplaintDrafts();
 })
 const fetchComplaintDrafts = async () => {
-	const res = await http('/api/suggestions','POST',{},)
+	const res = await http('/api/selectDraft','GET',{},)
 	
 	console.log("封装后请求的结果",res);
 	data.complaintDrafts=res.data//与问卷的返回不同

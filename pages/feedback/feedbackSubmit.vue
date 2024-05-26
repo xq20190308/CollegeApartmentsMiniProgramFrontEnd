@@ -116,13 +116,13 @@ export default {
 				uni.showToast({
 					title: `校验通过`,
 				});
-				uni.uploadFile({
-					url: "http://localhost:8080/api/upload",
-					files: this.baseFormData.pictures,
-					success: (res) => {
-						console.log(res)
-					}
-				});
+				// uni.uploadFile({
+				// 	url: "http://localhost:8080/api/upload",
+				// 	files: this.baseFormData.pictures,
+				// 	success: (res) => {
+				// 		console.log(res)
+				// 	}
+				// });
 				uni.request({
 					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
 					method: 'POST',
@@ -135,7 +135,7 @@ export default {
 						console.log(res.data);
 						this.text = 'request success';
 						this.id = res.id;
-						uni.navigateTo({
+						uni.navigateBack({
 							url: '/pages/feedback/feedback',
 						})
 					},
@@ -148,22 +148,22 @@ export default {
 				// 处理验证失败的情况
 			})
 		},
-
 		//保存和提交分别交到后端不同的地方
+		//目前来说使用的是一个接口
 		save() {
 			uni.request({
-				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
+				url: 'http://localhost:8080/api/suggestions', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					describes: this.baseFormData.describes,
 					contactobject: this.baseFormData.contactobject,
-					// category: this.baseFormData.category
+					category: this.baseFormData.category
 				},
 				success: (res) => {
 					console.log("save:",res.data);
 					this.text = 'request success';
 					this.id = res.data.id;
-					uni.navigateTo({
+					uni.navigateBack({
 						url: '/pages/feedback/feedback?id=${res.data}',
 					})
 				}

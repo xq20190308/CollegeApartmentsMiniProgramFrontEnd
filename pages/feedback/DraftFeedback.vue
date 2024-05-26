@@ -87,10 +87,14 @@ const submit=async ()=> {
 	},);
 	console.log("封装后请求的结果",res)	
 	console.log(res.data);
-	uni.navigateBack({//接口没有返回数据哦
+	uni.navigateBack({//接口已经好了，但逻辑存在错误
 		url:'/pages/feedback/feedback',
 	});
 }
+onLoad((id)=>{
+	//需要获取已经id的草稿内容
+	console.log("需要获取已经id的草稿内容,id=",id);
+})
 const select=(e)=>{
 	console.log('选择文件：',e)
 }

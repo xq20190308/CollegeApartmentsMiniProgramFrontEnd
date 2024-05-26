@@ -1,6 +1,15 @@
 <template>
 	<view class="mask" v-if="userInfo.token===''">
-		
+		<view style="top: 400px;position: fixed;margin-left: 40px;">
+			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
+				<text>登录</text>
+			</button>
+		</view>
+		<view style="top: 300px;position: fixed;margin-left: 40px;">
+			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
+				<text>注册</text>
+			</button>
+		</view>
 	</view>
 	
 	<!-- 头像昵称区域 -->
