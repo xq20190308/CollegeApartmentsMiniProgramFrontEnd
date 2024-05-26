@@ -1,8 +1,12 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 if (!Array) {
-  const _component_uni_section = common_vendor.resolveComponent("uni-section");
-  _component_uni_section();
+  const _easycom_uni_section2 = common_vendor.resolveComponent("uni-section");
+  _easycom_uni_section2();
+}
+const _easycom_uni_section = () => "../../uni_modules/uni-section/components/uni-section/uni-section.js";
+if (!Math) {
+  _easycom_uni_section();
 }
 const _sfc_main = {
   __name: "questionnaire",
