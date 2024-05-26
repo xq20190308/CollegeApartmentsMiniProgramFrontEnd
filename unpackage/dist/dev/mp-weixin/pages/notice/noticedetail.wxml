@@ -1,1 +1,0 @@
-<view style="display:flex;flex-direction:column;height:auto"><view style="width:82.9%;height:auto;margin:auto"><view class="title"><text>{{a}}</text></view><view class="message"><view>{{b}}</view><view>{{c}}</view></view></view></view>
