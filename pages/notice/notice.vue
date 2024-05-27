@@ -26,7 +26,7 @@
 			</view>
 		</uni-section>
 		<view>
-			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('pages/notice/addnotice','addNotice')"></image>
+			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('addnotice','addNotice')"></image>
 		</view>
 	</view>
 </template>
