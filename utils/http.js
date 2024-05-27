@@ -36,7 +36,8 @@ export const http = (url, method, data) => {
 			},
 			fail(err) {
 				uni.showToast({
-					title: "网路请求失败"
+					title: "网路请求失败",
+					icon: "error"
 				})
 				reject(err) //需要处理请求失败的操作
 			}

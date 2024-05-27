@@ -80,16 +80,12 @@
 	})
 	let licenseDisagree = ref(false)
 	let show = ref(false);
-	const userInfo = ref({})
 	const neighborhoodName = ref('')
 	const logCode = ref('');
 	const phone = ref('');
 	const isauthentic = ref('');
 	const community_name = ref('');
 	const islogin = ref('');
-	const getUserInfo = (e) => {
-		userInfo.value = e
-	}
 	onLoad(() => {
 		console.log("--", licenseDisagree.value);
 	})
@@ -98,8 +94,9 @@
 			uni.login({
 				provider: 'weixin',
 				success(res) {
+					console.log("获得code",res)
 					logCode.value = res.code;
-					resolve(logCode.value); // 表示异步操作成功
+					resolve(logCode.value); //表示异步操作成功
 				},
 				fail(err) {
 					reject(err); // 表示异步操作失败
@@ -126,24 +123,28 @@
 			//获取code
 			data.reqdata.code = await getCode();
 			console.log("---data.reqdata", data.reqdata);
-			/*console.log("userInfo:", userInfo)
-			if (userInfo) {
-				studentid = userInfo.studentid;
-				password = userInfo.password;
-			}*/
 			//发送请求
 			await login(data.reqdata).then(async (res) => {
 				if (res.statusCode == 200) {
-					console.log("登陆成功")
 					console.log("---登陆成功data.reqdata", data.reqdata);
-					console.log("res", res)
-					await setLocalData("token", res.data.data.token)
-					console.log("返回的token", res.data.data.token)
+					console.log("---登陆成功res", res)
+					//用户信息保存到本地用于其他页面的渲染
+					try {
+						console.log("set--token");
+						await setLocalData("token", res.data.data.token)
+						console.log("set--username");
+						await setLocalData("username", data.reqdata.username);
+					} catch (e) {
+						console.log("set不对", e);
+					}
+					
 					try {
 						console.log("get--token", getLocalData('token'));
+						console.log("get--username", getLocalData('username'));
 					} catch (e) {
 						console.log("get不对", e);
 					}
+					
 					show.value = false
 					uni.showToast({
 						title: "登录成功"
@@ -158,9 +159,9 @@
 					reject("error")
 				}
 			}).catch(err => {
-				console.log("登陆失败")
+				console.log("登陆或数据保存失败",err)
 				uni.showToast({
-					title: "" + err,
+					title: "登陆或数据保存失败" + err,
 					icon: "error"
 				})
 			})

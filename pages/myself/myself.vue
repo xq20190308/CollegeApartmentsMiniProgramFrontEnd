@@ -11,25 +11,26 @@
 			</button>
 		</view>
 	</view>
-	
-	<!-- 头像昵称区域 -->
-	<view class="User">
-		<image :src="userInfo.avatarUrl" class="avatar" />
-		<text class="avatarName">昵称</text>
+	<!--信息区域 -->
+	<view style="padding-left: 10px;padding-right: 10px;">
+		<!-- 头像昵称区域 -->
+		<view class="User">
+			<image :src="userInfo.avatarUrl" class="avatar" />
+			<text class="avatarName" >{{this.userInfo.nickName}}</text>
+		</view>
+		<!-- 功能区 -->
+		<uni-section title="个人信息" type="line">
+			<uni-list border-full>
+				<uni-list-item showArrow title="姓名" rightText="小萪" />
+				<uni-list-item showArrow title="学号" :rightText="userInfo.username" />
+				<uni-list-item showArrow title="学院" rightText="莱文克劳学院" />
+				<uni-list-item showArrow title="专业" rightText="黑魔法" />
+				<uni-list-item showArrow title="建言献策" />
+				<uni-list-item showArrow title="关于" />
+			</uni-list>
+		</uni-section>
 	</view>
-
-	<!-- 功能区 -->
-	<uni-section title="个人信息" type="line">
-		<uni-list border-full>
-			<uni-list-item showArrow title="姓名" rightText="小萪" />
-			<uni-list-item showArrow title="学号" rightText="202311071111" />
-			<uni-list-item showArrow title="学院" rightText="莱文克劳学院" />
-			<uni-list-item showArrow title="专业" rightText="黑魔法" />
-			<uni-list-item showArrow title="建言献策" />
-			<uni-list-item showArrow title="关于" />
-		</uni-list>
-	</uni-section>
-
+	
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
 	<view style="margin-top: 40px;">
@@ -49,11 +50,12 @@
 			return {
 				userInfo: { //默认头像
 					avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
-					nickName: '',
+					nickName: '昵称',
 					token:null,
+					username: "",
 				},
 				useravatarImg: "",
-				func1_List: []
+				func1_List: [],
 			}
 		},
 		methods: {
@@ -87,6 +89,7 @@
 			}
 		},
 		onShow() {
+			this.userInfo.username=getLocalData("username")
 			this.userInfo.token=getLocalData("token")
 			if(this.userInfo.token===""){
 				uni.showModal({

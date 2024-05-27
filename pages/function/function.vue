@@ -21,9 +21,9 @@
 		</view>
 	</view>
 	<view >
-	<text class="nav-t">生活</text>
+	<text class="nav-t">拓展</text>
 	</view>
-	<view class="container">
+	<view class="container" v-if="data.islogined">
 		<view class="nav-list">
 			<view class="nav-item" v-for="(item, i) in data.navList3" :key="i" @click="Function3Click(item)">
 				<image :src="item.imgPath" class="nav-img"></image>
@@ -31,14 +31,19 @@
 			</view>
 		</view>
 	</view>
+	<view style="width: 100%;text-align: center;padding-top: 30px;" v-else>
+		登录方可使用。。。
+	</view>
 	</view>
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import sysurl from '../../system.config.js';
+import {getLocalData,delLocalData} from "../../utils/cache.js"
 const data = reactive({
+	islogined:false,
 	navList1: [
 		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_home"},
 		{ name: "教室预约", imgPath: "../../static/function/classes.png", pagePath:"../questionnaire/questionnaire_home"},
@@ -58,6 +63,10 @@ const data = reactive({
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_home"}
 	],
 })
+onShow(()=>{
+	data.islogined=getLocalData('token')!="";
+	console.log(data.islogined);
+})
 onLoad(()=>{
     data.navList1 = [
 		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
@@ -69,13 +78,13 @@ onLoad(()=>{
 		{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
-	],
-	data.navList3 = [
 		{ name: "热水系统", imgPath: "../../static/function/water.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
+	],
+	data.navList3 = [
+		{ name: "账号管理", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	]
 }) 
 const Function1Click=(item)=> {
@@ -99,19 +108,19 @@ const Function3Click=(item)=> {
 	.nav-list {
 	    display: flex;
 	    flex-wrap: wrap;
-	    justify-content: space-around;
+	    justify-content: flex-start;
 	    margin: 10rpx;
 	    border-radius: 20rpx;
-	    /* background-color: #ffffff; */
-	    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+	    box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
 	  }
 	  .nav-item {
-	    border-radius: 16rpx; 
-	    padding: 20rpx;
+	    border-radius: 16rpx;
 	    display: flex;
 	    flex-direction: column;
-	    align-items: center; 
-	  	border: 0;
+	    align-items: center;
+	    border: 0;
+	    width: 25%;
+	    padding-bottom: 10px;
 	  }
 	  .nav-img {
 	    width: 80rpx;
@@ -133,8 +142,6 @@ const Function3Click=(item)=> {
 	      justify-content: space-around;
 	      margin: 10rpx;
 	      border-radius: 20rpx;
-	      /* background-color: #ffffff; */
-	      box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
 		  font-size: 20px;
 	    }
 

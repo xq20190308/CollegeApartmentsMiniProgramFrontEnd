@@ -16,13 +16,14 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import questionnaire from '../../../components/questionnaire/questionnaire.vue'
 import {http} from '@/utils/http'
+import {getLocalData,delLocalData} from "../../../utils/cache.js"
 const data = reactive({
+	ifcanAdd:false,
 	questionnairelist:[],
-	newNaire:null,
 	total: 0,
 	cates:[{
 			id:0,
@@ -44,14 +45,6 @@ const getNaireslist = async (cates)=>{
 	console.log("封装后请求的结果",res)
 	
 	data.questionnairelist=res.data;
-	if(data.newNaire!=null){
-		console.log("新问卷",data.newNaire);
-		loadNewlist();
-	}
-	else{
-		console.log("newList为空");
-		console.log('获取到列表',data.questionnairelist);
-	}
 }
 const gotonaire = (item) =>{
 	console.log("问卷信息",item);
@@ -63,9 +56,17 @@ const gotonaire = (item) =>{
 	})
 }
 const addnaire = ()=> {
-	uni.navigateTo({
-		url: '../addquestionnaire/addquestionnaire'
-	});
+	if(data.ifcanAdd){
+		uni.navigateTo({
+			url: '../addquestionnaire/addquestionnaire'
+		});		
+	}
+	else{
+		uni.showToast({
+			title: "你没有权限",
+			icon: "error"
+		})
+	}
 }
 const dircate=(options)=>{
 	data.active=options;
@@ -73,21 +74,13 @@ const dircate=(options)=>{
 	if(options===0){getNaireslist();}
 	else{getNaireslist(options);}
 }
-const loadNewlist = ()=>{
-	data.questionnairelist.push(data.newNaire);
-	console.log("创建新问卷后的列表",data.questionnairelist);
-	data.newNaire=null;
-}
 onLoad((options) => {
 	console.log("列表参数",options);
-	if(options.newNaire!=null){
-		data.newNaire=JSON.parse(options.newNaire);
-		console.log("组件数据",data.newNaire);
-	}
-	else{
-		console.log("newNaire为null");
-	}
 	getNaireslist()
+})
+onShow(()=>{
+	data.ifcanAdd=getLocalData('ifcanAddQues')!="";
+	console.log(data.ifcanAdd);
 })
 </script>
 <style lang="scss">
