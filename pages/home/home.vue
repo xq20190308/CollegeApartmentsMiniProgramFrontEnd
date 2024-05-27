@@ -7,7 +7,6 @@
 				<view class="describe">{{data.articles[index].title}}</view>
 			</swiper-item>
 		</swiper>
-		
 		<!-- 主要功能区域 -->
 		<view class="func1">
 			<view class="func1_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">

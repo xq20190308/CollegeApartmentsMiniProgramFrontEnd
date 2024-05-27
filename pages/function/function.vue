@@ -39,9 +39,8 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
-import sysurl from '../../system.config.js';
 import {getLocalData,delLocalData} from "../../utils/cache.js"
+import {reactive} from "vue";
 const data = reactive({
 	islogined:false,
 	navList1: [

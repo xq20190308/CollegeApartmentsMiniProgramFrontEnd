@@ -5,20 +5,18 @@
 				{{cate.name}}
 			</view>
 		</view>
-		<uni-section v-for="(item,index) in data.catenotice" :key="index" :title="item" sub-title="" type="line" style="width: 98%;margin: auto;">
+		<uni-section title="个人通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
+				<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
 					<text>{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 					<text style="text-align: right;">类型：{{item.typeName}}</text>
 				</view>
-				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
-					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
-					<text>{{item.content}}</text>
-					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
-					<text style="text-align: right;">类型：{{item.typeName}}</text>
-				</view>
+			</view>
+		</uni-section>
+		<uni-section title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
+			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
 					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
 					<text>{{item.content}}</text>
@@ -27,24 +25,22 @@
 				</view>
 			</view>
 		</uni-section>
+		<view>
+			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('pages/notice/addnotice','addNotice')"></image>
+		</view>
 	</view>
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
 import {http} from '@/utils/http'
+import {goto} from "../../utils/access.js"
 const data = reactive({
-	articles:[{//测试数据
-		content: "Lorem",
-		id: 87,
-		isActive: true,
-		publishTime: "1976-01-02 07:27:42",
-		title: "学府属习",
-		typeName: "律况平将体集题",
-		}
-	],
-	catenotice:["学校通知","个人通知"],
+	articles:[],
+	individualarticles:[],
+	catenotice:["个人通知","学校通知"],
 	cates:[{
 			id:0,
 			name:"全部"
@@ -55,7 +51,7 @@ const data = reactive({
 			id:2,
 			name:"已结束"
 	}],
-	active:0
+	active:0,
 })
 const todetail = (id) =>{
 	console.log(JSON.stringify(data.articles[id]))
@@ -83,8 +79,9 @@ const dircate = (options)=>{
 		console.log("点击事件的参数",options)
 		if(options===0){getarticles();}
 		else{getarticles(options);}
-	}
+}
 onLoad((options) => {
+	setLocalData('addNotice',true);
 	console.log("通知列表参数",options);
 	getarticles();
 })
@@ -121,13 +118,13 @@ onLoad((options) => {
 		padding-top: 30rpx;
 		flex-shrink: 0;
 		margin-top: 24rpx!important;
-		margin-button: 24rpx;
+		margin-button: 28rpx;
 		font-family: 'Inter';
 		font-style: normal;
-		font-weight: 400;
-		font-size: calc(14rpx * 2);
+		font-weight: 500;
+		font-size: calc(18rpx * 2);
 		line-height: calc(17rpx * 2);
-		color: #333333;
+		color: #444444;
 		margin: auto;
 		
 	}
@@ -139,25 +136,32 @@ onLoad((options) => {
 	.notice-item text:nth-child(2) {
 		text-indent: 2em;
 		display: flex;
-		padding-top: 10rpx;
+		padding-top: 12rpx;
 	}
 
 	.notice-item text:nth-child(3) {
 		padding-top: 24rpx;
-		font-size: 16rpx !important;
+		font-size: 24rpx !important;
 	}
 	.notice-item text:nth-child(4) {
-		font-size: 16rpx !important;
+		font-size: 24rpx !important;
 	}
 	
 	.notice-item text:nth-child(2),
 	.notice-item text:nth-child(3),
 	.notice-item text:nth-child(4) {
-		color: #999999;
+		color: #444444;
 		font-family: 'Inter';
 		font-style: normal;
-		font-weight: 400;
-		font-size: calc(12rpx * 2);
+		font-weight: 500;
+		font-size: calc(14rpx * 2);
 		line-height: calc(15rpx * 2);
+	}
+	.addnaireicon {
+		position: fixed;
+		bottom:60rpx; 
+		right: 50rpx; 
+		width: 80rpx; 
+		height: 80rpx; 
 	}
 </style>

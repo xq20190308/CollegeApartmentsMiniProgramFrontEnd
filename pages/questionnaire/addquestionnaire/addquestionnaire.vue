@@ -50,7 +50,6 @@
 </template>
 <script setup>
 import {reactive,ref} from "vue";
-import sysurl from '../../../system.config.js'; 
 import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理

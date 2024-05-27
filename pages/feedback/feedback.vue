@@ -15,9 +15,7 @@
 		</uni-section>
 	</view>
 	<view class="container">
-		
 	<image class = "floating-button" src="../../static/feedback/plus.png" @click="onpress"></image>
-	
 	</view>
 </template>
 
