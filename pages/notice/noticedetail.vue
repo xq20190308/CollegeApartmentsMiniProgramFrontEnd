@@ -45,15 +45,13 @@ onLoad((options) => {
 		font-style: normal;
 		font-weight: 400;
 		font-size: 16px;
-		line-height: 19px;
 		color: #333333;
 		padding-top: 40rpx;
 		text-align: center;
-		padding-bottom: 20rpx;
 		border-width: 3rpx;
 		border-bottom-style: solid;
 		border-color: cornflowerblue;
-		
+		padding-bottom: 20px;
 	}
 	
 	.title text:nth-child(1) {
@@ -61,6 +59,8 @@ onLoad((options) => {
 	}
 	.title text:nth-child(2) {
 		float: right;
+		font-weight: 400;
+		font-size: 12px;
 	}
 	
 	.message {

@@ -59,7 +59,7 @@ const todetail = (index) =>{
 const deletenotice = async () =>{
 	//获取通知数据
 	const res = await http('/notifications/modify','POST',{
-		ids : [11,12],
+		id : 11,
 		isActive: 0,
 		},)
 	console.log(res)
