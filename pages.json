@@ -94,6 +94,27 @@
 				"navigationBarTitleText": "通知详情",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFoundDraft",
+			"style": {
+				"navigationBarTitleText": "失物招领草稿",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailLostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领细节",
+				"enablePullDownRefresh": false
+			}
 		}
 
 	],
