@@ -49,15 +49,19 @@ const data = reactive({
 		}],
 	active:0,
 })
-const todetail = (id) =>{
-	console.log(JSON.stringify(data.articles[id]))
+const todetail = (index) =>{
+	console.log('index',index);
+	console.log('JSON.stringify(data.articles[index])',JSON.stringify(data.articles[index]))
 	uni.navigateTo({
-		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[id])
+		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[index])
 	})
 }
 const deletenotice = async () =>{
 	//获取通知数据
-	const res = await http('/notifications','DELETE',{},)
+	const res = await http('/notifications/modify','POST',{
+		ids : [11,12],
+		isActive: 0,
+		},)
 	console.log(res)
 }
 const getarticles = async (cates) =>{

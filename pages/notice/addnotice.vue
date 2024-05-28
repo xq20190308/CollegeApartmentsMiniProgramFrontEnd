@@ -43,7 +43,7 @@ const submit=async ()=>{
 		title: "发布成功"
 	});
 	setTimeout(() => {
-		uni.navigateTo({
+		uni.navigateBack({
 			url: 'notice'
 		});
 	}, 2000); 

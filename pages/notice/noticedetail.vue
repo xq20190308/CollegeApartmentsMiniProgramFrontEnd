@@ -2,7 +2,7 @@
 	<view style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
-				<text> {{data.detail.title}}</text>
+				<text> {{data.detail.id}}.{{data.detail.title}}</text>
 				<text> {{data.detail.title}}</text>
 			</view>
 			<view class="message" >
@@ -19,17 +19,18 @@ import {reactive} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
 	detail:{
-		content: "Lorem",
-		id: 87,
-		isActive: true,
-		publishTime: "1976-01-02 07:27:42",
-		title: "学府属习",
-		typeName: "律况平将体集题",
+		content: "",
+		id: null,
+		isActive: null,
+		publishTime: "",
+		title: "静态数据",
+		typeName: "",
 	}
 })
 onLoad((options) => {
-	console.log(options);
+	console.log('--',options.detail);
 	data.detail=JSON.parse(options.detail);
+	console.log('data.detail',data.detail);
 })
 
 
