@@ -42,7 +42,7 @@ const data = reactive({
 	},
 })
 const submit=async ()=>{
-	const res = await http('/notifications','POST',{},)
+	const res = await http('/notifications','POST',{title:"title",content:"content",typeName:"typeName"},)
 	console.log(res)
 }
 const newdata=(value)=>{
