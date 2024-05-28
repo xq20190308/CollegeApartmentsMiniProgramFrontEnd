@@ -5,6 +5,7 @@
 				{{cate.name}}
 			</view>
 		</view>
+		<button @click="deletenotice" class="deletbutton">删除</button>
 		<uni-section title="个人通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
@@ -54,6 +55,11 @@ const todetail = (id) =>{
 		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[id])
 	})
 }
+const deletenotice = async () =>{
+	//获取通知数据
+	const res = await http('/notifications','DELETE',{},)
+	console.log(res)
+}
 const getarticles = async (cates) =>{
 	console.log("分类请求的参数",cates);
 	let noticeurl='/notifications';
@@ -70,10 +76,10 @@ const getarticles = async (cates) =>{
 
 }
 const dircate = (options)=>{
-		data.active=options;
-		console.log("点击事件的参数",options)
-		if(options===0){getarticles();}
-		else{getarticles(options);}
+	data.active=options;
+	console.log("点击事件的参数",options)
+	if(options===0){getarticles();}
+	else{getarticles(options);}
 }
 onShow(()=>{
 	getarticles();
