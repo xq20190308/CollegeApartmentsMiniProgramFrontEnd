@@ -1,24 +1,25 @@
 <template>
-	<view style="display: flex;flex-wrap: nowrap;">
-		问卷类型（下拉选择）：<input @input="(e) => {data.newNaire.type=newdata(e.detail.value);}" placeholder="请输入问卷类型" placeholder-class="answerplacehoder" />
-	</view>
-	<view style="display: flex;flex-wrap: nowrap;">
-		问卷名称（填写）：<input @input="(e) => {data.newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
-	</view>
-	<view style="display: flex;flex-wrap: nowrap;">
-		问卷描述（填写）：<input @input="(e) => {data.newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
-	</view>
-	<view style="display: flex;flex-wrap: nowrap;">
-		开始时间（选择日期）：<input @input="(e) => {data.newNaire.startTime=data.newdata(e.detail.value);}" placeholder="请输入开始时间" placeholder-class="answerplacehoder" />
-	</view>
-	<view style="display: flex;flex-wrap: nowrap;">
-		结束时间（选择日期）：<input @input="(e) => {data.newNaire.endTime=data.newdata(e.detail.value);}" placeholder="请输入结束时间" placeholder-class="answerplacehoder" />
-	</view>
+	<uni-section title="问卷类型（下拉选择）：" type="line" padding>
+		<uni-data-select :localdata="data.types" @change="(e) => {data.newNaire.type = data.types[e].text; console.log(data.newNaire.type)}"></uni-data-select>
+	</uni-section>
+	<uni-section title="问卷名称（填写）：" type="line" padding>
+		<view style="display: flex;flex-wrap: nowrap;">
+			<input @input="(e) => {data.newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
+		</view>
+	</uni-section>
+	<uni-section title="问卷描述（填写）：" type="line" padding>
+		<view style="display: flex;flex-wrap: nowrap;">
+			<input @input="(e) => {data.newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
+		</view>
+	</uni-section>
+	<uni-section title="选择日期及时间：" type="line" padding>
+		<view class="example-body">
+			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.startTime = e[0];console.log(data.newNaire.startTime);data.newNaire.endTime = e[1];console.log(data.newNaire.endTime)}" />
+		</view>
+	</uni-section>
 	<view class="questionsform">
-		<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
-			<view v-if="que.type===1">{{qindex + 1}}.单选题</view>
-			<view v-else-if="que.type===2">{{qindex + 1}}.多选题</view>
-			<view v-else-if="que.type===3">{{qindex + 1}}.问答题</view>
+	<uni-section v-for="(que,qindex) in data.questionList" :key="qindex" :title="qindex + 1 + '.' + questype(que.type)"type="line" padding>
+		<view class="questionitem" >
 			<view class="answer">
 				<input @input="(e) => {data.questionList[qindex].name=qnewdata(e,qindex)}" placeholder="请输入题目名称"  />
 			</view>
@@ -38,6 +39,8 @@
 				</view>
 			</view>
 		</view>
+	</uni-section>
+		
 	</view>
 	<view class="handlequestion">
 		<button class="add" @click="(e)=>add(e,1)">创建单选</button>
@@ -49,9 +52,15 @@
 	</view>
 </template>
 <script setup>
-import {reactive,ref} from "vue";
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {reactive,ref,watch} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
+	types:[
+          { value: 0, text: '篮球' },
+          { value: 1, text: '足球' },
+          { value: 2, text: '游泳' },
+        ],
 	timer:null,//延时器，用于防抖处理
 	//传到后端的数据
 	newNaire:{//传到问卷列表页面中的数据
@@ -85,6 +94,15 @@ const qnewdata=(e,qindex)=>{
 		console.log(qindex+ '.' +data.questionList[qindex].name);
 	}, 500)
 	return e.detail.value;
+}
+const questype=(type,qindex)=>{
+	if(type===1){
+		return '单选题'
+	}else if(type===2){
+		return '多选题'
+	}else{
+		return '问答题'
+	}
 }
 const add=(e,option)=>{
 	console.log(option);
@@ -159,7 +177,6 @@ const submit = async ()=> {
 }
 .questionitem{
 	width: 100%;
-	margin-top: 10px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: column;

@@ -11,13 +11,14 @@
 		</view>
 	</view>
 	<view>
-		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','isAddnaire')"></image>
+		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','addNaire')"></image>
 	</view>
 </template>
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
+import {getLocalData,delLocalData, setLocalData} from "../../../utils/cache.js"
 import questionnaire from '../../../components/questionnaire/questionnaire.vue'
 import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
@@ -60,8 +61,8 @@ const dircate=(options)=>{
 	if(options===0){getNaireslist();}
 	else{getNaireslist(options);}
 }
-onLoad((options) => {
-	console.log("列表参数",options);
+onLoad(() => {
+	setLocalData('addNaire',true);
 	getNaireslist()
 })
 onShow(()=>{

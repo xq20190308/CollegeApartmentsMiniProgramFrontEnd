@@ -42,15 +42,10 @@ const data = reactive({
 	individualarticles:[],
 	catenotice:["个人通知","学校通知"],
 	cates:[{
-			id:0,
 			name:"全部"
 		},{
-			id:1,
 			name:"未结束"
-		},{
-			id:2,
-			name:"已结束"
-	}],
+		}],
 	active:0,
 })
 const todetail = (id) =>{
@@ -63,7 +58,7 @@ const getarticles = async (cates) =>{
 	console.log("分类请求的参数",cates);
 	let noticeurl='/notifications';
 	if(cates!=null){
-		noticeurl='/notifications?isActive='+(cates-1);
+		noticeurl='/notifications?isActive='+cates;
 	}
 	//获取通知数据
 	const res = await http(noticeurl,'GET',{},)
@@ -98,7 +93,7 @@ onLoad((options) => {
 	}
 	.cateitem{
 		text-align: center;
-		width: 33.33%;
+		width: 50%;
 		padding-top: 9px;
 		padding-bottom: 9px;
 		background-color: #008cff;
@@ -126,7 +121,6 @@ onLoad((options) => {
 		line-height: calc(17rpx * 2);
 		color: #444444;
 		margin: auto;
-		
 	}
 
 	.notice-item>text {

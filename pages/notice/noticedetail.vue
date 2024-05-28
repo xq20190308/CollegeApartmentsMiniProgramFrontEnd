@@ -3,6 +3,7 @@
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
 				<text> {{data.detail.title}}</text>
+				<text> {{data.detail.title}}</text>
 			</view>
 			<view class="message" >
 				<view>{{data.detail.typeName}}</view>
@@ -53,6 +54,14 @@ onLoad((options) => {
 		border-color: cornflowerblue;
 		
 	}
+	
+	.title text:nth-child(1) {
+		display: block;
+	}
+	.title text:nth-child(2) {
+		float: right;
+	}
+	
 	.message {
 		font-family: 'Inter';
 		font-style: normal;
