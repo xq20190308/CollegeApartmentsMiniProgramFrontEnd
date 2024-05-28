@@ -1,11 +1,5 @@
 <template>
 	<view>
-		<view class="cates">
-			<view v-for="(cate,index) in data.cates" :class="{'cateitem':true,'cateactive':index==data.active,}" :key="index" @click="dircate(index)">
-				{{cate.name}}
-			</view>
-		</view>
-		<button @click="deletenotice" class="deletbutton">删除</button>
 		<uni-section title="个人通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
@@ -18,8 +12,11 @@
 		</uni-section>
 		<uni-section title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
 			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in data.articles" :key="index" @click="todetail(index)">
-					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
+				<view class="notice-item" v-for="(item,index) in data.articles" :key="index">
+					<view style="display: flex;flex-wrap: nowrap;">
+						<text style="text-aign: center;display: block;width: 85%;"  @click="todetail(index)">{{item.id}}.{{item.title}}</text>
+						<button @click="deletenotice(index)" class="deletbutton">删除</button>
+					</view>
 					<text>{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 					<text style="text-align: right;">类型：{{item.typeName}}</text>
@@ -42,27 +39,22 @@ const data = reactive({
 	articles:[],
 	individualarticles:[],
 	catenotice:["个人通知","学校通知"],
-	cates:[{
-			name:"全部"
-		},{
-			name:"未结束"
-		}],
-	active:0,
 })
+const deletenotice = async (index) =>{
+	//获取通知数据
+	const res = await http('/notifications/modify','POST',{
+		id : data.articles[index].id,
+		isActive: 0,
+		},)
+	console.log(res)
+	getarticles(1);
+}
 const todetail = (index) =>{
 	console.log('index',index);
 	console.log('JSON.stringify(data.articles[index])',JSON.stringify(data.articles[index]))
 	uni.navigateTo({
 		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[index])
 	})
-}
-const deletenotice = async () =>{
-	//获取通知数据
-	const res = await http('/notifications/modify','POST',{
-		id : 11,
-		isActive: 0,
-		},)
-	console.log(res)
 }
 const getarticles = async (cates) =>{
 	console.log("分类请求的参数",cates);
@@ -79,16 +71,10 @@ const getarticles = async (cates) =>{
 	console.log(data.articles)
 
 }
-const dircate = (options)=>{
-	data.active=options;
-	console.log("点击事件的参数",options)
-	if(options===0){getarticles();}
-	else{getarticles(options);}
-}
 onShow(()=>{
-	getarticles();
 })
 onLoad((options) => {
+	getarticles(1);
 	setLocalData('addNotice',true);
 	console.log("通知列表参数",options);
 })
@@ -133,16 +119,24 @@ onLoad((options) => {
 		line-height: calc(17rpx * 2);
 		color: #444444;
 		margin: auto;
+		z-index: 99;
 	}
-
+	.deletbutton {
+		width: 15%;
+		font-size: 12px;
+		padding: 0px;
+		margin: 0px;
+		bottom: 8px;
+		z-index: 999;
+	}
 	.notice-item>text {
 		display: block;
 	}
 	
 	.notice-item text:nth-child(2) {
-		text-indent: 2em;
+		text-indent: 1em;
 		display: flex;
-		padding-top: 12rpx;
+		padding-top: 10rpx;
 	}
 
 	.notice-item text:nth-child(3) {

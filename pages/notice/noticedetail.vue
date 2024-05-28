@@ -3,9 +3,11 @@
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
 				<text> {{data.detail.id}}.{{data.detail.title}}</text>
-				<text> {{data.detail.title}}</text>
+				<text class="underline-text" @click="modify"> 修改</text> 
 			</view>
 			<view class="message" >
+				<uni-data-select :localdata="data.types" @change="(e) => {data.newNotice.typeName = data.types[e].text; console.log(data.newNotice.typeName)}"></uni-data-select>
+				
 				<view>{{data.detail.typeName}}</view>
 				<view>{{data.detail.content}}</view>
 			</view>
@@ -53,16 +55,22 @@ onLoad((options) => {
 		border-color: cornflowerblue;
 		padding-bottom: 20px;
 	}
-	
 	.title text:nth-child(1) {
 		display: block;
 	}
-	.title text:nth-child(2) {
+	.title text:nth-child(2){
+		padding-left: 5px;
 		float: right;
-		font-weight: 400;
+		font-weight: 300;
 		font-size: 12px;
 	}
-	
+	.underline-text {
+	    text-decoration: underline;
+	    color: #000000; /* 正常颜色 */
+	  }
+	  .underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+	  }
 	.message {
 		font-family: 'Inter';
 		font-style: normal;
