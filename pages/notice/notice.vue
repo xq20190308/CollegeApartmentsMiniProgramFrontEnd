@@ -75,10 +75,12 @@ const dircate = (options)=>{
 		if(options===0){getarticles();}
 		else{getarticles(options);}
 }
+onShow(()=>{
+	getarticles();
+})
 onLoad((options) => {
 	setLocalData('addNotice',true);
 	console.log("通知列表参数",options);
-	getarticles();
 })
 </script>
 

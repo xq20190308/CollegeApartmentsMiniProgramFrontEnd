@@ -140,14 +140,10 @@ const submit = async ()=> {
 		title: "创建成功"
 	});
 	setTimeout(() => {
-		//返回问卷列表界面
-		//uni.navigateBack({//如何传参？
-		  //delta: 1
-		//});
-		uni.navigateTo({//返回逻辑不对
-			url: '../questionnaire_list/questionnaire_list?newNaire='+JSON.stringify(data.newNaire)
+		uni.navigateTo({
+			url: '../questionnaire_list/questionnaire_list'
 		});
-	}, 2000); // 3000毫秒后执行页面跳转
+	}, 2000); 
 }
 
 </script>

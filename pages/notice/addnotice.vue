@@ -2,11 +2,6 @@
 	<uni-section title="通知类型（下拉选择）：" type="line" padding>
 		<uni-data-select :localdata="data.types" @change="(e) => {data.newNotice.typeName = data.types[e].text; console.log(data.newNotice.typeName)}"></uni-data-select>
 	</uni-section>
-	<uni-section title="选择日期及时间：" type="line" padding>
-		<view class="example-body">
-			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNotice.publishTime = e[1];console.log(data.newNotice.publishTime)}" />
-		</view>
-	</uni-section>
 	<uni-section title="通知标题：" type="line" padding>
 		<view style="display: flex;flex-wrap: nowrap;">
 			<input @input="(e) => {data.newNotice.title=newdata(e.detail.value);}" placeholder="请输入通知的标题" placeholder-class="answerplacehoder" />
@@ -16,7 +11,7 @@
 		<uni-easyinput type="textarea" autoHeight maxlength=-1 placeholder="请输入内容" @input="(e) => { data.newNotice.content=e;console.log(data.newNotice.content);}"></uni-easyinput>
 	</uni-section>
 	<view>
-		<button class="submit" @click="submit">创建</button>
+		<button class="submit" @click="submit">发布</button>
 	</view>
 </template>
 
@@ -42,8 +37,16 @@ const data = reactive({
 	},
 })
 const submit=async ()=>{
-	const res = await http('/notifications','POST',{title:"title",content:"content",typeName:"typeName"},)
+	const res = await http('/notifications','POST',data.newNotice)
 	console.log(res)
+	uni.showToast({
+		title: "发布成功"
+	});
+	setTimeout(() => {
+		uni.navigateTo({
+			url: 'notice'
+		});
+	}, 2000); 
 }
 const newdata=(value)=>{
 	clearTimeout(data.timer);
