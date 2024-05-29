@@ -13,6 +13,12 @@
 						<uni-forms-item label="描述" name="describes" required>
 							<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入描述" />
 						</uni-forms-item>
+					<uni-section title="">
+						<view class="example-body">
+							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
+								ref="uniFilePicker" required></uni-file-picker>
+						</view>
+					</uni-section>
 						<uni-forms-item label="联系方式" name="contactobject" required>
 							<uni-easyinput type="textarea" v-model="data.baseFormData.contactobject" placeholder="请输入描述" />
 						</uni-forms-item>
@@ -103,12 +109,15 @@
 				},);
 				console.log("封装后请求的结果",res)
 				console.log(res.data);
-				uni.navigateBack({//接口已经好了，但逻辑存在错误
+				uni.navigateBack({
 					url:'../pages/lostAndFound/lostAndFound',
 				});
 			}).catch(err => {
 				console.log('err', err);
 			})
+		}
+		const selectUpload= async(e) =>{
+			
 		}
 		onReady(()=>{
 			console.log('onReady 生命周期钩子被调用');
