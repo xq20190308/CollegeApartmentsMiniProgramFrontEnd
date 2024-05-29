@@ -83,7 +83,7 @@ onLoad(()=>{
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	],
 	data.navList3 = [
-		{ name: "账号管理", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
+		{ name: "账号管理", imgPath: "../../static/function/more.png", pagePath:"../userManage/userManage"}
 	]
 }) 
 const Function1Click=(item)=> {
