@@ -124,7 +124,7 @@ export default {
 				// 	}
 				// });
 				uni.request({
-					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
+					url: 'http://localhost:8080/suggestionsDraft', // 示例接口地址
 					method: 'POST',
 					data: {
 						describes: this.baseFormData.describes,
@@ -152,12 +152,11 @@ export default {
 		//目前来说使用的是一个接口
 		save() {
 			uni.request({
-				url: 'http://localhost:8080/api/suggestions', //仅为示例，并非真实接口地址。
+				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					describes: this.baseFormData.describes,
 					contactobject: this.baseFormData.contactobject,
-					category: this.baseFormData.category
 				},
 				success: (res) => {
 					console.log("save:",res.data);
