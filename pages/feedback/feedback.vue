@@ -53,16 +53,18 @@ const change=(item)=> {
 }
 const delet=(item,index)=> {
 	console.log("要删除id为",item.id,"的草稿")
-	data.complaintDrafts.splice(index, 1);
-	console.log(data.complaintDrafts)
-	//提交到后端
-	/*uni.request({
-		url:'',
-		method:"",
-		data:{
-			id:thisid
+	uni.showModal({
+		title: '提示',
+		content: '确认删除该通知吗',
+		success: async (r) => {
+			if (r.confirm) {
+				const res = await http('/api/deleteSuggestions?id=205','DELETE',{},)
+				fetchComplaintDrafts();
+			} else if (r.cancel) {
+				console.log('用户点击取消');
+			}
 		}
-	})*/
+	});
 }
 </script>
 

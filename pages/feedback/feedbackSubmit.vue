@@ -58,7 +58,7 @@ export default {
 				contactobject: '',
 				describes: '',
 				category: [],
-				pictures: []
+				paths: [],
 				//上传图片.
 				//imageValue:[]
 			},
@@ -91,19 +91,16 @@ export default {
 
 	methods: {
 		selectUpload(e) {//上传文件的函数
-			console.log(2)
+			this.baseFormData.paths.push(e.tempFilePaths[0])
 			uni.uploadFile({
 				url: 'http://localhost:8080/api/upload', //仅为示例，非真实的接口地址
 				filePath: e.tempFilePaths[0],
 				name: 'file',
-				// formData: {
-				// 	'file': ''
-				// },
 				success: (uploadFileRes) => {
-					console.log(uploadFileRes.data);
+					//console.log(uploadFileRes.data);
 				},
 				fail: (err) => {
-					console.log(err);
+					//console.log(err);
 				}
 			})
 		},
@@ -114,20 +111,15 @@ export default {
 				uni.showToast({
 					title: `校验通过`,
 				});
-				// uni.uploadFile({
-				// 	url: "http://localhost:8080/api/upload",
-				// 	files: this.baseFormData.pictures,
-				// 	success: (res) => {
-				// 		console.log(res)
-				// 	}
-				// });
+				console.log("this.baseFormData.pictures",this.baseFormData.pictures)
 				uni.request({
 					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
 					method: 'POST',
 					data: {
 						describes: this.baseFormData.describes,
 						contactobject: this.baseFormData.contactobject,
-						// category: this.baseFormData.category
+						//category: this.baseFormData.category
+						path: this.baseFormData.paths
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -167,33 +159,6 @@ export default {
 				}
 			})
 		},
-		select(e) {
-			// 文件选择后的处理
-			console.log('选择文件：', e);
-			const files = e.tempFiles;
-			files.forEach(file => {
-				this.uploadFile(file);
-			});
-		},
-		uploadFile(file) {
-			const formData = new FormData();
-			formData.append('file', file);
-
-			uni.uploadFile({
-				url: 'http://localhost:8080/api/upload',
-				files: formData,
-				success: (res) => {
-					console.log('文件上传成功', res);
-				},
-				fail: (err) => {
-					console.log('文件上传失败', err);
-				}
-			})
-		},
-		progress(e) {
-			console.log('上传进度：', e)
-		},
-
 	}
 }
 </script>
