@@ -52,7 +52,7 @@ const data = reactive({
 	] ,
 	navList2: [
 		{ name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_home"},
-	    { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../questionnaire/questionnaire_home"},
+	    { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/hygieneSearch"},
 	    { name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
 	    { name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_home"}
 	 ],
@@ -76,7 +76,7 @@ onLoad(()=>{
     ] ,
 	data.navList2 = [
 		{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
-		{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/hygieneSearch"},
 		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
 		{ name: "热水系统", imgPath: "../../static/function/water.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../lostAndFound/lostAndFound"},

@@ -115,6 +115,20 @@
 				"navigationBarTitleText": "失物招领细节",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/hygiene/hygieneSearch",
+			"style": {
+				"navigationBarTitleText": "卫生检查",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/hygieneGradesSubmit",
+			"style": {
+				"navigationBarTitleText": "上传成绩",
+				"enablePullDownRefresh": false
+			}
 		}
 
 	],
