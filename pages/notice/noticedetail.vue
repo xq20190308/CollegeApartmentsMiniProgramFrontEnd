@@ -29,16 +29,16 @@ const data = reactive({
 	option :null
 })
 onShow(()=>{
-	getarticles({id:2}).then(response => {
+	getarticles({id:data.detail.id}).then(response => {
     // 在这里处理数据
-    data.detail = response.sort((a, b) => a.id - b.id)[0];
+    data.detail = response[0];
 	console.log('response',response); // 输出: 这是返回的数据
   })
 })
 onLoad((options) => {
 	console.log('--',options.id);
-	data.option=options.id;
-	console.log('data.option',data.option);
+	data.detail.id=options.id;
+	console.log('data.detail.id',data.detail.id);
 })
 
 
