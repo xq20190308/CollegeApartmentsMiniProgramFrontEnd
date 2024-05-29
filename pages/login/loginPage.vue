@@ -126,21 +126,35 @@
 			//发送请求
 			await login(data.reqdata).then(async (res) => {
 				if (res.statusCode == 200) {
+					if(res.data.msg=='当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员'){
+						console.log('当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员');
+						uni.showModal({
+							title: "该账号已绑定其他微信",
+							showCancel: false,
+						})
+						reject("当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员")
+					}
 					console.log("---登陆成功data.reqdata", data.reqdata);
 					console.log("---登陆成功res", res)
 					//用户信息保存到本地用于其他页面的渲染
 					try {
-						console.log("set--token");
 						await setLocalData("token", res.data.data.token)
-						console.log("set--username");
-						await setLocalData("username", data.reqdata.username);
+						await setLocalData("trueName", res.data.data.trueName);
+						await setLocalData("username", res.data.data.username);
+						await setLocalData("accountManage", res.data.data.userPermission.accountManage);
+						await setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
+						await setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
 					} catch (e) {
 						console.log("set不对", e);
 					}
 					
 					try {
 						console.log("get--token", getLocalData('token'));
+						console.log("get--trueName", getLocalData('trueName'));
 						console.log("get--username", getLocalData('username'));
+						console.log("get--accountManage", getLocalData('accountManage'));
+						console.log("get--noticeManage", getLocalData('noticeManage'));
+						console.log("get--questionnaireManage", getLocalData('questionnaireManage'));
 					} catch (e) {
 						console.log("get不对", e);
 					}
@@ -156,14 +170,11 @@
 					}, 2000)
 				} else {
 					console.log("登陆失败")
-					reject("error")
+					uni.showToast({
+						title: "登陆失败",
+						icon: "error"
+					})
 				}
-			}).catch(err => {
-				console.log("登陆或数据保存失败",err)
-				uni.showToast({
-					title: "登陆或数据保存失败" + err,
-					icon: "error"
-				})
 			})
 		}).catch(err => {
 			console.log('填写错误', err);

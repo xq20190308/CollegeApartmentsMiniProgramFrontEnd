@@ -35,6 +35,7 @@ const data = reactive({
 		title: "修改考试延期3"
 		typeName: "修改紧急"*/
 	},
+	id:null,
 })
 const submit=async ()=>{
 	const res = await http('/notifications','POST',data.newNotice)
@@ -55,8 +56,11 @@ const newdata=(value)=>{
 	}, 500)
 	return value;
 }
-onLoad(()=>{
-	
+onLoad((options)=>{
+	if(options.id!=null){
+		data.id=options.id;
+		console.log("options",options)
+	}
 })
 </script>
 

@@ -1,13 +1,11 @@
 <template>
-	<view style="display: flex; flex-direction: column; height: auto;">
+	<view v-if="data.detail.id!=null" style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
 				<text> {{data.detail.id}}.{{data.detail.title}}</text>
-				<text class="underline-text" @click="modify"> 修改</text> 
+				<text class="underline-text" @click="goto('addnotice','noticeManage')"> 修改</text> 
 			</view>
 			<view class="message" >
-				<uni-data-select :localdata="data.types" @change="(e) => {data.newNotice.typeName = data.types[e].text; console.log(data.newNotice.typeName)}"></uni-data-select>
-				
 				<view>{{data.detail.typeName}}</view>
 				<view>{{data.detail.content}}</view>
 			</view>
@@ -16,23 +14,31 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {goto} from "../../utils/access.js"
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
+import {getarticles} from "../notice/api/getnotices.js"
 const data = reactive({
-	detail:{
-		content: "",
-		id: null,
-		isActive: null,
-		publishTime: "",
-		title: "静态数据",
-		typeName: "",
-	}
+	detail:{},
+	types:[
+	  { value: 0, text: '篮球' },
+	  { value: 1, text: '足球' },
+	  { value: 2, text: '游泳' },
+	],
+	option :null
+})
+onShow(()=>{
+	getarticles({id:2}).then(response => {
+    // 在这里处理数据
+    data.detail = response.sort((a, b) => a.id - b.id)[0];
+	console.log('response',response); // 输出: 这是返回的数据
+  })
 })
 onLoad((options) => {
-	console.log('--',options.detail);
-	data.detail=JSON.parse(options.detail);
-	console.log('data.detail',data.detail);
+	console.log('--',options.id);
+	data.option=options.id;
+	console.log('data.option',data.option);
 })
 
 

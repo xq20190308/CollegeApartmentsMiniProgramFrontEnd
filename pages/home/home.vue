@@ -46,7 +46,7 @@ const func1Click=(item)=> {
 }
 const getonearticle= async ()=>{
 	//获取通知数据
-	const res = await http("/notifications?typeName='首页'",'GET',{},)
+	const res = await http("/notifications?type_name='主页'",'GET',{},)
 	
 	console.log("封装后请求的结果",res);
 	data.articles = res.data;

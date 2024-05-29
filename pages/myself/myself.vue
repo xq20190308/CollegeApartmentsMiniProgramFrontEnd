@@ -21,10 +21,10 @@
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
 			<uni-list border-full>
-				<uni-list-item showArrow title="姓名" rightText="小萪" />
+				<uni-list-item showArrow title="姓名" :rightText="userInfo.trueName" />
 				<uni-list-item showArrow title="学号" :rightText="userInfo.username" />
-				<uni-list-item showArrow title="学院" rightText="莱文克劳学院" />
-				<uni-list-item showArrow title="专业" rightText="黑魔法" />
+				<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
+				<uni-list-item showArrow title="专业" rightText="软件工程" />
 				<uni-list-item showArrow title="建言献策" />
 				<uni-list-item showArrow title="关于" />
 			</uni-list>
@@ -43,16 +43,18 @@
 <script>
 	import {
 		getLocalData,
-		delLocalData
+		delLocalData,
+		clearLocalData
 	} from "../../utils/cache.js"
 	export default {
 		data() {
 			return {
 				userInfo: { //默认头像
 					avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
-					nickName: '昵称',
+					nickName: '默认',
 					token:null,
 					username: "",
+					trueName: "",
 				},
 				useravatarImg: "",
 				func1_List: [],
@@ -65,9 +67,9 @@
 					content: meg,
 					success: (res) => {
 						if (res.confirm) {
-							delLocalData("token")
+							clearLocalData()
 							this.userInfo.token=getLocalData("token")
-							console.log('用户点击确定');
+							console.log('用户点击确定this.userInfo.token',this.userInfo.token);
 							this.tologin("正在跳转")
 						} else if (res.cancel) {
 							console.log('用户点击取消');
@@ -90,6 +92,7 @@
 		},
 		onShow() {
 			this.userInfo.username=getLocalData("username")
+			this.userInfo.trueName=getLocalData("trueName")
 			this.userInfo.token=getLocalData("token")
 			if(this.userInfo.token===""){
 				uni.showModal({
@@ -107,8 +110,6 @@
 			}
 		},
 		onLoad() {
-			this.userInfo.token=getLocalData("token")
-			console.log("OnLoad this.userInfo.token",this.userInfo.token);
 		}
 	}
 </script>

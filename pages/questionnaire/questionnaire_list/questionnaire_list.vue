@@ -11,7 +11,7 @@
 		</view>
 	</view>
 	<view>
-		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','addNaire')"></image>
+		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
 	</view>
 </template>
 

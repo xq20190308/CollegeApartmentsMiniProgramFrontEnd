@@ -24,7 +24,7 @@
 			</view>
 		</uni-section>
 		<view>
-			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('addnotice','addNotice')"></image>
+			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('addnotice','noticeManage')"></image>
 		</view>
 	</view>
 </template>
@@ -35,48 +35,58 @@ import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
+import {getarticles} from "../notice/api/getnotices.js"
 const data = reactive({
 	articles:[],
 	individualarticles:[],
 	catenotice:["个人通知","学校通知"],
 })
-const deletenotice = async (index) =>{
-	//获取通知数据
-	const res = await http('/notifications/modify','POST',{
-		id : data.articles[index].id,
-		isActive: 0,
-		},)
-	console.log(res)
-	getarticles(1);
-}
 const todetail = (index) =>{
 	console.log('index',index);
-	console.log('JSON.stringify(data.articles[index])',JSON.stringify(data.articles[index]))
 	uni.navigateTo({
-		url:"../notice/noticedetail?detail="+JSON.stringify(data.articles[index])
+		url:"../notice/noticedetail?id="+data.articles[index].id
 	})
 }
-const getarticles = async (cates) =>{
-	console.log("分类请求的参数",cates);
-	let noticeurl='/notifications';
-	if(cates!=null){
-		noticeurl='/notifications?isActive='+cates;
+const deletenotice = async (index) =>{
+	if(getLocalData('noticeManage')==true){
+		//获取通知数据
+		uni.showModal({
+			title: '提示',
+			content: '确认删除该通知吗',
+			success: async (r) => {
+				if (r.confirm) {
+					const res = await http('/notifications/modify','POST',{
+						id : data.articles[index].id,
+						isActive: 0,
+					},)
+					getarticles({}).then(response => {
+					  // 在这里处理数据
+					  data.articles = response.sort((a, b) => a.id - b.id);;
+						console.log('response',response); // 输出: 这是返回的数据
+					})
+					console.log("删除的res",res)
+					console.log('用户点击确定');
+				} else if (r.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		});
+	}else{
+		uni.showToast({
+			title: "你没有权限",
+			icon: "error"
+		})
 	}
-	//获取通知数据
-	const res = await http(noticeurl,'GET',{},)
-	
-	console.log("封装后请求的结果",res);
-   
-	data.articles = res.data;
-	console.log(data.articles)
-
 }
 onShow(()=>{
+	getarticles({}).then(response => {
+    // 在这里处理数据
+    data.articles = response.sort((a, b) => a.id - b.id);;
+	console.log('response',response); // 输出: 这是返回的数据
+  })
 })
 onLoad((options) => {
-	getarticles(1);
-	setLocalData('addNotice',true);
-	console.log("通知列表参数",options);
+	console.log("通知列表",data.articles);
 })
 </script>
 
