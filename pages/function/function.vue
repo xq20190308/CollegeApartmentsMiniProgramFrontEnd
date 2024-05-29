@@ -39,9 +39,8 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
-import sysurl from '../../system.config.js';
 import {getLocalData,delLocalData} from "../../utils/cache.js"
+import {reactive} from "vue";
 const data = reactive({
 	islogined:false,
 	navList1: [
@@ -84,7 +83,7 @@ onLoad(()=>{
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	],
 	data.navList3 = [
-		{ name: "账号管理", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
+		{ name: "账号管理", imgPath: "../../static/function/more.png", pagePath:"../userManage/userManage"}
 	]
 }) 
 const Function1Click=(item)=> {

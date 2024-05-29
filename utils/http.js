@@ -1,13 +1,17 @@
-import sysurl from '../system.config.js';
+const developUrl= 'http://localhost:8080'
+const bkDevelopUrl= 'http://127.0.0.1:4523/m1/4414254-4059226-default'
+const fileUrl= ''
+// main 分支提交的测试数据: 
+const baseUrl= ''
 const httpInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('http')) {
-			options.url = sysurl.developUrl + options.url
+			options.url = developUrl + options.url
 		}
 		//添加超时请求
 		options.timeout = 10000
 		console.log("拦截器", options)
-		//添加请求头
+		//添加请求头，还没添加呢看啥看
 	},
 
 }

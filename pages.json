@@ -33,6 +33,12 @@
 			}
 		},
 		{
+			"path": "pages/login/loginPage",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
 			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
 			"style": {
 				"navigationBarTitleText": "调查问卷",
@@ -47,13 +53,6 @@
 			}
 		},
 		{
-			"path": "pages/login/loginPage",
-			"style": {
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
-
 			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
 			"style": {
 				"navigationBarTitleText": "创建调查问卷",
@@ -96,9 +95,9 @@
 			}
 		},
 		{
-			"path": "pages/lostAndFound/lostAndFound",
+			"path": "pages/notice/addnotice",
 			"style": {
-				"navigationBarTitleText": "失物招领",
+				"navigationBarTitleText": "创建通知",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -130,7 +129,6 @@
 				"enablePullDownRefresh": false
 			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -139,12 +137,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/home/home",
 				"text": "首页",
 				"iconPath": "static/tabBar/home_icon.png",
 				"selectedIconPath": "static/tabBar/home_icon.png"
-
 			},
 			{
 				"pagePath": "pages/function/function",

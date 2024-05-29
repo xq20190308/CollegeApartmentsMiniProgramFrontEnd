@@ -2,12 +2,11 @@
     <view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
-			<swiper-item v-for="(item, index) in data.bannerList" :key="index">
+			<swiper-item v-for="(item, index) in data.articles" :key="index">
 				<img :src="item.url" alt="" class="swiper-image" @click="bannerclick(index)">
 				<view class="describe">{{data.articles[index].title}}</view>
 			</swiper-item>
 		</swiper>
-		
 		<!-- 主要功能区域 -->
 		<view class="func1">
 			<view class="func1_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">
@@ -27,9 +26,9 @@
 import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
+import {getarticles} from "../notice/api/getnotices.js"
 const data = reactive({
 	articles:[],
-	bannerList: [],
 	func_list: [
 				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
 				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
@@ -45,25 +44,22 @@ const func1Click=(item)=> {
 		url: item.pagePath
 	})
 }
-const getonearticle= async ()=>{
-	//获取通知数据
-	const res = await http('/notifications','GET',{},)
-	
-	console.log("封装后请求的结果",res);
-	data.articles = res.data;
-	console.log("轮播图数据",data.articles);
-	for (let i = 0; i < data.articles.length; i++) {
-		data.bannerList.push({ url: "/static/home/swiper/schoolmark.jpg" });
-	}
-
-}
 const bannerclick=(index)=>{
-		console.log(data.articles);
-		uni.navigateTo({
-			url:'../notice/noticedetail?detail='+JSON.stringify(data.articles[index])
-		})
+	console.log(data.articles);
+	uni.navigateTo({
+		url:'../notice/noticedetail?id=' + data.articles[index].id
+	})
 }
-onLoad(()=>{getonearticle();}) 
+onLoad(()=>{
+	getarticles({ typeName : '主页'}).then(response => {
+		// 在这里处理数据
+		data.articles = response.sort((a, b) => a.id - b.id);
+		console.log('response',response);//输出:这是返回的数据
+		for (let i = 0; i < data.articles.length; i++) {
+			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
+		}
+		console.log('data.articles',data.articles); 
+})})
 </script>
 
 <style>

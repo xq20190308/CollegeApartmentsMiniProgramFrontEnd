@@ -16,3 +16,6 @@ export const getLocalData = key => uni.getStorageSync(key)
 
 // 清数据
 export const delLocalData = key => uni.removeStorageSync(key)
+
+//清所有
+export const clearLocalData = key => uni.clearStorageSync()

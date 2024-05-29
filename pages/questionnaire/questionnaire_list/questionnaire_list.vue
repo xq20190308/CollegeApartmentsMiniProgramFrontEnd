@@ -11,18 +11,18 @@
 		</view>
 	</view>
 	<view>
-		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="addnaire"></image>
+		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
 	</view>
 </template>
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
+import {getLocalData,delLocalData, setLocalData} from "../../../utils/cache.js"
 import questionnaire from '../../../components/questionnaire/questionnaire.vue'
+import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
-import {getLocalData,delLocalData} from "../../../utils/cache.js"
 const data = reactive({
-	ifcanAdd:false,
 	questionnairelist:[],
 	total: 0,
 	cates:[{
@@ -55,32 +55,17 @@ const gotonaire = (item) =>{
 		'&endTime='+item.endTime,
 	})
 }
-const addnaire = ()=> {
-	if(data.ifcanAdd){
-		uni.navigateTo({
-			url: '../addquestionnaire/addquestionnaire'
-		});		
-	}
-	else{
-		uni.showToast({
-			title: "你没有权限",
-			icon: "error"
-		})
-	}
-}
 const dircate=(options)=>{
 	data.active=options;
 	console.log("点击事件的参数",options)
 	if(options===0){getNaireslist();}
 	else{getNaireslist(options);}
 }
-onLoad((options) => {
-	console.log("列表参数",options);
+onLoad(() => {
+	setLocalData('addNaire',true);
 	getNaireslist()
 })
 onShow(()=>{
-	data.ifcanAdd=getLocalData('ifcanAddQues')!="";
-	console.log(data.ifcanAdd);
 })
 </script>
 <style lang="scss">
