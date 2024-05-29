@@ -14,10 +14,10 @@
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.articles" :key="index">
 					<view style="display: flex;flex-wrap: nowrap;">
-						<text style="text-aign: center;display: block;width: 85%;"  @click="todetail(index)">{{item.id}}.{{item.title}}</text>
+						<text style="font-size: 16px; text-aign: center;width: 85%;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"  @click="todetail(index)">{{item.id}}.{{item.title}}</text>
 						<button @click="deletenotice(index)" class="deletbutton">删除</button>
 					</view>
-					<text>{{item.content}}</text>
+					<text style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">{{item.content}}</text>
 					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 					<text style="text-align: right;">类型：{{item.typeName}}</text>
 				</view>
@@ -81,7 +81,7 @@ const deletenotice = async (index) =>{
 onShow(()=>{
 	getarticles({}).then(response => {
     // 在这里处理数据
-    data.articles = response.sort((a, b) => a.id - b.id);;
+    data.articles = response.sort((a, b) => a.id - b.id);
 	console.log('response',response); // 输出: 这是返回的数据
   })
 })

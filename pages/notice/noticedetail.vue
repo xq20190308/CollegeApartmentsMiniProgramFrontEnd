@@ -3,7 +3,7 @@
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title">
 				<text> {{data.detail.id}}.{{data.detail.title}}</text>
-				<text class="underline-text" @click="goto('addnotice','noticeManage')"> 修改</text> 
+				<text class="underline-text" @click="goto('addnotice?id='+data.detail.id,'noticeManage')"> 修改</text> 
 			</view>
 			<view class="message" >
 				<view>{{data.detail.typeName}}</view>
@@ -20,16 +20,18 @@ import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 const data = reactive({
-	detail:{},
+	detail:{
+		id: null,
+	},
 	types:[
 	  { value: 0, text: '篮球' },
 	  { value: 1, text: '足球' },
 	  { value: 2, text: '游泳' },
 	],
-	option :null
+	option: null,
 })
 onShow(()=>{
-	getarticles({id:data.detail.id}).then(response => {
+	getarticles({id:data.option}).then(response => {
     // 在这里处理数据
     data.detail = response[0];
 	console.log('response',response); // 输出: 这是返回的数据
@@ -37,8 +39,8 @@ onShow(()=>{
 })
 onLoad((options) => {
 	console.log('--',options.id);
-	data.detail.id=options.id;
-	console.log('data.detail.id',data.detail.id);
+	data.option=options.id;
+	console.log('data.option',data.option);
 })
 
 
