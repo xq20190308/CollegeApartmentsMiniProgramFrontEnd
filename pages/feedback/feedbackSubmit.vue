@@ -80,13 +80,11 @@ export default {
 							errorMessage: '请输入11位手机号'
 						}]
 				}
-
 			},
 			onReady() {
 				console.log('onReady 生命周期钩子被调用');
 				this.$refs.baseForm.setRules(this.customRules)
 			}
-
 		}
 	},
 
