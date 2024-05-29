@@ -96,16 +96,49 @@
 			}
 		},
 		{
+<<<<<<< HEAD
 			"path": "pages/notice/addnotice",
 			"style": {
 				"navigationBarTitleText": "创建通知",
+=======
+			"path": "pages/lostAndFound/lostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领",
+>>>>>>> lostAndFound
 				"enablePullDownRefresh": false
 			}
 		},
 		{
+<<<<<<< HEAD
 			"path": "pages/userManage/userManage",
 			"style": {
 				"navigationBarTitleText": "账号管理",
+=======
+			"path": "pages/lostAndFound/lostAndFoundDraft",
+			"style": {
+				"navigationBarTitleText": "失物招领草稿",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailLostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/hygieneSearch",
+			"style": {
+				"navigationBarTitleText": "卫生检查",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/hygieneGradesSubmit",
+			"style": {
+				"navigationBarTitleText": "上传成绩",
+>>>>>>> lostAndFound
 				"enablePullDownRefresh": false
 			}
 		}
