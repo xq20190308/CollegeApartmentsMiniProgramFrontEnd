@@ -1,5 +1,5 @@
 <template>
-	<view class="questionnaire" :style="naireinfo.id==='1'?filter:''">
+	<view class="questionnaire" :style="naireinfo.id===1?filter:''">
 		<uni-section :title="naireinfo.id + naireinfo.name" type="line" titleFontSize=42rpx>
 			<text>{{naireinfo.description}}</text>
 			<view>{{naireinfo.questionList}}</view>
