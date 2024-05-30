@@ -35,10 +35,7 @@ onShow(()=>{
 	fetchComplaintDrafts();
 })
 const lookFeed = ()=>{
-	uni.navigateTo({
-		url: 'manageFeed',
-	});
-	//goto('manageFeed','noticeManage')
+	goto('manageFeed','feedbackManage')
 }
 const fetchComplaintDrafts = async () => {
 	const res = await http('/api/selectDraft','GET',{},)
@@ -76,9 +73,6 @@ const delet=(item,index)=> {
 }
 </script>
 
-
-
-
 <style>
 	.notice-list {
 		width: 95%;
@@ -97,7 +91,6 @@ const delet=(item,index)=> {
 		justify-content: center;
 		align-items: center;
 		flex-direction: row;
-		background-color: azure;
 		box-shadow: #999999 2px 2px 2px 2px;
 		place-items: flex-start;
 	}
@@ -152,8 +145,8 @@ const delet=(item,index)=> {
 		height: 80rpx; 
 	}
 	.deletbutton{
-		background-color:indianred;
-		color:white;
+		background-color:#e2e2e2;
+		color: #000;
 		width: 50px;
 		height:40x;
 		font-size: 10px;

@@ -42,14 +42,6 @@
 				</text>
 			</view>
 		</view>
-		
-		
-		
-		
-		
-		
-		
-		
 	</view>
 </template>
 
@@ -186,8 +178,6 @@
 							data: JSON.stringify(old_data)
 						});
 						that.search_list_old = old_data; //更新历史搜索
-						
-						
 						// console.log('____________________dev')
 						// console.log(that.search_list_old)
 						// console.log('____________________dev')

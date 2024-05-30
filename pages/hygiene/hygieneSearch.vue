@@ -11,7 +11,7 @@
         :color_text="color_border"
         :search_list_hot="search_list_hot"
         :store_key="store_key"
-				:input_text="input_text"
+		:input_text="input_text"
         @onClickDelAllApi="onClickDelAll"
         @onSearchNameApi="onSearchName"
         ></d-search-log>

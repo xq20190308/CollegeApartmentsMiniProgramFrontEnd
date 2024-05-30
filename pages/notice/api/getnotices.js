@@ -6,15 +6,15 @@ export const getarticles = async (cates) =>{
 	if(cates.id!=null){
 		additionid='&id='+cates.id
 	}
-	let additiontype_name = '';
-	if(cates.type_name!=null){
-		additiontype_name='&type_name='+cates.type_name
+	let additiontypeName = '';
+	if(cates.typeName!=null){
+		additiontypeName='&typeName='+cates.typeName
 	}
 	// let additionid = '';
 	// if(cates.id!=null){
 	// 	additionid='&id='+cates.id
 	// }
-	let noticeurl='/notifications?isActive=1' + additionid + additiontype_name;
+	let noticeurl='/notifications?isActive=1' + additionid + additiontypeName;
 	// if(cates!=null){
 	// 	noticeurl='/notifications?id='+cates;
 	// }

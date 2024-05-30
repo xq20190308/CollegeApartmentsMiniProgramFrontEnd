@@ -1,5 +1,10 @@
 <template>
 	<view>
+		<view>
+		    <d-search-log color_border="#666666" color_text="#666666"
+		    :search_list_hot="data.search_list" :store_key="data.store_key" :input_text="data.input_text"
+		    @onClickDelAllApi="onClickDelAll" @onSearchNameApi="onSearchName"></d-search-log>
+		</view>
 		<uni-section title="个人通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
@@ -40,7 +45,22 @@ const data = reactive({
 	articles:[],
 	individualarticles:[],
 	catenotice:["个人通知","学校通知"],
+	search_list:[],
+	store_key:'notice_keywordlist',
+	input_text:''
 })
+const onClickDelAll = (e)=>{
+	//console.log(e)
+}
+const onSearchName = (e)=>{
+	//在此添加关键词参数请求通知列表
+	console.log(e)
+	getarticles({key:e}).then(response => {
+	  // 在这里处理数据
+	  data.articles = response.sort((a, b) => a.id - b.id);
+		console.log('response',response); // 输出: 这是返回的数据
+	})
+}
 const todetail = (index) =>{
 	console.log('index',index);
 	uni.navigateTo({

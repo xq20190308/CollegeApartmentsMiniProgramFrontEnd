@@ -143,6 +143,7 @@
 						await setLocalData("username", res.data.data.username);
 						await setLocalData("accountManage", res.data.data.userPermission.accountManage);
 						await setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
+						await setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
 						await setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
 					} catch (e) {
 						console.log("set不对", e);
@@ -153,7 +154,7 @@
 						console.log("get--trueName", getLocalData('trueName'));
 						console.log("get--username", getLocalData('username'));
 						console.log("get--accountManage", getLocalData('accountManage'));
-						console.log("get--noticeManage", getLocalData('noticeManage'));
+						console.log("get--feedbackManage", getLocalData('feedbackManage'));
 						console.log("get--questionnaireManage", getLocalData('questionnaireManage'));
 					} catch (e) {
 						console.log("get不对", e);

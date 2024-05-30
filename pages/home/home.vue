@@ -17,7 +17,7 @@
 		<!-- 未来倒计时 -->
 		<view class="spacing"></view>
 		<uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
-			<text>这是分栏内容 {{ data.plan }}</text>
+			<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
 		</uni-card>
 	</view>
 </template>
@@ -37,7 +37,11 @@ const data = reactive({
 				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
 				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
 		],
-	plan:["planA","planB"],	
+	plan:[
+		"距离打工结束还有9999天\n",
+		"早上好\n",
+		"中午好\n",
+		"晚上好\n",],	
 })
 const func1Click=(item)=> {
 	uni.reLaunch({

@@ -117,7 +117,7 @@ export default {
 					data: {
 						describes: this.baseFormData.describes,
 						contactobject: this.baseFormData.contactobject,
-						//category: this.baseFormData.category
+						category: '1',
 						path: this.baseFormData.paths
 					},
 					success: (res) => {
@@ -138,7 +138,6 @@ export default {
 			})
 		},
 		//保存和提交分别交到后端不同的地方
-		//目前来说使用的是一个接口
 		save() {
 			uni.request({
 				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
