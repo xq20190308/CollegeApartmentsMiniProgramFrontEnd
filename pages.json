@@ -75,9 +75,16 @@
 			}
 		},
 		{
-			"path": "pages/feedback/DraftFeedback",
+			"path": "pages/feedback/manageFeed",
 			"style": {
-				"navigationBarTitleText": "修改草稿",
+				"navigationBarTitleText": "已提交投诉",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/showFeed",
+			"style": {
+				"navigationBarTitleText": "查看投诉",
 				"enablePullDownRefresh": false
 			}
 		},

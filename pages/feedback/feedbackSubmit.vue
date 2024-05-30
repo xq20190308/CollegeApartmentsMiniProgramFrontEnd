@@ -158,6 +158,10 @@ export default {
 				}
 			})
 		},
+	},
+	onLoad(options){
+		//需要获取已经id的草稿内容
+		console.log("需要获取已经id的草稿内容,id=",options.id);
 	}
 }
 </script>

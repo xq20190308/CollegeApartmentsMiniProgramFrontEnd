@@ -1,22 +1,18 @@
 <template>
 	<view>
-		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
-			<text class="underline-text" @click="lookFeed">已提交投诉</text>
+		<uni-section title="已提交投诉" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
-					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
+					<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: left;" @click="look(item)">
 						<view>id：{{item.id}}</view>
 						<view>describes：{{item.describes}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
+						<view>pushtime：{{item.pushtime}}</view>
 					</view>
-					<button @click="delet(item,index)" class="deletbutton">删除</button>
 				</view>
 			</view>
 		</uni-section>
-	</view>
-	<view class="container">
-	<image class = "floating-button" src="../../static/feedback/plus.png" @click="onpress"></image>
 	</view>
 </template>
 
@@ -34,45 +30,18 @@ onLoad(()=> {
 onShow(()=>{
 	fetchComplaintDrafts();
 })
-const lookFeed = ()=>{
-	uni.navigateTo({
-		url: 'manageFeed',
-	});
-	//goto('manageFeed','noticeManage')
-}
 const fetchComplaintDrafts = async () => {
-	const res = await http('/api/selectDraft','GET',{},)
+	const res = await http('/api/manageSuggestions','GET',{},)
 	
 	console.log("封装后请求的结果",res);
-	data.complaintDrafts=res.data//与问卷的返回不同
+	data.complaintDrafts=res//与问卷的返回不同
 	console.log("data.complaintDrafts",data.complaintDrafts)
 }
-const onpress=()=> {
-	console.log("跳转到添加草稿，不需要携带id")
-	uni.navigateTo({
-		url: '../feedback/feedbackSubmit'
-	});
-}
-const change=(item)=> {
+const look=(item)=> {
 	console.log("要修改id为",item.id,"的草稿")
 	uni.navigateTo({
-		url: '../feedback/feedbackSubmit?id='+item.id,
+		url: '../feedback/showFeed?id='+item.id,
 	})
-}
-const delet=(item,index)=> {
-	console.log("要删除id为",item.id,"的草稿")
-	uni.showModal({
-		title: '提示',
-		content: '确认删除该通知吗',
-		success: async (r) => {
-			if (r.confirm) {
-				const res = await http('/api/deleteSuggestions?id=' + item.id,'DELETE',{},)
-				fetchComplaintDrafts();
-			} else if (r.cancel) {
-				console.log('用户点击取消');
-			}
-		}
-	});
 }
 </script>
 
