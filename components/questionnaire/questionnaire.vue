@@ -1,10 +1,10 @@
 <template>
 	<view class="questionnaire">
 		<uni-section :title="naireinfo.name" type="line" titleFontSize=42rpx>
+			<text>{{naireinfo.descr}}</text>
+			<view>{{naireinfo.questionList}}</view>
+			<view>截止到：{{naireinfo.startTime}}</view>
 		</uni-section>
-		<text>{{naireinfo.descr}}</text>
-		<view>{{naireinfo.questionList}}</view>
-		<view>截止到：{{naireinfo.startTime}}</view>
 	</view>
 </template>
 
@@ -16,7 +16,7 @@ const props = defineProps({
 			id:"",
 			type: 0,
 			name: "",
-			descr: null,
+			descr: '',
 			startTime: "",
 			endTime: "",
 			questionList: null,

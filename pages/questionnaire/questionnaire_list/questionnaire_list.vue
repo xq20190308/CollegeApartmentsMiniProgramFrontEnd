@@ -7,7 +7,6 @@
 	<view class="qusnalist">
 		<view class="qusna" v-for="(item,index) in data.questionnairelist" :key="index" @click="gotonaire(item)">
 			<questionnaire :naireinfo="item"></questionnaire>
-			<questionnaire :naireinfo="item"></questionnaire>
 		</view>
 	</view>
 	<view>
