@@ -17,7 +17,7 @@
 		<upload-file v-if="fileMediatype !== 'image' || showType !== 'grid'" :readonly="readonly"
 			:list-styles="listStyles" :files-list="filesList" :showType="showType" :delIcon="delIcon"
 			@uploadFiles="uploadFiles" @choose="choose" @delFile="delFile">
-			<slot><button type="primary" size="mini">选择文件</button></slot>
+			<slot></slot>
 		</upload-file>
 	</view>
 </template>

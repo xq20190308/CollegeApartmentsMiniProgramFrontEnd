@@ -17,7 +17,7 @@
 					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
-								ref="uniFilePicker" required></uni-file-picker>
+								ref="uniFilePicker" required><button type="primary" size="mini">选择文件</button></uni-file-picker>
 						</view>
 					</uni-section>
 					<uni-forms-item label="手机号" name="contactobject" required>

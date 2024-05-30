@@ -1,9 +1,11 @@
 <template>
+	<!--分类
 	<view class="qcates">
 		<view v-for="(cate,index) in data.cates" :class="{'cateitem':true,'cateactive':index==data.active,}" :key="index" @click="dircate(index)">
 			{{cate.name}}
 		</view>
 	</view>
+	的话-->
 	<view class="qusnalist">
 		<view class="qusna" v-for="(item,index) in data.questionnairelist" :key="index" @click="gotonaire(item)">
 			<questionnaire :naireinfo="item"></questionnaire>
@@ -50,7 +52,7 @@ const gotonaire = (item) =>{
 	uni.navigateTo({
 		url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
 		'&id='+item.id+'&type='+item.type+'&name='+item.name+
-		'&descr='+item.descr+'&startTime='+item.startTime+
+		'&description='+item.descr+'&startTime='+item.startTime+
 		'&endTime='+item.endTime,
 	})
 }

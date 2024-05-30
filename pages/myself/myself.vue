@@ -15,7 +15,10 @@
 	<view style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view class="User">
-			<image :src="userInfo.avatarUrl" class="avatar" />
+			<uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
+				ref="uniFilePicker" disable-preview :imageStyles="imageStyles" :del-icon='false' required>
+				<image :src="userInfo.avatarUrl" class="avatar" />
+			</uni-file-picker>
 			<text class="avatarName" >{{this.userInfo.nickName}}</text>
 		</view>
 		<!-- 功能区 -->
@@ -49,8 +52,13 @@
 	export default {
 		data() {
 			return {
+				imageStyles: {
+					border: {
+						radius: '50%'
+					}
+				},
 				userInfo: { //默认头像
-					avatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
+					avatarUrl: 'http://tmp/cK3MnNqlrY3J9127f71db3e70517af8d84e95e2c8562.jpg',
 					nickName: '默认',
 					token:null,
 					username: "",
@@ -88,6 +96,11 @@
 						url: "/pages/login/loginPage"
 					})
 				}, 1000)
+			},
+			selectUpload(e){
+				console.log(e.tempFilePaths[0]);
+				this.userInfo.avatarUrl = e.tempFilePaths[0];
+				console.log(this.userInfo.avatarUrl);
 			}
 		},
 		onShow() {
@@ -114,7 +127,24 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	::v-deep .uni-file-picker{
+		.uni-file-picker__container {
+			width: 100%;
+			height: 100%;
+			.file-picker__box{
+				top:5px;
+				left: 3px;
+				width: 95%!important;
+				height: 100%!important;
+				.file-picker__box-content {
+					.file-picker__progress {
+						display: none!important;
+					}
+				}
+			}
+		}
+	}
 	.User {
 		display: flex;
 		margin-top: 25rpx;
@@ -126,18 +156,17 @@
 	}
 
 	.avatar {
-		height: 150rpx;
-		width: 150rpx;
 		background-color: #ad7d7d;
-		margin-left: 25rpx;
-		margin-top: 25rpx;
 		border-radius: 50%;
+		width: 100px;
+		height: 100%;
 		/*圆形裁剪*/
 	}
 
 	.avatarName {
 		margin-left: 45rpx;
 		margin-top: 35rpx;
+		width: 60%;
 	}
 
 	.func1 {
