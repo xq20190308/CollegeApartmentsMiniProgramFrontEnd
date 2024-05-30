@@ -58,7 +58,7 @@ const delet=(item,index)=> {
 		content: '确认删除该通知吗',
 		success: async (r) => {
 			if (r.confirm) {
-				const res = await http('/api/deleteSuggestions?id=205','DELETE',{},)
+				const res = await http('/api/deleteSuggestions?id=' + item.id,'DELETE',{},)
 				fetchComplaintDrafts();
 			} else if (r.cancel) {
 				console.log('用户点击取消');

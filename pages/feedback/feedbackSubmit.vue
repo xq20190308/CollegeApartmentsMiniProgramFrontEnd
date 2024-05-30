@@ -87,17 +87,16 @@ export default {
 			}
 		}
 	},
-
-
 	methods: {
 		selectUpload(e) {//上传文件的函数
 			this.baseFormData.paths.push(e.tempFilePaths[0])
+			console.log('this.baseFormData.paths',this.baseFormData.paths);
 			uni.uploadFile({
 				url: 'http://localhost:8080/api/upload', //仅为示例，非真实的接口地址
 				filePath: e.tempFilePaths[0],
 				name: 'file',
 				success: (uploadFileRes) => {
-					//console.log(uploadFileRes.data);
+					console.log(uploadFileRes.data);
 				},
 				fail: (err) => {
 					//console.log(err);

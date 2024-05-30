@@ -55,9 +55,9 @@ const data = reactive({
 	baseFormData: {
 		contactobject: '',
 		describes: '',
-		category: '',
+		category: [],
 		//上传图片.
-		imageValue:[]
+		paths:[]
 		
 	},
 	// 表单数据
@@ -65,9 +65,6 @@ const data = reactive({
 		name: '',
 		age: '',
 	},
-	// 分段器数据
-	current: 0,
-	items: ['左对齐', '顶部对齐'],
 	// 校验规则
 	rules: {
 		contactobject: {
