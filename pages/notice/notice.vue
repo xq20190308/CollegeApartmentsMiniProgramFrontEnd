@@ -55,7 +55,7 @@ const onClickDelAll = (e)=>{
 const onSearchName = (e)=>{
 	//在此添加关键词参数请求通知列表
 	console.log(e)
-	getarticles({key:e}).then(response => {
+	getarticles({keyword:e}).then(response => {
 	  // 在这里处理数据
 	  data.articles = response.sort((a, b) => a.id - b.id);
 		console.log('response',response); // 输出: 这是返回的数据
