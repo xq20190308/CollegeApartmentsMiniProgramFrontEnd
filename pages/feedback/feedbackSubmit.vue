@@ -91,14 +91,12 @@ export default {
 
 	methods: {
 		selectUpload(e) {//上传文件的函数
-			console.log(2)
+			console.log(e.tempFilePaths)
 			uni.uploadFile({
-				url: 'http://localhost:8080/api/upload', //仅为示例，非真实的接口地址
+				url: 'http://localhost:8080/api/upload', 
+				//这个点击上传文件是传到本地了，但要传到服务器的话还要继续传参
 				filePath: e.tempFilePaths[0],
 				name: 'file',
-				// formData: {
-				// 	'file': ''
-				// },
 				success: (uploadFileRes) => {
 					console.log(uploadFileRes.data);
 				},

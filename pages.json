@@ -102,6 +102,13 @@
 			}
 		},
 		{
+			"path": "pages/lostAndFound/lostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/lostAndFound/lostAndFoundDraft",
 			"style": {
 				"navigationBarTitleText": "失物招领草稿",
@@ -116,7 +123,7 @@
 			}
 		},
 		{
-			"path": "pages/hygiene/hygieneSearch",
+			"path": "pages/hygiene/search",
 			"style": {
 				"navigationBarTitleText": "卫生检查",
 				"enablePullDownRefresh": false
