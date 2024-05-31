@@ -50,9 +50,9 @@ const getNaireslist = async (cates)=>{
 const gotonaire = (item) =>{
 	console.log("问卷信息",item);
 	uni.navigateTo({
-		url:'../questionnaire_home/questionnaire_home?questionidList='+item.questionList+
+		url:'../questionnaire_home/questionnaire_home?questionIdList='+item.questionIdList+
 		'&id='+item.id+'&type='+item.type+'&name='+item.name+
-		'&description='+item.descr+'&startTime='+item.startTime+
+		'&description='+item.description+'&startTime='+item.startTime+
 		'&endTime='+item.endTime,
 	})
 }

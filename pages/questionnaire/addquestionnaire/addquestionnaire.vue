@@ -9,12 +9,12 @@
 	</uni-section>
 	<uni-section title="问卷描述（填写）：" type="line" padding>
 		<view style="display: flex;flex-wrap: nowrap;">
-			<input @input="(e) => {data.newNaire.descr=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
+			<input @input="(e) => {data.newNaire.description=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
 		</view>
 	</uni-section>
 	<uni-section title="选择日期及时间：" type="line" padding>
 		<view class="example-body">
-			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.startTime = e[0];console.log(data.newNaire.startTime);data.newNaire.endTime = e[1];console.log(data.newNaire.endTime)}" />
+			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.start_time = e[0];console.log(data.newNaire.start_time);data.newNaire.end_time = e[1];console.log(data.newNaire.end_time)}" />
 		</view>
 	</uni-section>
 	<view class="questionsform">
@@ -24,7 +24,7 @@
 				<input @input="(e) => {data.questionList[qindex].name=qnewdata(e,qindex)}" placeholder="请输入题目名称"  />
 			</view>
 			<view class="answer">
-				<input @input="(e) => {data.questionList[qindex].describe=qnewdata(e,qindex)}" placeholder="请输入题目描述"  />
+				<input @input="(e) => {data.questionList[qindex].description=qnewdata(e,qindex)}" placeholder="请输入题目描述"  />
 			</view>
 			<view class="choice" v-if="que.type===1">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
@@ -107,12 +107,11 @@ const questype=(type,qindex)=>{
 const add=(e,option)=>{
 	console.log(option);
 	data.questionList.push({
-		content: ["A", "B", "C"],
-		describe: "",
-		id: "",
-		name: "",
-		questionnaire: "",
 		type: option,
+		name: "",
+		description: "",
+		content: ["A", "B", "C"],
+		questionnaire_id: "",
 	});
 	console.log(data.questionList)
 } 
@@ -123,9 +122,9 @@ const submit = async ()=> {
 	
 	//提交到后端
 	
-	//const res = await http('','POST',{newNaire: data.newNaire},);
+	const res = await http('/questionnaire/add','POST',{newNaire: data.newNaire},);
 	
-	//console.log("封装后请求的结果",res)
+	console.log("封装后请求的结果",res)
 	
 	/*this.newNaire.questionList=//后端生成并返回每个问题的id组成的数组并且“[]”*/		
 	/*this.newNaire.id=后端生成questionnaire的id*/

@@ -32,10 +32,10 @@
 			</view>
 			<!-- 表单校验 -->
 			<uni-forms ref="valiForm" :rules="data.rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item class="form-item" label="姓名" required name="name">
+				<uni-forms-item class="form-item" label="姓名" name="name">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item class="form-item" label="学号" required name="id">
+				<uni-forms-item class="form-item" label="学号" name="id">
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
@@ -51,21 +51,24 @@ import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
+	
 	id:"",
 	type: 0,
 	name: "",
 	descr: null,
 	startTime: "",
 	endTime: "",
-	questionList: [{
-		id: "",
-		type: 1,
-		name: "",
-		describe: "",
-		content: "[]",
-		questionnaire: ""
-	}],
-	questionidList: null,
+	questionIdList: null,
+	questionList: [
+	// 	{
+	// 	id: "",
+	// 	type: 1,
+	// 	name: "",
+	// 	describe: "",
+	// 	content: "[]",
+	// 	questionnaire: ""
+	// },
+	],
 	current: [],
 	// 校验表单数据
 	valiFormData: {
@@ -73,23 +76,23 @@ const data = reactive({
 		id: '',
 	},
 	// 校验规则
-	rules: {
-		name: {
-			rules: [{
-				required: true,
-				errorMessage: '姓名不能为空'
-			}]
-		},
-		id: {
-			rules: [{
-				required: true,
-				errorMessage: '年龄不能为空'
-			}, {
-				minLength: 12,
-				maxLength: 12,
-				errorMessage: '请输入12位学号'
-			}]
-		}
+	 rules: {
+	// answer: {
+	// 	rules: [{
+	// 		required: true,
+	// 		errorMessage: '姓名不能为空'
+	// 	}]
+	// },
+	// 	id: {
+	// 		rules: [{
+	// 			required: true,
+	// 			errorMessage: '年龄不能为空'
+	// 		}, {
+	// 			minLength: 12,
+	// 			maxLength: 12,
+	// 			errorMessage: '请输入12位学号'
+	// 		}]
+	// 	}
 	},
 }) 
 const inputChange = (evt,qindex) => {
@@ -128,12 +131,10 @@ const submit = async (ref) => {
 			return;
 		};
 		console.log("填写正确",data.current);
-		console.log(data.valiFormData);
+		console.log('JSON.stringify(data.valiFormData)',JSON.stringify(data.valiFormData));
 		//POST提交到后端
-		
-		//参数需要改
 		const res = await http('/useranswer/submit','POST',{
-			answer: "答案",
+			answer: JSON.stringify(data.valiFormData),
 			questionnaireId: data.id,
 		},);
 	
@@ -148,37 +149,33 @@ const submit = async (ref) => {
 	})
 }
 const getquestions = async () => { 
-	const res = await http('/question/selectById?idList='+data.questionidList,'GET',{},)
+	const res = await http('/question/selectById?idList='+data.questionIdList,'GET',{},)
 	
 	console.log("封装后请求的结果",res);
 	
 	console.log("test",data.idList)
 	data.questionList=res.data;
 	console.log('获取到问题',data.questionList);
-	// 使用for循环来修改数据
-	for (let i = 0; i < data.questionList.length; i++) {
-	  //this.questionList[i].content=JSON.parse(this.questionList[i].content);
-		data.questionList[i].content=["A","B","C"]
-	}
 	
 }
 onLoad((options) => {
 	console.log("参数列表",options);
 	
 	//测试数据
-	data.questionidList=["20181252102","20187874601"];
+	//data.questionIdList=["20181252102","20187874601"];
 	
-	//this.questionidList = JSON.parse(options.questionidList);
-	console.log('问题列表：',data.questionidList);
+	data.questionIdList = JSON.parse(options.questionIdList);
+	
+	console.log('问题列表：',data.questionIdList);
 	
 	data.id=options.id;
 	data.type=options.type;
 	data.name=options.name;
-	data.descr=options.descr;
+	data.description=options.description;
 	data.startTime=options.startTime;
 	data.endTime =options.endTime ;
 	
-	getquestions();
+	//getquestions();
 	
 })
 onReady(()=>{
