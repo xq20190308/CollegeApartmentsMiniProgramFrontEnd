@@ -46,6 +46,7 @@
 <script>
 	import {
 		getLocalData,
+		setLocalData,
 		delLocalData,
 		clearLocalData
 	} from "../../utils/cache.js"
@@ -58,7 +59,7 @@
 					}
 				},
 				userInfo: { //默认头像
-					avatarUrl: 'http://tmp/cK3MnNqlrY3J9127f71db3e70517af8d84e95e2c8562.jpg',
+					avatarUrl: '',
 					nickName: '默认',
 					token:null,
 					username: "",
@@ -101,9 +102,12 @@
 				console.log(e.tempFilePaths[0]);
 				this.userInfo.avatarUrl = e.tempFilePaths[0];
 				console.log(this.userInfo.avatarUrl);
+				setLocalData('avatarUrl',this.userInfo.avatarUrl);
 			}
 		},
 		onShow() {
+			this.userInfo.avatarUrl = getLocalData('avatarUrl')
+			console.log(this.userInfo.avatarUrl);
 			this.userInfo.username=getLocalData("username")
 			this.userInfo.trueName=getLocalData("trueName")
 			this.userInfo.token=getLocalData("token")

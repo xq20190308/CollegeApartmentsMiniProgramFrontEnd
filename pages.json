@@ -70,7 +70,7 @@
 		{
 			"path": "pages/feedback/feedbackSubmit",
 			"style": {
-				"navigationBarTitleText": "增加草稿",
+				"navigationBarTitleText": "草稿",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -84,7 +84,7 @@
 		{
 			"path": "pages/feedback/showFeed",
 			"style": {
-				"navigationBarTitleText": "查看投诉",
+				"navigationBarTitleText": "投诉",
 				"enablePullDownRefresh": false
 			}
 		},

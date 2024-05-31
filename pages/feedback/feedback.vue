@@ -9,6 +9,8 @@
 						<view>describes：{{item.describes}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
+						<view>pushtime：{{item.pushtime}}</view>
+						
 					</view>
 					<button @click="delet(item,index)" class="deletbutton">删除</button>
 				</view>
@@ -25,6 +27,7 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
+import {getLocalData} from "../../utils/cache.js"
 const data = reactive({
 	complaintDrafts: [] // 初始为空数组
 })
@@ -38,7 +41,8 @@ const lookFeed = ()=>{
 	goto('manageFeed','feedbackManage')
 }
 const fetchComplaintDrafts = async () => {
-	const res = await http('/api/selectDraft','GET',{},)
+	let stu_id = getLocalData('username')
+	const res = await http('/api/selectDraft/'+stu_id,'GET',{},)
 	
 	console.log("封装后请求的结果",res);
 	data.complaintDrafts=res.data//与问卷的返回不同
@@ -53,7 +57,19 @@ const onpress=()=> {
 const change=(item)=> {
 	console.log("要修改id为",item.id,"的草稿")
 	uni.navigateTo({
-		url: '../feedback/feedbackSubmit?id='+item.id,
+		url: '../feedback/feedbackSubmit?id='+item.id+
+		'&contactobject='+item.contactobject+
+		'&describes='+item.describes+
+		'&describes='+item.describes+
+		'&category='+item.category,
+		// baseFormData: {
+		// 	contactobject: '',
+		// 	describes: '',
+		// 	category: [],
+		// 	path: [],
+		// 	//上传图片.
+		// 	//imageValue:[]
+		// },
 	})
 }
 const delet=(item,index)=> {
@@ -63,7 +79,7 @@ const delet=(item,index)=> {
 		content: '确认删除该通知吗',
 		success: async (r) => {
 			if (r.confirm) {
-				const res = await http('/api/deleteSuggestions?id=' + item.id,'DELETE',{},)
+				const res = await http('/api/deleteSuggestions/' + item.id,'DELETE',{},)
 				fetchComplaintDrafts();
 			} else if (r.cancel) {
 				console.log('用户点击取消');

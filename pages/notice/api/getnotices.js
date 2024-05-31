@@ -10,11 +10,15 @@ export const getarticles = async (cates) =>{
 	if(cates.typeName!=null){
 		additiontypeName='&typeName='+cates.typeName
 	}
+	let additionkeyword = '';
+	if(cates.keyword!=null){
+		additionkeyword='&keyword='+cates.keyword
+	}
 	// let additionid = '';
 	// if(cates.id!=null){
 	// 	additionid='&id='+cates.id
 	// }
-	let noticeurl='/notifications?isActive=1' + additionid + additiontypeName;
+	let noticeurl='/notifications?isActive=1' + additionid + additiontypeName+ additionkeyword;
 	// if(cates!=null){
 	// 	noticeurl='/notifications?id='+cates;
 	// }

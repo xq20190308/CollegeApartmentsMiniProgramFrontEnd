@@ -154,6 +154,7 @@
 						await setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
 						await setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
 						await setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
+						await setLocalData('avatarUrl','http://tmp/cK3MnNqlrY3J9127f71db3e70517af8d84e95e2c8562.jpg')
 					} catch (e) {
 						console.log("set不对", e);
 					}

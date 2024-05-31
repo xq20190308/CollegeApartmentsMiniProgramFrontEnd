@@ -7,8 +7,10 @@
 				<uni-forms ref="baseForm" :rules="customRules" :modelValue="baseFormData">
 					<!-- 用labelstyle设置样式 -->
 
-					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" required >
-					        <uni-data-checkbox v-model="baseFormData.category" multiple :localdata="categories"/>
+					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" name="category" required >
+					        <uni-data-checkbox @change="(e)=>{
+								baseFormData.category=e.detail.data;console.log(baseFormData.category);
+							}" multiple :localdata="categories"/>
 					</uni-forms-item>
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;"  name="describes" class = "small" required>
 
@@ -38,6 +40,7 @@
 
 
 <script>
+	import {load,http} from "../../utils/http.js"
 export default {
 	data() {
 		pushtime:'';
@@ -58,12 +61,18 @@ export default {
 				contactobject: '',
 				describes: '',
 				category: [],
-				paths: [],
+				path: [],
 				//上传图片.
 				//imageValue:[]
 			},
 			// 表单数据
 			customRules: {
+				category: {
+					rules: [{
+						required: true,
+						errorMessage: '请选择分类'
+					}]
+				},
 				describes: {
 					rules: [{
 						required: true,
@@ -89,19 +98,8 @@ export default {
 	},
 	methods: {
 		selectUpload(e) {//上传文件的函数
-			this.baseFormData.paths.push(e.tempFilePaths[0])
-			console.log('this.baseFormData.paths',this.baseFormData.paths);
-			uni.uploadFile({
-				url: 'http://localhost:8080/api/upload', //仅为示例，非真实的接口地址
-				filePath: e.tempFilePaths[0],
-				name: 'file',
-				success: (uploadFileRes) => {
-					console.log(uploadFileRes.data);
-				},
-				fail: (err) => {
-					//console.log(err);
-				}
-			})
+			this.baseFormData.path.push(e.tempFilePaths[0])
+			console.log('this.baseFormData.path',this.baseFormData.path);
 		},
 		submit(ref) {
 			console.log(this.baseFormData)
@@ -110,15 +108,23 @@ export default {
 				uni.showToast({
 					title: `校验通过`,
 				});
-				console.log("this.baseFormData.pictures",this.baseFormData.pictures)
+				for (var i = this.baseFormData.path.length; i--;){
+					//这里需要改
+					this.baseFormData.path[i] = load('http://localhost:8080/api/upload',this.baseFormData.path[i]);
+				}
+				console.log("this.baseFormData.path",this.baseFormData.path)
+				
 				uni.request({
 					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
 					method: 'POST',
 					data: {
 						describes: this.baseFormData.describes,
 						contactobject: this.baseFormData.contactobject,
-						category: '1',
-						path: this.baseFormData.paths
+						category: JSON.stringify(this.baseFormData.category),
+						path: JSON.stringify(this.baseFormData.path)
+					},
+					header:{
+						Authorization: '',
 					},
 					success: (res) => {
 						console.log(res.data);
@@ -138,21 +144,24 @@ export default {
 			})
 		},
 		//保存和提交分别交到后端不同的地方
-		save() {
+		save() {//修改后pushtime返回的是null?
 			uni.request({
 				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
+					id:this.id,
 					describes: this.baseFormData.describes,
 					contactobject: this.baseFormData.contactobject,
-					//category: this.baseFormData.category
+					category: JSON.stringify(this.baseFormData.category),
+					path: JSON.stringify(this.baseFormData.path),
+					stu_id:"202211070501"
+				},
+				header:{
+					Authorization: '',
 				},
 				success: (res) => {
-					console.log("save:",res.data);
-					this.text = 'request success';
-					this.id = res.data.id;
 					uni.navigateBack({
-						url: '/pages/feedback/feedback?id=${res.data}',
+						url: '/pages/feedback/feedback',
 					})
 				}
 			})
@@ -161,6 +170,21 @@ export default {
 	onLoad(options){
 		//需要获取已经id的草稿内容
 		console.log("需要获取已经id的草稿内容,id=",options.id);
+		if(options.id!=null){
+			this.id=options.id;
+			this.baseFormData.category=options.category;
+			this.baseFormData.contactobject=options.contactobject;
+			this.baseFormData.describes=options.describes;
+			this.baseFormData.contactobject=options.contactobject;
+			console.log(options.category)
+			console.log(this.baseFormData.category)
+		}
+		// baseFormData: {
+		// 	contactobject: '',
+		// 	describes: '',
+		// 	category: [],
+		// 	path: [],
+		// },
 	}
 }
 </script>
