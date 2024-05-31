@@ -1,3 +1,4 @@
+import {getLocalData} from "../utils/cache.js"
 const developUrl= 'http://localhost:8080'
 const bkDevelopUrl= 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl= ''
@@ -12,6 +13,11 @@ const httpInterceptor = {
 		options.timeout = 10000
 		console.log("拦截器", options)
 		//添加请求头，还没添加呢看啥看
+		
+		//添加token
+		const token = getLocalData('token');
+		options.header.Authorization=token;
+		console.log(options);
 	},
 
 }
@@ -24,6 +30,7 @@ export const http = (url, method, data) => {
 			url: url,
 			method: method,
 			data: data,
+			header:{},
 			//请求成功
 			success(res) {
 				//需对状态码进行分类处理，登录信息token

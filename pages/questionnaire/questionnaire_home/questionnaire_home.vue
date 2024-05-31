@@ -132,7 +132,10 @@ const submit = async (ref) => {
 		//POST提交到后端
 		
 		//参数需要改
-		const res = await http('/questionnaire/selectAll','GET',{},);
+		const res = await http('/useranswer/submit','POST',{
+			answer: "答案",
+			questionnaireId: data.id,
+		},);
 	
 		console.log("封装后请求的结果",res)
 		uni.showToast({

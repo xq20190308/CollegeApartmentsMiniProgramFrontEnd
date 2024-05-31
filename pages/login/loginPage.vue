@@ -134,6 +134,15 @@
 						})
 						reject("当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员")
 					}
+					if(res.data.msg=='登陆失败,账号或密码错误'){
+						console.log('登陆失败,账号或密码错误');
+						uni.showModal({
+							title: "账号或密码错误",
+							showCancel: false,
+						})
+						reject("登陆失败,账号或密码错误")
+					}
+					
 					console.log("---登陆成功data.reqdata", data.reqdata);
 					console.log("---登陆成功res", res)
 					//用户信息保存到本地用于其他页面的渲染
