@@ -32,10 +32,10 @@
 			</view>
 			<!-- 表单校验 -->
 			<uni-forms ref="valiForm" :rules="data.rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item v-if="data.ismaskname" class="form-item" label="姓名" name="name">
+				<uni-forms-item  class="form-item" label="姓名" name="name">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item v-if="data.ismaskid" class="form-item" label="学号" name="id">
+				<uni-forms-item  class="form-item" label="学号" name="id">
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>

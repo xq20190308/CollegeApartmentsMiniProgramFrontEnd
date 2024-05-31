@@ -55,6 +55,8 @@ const bannerclick=(index)=>{
 	})
 }
 onLoad(()=>{
+	let date=Number(new Date());
+	console.log('date',date);
 	getarticles({ typeName : '主页'}).then(response => {
 		// 在这里处理数据
 		data.articles = response.sort((a, b) => a.id - b.id);

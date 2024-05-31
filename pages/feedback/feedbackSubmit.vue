@@ -4,17 +4,17 @@
 		<uni-section title="投诉与意见" type="line">
 			<view class="example">
 				<!-- 基础用法，不包含校验规则 -->
-				<uni-forms ref="baseForm" :rules="customRules" :modelValue="baseFormData">
+				<uni-forms ref="baseForm" :rules="data.customRules" :modelValue="data.baseFormData">
 					<!-- 用labelstyle设置样式 -->
 
 					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" name="category" required >
-					        <uni-data-checkbox @change="(e)=>{
-								baseFormData.category=e.detail.data;console.log(baseFormData.category);
-							}" multiple :localdata="categories"/>
+					        <uni-data-checkbox @change=" (e) => {
+								data.baseFormData.category=e.detail.data.text;console.log('--',data.baseFormData.category);
+							}" :localdata="data.categories"/>
 					</uni-forms-item>
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;"  name="describes" class = "small" required>
 
-						<uni-easyinput type="textarea" v-model="baseFormData.describes" placeholder="请输入您遇到的问题" />
+						<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入您遇到的问题" />
 					</uni-forms-item>
 					<uni-section title="">
 						<view class="example-body">
@@ -23,7 +23,7 @@
 						</view>
 					</uni-section>
 					<uni-forms-item label="手机号" name="contactobject" required>
-						<uni-easyinput v-model="baseFormData.contactobject" placeholder="请输入手机号"   />
+						<uni-easyinput v-model="data.baseFormData.contactobject" placeholder="请输入手机号"   />
 					</uni-forms-item>
 				</uni-forms>
 			</view>
@@ -39,12 +39,15 @@
 
 
 
-<script>
-	import {load,http} from "../../utils/http.js"
-export default {
-	data() {
-		pushtime:'';
-		return {
+<script setup>
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
+import {reactive,ref} from "vue";
+import {load,http} from "../../utils/http.js"
+import {goto} from "../../utils/access.js"
+import {getarticles} from "../notice/api/getnotices.js"
+const data = reactive({
+		pushtime:'',
 			id:null,
 			categories: [{
 				text: '课程',
@@ -61,6 +64,7 @@ export default {
 				contactobject: '',
 				describes: '',
 				category: [],
+				path0: [],
 				path: [],
 				//上传图片.
 				//imageValue:[]
@@ -89,50 +93,50 @@ export default {
 							errorMessage: '请输入11位手机号'
 						}]
 				}
-			},
-			onReady() {
-				console.log('onReady 生命周期钩子被调用');
-				this.$refs.baseForm.setRules(this.customRules)
 			}
+		})
+		const selectUpload= (e) => {//上传文件的函数
+			data.baseFormData.path0.push(e.tempFilePaths[0])
+			console.log('this.baseFormData.path0',data.baseFormData.path0);
 		}
-	},
-	methods: {
-		selectUpload(e) {//上传文件的函数
-			this.baseFormData.path.push(e.tempFilePaths[0])
-			console.log('this.baseFormData.path',this.baseFormData.path);
-		},
-		submit(ref) {
-			console.log(this.baseFormData)
-			this.$refs[ref].validate(['']).then(res => {
+const baseForm = ref()
+		const submit=(ref) => {
+			console.log(data.baseFormData)
+			baseForm.value?.validate(['']).then(async res => {
 				console.log('success', res);
 				uni.showToast({
 					title: `校验通过`,
 				});
-				for (var i = this.baseFormData.path.length; i--;){
+				for (var i = 0; i<data.baseFormData.path0.length;i++){
 					//这里需要改
-					this.baseFormData.path[i] = load('http://localhost:8080/api/upload',this.baseFormData.path[i]);
+					await load('http://localhost:8080/api/upload',data.baseFormData.path0[i],"files").then(
+						(res1)=>{
+							console.log("res1",res1);
+							data.baseFormData.path.push(res1.data);
+						}
+					)
 				}
-				console.log("this.baseFormData.path",this.baseFormData.path)
+				console.log("this.baseFormData.path",data.baseFormData.path)
 				
 				uni.request({
 					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
 					method: 'POST',
 					data: {
-						describes: this.baseFormData.describes,
-						contactobject: this.baseFormData.contactobject,
-						category: JSON.stringify(this.baseFormData.category),
-						path: JSON.stringify(this.baseFormData.path)
+						describes: data.baseFormData.describes,
+						contactobject: data.baseFormData.contactobject,
+						category: JSON.stringify(data.baseFormData.category),
+						path: JSON.stringify(data.baseFormData.path)
 					},
 					header:{
 						Authorization: '',
 					},
 					success: (res) => {
-						console.log(res.data);
-						this.text = 'request success';
-						this.id = res.id;
-						uni.navigateBack({
-							url: '/pages/feedback/feedback',
-						})
+						console.log('success',res.data);
+						data.text = 'request success';
+						data.id = res.id;
+						// uni.navigateBack({
+						// 	url: '/pages/feedback/feedback',
+						// })
 					},
 					fail: (err) => {
 						console.log('request failed', err);
@@ -142,18 +146,28 @@ export default {
 				console.log('err', err);
 				// 处理验证失败的情况
 			})
-		},
+		}
 		//保存和提交分别交到后端不同的地方
-		save() {//修改后pushtime返回的是null?
+		const save=async () => {//修改后pushtime返回的是null?
+			for (var i = 0; i<data.baseFormData.path0.length;i++){
+				//这里需要改
+				await load('http://localhost:8080/api/upload',data.baseFormData.path0[i],"files").then(
+					(res1)=>{
+						console.log("res1",res1);
+						data.baseFormData.path.push(res1.data);
+					}
+				)
+			}
+			console.log("this.baseFormData.path",data.baseFormData.path)
 			uni.request({
 				url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
-					id:this.id,
-					describes: this.baseFormData.describes,
-					contactobject: this.baseFormData.contactobject,
-					category: JSON.stringify(this.baseFormData.category),
-					path: JSON.stringify(this.baseFormData.path),
+					id:data.id,
+					describes: data.baseFormData.describes,
+					contactobject: data.baseFormData.contactobject,
+					category: JSON.stringify(data.baseFormData.category),
+					path: JSON.stringify(data.baseFormData.path),
 					stu_id:"202211070501"
 				},
 				header:{
@@ -165,19 +179,18 @@ export default {
 					})
 				}
 			})
-		},
-	},
-	onLoad(options){
+		}
+	onLoad((options)=>{
 		//需要获取已经id的草稿内容
 		console.log("需要获取已经id的草稿内容,id=",options.id);
 		if(options.id!=null){
-			this.id=options.id;
-			this.baseFormData.category=options.category;
-			this.baseFormData.contactobject=options.contactobject;
-			this.baseFormData.describes=options.describes;
-			this.baseFormData.contactobject=options.contactobject;
+			data.id=options.id;
+			data.baseFormData.category=options.category;
+			data.baseFormData.contactobject=options.contactobject;
+			data.baseFormData.describes=options.describes;
+			data.baseFormData.contactobject=options.contactobject;
 			console.log(options.category)
-			console.log(this.baseFormData.category)
+			console.log(data.baseFormData.category)
 		}
 		// baseFormData: {
 		// 	contactobject: '',
@@ -185,8 +198,8 @@ export default {
 		// 	category: [],
 		// 	path: [],
 		// },
-	}
-}
+	})
+
 </script>
 
 
