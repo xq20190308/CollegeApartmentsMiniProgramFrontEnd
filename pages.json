@@ -53,7 +53,6 @@
 			}
 		},
 		{
-
 			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
 			"style": {
 				"navigationBarTitleText": "创建调查问卷",
@@ -105,24 +104,61 @@
 		{
 			"path": "pages/notice/addnotice",
 			"style": {
-				"navigationBarTitleText": "创建通知"
+				"navigationBarTitleText": "创建通知",
+				"enablePullDownRefresh": false
 			}
 		},
 		{
 			"path": "pages/userManage/userManage",
 			"style": {
-				"navigationBarTitleText": "账号管理"
-			}
-		},
-		{
-			"path": "pages/lostAndFound/detailLostAndFound",
-			"style": {
-				"navigationBarTitleText": "失物招领细节",
+				"navigationBarTitleText": "账号管理",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/hygiene/hygieneSearch",
+			"path": "pages/lostAndFound/lostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostSubmit",
+			"style": {
+				"navigationBarTitleText": "我丢失的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/foundSubmit",
+			"style": {
+				"navigationBarTitleText": "我捡到的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailLost",
+			"style": {
+				"navigationBarTitleText": "丢失细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailFound",
+			"style": {
+				"navigationBarTitleText": "找到细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFoundMysef",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/search",
 			"style": {
 				"navigationBarTitleText": "卫生检查",
 				"enablePullDownRefresh": false
@@ -135,7 +171,6 @@
 				"enablePullDownRefresh": false
 			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -144,12 +179,12 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/home/home",
 				"text": "首页",
 				"iconPath": "static/tabBar/home_icon.png",
 				"selectedIconPath": "static/tabBar/home_icon.png"
-
 			},
 			{
 				"pagePath": "pages/function/function",

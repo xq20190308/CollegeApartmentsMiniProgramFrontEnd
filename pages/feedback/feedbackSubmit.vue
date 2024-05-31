@@ -119,7 +119,7 @@ const baseForm = ref()
 				console.log("this.baseFormData.path",data.baseFormData.path)
 				
 				uni.request({
-					url: 'http://localhost:8080/api/suggestions', // 示例接口地址
+					url: 'http://localhost:8080/suggestionsDraft', // 示例接口地址
 					method: 'POST',
 					data: {
 						describes: data.baseFormData.describes,
