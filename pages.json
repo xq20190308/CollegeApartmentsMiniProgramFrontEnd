@@ -109,16 +109,37 @@
 			}
 		},
 		{
-			"path": "pages/lostAndFound/lostAndFoundDraft",
+			"path": "pages/lostAndFound/lostSubmit",
 			"style": {
-				"navigationBarTitleText": "失物招领草稿",
+				"navigationBarTitleText": "我丢失的",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/lostAndFound/detailLostAndFound",
+			"path": "pages/lostAndFound/foundSubmit",
 			"style": {
-				"navigationBarTitleText": "失物招领细节",
+				"navigationBarTitleText": "我捡到的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailLost",
+			"style": {
+				"navigationBarTitleText": "丢失细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/detailFound",
+			"style": {
+				"navigationBarTitleText": "找到细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFoundMysef",
+			"style": {
+				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false
 			}
 		},

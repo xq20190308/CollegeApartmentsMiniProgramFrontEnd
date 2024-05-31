@@ -4,13 +4,13 @@
 					<!-- 基础表单校验 -->
 					<view class="example">
 					<uni-forms ref="baseForm" :rules="data.rules" :modelValue="data.baseFormData">
-						<uni-forms-item label="捡到的地点" required name="pickLocation">
+						<uni-forms-item label="丢失的地点" required name="pickLocation">
 							<uni-easyinput v-model="data.baseFormData.pickLocation" placeholder="请输入捡到的地点" />
 						</uni-forms-item>
-						<uni-forms-item label="捡到的时间" required name="pickTime">
+						<uni-forms-item label="丢失的时间" required name="pickTime">
 							<uni-easyinput v-model="data.baseFormData.pickTime" placeholder="请输入捡到的时间" />
 						</uni-forms-item>
-						<uni-forms-item label="描述" name="describes" required>
+						<uni-forms-item label="丢失物品描述" name="describes" required>
 							<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入描述" />
 						</uni-forms-item>
 					<uni-section title="">
@@ -119,8 +119,10 @@
 			
 		}
 		onReady(()=>{
-			console.log('onReady 生命周期钩子被调用');
-			this.$refs.baseForm.setRulse(this.customRules)
+			// console.log('onReady 生命周期钩子被调用');
+			
+			//下面这一行是校验的自定义规则吗
+			// this.$refs.baseForm.setRulse(this.customRules)
 		})
 	
 </script>
