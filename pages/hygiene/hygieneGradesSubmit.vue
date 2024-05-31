@@ -17,7 +17,6 @@
 <script>
 	import {onLoad, onReady} from "@dcloudio/uni-app";
 	import {reactive, ref} from "vue";
-	import sysurl from '../../system.config.js';
 	import {http} from '@/utils/http'
 	
 	const data = reactive({
