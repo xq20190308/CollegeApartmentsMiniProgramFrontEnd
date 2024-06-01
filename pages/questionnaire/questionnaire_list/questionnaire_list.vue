@@ -38,8 +38,7 @@ const data = reactive({
 	}],
 	active:0
 })
-const getNaireslist = async (cates)=>{
-	console.log("分类请求的参数",cates);
+const getNaireslist = async ()=>{
 	
 	const res = await http('/questionnaire/selectAll','GET',{},);
 	
@@ -50,23 +49,16 @@ const getNaireslist = async (cates)=>{
 const gotonaire = (item) =>{
 	console.log("问卷信息",item);
 	uni.navigateTo({
-		url:'../questionnaire_home/questionnaire_home?questionIdList='+item.questionIdList+
+		url:'../questionnaire_home/questionnaire_home?questionnaireId='+item.questionnaireId+
 		'&id='+item.id+'&type='+item.type+'&name='+item.name+
 		'&description='+item.description+'&startTime='+item.startTime+
 		'&endTime='+item.endTime,
 	})
 }
-const dircate=(options)=>{
-	data.active=options;
-	console.log("点击事件的参数",options)
-	if(options===0){getNaireslist();}
-	else{getNaireslist(options);}
-}
 onLoad(() => {
-	setLocalData('addNaire',true);
-	getNaireslist()
 })
 onShow(()=>{
+	getNaireslist()
 })
 </script>
 <style lang="scss">
