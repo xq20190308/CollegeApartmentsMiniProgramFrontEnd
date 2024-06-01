@@ -22,7 +22,24 @@
   "libVersion": "latest",
   "appid": "wx3b5ec6e4e336f19e",
   "projectname": "CollegeApartmentsMiniProgramFrontEnd",
-  "condition": {},
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": []
+    }
+  },
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
