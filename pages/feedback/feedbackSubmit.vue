@@ -8,7 +8,7 @@
 					<!-- 用labelstyle设置样式 -->
 
 					<uni-forms-item label="投诉分类"  label-width="100px" label-style="font-size: 14px;" name="category" required >
-					        <uni-data-checkbox  @change=" (e) => {
+					        <uni-data-checkbox  v-model='data.categoryindex' @change=" (e) => {
 								data.baseFormData.category=e.detail.data.text;console.log('--',data.baseFormData.category);
 							}" :localdata="data.categories"/>
 					</uni-forms-item>
@@ -50,6 +50,7 @@ import {goto} from "../../utils/access.js"
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
 const data = reactive({
+	categoryindex:null,
 	index:'',
 	categories: [{
 		text: '课程',
@@ -128,7 +129,7 @@ const baseForm = ref()
 					data: {
 						describes: data.baseFormData.describes,
 						contactobject: data.baseFormData.contactobject,
-						category: JSON.stringify(data.baseFormData.category),
+						category: data.baseFormData.category,
 						path: JSON.stringify(data.baseFormData.path)
 					},
 					header:{
@@ -138,9 +139,9 @@ const baseForm = ref()
 						console.log('success',res.data);
 						data.text = 'request success';
 						data.id = res.id;
-						// uni.navigateBack({
-						// 	url: '/pages/feedback/feedback',
-						// })
+						uni.navigateBack({
+							url: '/pages/feedback/feedback',
+						})
 					},
 					fail: (err) => {
 						console.log('request failed', err);
@@ -152,15 +153,24 @@ const baseForm = ref()
 			})
 		}
 		//保存和提交分别交到后端不同的地方
-		const save= async () => {//修改后pushtime返回的是null?
-			let newlist=data.index==''?JSON.parse(getLocalData('feedDraft'))
-			:JSON.parse(getLocalData('feedDraft')).splice(data.index,1);
+		const save= async () => {
+			console.log("++data.index",data.index);
+			console.log("--",JSON.parse(getLocalData('feedDraft')));
+			let newlist;
+			if(data.index===''){
+				console.log('data.index==" "');
+				newlist=JSON.parse(getLocalData('feedDraft'));
+			}else{
+				console.log("data.index",data.index);
+				newlist = JSON.parse(getLocalData('feedDraft')).filter((item, index) => index !== data.index);
+			}
+			console.log("newlist",newlist);
 			await setLocalData('feedDraft',[
 				...newlist,
 				{
 					describes: data.baseFormData.describes,
 					contactobject: data.baseFormData.contactobject,
-					category: JSON.stringify(data.baseFormData.category),
+					category: data.baseFormData.category,
 					path: JSON.stringify(data.baseFormData.path0),
 					pushtime:getCurrentTime(),
 				},
@@ -169,72 +179,19 @@ const baseForm = ref()
 			 	url: '/pages/feedback/feedback',
 			})
 		}
-		//{
-			
-		// 		id:data.id,
-		// 		describes: data.baseFormData.describes,
-		// 		contactobject: data.baseFormData.contactobject,
-		// 		category: JSON.stringify(data.baseFormData.category),
-		// 		path: JSON.stringify(data.baseFormData.path),
-		// 		stu_id:"202211070501"
-		// 	}
-		
-			// for (var i = 0; i<data.baseFormData.path0.length;i++){
-			// 	//这里需要改
-			// 	await load('http://localhost:8080/api/upload',data.baseFormData.path0[i],"files").then(
-			// 		(res1)=>{
-			// 			console.log("res1",res1);
-			// 			data.baseFormData.path.push(res1.data);
-			// 		}
-			// 	)
-			// }
-			// console.log("this.baseFormData.path",data.baseFormData.path)
-			// uni.request({
-			// 	url: 'http://localhost:8080/api/suggestionsDraft', //仅为示例，并非真实接口地址。
-			// 	method: 'POST',
-			// 	data: {
-			// 		id:data.id,
-			// 		describes: data.baseFormData.describes,
-			// 		contactobject: data.baseFormData.contactobject,
-			// 		category: JSON.stringify(data.baseFormData.category),
-			// 		path: JSON.stringify(data.baseFormData.path),
-			// 		stu_id:"202211070501"
-			// 	},
-			// 	header:{
-			// 		Authorization: '',
-			// 	},
-			// 	success: (res) => {
-			// 		uni.navigateBack({
-			// 			url: '/pages/feedback/feedback',
-			// 		})
-			// 	}
-			// })
-		//}
 	onLoad(async (options)=>{
 		//需要获取已经id的草稿内容
 		console.log("需要获取已经草稿的内容",Number(options.index));
 		if(options.index!=null){
+			data.categoryindex=options.category=="课程"?0:options.category=="安全"?1:options.category=="其他"?2:null;
 			data.baseFormData.category=options.category;
 			data.baseFormData.contactobject=options.contactobject;
 			data.baseFormData.describes=options.describes;
 			data.baseFormData.path0=JSON.parse(options.path0);
-			data.index=options.index;
-			// for (var i = 0; i<data.baseFormData.path0.length;i++){
-			// 	await data.baseFormData.path1.push({
-			// 		"name":data.baseFormData.path0[i],
-			// 		"extname":"jpg",
-			// 		"url":data.baseFormData.path0[i],
-			// 	})
-			// 	console.log('data.baseFormData.path1',data.baseFormData.path1)
-			// }
+			data.index=Number(options.index);
 			console.log("data.baseFormData",data.baseFormData)
+			console.log("data.categoryindex",data.categoryindex)
 		}
-		// baseFormData: {
-		// 	contactobject: '',
-		// 	describes: '',
-		// 	category: [],
-		// 	path: [],
-		// },
 	})
 
 </script>

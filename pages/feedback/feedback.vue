@@ -32,20 +32,6 @@ const data = reactive({
 	complaintDrafts: [] // 初始为空数组
 })
 onLoad(()=> {
-	// 页面加载时获取数据
-	// setLocalData('feedDraft',[{
-	// 	category: "课程",
-	// 	contactobject: "11111111111",
-	// 	describes: "本地的",
-	// 	pushtime: getCurrentTime(),
-	// 	path: ["null","null"],
-	// },{
-	// 	category: "课程",
-	// 	contactobject: "11111111111",
-	// 	describes: "还是本地的",
-	// 	pushtime: getCurrentTime(),
-	// 	path: [],
-	// }])
 })
 onShow(async()=>{
 	await fetchComplaintDrafts();
@@ -56,13 +42,6 @@ const lookFeed = ()=>{
 }
 const fetchComplaintDrafts = async () => {
 	data.complaintDrafts=JSON.parse(getLocalData('feedDraft'));
-	console.log("--",data.complaintDrafts)
-	// let stu_id = getLocalData('username')
-	// const res = await http('/api/selectDraft/'+stu_id,'GET',{},)
-	
-	// console.log("封装后请求的结果",res);
-	// data.complaintDrafts=res.data//与问卷的返回不同
-	// console.log("data.complaintDrafts",data.complaintDrafts)
 }
 const onpress=()=> {
 	console.log("跳转到添加草稿，不需要携带id")
@@ -78,14 +57,6 @@ const change=(item,index)=> {
 		'&path0='+item.path+
 		'&category='+item.category+
 		'&index='+index,
-		// baseFormData: {
-		// 	contactobject: '',
-		// 	describes: '',
-		// 	category: [],
-		// 	path: [],
-		// 	//上传图片.
-		// 	//imageValue:[]
-		// },
 	})
 }
 const delet=(item,index)=> {
