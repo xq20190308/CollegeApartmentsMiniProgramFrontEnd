@@ -1,13 +1,22 @@
 <template>
 	<view>
-		<uni-section :title="data.info.category" type="line" style="width: 98%;margin: auto;">
+		<uni-section title="类别" type="line" style="width: 98%;margin: auto;">
+			<view style="padding-left: 20px;"><text>{{data.info.category}}</text></view>
+		</uni-section>
+		<uni-section title="内容" type="line" style="width: 98%;margin: auto;">
+			<view style="padding-left: 20px;"><text>{{data.info.describes}}</text></view>
+		</uni-section>
+		<uni-section title="提交时间" type="line" style="width: 98%;margin: auto;">
+			<view style="padding-left: 20px;"><text>{{data.info.pushtime}}</text></view>
 		</uni-section>
 		<uni-section title="联系方式"  type="line" style="width: 98%;margin: auto;">
-			<text>{{data.info.contactobject}}</text>
+			<view style="padding-left: 20px;"><text>{{data.info.contactobject}}</text></view>
 		</uni-section>
+		<uni-section title="附件" type="line" style="width: 98%;margin: auto;">
 		<view  style="margin-left: 20px;">
-			<image v-for="(item,index) in data.info.path" :src="item" mode="heightFix"></image>
+			<image v-for="(item,index) in data.info.path" :src="item" mode="widthFix"></image>
 		</view>
+		</uni-section>
 	</view>
 </template>
 
