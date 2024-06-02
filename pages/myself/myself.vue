@@ -44,12 +44,13 @@
 </template>
 
 <script>
-	import {
-		getLocalData,
-		setLocalData,
-		delLocalData,
-		clearLocalData
-	} from "../../utils/cache.js"
+import {
+	getLocalData,
+	setLocalData,
+	delLocalData,
+	clearLocalData
+} from "../../utils/cache.js"
+import {load,http} from "../../utils/http.js"
 	export default {
 		data() {
 			return {
@@ -98,11 +99,16 @@
 					})
 				}, 1000)
 			},
-			selectUpload(e){
+			async selectUpload(e){
 				console.log(e.tempFilePaths[0]);
 				this.userInfo.avatarUrl = e.tempFilePaths[0];
 				console.log(this.userInfo.avatarUrl);
-				setLocalData('avatarUrl',this.userInfo.avatarUrl);
+				await setLocalData('avatarUrl',this.userInfo.avatarUrl);
+				await load('http://127.0.0.1:4523/m1/4414254-4059226-default/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
+					(res1)=>{
+						console.log("res1",res1);
+					}
+				)
 			}
 		},
 		onShow() {
