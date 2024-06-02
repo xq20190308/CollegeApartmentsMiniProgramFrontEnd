@@ -48,7 +48,7 @@ import {
 	getLocalData,
 	setLocalData,
 	delLocalData,
-	clearLocalData
+	clearUserInfo
 } from "../../utils/cache.js"
 import {load,http} from "../../utils/http.js"
 	export default {
@@ -71,21 +71,21 @@ import {load,http} from "../../utils/http.js"
 			}
 		},
 		methods: {
-			delogin(meg) {
-				uni.showModal({
-					title: '提示',
-					content: meg,
-					success: (res) => {
-						if (res.confirm) {
-							clearLocalData()
-							this.userInfo.token=getLocalData("token")
-							console.log('用户点击确定this.userInfo.token',this.userInfo.token);
-							this.tologin("正在跳转")
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
+			async delogin(meg) {
+				 uni.showModal({
+				 	title: '提示',
+				 	content: meg,
+				 	success: (res) => {
+				 		if (res.confirm) {
+				 			clearUserInfo()
+				 			this.userInfo.token=getLocalData("token")
+				 			console.log('用户点击确定this.userInfo.token',this.userInfo.token);
+				 			this.tologin("正在跳转")
+				 		} else if (res.cancel) {
+				 			console.log('用户点击取消');
+				 		}
+				 	}
+				 });
 			},
 			tologin(meg) {
 				uni.showLoading({
@@ -111,8 +111,8 @@ import {load,http} from "../../utils/http.js"
 				)
 			}
 		},
-		onShow() {
-			this.userInfo.avatarUrl = getLocalData('avatarUrl')
+		async onShow() {
+			this.userInfo.avatarUrl = getLocalData('avatarUrl');
 			console.log(this.userInfo.avatarUrl);
 			this.userInfo.username=getLocalData("username")
 			this.userInfo.trueName=getLocalData("trueName")

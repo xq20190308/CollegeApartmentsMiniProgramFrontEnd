@@ -155,14 +155,14 @@ const baseForm = ref()
 		//保存和提交分别交到后端不同的地方
 		const save= async () => {
 			console.log("++data.index",data.index);
-			console.log("--",JSON.parse(getLocalData('feedDraft')));
+			console.log("--",JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]'));
 			let newlist;
 			if(data.index===''){
 				console.log('data.index==" "');
-				newlist=JSON.parse(getLocalData('feedDraft'));
+				newlist=JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]');
 			}else{
 				console.log("data.index",data.index);
-				newlist = JSON.parse(getLocalData('feedDraft')).filter((item, index) => index !== data.index);
+				newlist = JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]').filter((item, index) => index !== data.index);
 			}
 			console.log("newlist",newlist);
 			await setLocalData('feedDraft',[

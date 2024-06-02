@@ -41,7 +41,7 @@ const lookFeed = ()=>{
 	goto('manageFeed','feedbackManage')
 }
 const fetchComplaintDrafts = async () => {
-	data.complaintDrafts=JSON.parse(getLocalData('feedDraft'));
+	data.complaintDrafts=getLocalData('feedDraft')?JSON.parse(getLocalData('feedDraft')):'';
 }
 const onpress=()=> {
 	console.log("跳转到添加草稿，不需要携带id")
