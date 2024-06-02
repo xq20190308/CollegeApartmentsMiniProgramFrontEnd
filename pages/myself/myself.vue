@@ -104,7 +104,7 @@ import {load,http} from "../../utils/http.js"
 				this.userInfo.avatarUrl = e.tempFilePaths[0];
 				console.log(this.userInfo.avatarUrl);
 				await setLocalData('avatarUrl',this.userInfo.avatarUrl);
-				await load('http://127.0.0.1:4523/m1/4414254-4059226-default/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
+				await load('/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
 					(res1)=>{
 						console.log("res1",res1);
 					}
