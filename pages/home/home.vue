@@ -27,6 +27,8 @@ import {onLoad} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
+import {getCurrentTime} from '@/utils/time'
+
 const data = reactive({
 	articles:[],
 	func_list: [
@@ -54,9 +56,10 @@ const bannerclick=(index)=>{
 		url:'../notice/noticedetail?id=' + data.articles[index].id
 	})
 }
-onLoad(()=>{
-	let date=Number(new Date());
-	console.log('date',date);
+
+onLoad(()=>{ 
+	// 使用函数并打印结果
+	console.log(getCurrentTime());
 	getarticles({ typeName : '主页'}).then(response => {
 		// 在这里处理数据
 		data.articles = response.sort((a, b) => a.id - b.id);

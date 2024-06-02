@@ -4,13 +4,12 @@
 			<text class="underline-text" @click="lookFeed">已提交投诉</text>
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
-					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item)">
-						<view>id：{{item.id}}</view>
+					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item,index)">
+						<view>pushtime：{{item.pushtime}}</view>
 						<view>describes：{{item.describes}}</view>
 						<view>category：{{item.category}}</view>
 						<view>contactobject：{{item.contactobject}}</view>
-						<view>pushtime：{{item.pushtime}}</view>
-						
+						<view>path：{{item.path}}</view>
 					</view>
 					<button @click="delet(item,index)" class="deletbutton">删除</button>
 				</view>
@@ -27,26 +26,43 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
-import {getLocalData} from "../../utils/cache.js"
+import {getLocalData,setLocalData} from "../../utils/cache.js"
+import {getCurrentTime} from '@/utils/time'
 const data = reactive({
 	complaintDrafts: [] // 初始为空数组
 })
 onLoad(()=> {
 	// 页面加载时获取数据
+	// setLocalData('feedDraft',[{
+	// 	category: "课程",
+	// 	contactobject: "11111111111",
+	// 	describes: "本地的",
+	// 	pushtime: getCurrentTime(),
+	// 	path: ["null","null"],
+	// },{
+	// 	category: "课程",
+	// 	contactobject: "11111111111",
+	// 	describes: "还是本地的",
+	// 	pushtime: getCurrentTime(),
+	// 	path: [],
+	// }])
 })
-onShow(()=>{
-	fetchComplaintDrafts();
+onShow(async()=>{
+	await fetchComplaintDrafts();
+	console.log(data.complaintDrafts)
 })
 const lookFeed = ()=>{
 	goto('manageFeed','feedbackManage')
 }
 const fetchComplaintDrafts = async () => {
-	let stu_id = getLocalData('username')
-	const res = await http('/api/selectDraft/'+stu_id,'GET',{},)
+	data.complaintDrafts=JSON.parse(getLocalData('feedDraft'));
+	console.log("--",data.complaintDrafts)
+	// let stu_id = getLocalData('username')
+	// const res = await http('/api/selectDraft/'+stu_id,'GET',{},)
 	
-	console.log("封装后请求的结果",res);
-	data.complaintDrafts=res.data//与问卷的返回不同
-	console.log("data.complaintDrafts",data.complaintDrafts)
+	// console.log("封装后请求的结果",res);
+	// data.complaintDrafts=res.data//与问卷的返回不同
+	// console.log("data.complaintDrafts",data.complaintDrafts)
 }
 const onpress=()=> {
 	console.log("跳转到添加草稿，不需要携带id")
@@ -54,14 +70,14 @@ const onpress=()=> {
 		url: '../feedback/feedbackSubmit'
 	});
 }
-const change=(item)=> {
-	console.log("要修改id为",item.id,"的草稿")
+const change=(item,index)=> {
+	console.log("要修改inedx为",index,"的草稿")
 	uni.navigateTo({
-		url: '../feedback/feedbackSubmit?id='+item.id+
-		'&contactobject='+item.contactobject+
+		url: '../feedback/feedbackSubmit?contactobject='+item.contactobject+
 		'&describes='+item.describes+
-		'&describes='+item.describes+
-		'&category='+item.category,
+		'&path0='+item.path+
+		'&category='+item.category+
+		'&index='+index,
 		// baseFormData: {
 		// 	contactobject: '',
 		// 	describes: '',
@@ -79,7 +95,10 @@ const delet=(item,index)=> {
 		content: '确认删除该通知吗',
 		success: async (r) => {
 			if (r.confirm) {
-				const res = await http('/api/deleteSuggestions/' + item.id,'DELETE',{},)
+				//const res = await http('/api/deleteSuggestions/' + item.id,'DELETE',{},)
+				data.complaintDrafts.splice(index,1);
+				console.log("data.complaintDrafts",data.complaintDrafts);
+				setLocalData('feedDraft',data.complaintDrafts)
 				fetchComplaintDrafts();
 			} else if (r.cancel) {
 				console.log('用户点击取消');
