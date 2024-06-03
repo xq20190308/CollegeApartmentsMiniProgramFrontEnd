@@ -102,8 +102,8 @@ import {load,http} from "../../utils/http.js"
 			async selectUpload(e){
 				console.log(e.tempFilePaths[0]);
 				this.userInfo.avatarUrl = e.tempFilePaths[0];
-				console.log(this.userInfo.avatarUrl);
-				await setLocalData('avatarUrl',this.userInfo.avatarUrl);
+				// console.log(this.userInfo.avatarUrl);
+				// await setLocalData('avatarUrl',this.userInfo.avatarUrl);
 				await load('/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
 					(res1)=>{
 						console.log("res1",res1);
