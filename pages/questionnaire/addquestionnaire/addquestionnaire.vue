@@ -1,6 +1,6 @@
 <template>
 	<uni-section title="问卷类型（下拉选择）：" type="line" padding>
-		<uni-data-select :localdata="data.types" @change="(e) => {data.newNaire.type = data.types[e].text; console.log(data.newNaire.type)}"></uni-data-select>
+		<uni-data-select :localdata="data.types" @change="(e) => {data.newNaire.type = data.types[e].value; console.log(data.newNaire.type)}"></uni-data-select>
 	</uni-section>
 	<uni-section title="问卷名称（填写）：" type="line" padding>
 		<view style="display: flex;flex-wrap: nowrap;">
@@ -14,11 +14,18 @@
 	</uni-section>
 	<uni-section title="选择日期及时间：" type="line" padding>
 		<view class="example-body">
-			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.start_time = e[0];console.log(data.newNaire.start_time);data.newNaire.end_time = e[1];console.log(data.newNaire.end_time)}" />
+			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.startTime = e[0];console.log(data.newNaire.startTime);data.newNaire.endTime = e[1];console.log(data.newNaire.endTime)}" />
 		</view>
 	</uni-section>
 	<view class="questionsform">
-	<uni-section v-for="(que,qindex) in data.questionList" :key="qindex" :title="qindex + 1 + '.' + questype(que.type)"type="line" padding>
+	<uni-section style="width: 100%;" v-for="(que,qindex) in data.questionList" :key="qindex" :title="qindex + 1 + '.' + questype(que.type)"type="line" >
+		<template v-slot:right>
+			<uni-icons @click="()=>{
+				console.log(qindex);
+				data.questionList = data.questionList.filter((item, index) => index !== qindex)
+			}" type="closeempty" size="20"></uni-icons>
+		</template>
+		
 		<view class="questionitem" >
 			<view class="answer">
 				<input @input="(e) => {data.questionList[qindex].name=qnewdata(e,qindex)}" placeholder="请输入题目名称"  />
@@ -29,14 +36,30 @@
 			<view class="choice" v-if="que.type===1">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px;border-radius: 50px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input  @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex)}" placeholder="请输入选项"  />
+					<input  @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex);console.log(data.questionList[qindex].content)}" placeholder="请输入选项"  />
+					<uni-icons style="margin-left: 140px;" @click="()=>{
+						console.log(qindex,index);
+						data.questionList[qindex].content = data.questionList[qindex].content.filter((item, eindex) => eindex !== index)
+					}" type="closeempty" size="20"></uni-icons>
 				</view>
+				<uni-icons style="margin-left: 0px;" @click="()=>{
+					console.log(qindex);
+					data.questionList[qindex].content.push(' ');
+				}" type="plusempty" size="20"></uni-icons>
 			</view>
 			<view class="mulchoice"  v-else-if="que.type===2">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex)}" placeholder="请输入选项"  />
+					<input @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex);console.log(data.questionList[qindex].content[index])}" placeholder="请输入选项"  />
+					<uni-icons style="margin-left: 140px;" @click="()=>{
+						console.log(qindex,index);
+						data.questionList[qindex].content = data.questionList[qindex].content.filter((item, eindex) => eindex !== index)
+					}" type="closeempty" size="20"></uni-icons>
 				</view>
+				<uni-icons style="margin-left: 0px;" @click="()=>{
+					console.log(qindex);
+					data.questionList[qindex].content.push(' ');
+				}" type="plusempty" size="20"></uni-icons>
 			</view>
 		</view>
 	</uni-section>
@@ -121,19 +144,16 @@ const submit = async ()=> {
 	//校验
 	
 	//提交到后端
+	let list=[];
+	for(let i=0;i<data.questionList.length;i++){
+		list[i]={...data.questionList[i]};
+		list[i].content=JSON.stringify(list[i].content);
+	}
+	console.log('list',list)
+	console.log('data.questionList',data.questionList)
+	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list},);
 	
-	const res = await http('/questionnaire/add','POST',{newNaire: data.newNaire},);
-	
-	console.log("封装后请求的结果",res)
-	
-	/*this.newNaire.questionList=//后端生成并返回每个问题的id组成的数组并且“[]”*/		
-	/*this.newNaire.id=后端生成questionnaire的id*/
-	/*for (let i = 0; i < this.questionList.length; i++) {
-	this.questionList[i].questionnaire=后端生成questionnaire的id*/
-
-	//测试数据
-	data.newNaire.questionList="[\"一\",\"二\",\"三\"]";
-	data.newNaire.id="this.newNaire.id";
+	console.log("封装后请求的结果",res) 
 
 	uni.showToast({
 		title: "创建成功"
