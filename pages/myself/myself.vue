@@ -111,7 +111,8 @@ import {load,http} from "../../utils/http.js"
 			}
 		},
 		async onShow() {
-			this.userInfo.avatarUrl = getLocalData('avatarUrl');
+			//本地没有了会报渲染层错误，需要前端处理
+			//数据库FileData没有会返回空，不会报错
 			console.log(this.userInfo.avatarUrl);
 			this.userInfo.username=getLocalData("username")
 			this.userInfo.trueName=getLocalData("trueName")

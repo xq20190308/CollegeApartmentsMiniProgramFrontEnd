@@ -105,94 +105,96 @@ const selectUpload= (e) => {//上传文件的函数
 	console.log('this.baseFormData.path0',data.baseFormData.path0);
 }
 const baseForm = ref() 
-		const submit=(ref) => { 
-			console.log(data.baseFormData)
-			baseForm.value?.validate(['']).then(async res => {
-				console.log('success', res);
-				uni.showToast({
-					title: `校验通过`,
-				});
-				for (var i = 0; i<data.baseFormData.path0.length;i++){
-					//这里需要改
-					await load('http://localhost:8080/api/upload',data.baseFormData.path0[i].url,"files").then(
-						(res1)=>{
-							console.log("res1",res1);
-							data.baseFormData.path.push(res1.data);
-						}
-					)
+const submit=(ref) => { 
+	console.log(data.baseFormData)
+	baseForm.value?.validate(['']).then(async res => {
+		console.log('success', res);
+		uni.showToast({
+			title: `校验通过`,
+		});
+		for (var i = 0; i<data.baseFormData.path0.length;i++){
+			//这里需要改
+			await load('http://localhost:8080/api/upload',data.baseFormData.path0[i].url,"files").then(
+				(res1)=>{
+					console.log("res1",res1);
+					data.baseFormData.path.push(res1.data);
 				}
-				console.log("this.baseFormData.path",data.baseFormData.path)
-				
-				uni.request({
-					url: 'http://localhost:8080/api/suggestions', 
-					method: 'POST',
-					data: {
-						describes: data.baseFormData.describes,
-						contactobject: data.baseFormData.contactobject,
-						category: data.baseFormData.category,
-						path: JSON.stringify(data.baseFormData.path)
-					},
-					header:{
-						Authorization: '',
-					},
-					success: (res) => {
-						console.log('success',res.data);
-						data.text = 'request success';
-						data.id = res.id;
-						uni.navigateBack({
-							url: '/pages/feedback/feedback',
-						})
-					},
-					fail: (err) => {
-						console.log('request failed', err);
-					}
+			)
+		}
+		console.log("this.baseFormData.path",data.baseFormData.path)
+		
+		uni.request({
+			url: 'http://localhost:8080/api/suggestions', 
+			method: 'POST',
+			data: {
+				describes: data.baseFormData.describes,
+				contactobject: data.baseFormData.contactobject,
+				category: data.baseFormData.category,
+				path: JSON.stringify(data.baseFormData.path)
+			},
+			header:{
+				Authorization: '',
+			},
+			success: (res) => {
+				console.log('success',res.data);
+				data.text = 'request success';
+				data.id = res.id;
+				uni.navigateBack({
+					url: '/pages/feedback/feedback',
 				})
-			}).catch(err => {
-				console.log('err', err);
-				// 处理验证失败的情况
-			})
-		}
-		//保存和提交分别交到后端不同的地方
-		const save= async () => {
-			console.log("++data.index",data.index);
-			console.log("--",JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]'));
-			let newlist;
-			if(data.index===''){
-				console.log('data.index==" "');
-				newlist=JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]');
-			}else{
-				console.log("data.index",data.index);
-				newlist = JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]').filter((item, index) => index !== data.index);
+			},
+			fail: (err) => {
+				console.log('request failed', err);
 			}
-			console.log("newlist",newlist);
-			await setLocalData('feedDraft',[
-				...newlist,
-				{
-					describes: data.baseFormData.describes,
-					contactobject: data.baseFormData.contactobject,
-					category: data.baseFormData.category,
-					path: JSON.stringify(data.baseFormData.path0),
-					pushtime:getCurrentTime(),
-				},
-			])
-			uni.navigateBack({
-			 	url: '/pages/feedback/feedback',
-			})
-		}
-	onLoad(async (options)=>{
-		//需要获取已经id的草稿内容
-		console.log("需要获取已经草稿的内容",Number(options.index));
-		if(options.index!=null){
-			data.categoryindex=options.category=="课程"?0:options.category=="安全"?1:options.category=="其他"?2:null;
-			data.baseFormData.category=options.category;
-			data.baseFormData.contactobject=options.contactobject;
-			data.baseFormData.describes=options.describes;
-			data.baseFormData.path0=JSON.parse(options.path0);
-			data.index=Number(options.index);
-			console.log("data.baseFormData",data.baseFormData)
-			console.log("data.categoryindex",data.categoryindex)
-		}
+		})
+	}).catch(err => {
+		console.log('err', err);
+		// 处理验证失败的情况
 	})
+}
+//保存和提交分别交到后端不同的地方
+const save= async () => {
+	console.log("++data.index",data.index);
+	console.log("--",JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]'));
+	let newlist;
+	if(data.index===''){
+		console.log('data.index==" "');
+		newlist=JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]');
+	}else{
+		console.log("data.index",data.index);
+		newlist = JSON.parse(getLocalData('feedDraft')?getLocalData('feedDraft'):'[]').filter((item, index) => index !== data.index);
+	}
+	console.log("newlist",newlist);
+	await setLocalData('feedDraft',[
+		...newlist,
+		{
+			describes: data.baseFormData.describes,
+			contactobject: data.baseFormData.contactobject,
+			category: data.baseFormData.category,
+			path: JSON.stringify(data.baseFormData.path0),
+			pushtime:getCurrentTime(),
+		},
+	])
+	uni.navigateBack({
+	 	url: '/pages/feedback/feedback',
+	})
+}
+onShow( ()=>{
+})
+onLoad(async (options)=>{
+	//需要获取已经id的草稿内容
+	console.log("需要获取已经草稿的内容",Number(options.index));
+	if(options.index!=null){
+		data.categoryindex=options.category=="课程"?0:options.category=="安全"?1:options.category=="其他"?2:null;
+		data.baseFormData.category=options.category;
+		data.baseFormData.contactobject=options.contactobject;
+		data.baseFormData.describes=options.describes;
+		data.baseFormData.path0=JSON.parse(options.path0);
+		data.index=Number(options.index);
+		console.log("data.baseFormData",data.baseFormData)
+		console.log("data.categoryindex",data.categoryindex)
+	}
+})
 
 </script>
 

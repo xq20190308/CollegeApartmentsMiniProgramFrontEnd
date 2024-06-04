@@ -10,3 +10,6 @@ export const getCurrentTime = () => {
 	  // 格式化输出
 	  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+export const getTimeStamp = (formattedTime)=> {
+	return Date.parse(formattedTime);
+}

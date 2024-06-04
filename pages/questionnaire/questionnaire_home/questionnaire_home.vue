@@ -6,8 +6,8 @@
 			</template>
 			<view class="questionsform">
 				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
-					<view class="quetitle">{{que.id}}.{{que.name}}</view>
-					<view class="quedes">描述:{{que.describe}}</view>
+					<view class="quetitle">{{qindex + 1}}.{{que.name}}</view>
+					<view class="quedes">描述:{{que.description}}</view>
 					<view class="choice" v-if="que.type===1">
 						<radio-group  @change="(e) => radioChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
@@ -22,23 +22,24 @@
 						<checkbox-group :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="mulchoitem">
-									<checkbox :value="index"  />
+									<checkbox :value="index" :checked="ischeckedmul(qindex,index)" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</checkbox-group>
 					</view>
 					<view v-else class="answer">
-						<input v-model="data.current[qindex]" class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
+						<input v-model="data.current[qindex]" class="answerinput" placeholder="请输入" placeholder-class="answerplacehoder" />
 					</view>
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<uni-forms ref="valiForm" :rules="data.rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item  class="form-item" label="姓名" name="name">
+			<view style="margin-left: 280px;">匿名<switch :checked="data.isanonymous" @change="(e)=>{data.isanonymous=e.detail.value}" /></view>
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
+				<uni-forms-item  class="form-item" label="姓名" name="name" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item  class="form-item" label="学号" name="id">
+				<uni-forms-item  class="form-item" label="学号" name="id" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
@@ -49,13 +50,13 @@
 </template>
 <script setup>
 import '@/utils/http'
-import {reactive, ref} from "vue"; 
+import {computed, reactive, ref} from "vue"; 
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	//匿名的话questionnaire加一个isAnonymous
-	
+	isanonymous:false,
 	id:"",
 	type: 0,
 	name: "",
@@ -79,25 +80,35 @@ const data = reactive({
 		id: '',
 	},
 	// 校验规则
-	 rules: {
-	// answer: {
-	// 	rules: [{
-	// 		required: true,
-	// 		errorMessage: '姓名不能为空'
-	// 	}]
-	// },
-	// 	id: {
-	// 		rules: [{
-	// 			required: true,
-	// 			errorMessage: '年龄不能为空'
-	// 		}, {
-	// 			minLength: 12,
-	// 			maxLength: 12,
-	// 			errorMessage: '请输入12位学号'
-	// 		}]
-	// 	}
-	},
-}) 
+})
+const rules = computed(()=>{
+	if(data.isanonymous==true){
+		return {
+			name: {
+				rules: [{
+					required: true,
+					errorMessage: '姓名不能为空'
+				}]
+			},
+			id: {
+				rules: [{
+					required: true,
+					errorMessage: '学号不能为空'
+				},{
+					minLength: 12,
+					maxLength: 12,
+					errorMessage: '请输入12位学号'
+				}]
+			}
+		}
+	}else{
+		return {};
+	};
+})
+const ischeckedmul = (qindex,index)=>{
+	console.log("--",data.current[qindex]);
+	return (data.current[qindex]?data.current[qindex].indexOf(String(index)):-1)!=-1;
+}
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
 	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
@@ -155,11 +166,14 @@ const submit = async (ref) => {
 		},);
 	
 		console.log("封装后请求的结果",res)
-		uni.showToast({
-			title: "提交成功"
-		})
 		
-		
+		clearTimeout(data.timer);
+		data.timer = setTimeout(()=>{
+			uni.showToast({
+				title: "提交成功"
+			})
+		}, 300)
+		uni.navigateBack();
 	}).catch(err => {
 		console.log('err', err);
 	})
@@ -174,7 +188,7 @@ const getquestions = async () => {
 	}
 	console.log('获取到问题',data.questionList);
 }
-onLoad((options) => {
+onLoad(async (options) => {
 	console.log("参数列表",options);
 	
 	data.id=options.id;
@@ -183,8 +197,26 @@ onLoad((options) => {
 	data.description=options.description;
 	data.startTime=options.startTime;
 	data.endTime =options.endTime ; 
-	getquestions();
-	
+	clearTimeout(data.timer);
+	data.timer = setTimeout(()=>{
+		getquestions();
+	}, 100)
+	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	console.log(res);
+	if(res.msg=='您还没有填写该问卷'){
+		console.log("该用户没填写过此问卷")
+	}else{
+		uni.showModal({
+			title: "已填写过,是否显示填写情况",
+			success: (res1) => {
+				if (res1.confirm) {
+					data.current=JSON.parse(res.data.answer);
+				} else if (res1.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		});
+	}
 })
 onReady(()=>{
 	

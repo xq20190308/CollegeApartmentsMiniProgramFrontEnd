@@ -60,6 +60,13 @@
 			}
 		},
 		{
+			"path": "pages/questionnaire/addquestionnaire/modifyquestionnaire",
+			"style": {
+				"navigationBarTitleText": "修改调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/feedback/feedback",
 			"style": {
 				"navigationBarTitleText": "草稿列表",
