@@ -112,7 +112,6 @@ const ischeckedmul = (qindex,index)=>{
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
 	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
-	console.log(res);
 	if(res.msg=='您还没有填写该问卷'){
 		uni.showModal({
 			title:'您还没有填写该问卷',
@@ -126,21 +125,15 @@ const showmyanswer = async () => {
 const inputChange = (evt,qindex) => {
 	clearTimeout(data.timer);
 	data.timer = setTimeout(()=>{
-		console.log(evt);
-		console.log(qindex);
 		data.current[qindex]=evt.detail.value;
 		console.log(data.current);
 	}, 500)
 }
 const checkboxChange = (evt,qindex) => {
-	console.log(evt);
-	console.log(qindex);
 	data.current[qindex]=evt.detail.value;
 	console.log(data.current);
 }
 const radioChange = (evt,qindex) => {
-	console.log(evt);
-	console.log(qindex);
 	data.current[qindex]=evt.detail.value;
 	console.log(data.current);
 }
@@ -157,16 +150,12 @@ const submit = async (ref) => {
 			});
 			return;
 		};
-		console.log("填写正确",data.current);
-		console.log('JSON.stringify(data.valiFormData)',JSON.stringify(data.valiFormData));
 		//POST提交到后端
 		const res = await http('/useranswer/submit','POST',{
 			answer: JSON.stringify(data.current),
 			questionnaireId: data.id,
 		},);
-	
-		console.log("封装后请求的结果",res)
-		
+
 		clearTimeout(data.timer);
 		data.timer = setTimeout(()=>{
 			uni.showToast({
@@ -181,12 +170,10 @@ const submit = async (ref) => {
 const getquestions = async () => { 
 	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
 	
-	console.log("封装后请求的结果",res);
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){
 		data.questionList[i].content=JSON.parse(data.questionList[i].content)
 	}
-	console.log('获取到问题',data.questionList);
 }
 onLoad(async (options) => {
 	console.log("参数列表",options);
@@ -202,7 +189,7 @@ onLoad(async (options) => {
 		getquestions();
 	}, 100)
 	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
-	console.log(res);
+	
 	if(res.msg=='您还没有填写该问卷'){
 		console.log("该用户没填写过此问卷")
 	}else{

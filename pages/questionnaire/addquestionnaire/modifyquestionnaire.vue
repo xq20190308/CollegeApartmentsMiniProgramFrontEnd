@@ -121,11 +121,8 @@ const submit = async ()=> {
 		list[i]={...data.questionList[i]};
 		list[i].content=JSON.stringify(list[i].content);
 	}
-	console.log('list',list)
 	console.log('data.questionList',data.questionList)
 	const res = await http('/questionnaire/updateQuestionnaireById/'+data.info.id,'POST',{...data.info,questionList:list},);
-	
-	console.log("封装后请求的结果",res) 
 
 	uni.showToast({
 		title: "创建成功"
@@ -139,12 +136,10 @@ const submit = async ()=> {
 const getquestions = async () => { 
 	const res = await http('/question/selectByQuestionnaireId/'+data.info.id,'GET',{},)
 	
-	console.log("封装后请求的结果",res);
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){
 		data.questionList[i].content=JSON.parse(data.questionList[i].content)
 	}
-	console.log('获取到问题',data.questionList);
 }
 onLoad((options)=>{
 	data.info=JSON.parse(options.info)

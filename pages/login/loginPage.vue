@@ -122,14 +122,10 @@ import {load,http} from "../../utils/http.js"
 			console.log("---data.reqdata", data.reqdata);
 			//发送请求
 			await login(data.reqdata).then(async (res) => {
-				console.log("---res",res)
 				if (res.statusCode == 200) {
 					if(res.data.msg!='success'){
 						returnerr(res.data.msg);
 					}
-					
-					console.log("---登陆成功data.reqdata", data.reqdata);
-					console.log("---登陆成功res", res)
 					//用户信息保存到本地用于其他页面的渲染
 					try {
 						await setUserInfo(res);
@@ -138,7 +134,6 @@ import {load,http} from "../../utils/http.js"
 					}
 					//获取头像
 					const res1 = await http('/user/getavatar','GET',{});
-					console.log(res1.data);
 					setLocalData('avatarUrl',res1.data);
 					try {
 						console.log("get--isShowLocal", getLocalData('isShowLocal'));

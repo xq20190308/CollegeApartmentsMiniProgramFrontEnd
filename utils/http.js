@@ -17,7 +17,6 @@ const httpInterceptor = {
 		//添加token
 		const token = getLocalData('token');
 		options.header.Authorization=token;
-		console.log(options);
 	},
 
 }
@@ -55,6 +54,7 @@ export const http = (url, method, data) => {
 				//需对状态码进行分类处理，登录信息token
 				if (res.statusCode >= 200 && res.statusCode < 300) {
 					resolve(res.data)
+					console.log("success", res)
 				} else {
 					uni.showToast({
 						title: "网路请求失败",

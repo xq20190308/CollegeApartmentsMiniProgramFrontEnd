@@ -59,15 +59,12 @@ const bannerclick=(index)=>{
 
 onLoad(()=>{ 
 	// 使用函数并打印结果
-	console.log(getCurrentTime());
 	getarticles({ typeName : '主页'}).then(response => {
 		// 在这里处理数据
 		data.articles = response.sort((a, b) => a.id - b.id);
-		console.log('response',response);//输出:这是返回的数据
 		for (let i = 0; i < data.articles.length; i++) {
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
-		console.log('data.articles',data.articles); 
 })})
 </script>
 

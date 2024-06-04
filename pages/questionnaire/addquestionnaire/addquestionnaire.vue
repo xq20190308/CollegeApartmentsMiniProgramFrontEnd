@@ -149,11 +149,9 @@ const submit = async ()=> {
 		list[i]={...data.questionList[i]};
 		list[i].content=JSON.stringify(list[i].content);
 	}
-	console.log('list',list)
 	console.log('data.questionList',data.questionList)
 	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list},);
 	
-	console.log("封装后请求的结果",res) 
 
 	uni.showToast({
 		title: "创建成功"

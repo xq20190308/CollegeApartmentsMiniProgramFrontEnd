@@ -104,8 +104,7 @@ onShow(()=>{
 	getarticles({}).then(response => {
     // 在这里处理数据
     data.articles = response.sort((a, b) => a.id - b.id);
-	console.log('response',response); // 输出: 这是返回的数据
-  })
+	})
 })
 onLoad((options) => {
 	console.log("通知列表",data.articles);

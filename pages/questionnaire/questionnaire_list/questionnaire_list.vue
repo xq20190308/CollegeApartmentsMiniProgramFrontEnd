@@ -44,13 +44,10 @@ const getNaireslist = async ()=>{
 	
 	const res = await http('/questionnaire/selectAll','GET',{},);
 	
-	console.log("封装后请求的结果",res)
-	
 	data.questionnairelist=res.data;
 	let currentTimeStamp = getTimeStamp(await getCurrentTime())
 	for (let i=0;i<data.questionnairelist.length;i++) {
 		data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
-		console.log(data.questionnairelist[i].name,"是否已结束结束",data.questionnairelist[i].isEnd)
 	}
 }
 const gotonaire = (item) =>{
@@ -61,7 +58,6 @@ const gotonaire = (item) =>{
 			icon:'error'
 		})
 	}else{
-		console.log("问卷信息",item);
 		uni.navigateTo({
 			url:'../questionnaire_home/questionnaire_home?id='+item.id+
 			'&type='+item.type+'&name='+item.name+

@@ -32,7 +32,6 @@ onShow(()=>{
 })
 const fetchComplaintDrafts = async () => {
 	const res = await http('/api/manageSuggestions','GET',{},)
-	console.log("封装后请求的结果",res);
 	data.complaintDrafts=res//与问卷的返回不同
 	console.log("data.complaintDrafts",data.complaintDrafts)
 }
