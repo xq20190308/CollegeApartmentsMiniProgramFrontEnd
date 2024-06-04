@@ -2,7 +2,7 @@
 	<view class="qusnalist">
 		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="questionnaire" :style="item.id===1?filter:''"  @click="gotonaire(item)">
 			<uni-section :title="item.name" type="line" titleFontSize=42rpx>
-				<template v-slot:right>
+				<template v-slot:right style="margin-left: 10px;">
 					<button @click.stop="(e)=>{deletenaire(item.id)}" class="deletbutton">删除</button>
 				</template>
 				<questionnaire :naireinfo="item" ></questionnaire>
@@ -116,7 +116,7 @@ onShow(()=>{
 	flex-direction: column;
 	margin: 22rpx 10rpx;
 	border-radius: 10px;
-	padding: 20rpx 40rpx;
+	padding: 20rpx 20rpx;
 	box-sizing: border-box;
 	z-index: 10;
 }

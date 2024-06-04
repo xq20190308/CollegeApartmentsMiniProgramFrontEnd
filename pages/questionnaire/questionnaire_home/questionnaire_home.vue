@@ -101,7 +101,15 @@ const data = reactive({
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
 	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
-	data.current=JSON.parse(res.data.answer);
+	console.log(res);
+	if(res.msg=='您还没有填写该问卷'){
+		uni.showModal({
+			title:'您还没有填写该问卷',
+			icon: 'error'
+		})
+	}else{
+		data.current=JSON.parse(res.data.answer);
+	}
 	console.log(data.current);
 }
 const inputChange = (evt,qindex) => {

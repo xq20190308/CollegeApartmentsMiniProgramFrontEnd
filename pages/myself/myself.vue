@@ -100,15 +100,14 @@ import {load,http} from "../../utils/http.js"
 				}, 1000)
 			},
 			async selectUpload(e){
-				console.log(e.tempFilePaths[0]);
-				this.userInfo.avatarUrl = e.tempFilePaths[0];
-				// console.log(this.userInfo.avatarUrl);
-				// await setLocalData('avatarUrl',this.userInfo.avatarUrl);
-				await load('/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
+				console.log(e);
+				await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
 					(res1)=>{
 						console.log("res1",res1);
+						this.userInfo.avatarUrl = res1.data;
 					}
 				)
+				await setLocalData('avatarUrl',this.userInfo.avatarUrl);
 			}
 		},
 		async onShow() {
