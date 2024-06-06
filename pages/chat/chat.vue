@@ -30,7 +30,8 @@
 	const wstest = async () => {
 		console.log("点击ws")
 		uni.connectSocket({
-			url: "wss://localhost:61098/websocket",
+			url: "wss://localhost:8080/websocket",
+			header: {},
 			method: 'GET'
 		})
 		uni.onSocketOpen((res) => {
