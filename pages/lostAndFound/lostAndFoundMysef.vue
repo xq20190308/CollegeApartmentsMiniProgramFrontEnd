@@ -3,18 +3,22 @@
 		<uni-segmented-control :current="data.current" :values="data.items" :active-color="data.activeColor"
 			@clickItem="onClickItem" />
 	</view>
-	<view class="content">
+	<view>
 		<view v-if="data.current === 0">
-			<text class="content-text">
-				选项卡1的内容
-			</text>
-			<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			<view v-for="(item, index) in data.lostandfound" :key="index">
+				<uni-card :title="item.name">
+					<text class="uni-body">{{item.describes}}</text>
+				</uni-card>
+				<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			</view>
 		</view>
 		<view v-if="data.current === 1">
-			<text class="content-text">
-				选项卡2的内容
-			</text>
-			<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			<view v-for="(item, index) in data.lostandfound" :key="index">
+				<uni-card :title="item.name">
+					<text class="uni-body">{{item.describes}}</text>
+				</uni-card>
+				<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			</view>
 		</view>
 	</view>
 </template>
@@ -36,7 +40,16 @@
 		current: 0,
 		colorIndex: 0,
 		activeColor: '#007aff',
-		styleType: 'button'
+		styleType: 'button',
+		lostandfound: [{
+				name: '脑子',
+				describes: '可恶，我的脑子呢'
+			},
+			{
+				name: '脑子',
+				describes: '可恶，我的脑子呢'
+			}
+		]
 
 	})
 

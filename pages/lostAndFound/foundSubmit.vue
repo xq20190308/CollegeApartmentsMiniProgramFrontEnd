@@ -4,23 +4,25 @@
 					<!-- 基础表单校验 -->
 					<view class="example">
 					<uni-forms ref="baseForm" :rules="data.rules" :modelValue="data.baseFormData">
-						<uni-forms-item label="捡到的地点" required name="pickLocation">
+						<uni-forms-item label="丢失的地点" required name="pickLocation">
 							<uni-easyinput v-model="data.baseFormData.pickLocation" placeholder="请输入捡到的地点" />
 						</uni-forms-item>
-						<uni-forms-item label="捡到的时间" required name="pickTime">
+						<uni-forms-item label="丢失的时间" required name="pickTime">
 							<uni-easyinput v-model="data.baseFormData.pickTime" placeholder="请输入捡到的时间" />
 						</uni-forms-item>
-						<uni-forms-item label="描述" name="describes" required>
+						<uni-forms-item label="丢失物品描述" name="describes" required>
 							<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入描述" />
 						</uni-forms-item>
 					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
-								ref="uniFilePicker" required></uni-file-picker>
+								ref="uniFilePicker" required>
+								<button type="primary" size="mini">选择文件</button>
+								</uni-file-picker>
 						</view>
 					</uni-section>
 						<uni-forms-item label="联系方式" name="contactobject" required>
-							<uni-easyinput type="textarea" v-model="data.baseFormData.contactobject" placeholder="请输入描述" />
+							<uni-easyinput  v-model="data.baseFormData.contactobject" placeholder="请输入联系方式" />
 						</uni-forms-item>
 					</uni-forms>
 					</view>
@@ -74,33 +76,45 @@
 				rules:[{
 					required:true,
 					errorMessage:'手机号不能为空'
-				},{
-					minLength: 11,
-					maxLength: 11,
-					errorMessage: '请输入11位手机号'
-				}]
+				}
+				// ,{
+				// 	minLength: 11,
+				// 	maxLength: 11,
+				// 	errorMessage: '请输入11位手机号'
+				// },
+				]
 			},
 		}
 		})
+		// const submit=async ()=>{
+		// 	const res = await http('/api/suggestionsDraft','POST',{
+		// 		describes: data.baseFormData.describes,
+		// 		contactobject: data.baseFormData.contactobject,
+		// 		pickTime: data.baseFormData.pickTime,
+		// 		pickLocation:data.baseFormData.pickLocation,
+		// 	},);
+		// 	console.log("封装后请求的结果",res)
+		// 	console.log(res.data);
+		// 	uni.navigateBack({//接口已经好了，但逻辑存在错误
+		// 		url:'../pages/lostAndFound/lostAndFound',
+		// 	});
+		// }
 		const baseForm = ref()
 		const submit=async (ref)=>{
 			baseForm.value?.validate().then(async res1 => {
 				console.log('success', res1);
 				//还没写接口
-				const res = await http('/api/suggestionsDraft','POST',{
+				const res = await http('/api/addFound','POST',{
+					category:'found',
 					describes: data.baseFormData.describes,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
 					pickLocation:data.baseFormData.pickLocation,
 				},);
-				const file = await http('/api/upload', 'POST',{
-					filePath: e.tempFilePaths[0],
-					name: 'file',
-				});
 				console.log("封装后请求的结果",res)
 				console.log(res.data);
 				uni.navigateBack({
-					url:'../pages/lostAndFound/lostAndFound',
+					url:'../../pages/lostAndFound/lostAndFoundMysef',
 				});
 			}).catch(err => {
 				console.log('err', err);
@@ -108,21 +122,7 @@
 		}
 		const selectUpload= async(e) =>{
 			
-				console.log(e.tempFilePaths)
-				// uni.uploadFile({
-				// 	url: 'http://localhost:8080/api/upload', 
-				// 	//这个点击上传文件是传到本地了，但要传到服务器的话还要继续传参
-				// 	filePath: e.tempFilePaths[0],
-				// 	name: 'file',
-				// 	success: (uploadFileRes) => {
-				// 		console.log(uploadFileRes.data);
-				// 	},
-				// 	fail: (err) => {
-				// 		console.log(err);
-				// 	}
-				// })
-			}
-		
+		}
 		onReady(()=>{
 			// console.log('onReady 生命周期钩子被调用');
 			
@@ -181,7 +181,7 @@
 		color: #333;
 	}
 	.small-label {
-		font-size: 12px; // 调整投诉分类标签文字大小
+		font-size: 12px; 
 	}
 </style>
 
