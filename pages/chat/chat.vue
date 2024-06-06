@@ -30,17 +30,17 @@
 	const wstest = async () => {
 		console.log("点击ws")
 		uni.connectSocket({
-			url: "wss://localhost:8080/websocket",
+			url: "ws://localhost:8080/websocket",
 			header: {},
 			method: 'GET'
 		})
 		uni.onSocketOpen((res) => {
 			console.log('WebSocket连接已打开！' + res.data);
 		})
-		console.log("函数完成")
 		uni.onSocketError(function(res) {
 			console.log('WebSocket连接打开失败，请检查！', res);
 		});
+		console.log("函数完成")
 
 	}
 
