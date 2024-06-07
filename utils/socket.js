@@ -1,4 +1,5 @@
 export var socketTask='';
+export var socketMsgQueue = [];
 export const wsopen=()=>{
 	if(uni.getStorageSync('token')!=''){
 		socketTask=uni.connectSocket({
@@ -14,6 +15,17 @@ export const wsopen=()=>{
 		 })
 		 socketTask.onMessage(function (res) {
 		   console.log('ws receive ' + res.data);
+		   //let pages = getCurrentPages()
+		   //console.log('--',pages[pages.length -1]);
+		   
+		   if(res.data!="心跳"){
+			   socketMsgQueue.push(res.data);// 设置角标
+				// uni.setTabBarBadge({
+				//   index: 2, // tabIndex，tabbar的哪一项，从0开始
+				//   text: String(socketMsgQueue.length).length>3?'99+':String(socketMsgQueue.length) // 显示的文本，超过99显示成99+
+				// });
+			}
+			 
 		 });
 		 socketTask.onError(function (res) {
 		   console.log('ws error ' + res.errMsg);

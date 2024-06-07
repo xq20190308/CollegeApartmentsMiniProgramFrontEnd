@@ -14,16 +14,16 @@
 			}
 		},
 		{
-			"path": "pages/pu/pu",
-			"style": {
-				"navigationBarTitleText": "pu活动"
-			}
-		},
-		{
 			"path": "pages/function/function",
 			"style": {
 				"navigationBarTitleText": "功能",
 				"backgroundColor": "#000000"
+			}
+		},
+		{
+			"path": "pages/pu/pu",
+			"style": {
+				"navigationBarTitleText": "pu活动"
 			}
 		},
 		{

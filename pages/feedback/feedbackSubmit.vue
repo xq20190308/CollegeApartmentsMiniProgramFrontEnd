@@ -191,8 +191,8 @@ onLoad(async (options)=>{
 		data.baseFormData.describes=options.describes;
 		data.baseFormData.path0=JSON.parse(options.path0);
 		data.index=Number(options.index);
-		console.log("data.baseFormData",data.baseFormData)
-		console.log("data.categoryindex",data.categoryindex)
+		console.log("data.baseFormData",data.baseFormData);
+		console.log("data.categoryindex",data.categoryindex);
 	}
 })
 
