@@ -35,7 +35,7 @@ onLoad(()=> {
 })
 onShow(async()=>{
 	await fetchComplaintDrafts();
-	console.log(data.complaintDrafts)
+	console.log('草稿箱:',data.complaintDrafts)
 })
 const lookFeed = ()=>{
 	goto('manageFeed','feedbackManage')

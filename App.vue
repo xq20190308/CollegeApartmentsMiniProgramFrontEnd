@@ -1,7 +1,9 @@
 <script>
+	import {wsopen} from './utils/socket.js'
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
+			wsopen();
 		},
 		onShow: function() {
 			console.log('App Show')

@@ -28,7 +28,7 @@ import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
-
+import {mainFun} from '../../main.js'
 const data = reactive({
 	articles:[],
 	func_list: [
