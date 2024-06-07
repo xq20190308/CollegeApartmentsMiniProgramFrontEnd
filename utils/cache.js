@@ -19,3 +19,25 @@ export const delLocalData = key => uni.removeStorageSync(key)
 
 //清所有
 export const clearLocalData = key => uni.clearStorageSync()
+
+export const clearUserInfo = () => {
+	delLocalData("token");
+	delLocalData("trueName");
+	delLocalData("username");
+	delLocalData("accountManage");
+	delLocalData("noticeManage");
+	delLocalData("feedbackManage");
+	delLocalData("questionnaireManage");
+	delLocalData("avatarUrl");
+}
+export const setUserInfo = (res) => {
+	setLocalData("isShowLocal",true)
+	setLocalData("token", res.data.data.token)
+	setLocalData("trueName", res.data.data.trueName);
+	setLocalData("username", res.data.data.username);
+	setLocalData("accountManage", res.data.data.userPermission.accountManage);
+	setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
+	setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
+	setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
+}
+					

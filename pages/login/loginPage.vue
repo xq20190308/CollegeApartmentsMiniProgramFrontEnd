@@ -35,22 +35,11 @@
 </template>
 
 <script setup>
-	import {
-		onLoad
-	} from "@dcloudio/uni-app";
-	import {
-		reactive,
-		ref,
-		computed,
-		onMounted
-	} from "vue";
-	import {
-		login
-	} from "./api/login.js"
-	import {
-		getLocalData,
-		setLocalData
-	} from "../../utils/cache.js"
+import { onLoad} from "@dcloudio/uni-app";
+import { reactive, ref, computed, onMounted } from "vue";
+import { login } from "./api/login.js"
+import { getLocalData, setLocalData, setUserInfo} from "../../utils/cache.js"
+import {load,http} from "../../utils/http.js"
 	// 校验规则
 	const data = reactive({
 		rules: {
@@ -109,6 +98,14 @@
 		licenseDisagree.value = !licenseDisagree.value
 		console.log("++", licenseDisagree.value)
 	}
+	const returnerr = (msg) => {
+			console.log(msg);
+			uni.showModal({
+				title: msg,
+				showCancel: false,
+			})
+			reject(msg)
+	}
 	const req = ref()
 	const loginConfirm = async (ref) => {
 		await req.value?.validate().then(async res1 => {
@@ -125,42 +122,28 @@
 			console.log("---data.reqdata", data.reqdata);
 			//发送请求
 			await login(data.reqdata).then(async (res) => {
+				console.log("---res",res)
 				if (res.statusCode == 200) {
-					if(res.data.msg=='当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员'){
-						console.log('当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员');
-						uni.showModal({
-							title: "该账号已绑定其他微信",
-							showCancel: false,
-						})
-						reject("当前微信已绑定其他账号，请联系登录已绑定的账号，或联系管理员")
-					}
-					if(res.data.msg=='登陆失败,账号或密码错误'){
-						console.log('登陆失败,账号或密码错误');
-						uni.showModal({
-							title: "账号或密码错误",
-							showCancel: false,
-						})
-						reject("登陆失败,账号或密码错误")
+					if(res.data.msg!='success'){
+						returnerr(res.data.msg);
 					}
 					
 					console.log("---登陆成功data.reqdata", data.reqdata);
 					console.log("---登陆成功res", res)
 					//用户信息保存到本地用于其他页面的渲染
 					try {
-						await setLocalData("token", res.data.data.token)
-						await setLocalData("trueName", res.data.data.trueName);
-						await setLocalData("username", res.data.data.username);
-						await setLocalData("accountManage", res.data.data.userPermission.accountManage);
-						await setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
-						await setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
-						await setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
-						await setLocalData('avatarUrl','http://tmp/cK3MnNqlrY3J9127f71db3e70517af8d84e95e2c8562.jpg')
+						await setUserInfo(res);
 					} catch (e) {
 						console.log("set不对", e);
 					}
-					
+					//获取头像
+					const res1 = await http('/user/getavatar','GET',{});
+					console.log(res1.data);
+					setLocalData('avatarUrl',res1.data);
 					try {
+						console.log("get--isShowLocal", getLocalData('isShowLocal'));
 						console.log("get--token", getLocalData('token'));
+						console.log("get--avatarUrl", getLocalData('avatarUrl'));
 						console.log("get--trueName", getLocalData('trueName'));
 						console.log("get--username", getLocalData('username'));
 						console.log("get--accountManage", getLocalData('accountManage'));

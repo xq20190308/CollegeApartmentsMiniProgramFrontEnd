@@ -44,12 +44,13 @@
 </template>
 
 <script>
-	import {
-		getLocalData,
-		setLocalData,
-		delLocalData,
-		clearLocalData
-	} from "../../utils/cache.js"
+import {
+	getLocalData,
+	setLocalData,
+	delLocalData,
+	clearUserInfo
+} from "../../utils/cache.js"
+import {load,http} from "../../utils/http.js"
 	export default {
 		data() {
 			return {
@@ -70,21 +71,21 @@
 			}
 		},
 		methods: {
-			delogin(meg) {
-				uni.showModal({
-					title: '提示',
-					content: meg,
-					success: (res) => {
-						if (res.confirm) {
-							clearLocalData()
-							this.userInfo.token=getLocalData("token")
-							console.log('用户点击确定this.userInfo.token',this.userInfo.token);
-							this.tologin("正在跳转")
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
+			async delogin(meg) {
+				 uni.showModal({
+				 	title: '提示',
+				 	content: meg,
+				 	success: (res) => {
+				 		if (res.confirm) {
+				 			clearUserInfo()
+				 			this.userInfo.token=getLocalData("token")
+				 			console.log('用户点击确定this.userInfo.token',this.userInfo.token);
+				 			this.tologin("正在跳转")
+				 		} else if (res.cancel) {
+				 			console.log('用户点击取消');
+				 		}
+				 	}
+				 });
 			},
 			tologin(meg) {
 				uni.showLoading({
@@ -98,15 +99,20 @@
 					})
 				}, 1000)
 			},
-			selectUpload(e){
+			async selectUpload(e){
 				console.log(e.tempFilePaths[0]);
 				this.userInfo.avatarUrl = e.tempFilePaths[0];
-				console.log(this.userInfo.avatarUrl);
-				setLocalData('avatarUrl',this.userInfo.avatarUrl);
+				// console.log(this.userInfo.avatarUrl);
+				// await setLocalData('avatarUrl',this.userInfo.avatarUrl);
+				await load('/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
+					(res1)=>{
+						console.log("res1",res1);
+					}
+				)
 			}
 		},
-		onShow() {
-			this.userInfo.avatarUrl = getLocalData('avatarUrl')
+		async onShow() {
+			this.userInfo.avatarUrl = getLocalData('avatarUrl');
 			console.log(this.userInfo.avatarUrl);
 			this.userInfo.username=getLocalData("username")
 			this.userInfo.trueName=getLocalData("trueName")

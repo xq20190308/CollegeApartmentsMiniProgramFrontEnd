@@ -1,22 +1,25 @@
 <template>
 	<view class="container">
 		<uni-section :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
+			<template v-slot:right>
+				<uni-icons @click="showmyanswer" type="arrow-up" size="20"></uni-icons>
+			</template>
 			<view class="questionsform">
 				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
 					<view class="quetitle">{{que.id}}.{{que.name}}</view>
 					<view class="quedes">描述:{{que.describe}}</view>
 					<view class="choice" v-if="que.type===1">
-						<radio-group @change="(e) => radioChange(e,qindex)">
+						<radio-group  @change="(e) => radioChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="choitem">
-									<radio :value="index" />
+									<radio :value="index" :checked="index==data.current[qindex]" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</radio-group>
 					</view>
 					<view class="mulchoice"  v-else-if="que.type===2">
-						<checkbox-group @change="(e) => checkboxChange(e,qindex)">
+						<checkbox-group :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="mulchoitem">
 									<checkbox :value="index"  />
@@ -26,7 +29,7 @@
 						</checkbox-group>
 					</view>
 					<view v-else class="answer">
-						<input class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
+						<input v-model="data.current[qindex]" class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
 					</view>
 				</view>
 			</view>
@@ -56,10 +59,9 @@ const data = reactive({
 	id:"",
 	type: 0,
 	name: "",
-	descr: null,
+	description: null,
 	startTime: "",
 	endTime: "",
-	questionIdList: null,
 	questionList: [
 	// 	{
 	// 	id: "",
@@ -96,6 +98,12 @@ const data = reactive({
 	// 	}
 	},
 }) 
+const showmyanswer = async () => {
+	console.log("显示我的回答questionnaireId=",data.id);
+	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	data.current=JSON.parse(res.data.answer);
+	console.log(data.current);
+}
 const inputChange = (evt,qindex) => {
 	clearTimeout(data.timer);
 	data.timer = setTimeout(()=>{
@@ -103,7 +111,6 @@ const inputChange = (evt,qindex) => {
 		console.log(qindex);
 		data.current[qindex]=evt.detail.value;
 		console.log(data.current);
-		
 	}, 500)
 }
 const checkboxChange = (evt,qindex) => {
@@ -135,7 +142,7 @@ const submit = async (ref) => {
 		console.log('JSON.stringify(data.valiFormData)',JSON.stringify(data.valiFormData));
 		//POST提交到后端
 		const res = await http('/useranswer/submit','POST',{
-			answer: JSON.stringify(data.valiFormData),
+			answer: JSON.stringify(data.current),
 			questionnaireId: data.id,
 		},);
 	
@@ -150,38 +157,29 @@ const submit = async (ref) => {
 	})
 }
 const getquestions = async () => { 
-	const res = await http('/question/selectById?idList='+data.questionIdList,'GET',{},)
+	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
 	
 	console.log("封装后请求的结果",res);
-	
-	console.log("test",data.idList)
 	data.questionList=res.data;
+	for(let i=0;i<data.questionList.length;i++){
+		data.questionList[i].content=JSON.parse(data.questionList[i].content)
+	}
 	console.log('获取到问题',data.questionList);
-	
 }
 onLoad((options) => {
 	console.log("参数列表",options);
-	
-	//测试数据
-	//data.questionIdList=["20181252102","20187874601"];
-	
-	data.questionIdList = JSON.parse(options.questionIdList);
-	
-	console.log('问题列表：',data.questionIdList);
 	
 	data.id=options.id;
 	data.type=options.type;
 	data.name=options.name;
 	data.description=options.description;
 	data.startTime=options.startTime;
-	data.endTime =options.endTime ;
-	
-	//getquestions();
+	data.endTime =options.endTime ; 
+	getquestions();
 	
 })
 onReady(()=>{
-	// 如果需要兼容微信小程序，并且校验规则中含有方法等，只能通过setRules方法设置规则
-	//this.$refs.valiForm.setRules(data.rules)
+	
 }) 
 </script>
 

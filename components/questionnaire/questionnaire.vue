@@ -1,11 +1,9 @@
 <template>
-	<view class="questionnaire" :style="naireinfo.id===1?filter:''">
-		<uni-section :title="naireinfo.id + naireinfo.name" type="line" titleFontSize=42rpx>
-			<text>{{naireinfo.description}}</text>
-			<view>{{naireinfo.questionList}}</view>
-			<view>截止到：{{naireinfo.startTime}}</view>
-		</uni-section>
-	</view>
+		<text>{{naireinfo.description}}</text>
+		<view>ID：{{naireinfo.id }}</view>
+		<view>类型：{{naireinfo.type}}</view>
+		<view>开始时间：{{naireinfo.startTime}}</view>
+		<view>截止到：{{naireinfo.endTime}}</view>  
 </template>
 
 <script setup>
@@ -29,16 +27,5 @@ const props = defineProps({
 })
 </script>
 <style>
-.questionnaire{
-	width: 97%;
-	background-color: #fff;
-	box-shadow: 0 4px 15px 0 rgba(230, 228, 228, 0.52);
-	display: flex;
-	flex-direction: column;
-	margin: 22rpx 10rpx;
-	border-radius: 10px;
-	padding: 20rpx 40rpx;
-	box-sizing: border-box;
-}
 
 </style>

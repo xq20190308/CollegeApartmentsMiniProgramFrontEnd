@@ -32,15 +32,14 @@ onShow(()=>{
 })
 const fetchComplaintDrafts = async () => {
 	const res = await http('/api/manageSuggestions','GET',{},)
-	
 	console.log("封装后请求的结果",res);
 	data.complaintDrafts=res//与问卷的返回不同
 	console.log("data.complaintDrafts",data.complaintDrafts)
 }
 const look=(item)=> {
-	console.log("要修改id为",item.id,"的草稿")
+	console.log(item.id)
 	uni.navigateTo({
-		url: '../feedback/showFeed?id='+item.id,
+		url: '../feedback/showFeed?info='+JSON.stringify(item),
 	})
 }
 </script>
