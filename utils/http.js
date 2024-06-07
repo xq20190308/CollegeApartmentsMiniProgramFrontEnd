@@ -23,13 +23,14 @@ const httpInterceptor = {
 }
 uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
-export const load = (url,filePath,name) => {
+export const load = (url,filePath,name,formData) => {
 	//返回Promise 对象
 	return new Promise((resolve, reject) => {
 		 uni.uploadFile({
 		 	url: url, //仅为示例，非真实的接口地址
 		 	filePath: filePath,
 		 	name: name,
+			formData: formData,
 		 	header:{},
 		 	success: (uploadFileRes) => {
 		 		console.log("--",JSON.parse(uploadFileRes.data));

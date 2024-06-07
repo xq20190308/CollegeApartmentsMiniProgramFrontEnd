@@ -16,6 +16,7 @@
 			</uni-table>
 			<!-- <view class="uni-pagination-box"><uni-pagination show-icon :page-size="pageSize" :current="pageCurrent" :total="total" @change="change" /></view> -->
 		</view>
+		<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
 	</view>
 </template>
 
@@ -25,7 +26,7 @@
 	import {reactive, ref} from "vue";
 	import {http} from '@/utils/http';
 	import {login} from "@/pages/login/api/login.js"
-	import {getLocalData,	setLocalData} from "@/utils/cache.js"
+import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 	const tableData=reactive({
 		all:[
 			{week:"1", grades:"A"},
@@ -53,7 +54,11 @@
 	// 	}
 	// })
 	
-	
+	const add=()=>{
+		uni.navigateTo({
+			url:"../hygiene/hygieneGradesSubmit"
+		})
+	}
 
 </script>
 
@@ -69,6 +74,13 @@
 		margin-left: 30px;
 		margin-right: 20px;
 		margin-top: 30px;
+	}
+	.floating-button {
+		position: fixed;
+		bottom: 60rpx;
+		right: 50rpx;
+		width: 80rpx;
+		height: 80rpx;
 	}
 </style>
 

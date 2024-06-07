@@ -70,6 +70,31 @@
 			})
 		}
 	}
+	// onShow(()=>{
+	// 	fetchlostandfound();
+	// })
+	// const fetchlostandfound = async()=>{
+	// 	//为什么这个括号后面还有个逗号，不就是三个参数吗
+	// 	//这里应该写什么
+	// 	if(data.current === 0)
+	// 	{
+	// 		const res = await http('', 'GET', {
+	// 			category:'lost'
+	// 		});
+	// 		console.log("封装后请求的结果", res);
+	// 		data.lostandfound = res.lostandfound;
+	// 		console.log('丢失的', res.lostandfound);
+	// 	}
+	// 	else
+	// 	{
+	// 		const res = await http('', 'GET', {
+	// 			category:'found'
+	// 		});
+	// 		console.log("封装后请求的结果", res);
+	// 		data.lostandfound = res.lostandfound;
+	// 		console.log('找到的', res.lostandfound);
+	// 	}
+	// }
 </script>
 
 <style lang="scss">

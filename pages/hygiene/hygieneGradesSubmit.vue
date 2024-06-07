@@ -1,28 +1,37 @@
 <template>
 	<view class="input-container">
 		<text>请输入第</text>
-		<input v-model="data.week" class="short-input"/>
+		<input v-model="data.weeks" class="short-input"/>
+				<button type="primary" size="mini" @click="add">查看</button>
 		<text>周</text>
 	</view>
-
-	<uni-section title="">
+<view>
+	<uni-section title="111">
 		<view class="example-body">
-			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" 
+			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
 				ref="uniFilePicker" required>
 				<button type="primary" size="mini">选择文件</button>
 			</uni-file-picker>
 		</view>
 	</uni-section>
+	</view>
 </template>
 
 <script setup>
 	import {onLoad, onReady} from "@dcloudio/uni-app";
 	import {reactive, ref} from "vue";
-	import {http} from '@/utils/http'
+	import {load,http} from '@/utils/http'
 	
+	//传不过去？
 	const data = reactive({
-		 week:''
+		 weeks:''
 	})
+	const add =async ()=>{
+		let res = await load('/api/updateData', '','file',{
+			weeks:data.weeks
+		});
+		console.log("封装后交给后端的", res);
+	}
 </script>
 
 <style lang="scss">
@@ -104,5 +113,15 @@
 	
 	.small-label {
 		font-size: 12px; // 调整投诉分类标签文字大小
+	}
+	.button {
+		background-color: dodgerblue;
+		color: white;
+		width: 300px;
+		height: 47px;
+		border: 0;
+		font-size: 16px;
+		border-radius: 30px;
+		margin: 10px;
 	}
 </style>
