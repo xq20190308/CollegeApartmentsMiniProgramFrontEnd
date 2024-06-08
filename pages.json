@@ -21,15 +21,21 @@
 			}
 		},
 		{
-			"path": "pages/pu/pu",
+			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "pu活动"
+				"navigationBarTitleText": "消息"
 			}
 		},
 		{
 			"path": "pages/myself/myself",
 			"style": {
 				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/pu/pu",
+			"style": {
+				"navigationBarTitleText": "pu活动"
 			}
 		},
 		{
@@ -214,10 +220,10 @@
 				"selectedIconPath": "static/tabBar/function_icon.png"
 			},
 			{
-				"pagePath": "pages/pu/pu",
-				"text": "pu活动",
-				"iconPath": "static/tabBar/pu_icon.png",
-				"selectedIconPath": "static/tabBar/pu_icon.png"
+				"pagePath": "pages/message/message",
+				"text": "消息",
+				"iconPath": "static/tabBar/notice_icon.png",
+				"selectedIconPath": "static/tabBar/notice_icon.png"
 			},
 			{
 				"pagePath": "pages/myself/myself",
