@@ -22,9 +22,9 @@ const wsopen = () => {
       console.log("Ws open " + res.data);
     });
     socketTask.onMessage(function(res) {
-      console.log("ws receive ");
+      console.log("ws receive ", res.data);
       let pages = getCurrentPages();
-      if (res.data != "my心跳" && tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1) {
+      if (res.data != "biu~biu~" && tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1) {
         socketMsgQueue.content = res.data;
         socketMsgQueue.length = socketMsgQueue.length + 1;
         common_vendor.index.setTabBarBadge({
