@@ -1,0 +1,1 @@
+<text>{{a}}</text><view>ID：{{b}}</view><view>类型：{{c}}</view><view>开始时间：{{d}}</view><view>截止到：{{e}}</view>

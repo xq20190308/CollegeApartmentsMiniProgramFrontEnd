@@ -1,0 +1,49 @@
+
+.content :text {
+		text-align: center;
+}
+.title {
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 16px;
+		color: #333333;
+		padding-top: 40rpx;
+		text-align: center;
+		border-width: 3rpx;
+		border-bottom-style: solid;
+		border-color: cornflowerblue;
+		padding-bottom: 20px;
+}
+.title text:nth-child(1) {
+		display: block;
+}
+.title text:nth-child(2){
+		padding-left: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+}
+.underline-text {
+	    text-decoration: underline;
+	    color: #000000; /* 正常颜色 */
+}
+.underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+}
+.message {
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 15px;
+		color: #999999;
+		margin-bottom: 70rpx;
+		margin-top: 6rpx;
+}
+.message text:nth-child(1) {
+		float: left;
+}
+.message text:nth-child(2) {
+		float: right;
+}

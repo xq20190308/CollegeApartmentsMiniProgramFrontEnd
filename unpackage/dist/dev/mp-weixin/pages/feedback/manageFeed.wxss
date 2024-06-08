@@ -1,0 +1,77 @@
+
+.notice-list {
+		width: 95%;
+		margin-left: 8px;
+}
+.notice-item {
+		margin-top: 24rpx!important;
+		width: 90%;
+		height: auto;
+		border: 1px solid #e2e2e2;
+		border-radius: 25px;
+		padding: 10rpx 30rpx;
+		padding-top: 30rpx;
+		padding-bottom: 30rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row;
+		background-color: azure;
+		box-shadow: #999999 2px 2px 2px 2px;
+		place-items: flex-start;
+}
+.notice-item>text {
+		display: block;
+}
+.underline-text {
+		padding-bottom: 5px;
+		padding-left: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+		text-decoration: underline;
+		color: #000000;
+		position: fixed;
+		left: 300px;
+		top: 15px;
+}
+.underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+}
+.notice-item text:nth-child(2) {
+		text-indent: 2em;
+		display: flex;
+		padding-top: 10rpx;
+}
+.notice-item text:nth-child(3) {
+		padding-top: 24rpx;
+		font-size: 16rpx !important;
+}
+.notice-item text:nth-child(4) {
+		font-size: 16rpx !important;
+}
+.notice-item text:nth-child(2),
+	.notice-item text:nth-child(3),
+	.notice-item text:nth-child(4) {
+		color: #999999;
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 400;
+		font-size: calc(12rpx * 2);
+		line-height: calc(15rpx * 2);
+}
+.floating-button {
+		position: fixed;
+		bottom:60rpx; 
+		right: 50rpx; 
+		width: 80rpx; 
+		height: 80rpx;
+}
+.deletbutton{
+		background-color:indianred;
+		color:white;
+		width: 50px;
+		height:40x;
+		font-size: 10px;
+		text-align: center;
+} 

@@ -1,34 +1,127 @@
 <template>
-	  <view>
-	    <uni-data-select
-	      v-model="value"
-	      :localdata="range"
-	      @change="change"
-	    ></uni-data-select>
-	  </view>
-	<uni-section title="">
+	<view class="input-container">
+		<text>请输入第</text>
+		<input v-model="data.weeks" class="short-input"/>
+				<button type="primary" size="mini" @click="add">查看</button>
+		<text>周</text>
+	</view>
+<view>
+	<uni-section title="111">
 		<view class="example-body">
-			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" 
-				ref="uniFilePicker" required></uni-file-picker>
+			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
+				ref="uniFilePicker" required>
+				<button type="primary" size="mini">选择文件</button>
+			</uni-file-picker>
 		</view>
 	</uni-section>
+	</view>
 </template>
 
-<script>
+<script setup>
 	import {onLoad, onReady} from "@dcloudio/uni-app";
 	import {reactive, ref} from "vue";
-	import {http} from '@/utils/http'
+	import {load,http} from '@/utils/http'
 	
+	//传不过去？
 	const data = reactive({
-		 value: 1,
-		range: 
-		[
-			{ value: 0, text: "篮球" },
-			{ value: 1, text: "足球" },
-			{ value: 2, text: "游泳" },
-		],
+		 weeks:''
 	})
+	const add =async ()=>{
+		let res = await load('/api/updateData', '','file',{
+			weeks:data.weeks
+		});
+		console.log("封装后交给后端的", res);
+	}
 </script>
 
-<style>
+<style lang="scss">
+	.input-container {
+	  display: flex;
+	  align-items: center;
+		margin-left: 30px;
+		margin-top: 30px;
+	}
+	
+	.input-container view {
+	  white-space: nowrap; /* 防止换行 */
+		
+	}
+	
+	.short-input {
+	  width: 50px; /* 设置输入框的宽度 */
+	  margin: 0px 20px; /* 输入框与文字的间距 */
+		
+		margin-left: 20px;
+	}
+	.example {
+		padding: 15px;
+		background-color: #fff;
+	}
+	
+	.segmented-control {
+		margin-bottom: 15px;
+	}
+	
+	.button-group {
+		margin-top: 15px;
+		display: flex;
+		justify-content: space-around;
+	}
+	
+	.form-item {
+		display: flex;
+		align-items: center;
+	}
+	
+	.button-row {
+		display: flex;
+		justify-content: space-between;
+		/* 用于在按钮之间添加等间距 */
+	
+	}
+	
+	.button {
+		background-color: dodgerblue;
+		color: white;
+		width: 300px;
+		height: 47px;
+		border: 0;
+		font-size: 16px;
+		border-radius: 30px;
+		margin: 10px;
+	}
+	
+	.example-body {
+		padding: 10px;
+		padding-top: 0;
+		margin-left: 20px;
+	}
+	
+	.custom-image-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.text {
+		font-size: 14px;
+		color: #333;
+	}
+	
+	.small-label {
+		font-size: 12px; // 调整投诉分类标签文字大小
+	}
+	.button {
+		background-color: dodgerblue;
+		color: white;
+		width: 300px;
+		height: 47px;
+		border: 0;
+		font-size: 16px;
+		border-radius: 30px;
+		margin: 10px;
+	}
 </style>

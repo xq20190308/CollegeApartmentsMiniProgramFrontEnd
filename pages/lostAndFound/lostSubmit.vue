@@ -16,11 +16,13 @@
 					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
-								ref="uniFilePicker" required></uni-file-picker>
+								ref="uniFilePicker" required>
+								<button type="primary" size="mini">选择文件</button>
+								</uni-file-picker>
 						</view>
 					</uni-section>
 						<uni-forms-item label="联系方式" name="contactobject" required>
-							<uni-easyinput type="textarea" v-model="data.baseFormData.contactobject" placeholder="请输入描述" />
+							<uni-easyinput  v-model="data.baseFormData.contactobject" placeholder="请输入描述" />
 						</uni-forms-item>
 					</uni-forms>
 					</view>
@@ -74,11 +76,13 @@
 				rules:[{
 					required:true,
 					errorMessage:'手机号不能为空'
-				},{
-					minLength: 11,
-					maxLength: 11,
-					errorMessage: '请输入11位手机号'
-				}]
+				}
+				// ,{
+				// 	minLength: 11,
+				// 	maxLength: 11,
+				// 	errorMessage: '请输入11位手机号'
+				// },
+				]
 			},
 		}
 		})
@@ -100,7 +104,8 @@
 			baseForm.value?.validate().then(async res1 => {
 				console.log('success', res1);
 				//还没写接口
-				const res = await http('/api/suggestionsDraft','POST',{
+				const res = await http('/api/addFound','POST',{
+					category:'lost',
 					describes: data.baseFormData.describes,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
@@ -108,8 +113,8 @@
 				},);
 				console.log("封装后请求的结果",res)
 				console.log(res.data);
-				uni.navigateBack({
-					url:'../pages/lostAndFound/lostAndFound',
+				uni.navigateTo({
+					url:'../../pages/lostAndFound/lostAndFoundMysef',
 				});
 			}).catch(err => {
 				console.log('err', err);

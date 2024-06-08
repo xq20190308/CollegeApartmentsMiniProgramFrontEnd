@@ -161,6 +161,7 @@ const submit = async ()=> {
 			url: '../questionnaire_list/questionnaire_list'
 		});
 	}, 2000); 
+
 }
 
 </script>

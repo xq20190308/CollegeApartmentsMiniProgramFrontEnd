@@ -1,0 +1,98 @@
+{
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/message/message",
+          "pathName": "pages/message/message",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/feedback/showFeed",
+          "pathName": "pages/feedback/showFeed",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/feedback/feedbackSubmit",
+          "pathName": "pages/feedback/feedbackSubmit",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/questionnaire/questionnaire_list/questionnaire_list",
+          "pathName": "pages/questionnaire/questionnaire_list/questionnaire_list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/feedback/manageFeed",
+          "pathName": "pages/feedback/manageFeed",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/feedback/feedback",
+          "pathName": "pages/feedback/feedback",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/function/function",
+          "pathName": "pages/function/function",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/notice/notice",
+          "pathName": "pages/notice/notice",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/notice/noticedetail",
+          "pathName": "pages/notice/noticedetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/notice/addnotice",
+          "pathName": "pages/notice/addnotice",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/questionnaire/addquestionnaire/addquestionnaire",
+          "pathName": "pages/questionnaire/addquestionnaire/addquestionnaire",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/myself/myself",
+          "pathName": "pages/myself/myself",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "libVersion": "2.16.1",
+  "projectname": "CollegeApartmentsMiniProgramFrontEnd",
+  "setting": {
+    "compileHotReLoad": false
+  }
+}

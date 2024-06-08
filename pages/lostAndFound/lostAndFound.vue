@@ -1,30 +1,65 @@
 <template>
-	<view class="uni-padding-wrap uni-common-mt">
-		<uni-segmented-control :current="data.current" :values="data.items" :style-type="data.styleType"
-			:active-color="data.activeColor" @clickItem="onClickItem" />
-	</view>
-	<view class="content">
-		<view v-if="data.current === 0"><text class="content-text">
-				<uni-section title="失物招领" sub-title="" type="line" style="width: 98%;margin: auto;">
-					<view class="notice-list">
-						<view class="notice-item" v-for="(item,index) in AllItems" :key="index">
-							<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;"
-								@click="onpress(item)">
-								<view>捡到的时间：{{item.id}}</view>
-								<view>捡到的地点：{{item.describes}}</view>
-								<view>描述：{{item.category}}</view>
-								<view>联系方式：{{item.contactobject}}</view>
-							</view>
-						</view>
-					</view>
-				</uni-section>
-			</text></view>
-		<view v-if="data.current === 1"><text class="content-text">选项卡2的内容</text></view>
-	</view>
+    <view class="uni-padding-wrap uni-common-mt">
+        <uni-segmented-control :current="data.current" :values="data.items" :style-type="data.styleType"
+            :active-color="data.activeColor" @clickItem="onClickItem" />
+    </view>
+    <view class="content">
+        <view v-if="data.current === 0">
+                <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex">
 
-	<view>
-		<image class="floating-button" src="../../static/tabBar/myself_icon.png" @click="changePage"></image>
-	</view>
+                    <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
+                        <!-- 显示头像的 -->
+                        <!-- :thumbnail="item.img" -->
+                        <image style="width:100%;" :src="item.img"></image>
+                        <text class="uni-body uni-mt-5">{{item.describes}}</text>
+                        <!--                     <view slot="actions" class="card-actions">
+                                <view class="card-actions-item" @click="actionsClick('分享')">
+                                    <uni-icons type="pengyouquan" size="18" color="#999"></uni-icons>
+                                    <text class="card-actions-item-text">分享</text>
+                                </view>
+                                <view class="card-actions-item" @click="actionsClick('点赞')">
+                                    <uni-icons type="heart" size="18" color="#999"></uni-icons>
+                                    <text class="card-actions-item-text">点赞</text>
+                                </view>
+                                <view class="card-actions-item" @click="actionsClick('评论')">
+                                    <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
+                                    <text class="card-actions-item-text">评论</text>
+                                </view>
+                            </view> -->
+                    </uni-card>
+                </view>
+        </view>
+        <view v-if="data.current === 1">
+            <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex">
+
+                <uni-card title="丢失东西" :sub-title="item.name" padding="10px 0">
+                    <!-- 显示头像的 -->
+                    <!-- :thumbnail="item.img" -->
+                    <image style="width:100%;" :src="item.img"></image>
+                    <text class="uni-body uni-mt-5">{{item.describes}}</text>
+                    <!--                     <view slot="actions" class="card-actions">
+                            <view class="card-actions-item" @click="actionsClick('分享')">
+                                <uni-icons type="pengyouquan" size="18" color="#999"></uni-icons>
+                                <text class="card-actions-item-text">分享</text>
+                            </view>
+                            <view class="card-actions-item" @click="actionsClick('点赞')">
+                                <uni-icons type="heart" size="18" color="#999"></uni-icons>
+                                <text class="card-actions-item-text">点赞</text>
+                            </view>
+                            <view class="card-actions-item" @click="actionsClick('评论')">
+                                <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
+                                <text class="card-actions-item-text">评论</text>
+                            </view>
+                        </view> -->
+                </uni-card>
+            </view>
+
+        </view>
+    </view>
+		
+		    <view>
+		        <image class="floating-button" src="../../static/tabBar/myself_icon.png" @click="changePage"></image>
+		    </view>
 </template>
 
 <script setup>
@@ -46,7 +81,11 @@
 		current: 0,
 		colorIndex: 0,
 		activeColor: '#007aff',
-		styleType: 'button'
+		styleType: 'button',
+		AllItems: [
+		    { name: '耳机', img: '../../static/feedback/plus.png', describes: '求求你快显示出来吧，别报错谢谢' },
+		    { name: '耳机', img: '../../static/feedback/plus.png', describes: '求求你快显示出来吧，别报错谢谢阿巴巴巴巴巴' }
+		  ]
 
 	})
 	onLoad(() => {
@@ -77,7 +116,7 @@
 	const changePage = () => {
 		console.log("跳转到发布页面"),
 			uni.navigateTo({
-				url: '../lostAndFound/lostAndFoundMysef',
+				url: '../../pages/lostAndFound/lostAndFoundMysef',
 			});
 	}
 </script>
@@ -172,15 +211,16 @@
 		padding: 10px ;
 	}
 
-	.content {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		justify-content: center;
-		align-items: center;
-		height: 150px;
-		text-align: center;
-	}
+	// .content {
+	// 	/* #ifndef APP-NVUE */
+	// 	display: flex;
+	// 	/* #endif */
+	// 	justify-content: center;
+	// 	align-items: center;
+	// 	height: 150px;
+	// 	text-align: center;
+	// }
+
 
 	.content-text {
 		font-size: 14px;
@@ -226,4 +266,6 @@
 	.uni-list-item__content-title {
 		font-size: 14px;
 	}
+
+
 </style>
