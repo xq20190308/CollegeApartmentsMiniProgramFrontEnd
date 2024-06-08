@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "通知列表",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "d-search-log": "../../uni_modules/d-search-log/components/d-search-log/d-search-log",
-    "uni-section": "../../uni_modules/uni-section/components/uni-section/uni-section"
-  }
-}

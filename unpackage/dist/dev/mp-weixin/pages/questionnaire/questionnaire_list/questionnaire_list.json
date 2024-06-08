@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "调查问卷列表",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "uni-section": "../../../uni_modules/uni-section/components/uni-section/uni-section",
-    "questionnaire": "../../../components/questionnaire/questionnaire"
-  }
-}

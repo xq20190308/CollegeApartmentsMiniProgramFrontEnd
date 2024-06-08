@@ -1,1 +1,0 @@
-<view><d-search-log wx:if="{{c}}" bindonClickDelAllApi="{{a}}" bindonSearchNameApi="{{b}}" u-i="70256640-0" bind:__l="__l" u-p="{{c}}"></d-search-log></view><image class="floating-button" src="/static/feedback/plus.png" bindtap="{{d}}"></image>

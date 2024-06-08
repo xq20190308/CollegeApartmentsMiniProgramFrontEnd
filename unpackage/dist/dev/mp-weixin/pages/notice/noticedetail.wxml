@@ -1,1 +1,0 @@
-<view wx:if="{{a}}" style="display:flex;flex-direction:column;height:auto"><view style="width:82.9%;height:auto;margin:auto"><view class="title"><text>{{b}}.{{c}}</text><text class="underline-text" bindtap="{{d}}"> 修改</text></view><view class="message"><view>{{e}}</view><view>{{f}}</view></view></view></view>
