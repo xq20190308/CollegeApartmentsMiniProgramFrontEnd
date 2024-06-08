@@ -22,10 +22,14 @@
 		http,
 		load
 	} from '@/utils/http'
+
+
+
 	const data = reactive({
 		url: '',
 		file: null,
 	})
+
 
 	const wstest = async () => {
 		console.log("点击ws")
@@ -40,6 +44,9 @@
 		uni.onSocketError(function(res) {
 			console.log('WebSocket连接打开失败，请检查！', res);
 		});
+		uni.onSocketMessage((res) => {
+			console.log("收到服务器内容" + res.data)
+		})
 		console.log("函数完成")
 
 	}
