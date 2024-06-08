@@ -19,7 +19,7 @@ const _sfc_main = {
       locate: "bottom"
     });
     const mywssent = async () => {
-      utils_socket.wssend("发射爱心");
+      utils_socket.wssend(data.message);
     };
     common_vendor.onShow(() => {
     });

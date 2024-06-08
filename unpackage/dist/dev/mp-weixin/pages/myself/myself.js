@@ -1,7 +1,7 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const utils_cache = require("../../utils/cache.js");
-const utils_http = require("../../utils/http.js");
+require("../../utils/http.js");
 const utils_socket = require("../../utils/socket.js");
 if (!Array) {
   const _easycom_uni_file_picker2 = common_vendor.resolveComponent("uni-file-picker");
@@ -66,12 +66,6 @@ const _sfc_main = {
     };
     const selectUpload = async (e) => {
       console.log(e);
-      await utils_http.load("/user/uploadavatar", e.tempFilePaths[0], "avatar").then(
-        (res1) => {
-          console.log("res1", res1);
-          data.userInfo.avatarUrl = res1.data;
-        }
-      );
       await utils_cache.setLocalData("avatarUrl", data.userInfo.avatarUrl);
     };
     common_vendor.onShow(async () => {
