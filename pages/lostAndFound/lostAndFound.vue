@@ -58,7 +58,7 @@
     </view>
 		
 		    <view>
-		        <image class="floating-button" src="../../static/tabBar/myself_icon.png" @click="changePage"></image>
+		        <image class="floating-button" src="../../static/function/lostandfound_per.png" @click="changePage"></image>
 		    </view>
 </template>
 
@@ -76,7 +76,7 @@
 	} from '@/utils/http'
 
 	const data = reactive({
-		items: ['寻物广场', '捡到的来找'],
+		items: ['捡到的', '丢失的'],
 		colors: ['#007aff', '#4cd964', '#dd524d'],
 		current: 0,
 		colorIndex: 0,
@@ -88,6 +88,7 @@
 		  ]
 
 	})
+
 	onLoad(() => {
 
 	})
@@ -102,10 +103,25 @@
 		}
 	}
 	const fetchallItems = async () => {
-		const res = await http()
-		console.log("封装后请求的结果", res);
-		data.AllItems = res.data //与问卷的返回不同
-		console.log("data.allItems", data.AllItmes)
+		if(data.current == 0)
+		{
+			const category = 'found';
+			//奇了怪了，为什么
+			//const res = await http(`/api/Getdata?category=${category}`, 'GET',{})就不行
+			//破案了，少了个横线，参照下面lost的写法
+			const res = await http(`/api/Getdata/${category}`, 'GET',{})
+			console.log("封装后请求的结果", res);
+			data.AllItems = res.data //与问卷的返回不同
+			console.log("data.allItems", data.AllItmes)
+		}
+		else
+		{
+			const category = 'lost';
+			const res = await http(`/api/Getdata/?category=${category}`, 'GET')
+			console.log("封装后请求的结果", res);
+			data.AllItems = res.data //与问卷的返回不同
+			console.log("data.allItems", data.AllItmes)
+		}
 	}
 	const onpress = (options) => {
 		console.log("跳转到每条失物招领的详细信息,要携带id"),

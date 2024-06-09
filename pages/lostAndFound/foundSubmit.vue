@@ -47,7 +47,10 @@
 			pickTime:'',
 			describes:'',
 			contactobject:null,
-			imageValue:[]
+			//后端返回来的路径数组
+			path:[],
+			//选上去的文件路径
+			path0:[]
 		},
 		
 		// 分段器数据
@@ -86,33 +89,33 @@
 			},
 		}
 		})
-		// const submit=async ()=>{
-		// 	const res = await http('/api/suggestionsDraft','POST',{
-		// 		describes: data.baseFormData.describes,
-		// 		contactobject: data.baseFormData.contactobject,
-		// 		pickTime: data.baseFormData.pickTime,
-		// 		pickLocation:data.baseFormData.pickLocation,
-		// 	},);
-		// 	console.log("封装后请求的结果",res)
-		// 	console.log(res.data);
-		// 	uni.navigateBack({//接口已经好了，但逻辑存在错误
-		// 		url:'../pages/lostAndFound/lostAndFound',
-		// 	});
-		// }
+		const selectUpload = (e) => {
+			console.log(e);
+			data.baseFormData.path0.push(e.tempFiles[0])
+		}
 		const baseForm = ref()
 		const submit=async (ref)=>{
 			baseForm.value?.validate().then(async res1 => {
 				console.log('success', res1);
-				//还没写接口
+				for (var i = 0; i < data.baseFormData.path0.length; i++) {
+					await load('/api/uploadItem', data.baseFormData.path0[i].url, "file", {}).then(
+						(res1) => {
+							console.log("res1", res1);
+							data.baseFormData.path.push(res1.data);
+						}
+					)
+				}
 				const res = await http('/api/addFound','POST',{
 					category:'found',
 					describes: data.baseFormData.describes,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
 					pickLocation:data.baseFormData.pickLocation,
+					filepath: JSON.stringify(data.baseFormData.path)
 				},);
 				console.log("封装后请求的结果",res)
 				console.log(res.data);
+
 				uni.navigateBack({
 					url:'../../pages/lostAndFound/lostAndFoundMysef',
 				});
@@ -120,9 +123,7 @@
 				console.log('err', err);
 			})
 		}
-		const selectUpload= async(e) =>{
-			
-		}
+
 		onReady(()=>{
 			// console.log('onReady 生命周期钩子被调用');
 			

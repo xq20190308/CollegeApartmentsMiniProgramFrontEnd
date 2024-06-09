@@ -68,8 +68,10 @@ const data = reactive({
 		describes: '',
 		category: [],
 		path0: [],
+		//选上去的文件
 		//path1: [],
 		path: [],
+		//后端返回来的路径数组
 		//上传图片.
 		//imageValue:[]
 	},
@@ -114,7 +116,7 @@ const baseForm = ref()
 				});
 				for (var i = 0; i<data.baseFormData.path0.length;i++){
 					//这里需要改
-					await load('http://localhost:8080/api/upload',data.baseFormData.path0[i].url,"files").then(
+					await load('http://localhost:8080/api/upload',data.baseFormData.path0[i].url,"files", []).then(
 						(res1)=>{
 							console.log("res1",res1);
 							data.baseFormData.path.push(res1.data);

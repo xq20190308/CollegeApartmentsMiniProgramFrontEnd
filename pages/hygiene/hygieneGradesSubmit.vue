@@ -2,11 +2,10 @@
 	<view class="input-container">
 		<text>请输入第</text>
 		<input v-model="data.weeks" class="short-input"/>
-				<button type="primary" size="mini" @click="add">查看</button>
 		<text>周</text>
 	</view>
 <view>
-	<uni-section title="111">
+	<uni-section title="">
 		<view class="example-body">
 			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
 				ref="uniFilePicker" required>
@@ -15,6 +14,7 @@
 		</view>
 	</uni-section>
 	</view>
+	<button type="primary" @click="add">提交</button>
 </template>
 
 <script setup>
@@ -24,14 +24,20 @@
 	
 	//传不过去？
 	const data = reactive({
-		 weeks:''
+		 weeks:'',
+		 path0:[],
+		 path:[],
 	})
-	const add =async ()=>{
-		let res = await load('/api/updateData', '','file',{
-			weeks:data.weeks
-		});
-		console.log("封装后交给后端的", res);
-	}
+	//本地存储不用了
+	// const add =async ()=>{
+	// 	 res = await load('/api/updateData', data.path0[i].url,'file',{
+	// 		weeks:data.weeks
+	// 	}).then(res1) =>{
+	// 		data.path.push(res1.data);
+	// 	}
+	// 	console.log("封装后交给后端的", res);
+	// }
+
 </script>
 
 <style lang="scss">

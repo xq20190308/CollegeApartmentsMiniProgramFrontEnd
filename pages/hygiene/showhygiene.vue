@@ -5,6 +5,7 @@
 				<uni-tr>
 					<uni-th width="150" align="left">周次</uni-th>
 					<uni-th width="150" align="left">成绩</uni-th>
+					<uni-th width="150" align="left">备注</uni-th>
 
 				</uni-tr>
 				<uni-tr v-for="(item, index) in tableData.all" :key="index">
@@ -12,6 +13,7 @@
 						<view class="week">{{ item.week }}</view>
 					</uni-td>
 					<uni-td align="grades">{{ item.grades }}</uni-td>
+					<uni-td align="grades">{{ item.tip }}</uni-td>
 				</uni-tr>
 			</uni-table>
 			<!-- <view class="uni-pagination-box"><uni-pagination show-icon :page-size="pageSize" :current="pageCurrent" :total="total" @change="change" /></view> -->
@@ -29,11 +31,14 @@
 import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 	const tableData=reactive({
 		all:[
-			{week:"1", grades:"A"},
-			{week:"2", grades:"B"}
+			{week:"1", grades:"A", tip:"无"},
+			{week:"2", grades:"B"},
+			{week:"3", gra}
 		]
 	})
-	// const dormId = getLocalData('domitary');
+	 const dormId = getLocalData('domitary');
+	 const res = await http('/api/SelectRank?id=${dormId}', 'GET', );
+	 console.log("获取到的卫检成绩", res);
 	
 	//获取数据并且存到本地
 	// const new_data = http('/api/SelesctRank', 'GET',[]);
