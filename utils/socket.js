@@ -1,3 +1,22 @@
+import {getLocalData} from "../utils/cache.js"
+const wsUrl= "ws://10.17.132.22:8080"
+const wsInterceptor = {
+	invoke(options) { //响应前的拦截
+		if (!options.url.startsWith('ws')) {
+			options.url = wsUrl + options.url
+		}
+		//添加超时请求
+		options.timeout = 10000
+		console.log("拦截器", options)
+		//添加请求头，还没添加呢看啥看
+		
+		//添加token
+		const token = getLocalData('token');
+		options.header.Authorization=token;
+	},
+
+}
+uni.addInterceptor('connectSocket', wsInterceptor)
 export var socketTask = "";
 export var socketMsgQueue = {
   content: "",
@@ -5,12 +24,11 @@ export var socketMsgQueue = {
 };
 let isinit=false;
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/message/message", "/pages/myself/myself"];
-export const wsopen = () => {
+export const wsopen = (url) => {
   if (uni.getStorageSync("token") != "") {
     socketTask = uni.connectSocket({
-      url: "ws://localhost:8080/websocket1",
+      url: url,
       header: {
-        Authorization: uni.getStorageSync("token")
       },
       method: "GET",
       success: (e) => {
@@ -21,14 +39,12 @@ export const wsopen = () => {
       console.log("Ws open " + res.data);
     });
     socketTask.onMessage(async (res) => {
-		console.log("ws receive ", res.data);
-		console.log(socketMsgQueue.length)
 		if (res.data != "biu~biu~") {
+			console.log("ws receive ", res.data);
 			socketMsgQueue.content = res.data;
 			socketMsgQueue.length = socketMsgQueue.length + 1;
 			try{
 				let pages = await  getCurrentPages();
-				console.log(pages[pages.length - 1])
 				if(pages[pages.length - 1]==undefined||tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1){
 					uni.setTabBarBadge({
 						index: 2,

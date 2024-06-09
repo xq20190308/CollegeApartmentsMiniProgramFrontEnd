@@ -143,7 +143,7 @@ const loginConfirm = async (ref) => {
 				uni.showToast({
 					title: "登录成功"
 				})
-				wsopen();//登陆成功后打开socket
+				wsopen('/websocket1');//登陆成功后打开socket
 				setTimeout(() => {
 					uni.navigateBack({
 						url: "/pages/myself/myself"

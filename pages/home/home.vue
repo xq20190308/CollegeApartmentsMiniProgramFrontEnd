@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
@@ -66,6 +66,9 @@ onLoad(()=>{
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
 })})
+onShow(()=>{ 
+	console.log(uni.getStorageSync('token'))
+	})
 </script>
 
 <style>

@@ -3,7 +3,7 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			wsopen();
+			wsopen('/websocket1');
 		},
 		onShow: function() {
 			console.log('App Show')
