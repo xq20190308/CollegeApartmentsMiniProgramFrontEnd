@@ -1,4 +1,5 @@
 <template>
+	<view style="margin-top: 2px; display: flex; justify-content: space-between;"><text style="margin-left: 5px;">实名</text><switch color="#008fff" style="margin-right: 5px;" :checked="data.isanonymous" @change="(e)=>{data.isanonymous=e.detail.value}" /></view>
 	<uni-section title="问卷类型（下拉选择）：" type="line" padding>
 		<uni-data-select :localdata="data.types" @change="(e) => {data.newNaire.type = data.types[e].value; console.log(data.newNaire.type)}"></uni-data-select>
 	</uni-section>
@@ -70,7 +71,7 @@
 		<button class="add" @click="(e)=>add(e,2)">创建多选</button>
 		<button class="add" @click="(e)=>add(e,3)">创建问答</button>
 	</view>
-	<view>
+	<view id="addquestion" style="padding-bottom: 5px;">
 		<button class="submit" @click="submit">创建</button>
 	</view>
 </template>
@@ -79,6 +80,7 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive,ref,watch} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
+	isanonymous:true,//需要传给后端
 	types:[
           { value: 0, text: '篮球' },
           { value: 1, text: '足球' },
@@ -137,6 +139,13 @@ const add=(e,option)=>{
 		questionnaire_id: "",
 	});
 	console.log(data.questionList)
+	uni.pageScrollTo({
+		selector: '#addquestion',
+		duration: 50,
+		complete:(res)=> {
+			console.log(res)
+		}
+	});
 } 
 const submit = async ()=> {
 	console.log("新问卷",data.newNaire)
@@ -169,6 +178,7 @@ const submit = async ()=> {
 <style lang="scss" scoped>
 .submit{
 	margin-top: 20px;
+	margin-bottom: 5px;
 	background-color:#008cff;
 	width: 80%;
 }

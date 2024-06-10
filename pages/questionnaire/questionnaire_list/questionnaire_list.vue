@@ -86,11 +86,20 @@ const deletenaire =async (item)=> {
 			icon:'error'
 		})
 	}else{
-		console.log("--",item.id);
 		if(true){
-			const res = await http('/questionnaire/deleteById/'+item.id,'DELETE',{},);
-			console.log(res);
-			getNaireslist()
+			uni.showModal({
+				title: '提示',
+				content: '确定要删除该文件吗',
+				success:async (res) => {
+					if (res.confirm) { 
+						const res = await http('/questionnaire/deleteById/'+item.id,'DELETE',{},);
+						console.log(res);
+						getNaireslist()
+					} else if (res.cancel) {
+						console.log("取消删除问卷");
+					}
+				}
+			});
 		}
 		else{
 			uni.showToast({

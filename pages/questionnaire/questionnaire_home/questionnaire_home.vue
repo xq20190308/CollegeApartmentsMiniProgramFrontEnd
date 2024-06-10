@@ -34,7 +34,6 @@
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<view style="margin-left: 280px;">匿名<switch :checked="data.isanonymous" @change="(e)=>{data.isanonymous=e.detail.value}" /></view>
 			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
 				<uni-forms-item  class="form-item" label="姓名" name="name" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
@@ -43,8 +42,8 @@
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
+			
 			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
-		
 		</uni-section>
 	</view>
 </template>
@@ -56,7 +55,7 @@ import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	//匿名的话questionnaire加一个isAnonymous
-	isanonymous:false,
+	isanonymous:true,//需要从后端获取
 	id:"",
 	type: 0,
 	name: "",
@@ -106,7 +105,7 @@ const rules = computed(()=>{
 	};
 })
 const ischeckedmul = (qindex,index)=>{
-	console.log("--",data.current[qindex]);
+	//console.log("--",data.current[qindex]);
 	return (data.current[qindex]?data.current[qindex].indexOf(String(index)):-1)!=-1;
 }
 const showmyanswer = async () => {
@@ -151,8 +150,12 @@ const submit = async (ref) => {
 			return;
 		};
 		//POST提交到后端
+		let answer = JSON.stringify(data.current);
+		if(data.isanonymous){
+			answer = JSON.stringify([...data.current,res1.name,res1.id])
+		}
 		const res = await http('/useranswer/submit','POST',{
-			answer: JSON.stringify(data.current),
+			answer: answer ,
 			questionnaireId: data.id,
 		},);
 
