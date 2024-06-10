@@ -74,7 +74,7 @@
 	// 	fetchlostandfound();
 	// })
 	// const fetchlostandfound = async()=>{
-	// 	//为什么这个括号后面还有个逗号，不就是三个参数吗
+	// 	//为什么这个括号后面还有个逗号，不就是三个参数吗,参数表可以不填满
 	// 	//这里应该写什么
 	// 	if(data.current === 0)
 	// 	{

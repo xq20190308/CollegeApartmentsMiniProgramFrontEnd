@@ -37,7 +37,7 @@ import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 		]
 	})
 	 const dormId = getLocalData('domitary');
-	 const res = await http('/api/SelectRank?id=${dormId}', 'GET', );
+	 const res = await http(`/api/SelectRank/${dormId}`, 'GET', );
 	 console.log("获取到的卫检成绩", res);
 	
 	//获取数据并且存到本地
