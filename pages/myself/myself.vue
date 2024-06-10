@@ -15,10 +15,11 @@
 	<view style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view class="User">
-			<uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
+			<view><uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
 				ref="uniFilePicker" disable-preview :imageStyles="data.imageStyles" :del-icon='false' required>
-				<image :src="data.userInfo.avatarUrl" class="avatar" />
-			</uni-file-picker>
+				<view style="background-color: transparent;border-radius: 50%; width: 100px; height: 100%;" />
+			</uni-file-picker><image :src="data.userInfo.avatarUrl" class="avatar" />
+			</view>
 			<text class="avatarName" >{{data.userInfo.nickName}}</text>
 		</view>
 		<!-- 功能区 -->
@@ -127,6 +128,10 @@ onLoad(()=>{
 
 <style lang="scss" scoped>
 	::v-deep .uni-file-picker{
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		z-index: 100;
 		.uni-file-picker__container {
 			width: 100%;
 			height: 100%;
@@ -136,6 +141,10 @@ onLoad(()=>{
 				width: 95%!important;
 				height: 100%!important;
 				.file-picker__box-content {
+					.file-image{
+						-webkit-mask-image: url('../../static/tabBar/home_icon.png');
+						opacity: 0;
+					}
 					.file-picker__progress {
 						display: none!important;
 					}
@@ -154,10 +163,13 @@ onLoad(()=>{
 	}
 
 	.avatar {
+		position: relative;
 		background-color: #ad7d7d;
 		border-radius: 50%;
-		width: 100px;
-		height: 100%;
+		width: 83px;
+		height: 83px;
+		top: 9px;
+	    left: 5px;
 		/*圆形裁剪*/
 	}
 

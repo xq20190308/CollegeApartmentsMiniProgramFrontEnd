@@ -1,5 +1,5 @@
 import {getLocalData} from "../utils/cache.js"
-const developUrl= 'http://10.17.132.22:8080'
+const developUrl= 'http://localhost:8080'
 const bkDevelopUrl= 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl= ''
 // main 分支提交的测试数据: 
@@ -32,8 +32,14 @@ export const load = (url,filePath,name,formData) => {
 			formData: formData,
 		 	header:{},
 		 	success: (uploadFileRes) => {
-		 		console.log("--",JSON.parse(uploadFileRes.data));
-		 		resolve(JSON.parse(uploadFileRes.data))
+				if(uploadFileRes.data==''){
+					uni.showToast({
+						title: "文件过大",
+						icon: "error"
+					})
+				}else{
+					resolve(JSON.parse(uploadFileRes.data))
+				}
 		 	},
 		 	fail: (err) => {
 		 		console.log("--",err);

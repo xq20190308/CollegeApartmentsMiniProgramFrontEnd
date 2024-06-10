@@ -21,6 +21,7 @@ const data = reactive({
 const mywssent = async () => {
 	console.log('data.message',data.message)
 	wssend(data.message===''?"发射爱心":data.message)
+	data.message='';
 }
 onShow(()=>{
 	// uni.removeTabBarBadge({
