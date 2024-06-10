@@ -22,7 +22,6 @@ export var socketMsgQueue = {
   content: "",
   length: 0
 };
-let isinit=false;
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/message/message", "/pages/myself/myself"];
 export const wsopen = (url) => {
   if (uni.getStorageSync("token") != "") {
