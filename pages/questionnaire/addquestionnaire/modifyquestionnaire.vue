@@ -1,4 +1,5 @@
 <template>
+	<view style="margin-top: 2px; display: flex; justify-content: space-between;"><text style="margin-left: 5px;">实名</text><switch color="#008fff" style="margin-right: 5px;" :checked="data.isanonymous" @change="(e)=>{data.isanonymous=e.detail.value}" /></view>
 	<uni-section title="问卷类型（下拉选择）：" type="line" padding>
 		<uni-data-select v-model="data.info.type" :localdata="data.types" ></uni-data-select>
 	</uni-section>
@@ -79,6 +80,7 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive,ref,watch} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
+	isanonymous:true,//需要传给后端
 	range:[],
 	types:[
           { value: 0, text: '篮球' },
