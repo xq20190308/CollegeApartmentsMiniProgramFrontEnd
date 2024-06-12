@@ -103,7 +103,6 @@ const returnerr = (msg) => {
 			title: msg,
 			showCancel: false,
 		})
-		reject(msg)
 }
 const req = ref()
 const loginConfirm = async (ref) => {
@@ -123,32 +122,34 @@ const loginConfirm = async (ref) => {
 			if (res.statusCode == 200) {
 				if(res.data.msg!='success'){
 					returnerr(res.data.msg);
-				}
-				//用户信息保存到本地用于其他页面的渲染
-				try {
-					await setUserInfo(res);
-				} catch (e) {
-					console.log("set不对", e);
-				}
-				//获取头像
-				const res1 = await http('/user/getavatar','GET',{});
-				setLocalData('avatarUrl',res1.data);
-				try {
-					getLocalAll();
-				} catch (e) {
-					console.log("get不对", e);
-				}
-				
-				show.value = false
-				uni.showToast({
-					title: "登录成功"
-				})
-				wsopen('/websocket1');//登陆成功后打开socket
-				setTimeout(() => {
-					uni.navigateBack({
-						url: "/pages/myself/myself"
+					return ;
+				}else{
+					//用户信息保存到本地用于其他页面的渲染
+					try {
+						await setUserInfo(res);
+					} catch (e) {
+						console.log("set不对", e);
+					}
+					//获取头像
+					const res1 = await http('/user/getavatar','GET',{});
+					setLocalData('avatarUrl',res1.data);
+					try {
+						getLocalAll();
+					} catch (e) {
+						console.log("get不对", e);
+					}
+					
+					show.value = false
+					uni.showToast({
+						title: "登录成功"
 					})
-				}, 2000)
+					wsopen('/websocket1');//登陆成功后打开socket
+					setTimeout(() => {
+						uni.navigateBack({
+							url: "/pages/myself/myself"
+						})
+					}, 2000)
+				}
 			} else {
 				console.log("登陆失败")
 				uni.showToast({
