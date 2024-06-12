@@ -77,6 +77,12 @@ const delogin=async (meg)=> {
 				wsclose();//退出登录后关闭socket连接
 				socketMsgQueue.length=0;
 				socketMsgQueue.content="";
+				uni.removeTabBarBadge({
+					index:2,
+					complete:(res)=> {
+						console.log(res)
+					}
+				})
 	 			data.userInfo.token=getLocalData("token")
 	 			tologin("正在跳转")
 	 		} else if (res.cancel) {

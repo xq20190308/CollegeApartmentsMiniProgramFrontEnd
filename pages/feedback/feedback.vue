@@ -2,7 +2,7 @@
 	<view>
 		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<text class="underline-text" @click="lookFeed">已提交投诉</text>
-			<view v-if="islogin" class="notice-list">
+			<view v-if="data.islogin" class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item,index)">
 						<view>时间：{{item.pushtime}}</view>
@@ -28,9 +28,11 @@ import {goto} from "../../utils/access.js"
 import {getLocalData,setLocalData} from "../../utils/cache.js"
 import {getCurrentTime} from '@/utils/time'
 const data = reactive({
-	complaintDrafts: [] // 初始为空数组
+	complaintDrafts: [], // 初始为空数组
+	islogin:false
 })
-const islogin = ()=>{
+
+onLoad(()=> {
 	if(getLocalData('token')==''){
 		uni.showModal({
 			title: '提示',
@@ -44,14 +46,11 @@ const islogin = ()=>{
 				}
 			}
 		});
-		return false;
+		data.islogin=false;
 	}
 	else{
-		return true;
+		data.islogin=true;
 	}
-	
-}
-onLoad(()=> {
 })
 onShow(async()=>{
 	await fetchComplaintDrafts();
