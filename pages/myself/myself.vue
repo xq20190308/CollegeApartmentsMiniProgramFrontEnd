@@ -75,6 +75,8 @@ const delogin=async (meg)=> {
 	 		if (res.confirm) {
 	 			clearUserInfo()
 				wsclose();//退出登录后关闭socket连接
+				socketMsgQueue.length=0;
+				socketMsgQueue.content="";
 	 			data.userInfo.token=getLocalData("token")
 	 			tologin("正在跳转")
 	 		} else if (res.cancel) {

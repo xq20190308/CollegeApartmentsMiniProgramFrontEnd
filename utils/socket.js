@@ -76,15 +76,29 @@ export const wsopen = (url) => {
   }
 };
 export const wssend = (msg) => {
-  socketTask.send({
-    data: msg,
-    success: (res) => {
-      console.log("ws send successed ", res);
-    },
-    fail: (err) => {
-      console.log("send fail ", err);
-    }
-  });
+	if(getLocalData('token')!=''){
+	  socketTask.send({
+		data: msg,
+		success: (res) => {
+		  console.log("ws send successed ", res);
+		},
+		fail: (err) => {
+		  console.log("send fail ", err);
+		}
+	  });
+	}else{
+	  uni.showModal({
+	  	title: '提示',
+	  	content: '您未登录，是否前去登录',
+	  	success: (res) => {
+	  		if (res.confirm) { 
+	  			uni.navigateTo({
+	  				url: "/pages/login/loginPage"
+	  			})
+	  		} else if (res.cancel) { 
+	  		}
+	  	}
+	  });}
 };
 export const wsclose = () => {
   socketTask.close({
