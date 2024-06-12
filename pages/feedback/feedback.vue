@@ -5,11 +5,10 @@
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item,index)">
-						<view>pushtime：{{item.pushtime}}</view>
-						<view>describes：{{item.describes}}</view>
-						<view>category：{{item.category}}</view>
-						<view>contactobject：{{item.contactobject}}</view>
-						<view>path：{{item.path}}</view>
+						<view>时间：{{item.pushtime}}</view>
+						<view>类别：{{item.category}}</view>
+						<view>内容：{{item.describes}}</view>
+						<view>联系电话：{{item.contactobject}}</view>
 					</view>
 					<button @click="delet(item,index)" class="deletbutton">删除</button>
 				</view>
