@@ -67,7 +67,7 @@ const delet=(item,index)=> {
 			if (r.confirm) {
 				//const res = await http('/api/deleteSuggestions/' + item.id,'DELETE',{},)
 				data.complaintDrafts.splice(index,1);
-				console.log("data.complaintDrafts",data.complaintDrafts);
+				//console.log("data.complaintDrafts",data.complaintDrafts);
 				setLocalData('feedDraft',data.complaintDrafts)
 				fetchComplaintDrafts();
 			} else if (r.cancel) {

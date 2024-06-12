@@ -13,8 +13,8 @@
 			<view style="padding-left: 20px;"><text>{{data.info.contactobject}}</text></view>
 		</uni-section>
 		<uni-section title="附件" type="line" style="width: 98%;margin: auto;">
-		<view  style="margin-left: 20px;">
-			<image v-for="(item,index) in data.info.path" :src="item" mode="widthFix"></image>
+		<view style="margin-left: 20px;">
+			<image v-for="(item,index) in data.info.path" :key="index" :src="item" mode="widthFix"></image>
 		</view>
 		</uni-section>
 	</view>
@@ -36,8 +36,8 @@ const data = reactive({
 })
 onLoad((options)=> {
 	data.info=JSON.parse(options.info);
+	console.log('info',data.info)
 	data.info.path=JSON.parse(data.info.path)?JSON.parse(data.info.path):[];
-	console.log(data.info)
 })
 onShow(()=>{
 	

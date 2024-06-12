@@ -110,7 +110,14 @@ const rules = computed(()=>{
 			}
 		}
 	}else{
-		return {};
+		return {
+			name: {
+				rules: []
+			},
+			id: {
+				rules: []
+			}
+		};
 	};
 })
 const ischeckedmul = (qindex,index)=>{
@@ -147,13 +154,15 @@ const radioChange = (evt,qindex) => {
 }
 const valiForm = ref()
 const submit = async (ref) => {
+	console.log('valiForm ',valiForm)
 	//先检验必填信息项
 	valiForm.value?.validate().then(async res1 => {
 		console.log('success', res1);
 		console.log(data.current);
 		console.log(data.questionList);
 		//再检验问题
-		if(data.current.length != data.questionList.length){
+		let correctlen = data.questionList.length
+		if(data.current.length != correctlen){
 			uni.showToast({
 				title: "请检查作答",
 				icon: "error"
@@ -178,6 +187,9 @@ const submit = async (ref) => {
 						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 						if (res3.confirm) {
 							data.current=JSON.parse(res2.data.answer);
+							if(!data.isanonymous){
+								data.current=data.current.slice(0,data.current.length-2)
+							}
 						} else if (res3.cancel) {
 							console.log('用户点击取消');
 							data.current={};
@@ -232,6 +244,12 @@ onLoad(async (options) => {
 			success: (res1) => {
 				if (res1.confirm) {
 					data.current=JSON.parse(res.data.answer);
+					console.log('++',data.current)
+					if(!data.isanonymous){
+						data.current=data.current.slice(0,data.current.length-2)
+						console.log('++',data.current)
+					}
+					
 				} else if (res1.cancel) {
 					console.log('用户点击取消');
 				}

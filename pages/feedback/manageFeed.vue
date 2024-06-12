@@ -33,10 +33,10 @@ onShow(()=>{
 const fetchComplaintDrafts = async () => {
 	const res = await http('/api/manageSuggestions','GET',{},)
 	data.complaintDrafts=res//与问卷的返回不同
-	console.log("data.complaintDrafts",data.complaintDrafts)
+	//console.log("data.complaintDrafts",data.complaintDrafts)
 }
 const look=(item)=> {
-	console.log(item.id)
+	//console.log(item.id)
 	uni.navigateTo({
 		url: '../feedback/showFeed?info='+JSON.stringify(item),
 	})

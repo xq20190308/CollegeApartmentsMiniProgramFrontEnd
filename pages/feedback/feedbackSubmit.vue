@@ -105,15 +105,15 @@ const data = reactive({
 	}
 })
 const selectUpload = (e) => {//上传文件的函数
-	console.log(e);
+	//console.log(e);
 	data.baseFormData.path0.push(e.tempFiles[0])
-	console.log('this.baseFormData.path0', data.baseFormData.path0);
+	//console.log('this.baseFormData.path0', data.baseFormData.path0);
 }
 const baseForm = ref()
 const submit = (ref) => {
-	console.log(data.baseFormData)
+	//console.log(data.baseFormData)
 	baseForm.value?.validate(['']).then(async res => {
-		console.log('success', res);
+		//console.log('success', res);
 		uni.showToast({
 			title: `校验通过`,
 		});
@@ -121,36 +121,20 @@ const submit = (ref) => {
 			//这里需要改
 			await load('http://localhost:8080/api/upload', data.baseFormData.path0[i].url, "files").then(
 				(res1) => {
-					console.log("res1", res1);
+					//console.log("res1", res1);
 					data.baseFormData.path.push(res1.data);
 				}
 			)
 		}
-		console.log("this.baseFormData.path", data.baseFormData.path)
-
-		uni.request({
-			url: 'http://localhost:8080/api/suggestions',
-			method: 'POST',
-			data: {
-				describes: data.baseFormData.describes,
-				contactobject: data.baseFormData.contactobject,
-				category: data.baseFormData.category,
-				path: JSON.stringify(data.baseFormData.path)
-			},
-			header: {
-				Authorization: '',
-			},
-			success: (res) => {
-				console.log('success', res.data);
-				data.text = 'request success';
-				data.id = res.id;
-				uni.navigateBack({
-					url: '/pages/feedback/feedback',
-				})
-			},
-			fail: (err) => {
-				console.log('request failed', err);
-			}
+		//console.log("this.baseFormData.path", data.baseFormData.path)
+		const res1 = await http('/api/suggestions','POST',{
+			describes: data.baseFormData.describes,
+			contactobject: data.baseFormData.contactobject,
+			category: data.baseFormData.category,
+			path: JSON.stringify(data.baseFormData.path)
+		},);
+		uni.navigateBack({
+			url: '/pages/feedback/feedback',
 		})
 	}).catch(err => {
 		console.log('err', err);
