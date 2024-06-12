@@ -22,7 +22,7 @@ export var socketMsgQueue = {
   content: "",
   length: 0
 };
-export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/message/message", "/pages/myself/myself"];
+export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
 export const wsopen = (url) => {
   if (uni.getStorageSync("token") != "") {
     socketTask = uni.connectSocket({
@@ -34,23 +34,31 @@ export const wsopen = (url) => {
         console.log("ws connected ", e);
       }
     });
-    socketTask.onOpen((res) => {
-      console.log("Ws open " + res.data);
+    socketTask.onOpen(async (res) => {
+		console.log("Ws open " + res.data);
     });
     socketTask.onMessage(async (res) => {
 		if (res.data != "biu~biu~") {
 			console.log("ws receive ", res.data);
 			socketMsgQueue.content = res.data;
-			socketMsgQueue.length = socketMsgQueue.length + 1;
 			try{
 				let pages = await  getCurrentPages();
+				if(pages[pages.length - 1]==undefined||pages[pages.length - 1].$page.fullPath != '/pages/message/message'){
+					socketMsgQueue.length = socketMsgQueue.length + 1;
+				}else{
+					socketMsgQueue.length=0;
+					console.log("**",socketMsgQueue.length);
+				}
 				if(pages[pages.length - 1]==undefined||tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1){
-					uni.setTabBarBadge({
-						index: 2,
-						// tabIndex，tabbar的哪一项，从0开始
-						text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
-						// 显示的文本，超过99显示成99+
-					});
+					console.log("++")
+					if(socketMsgQueue.length>0){
+						uni.setTabBarBadge({
+							index: 2,
+							// tabIndex，tabbar的哪一项，从0开始
+							text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+							// 显示的文本，超过99显示成99+
+						});
+					}
 				}
 			}catch(err){
 				console.log(err);

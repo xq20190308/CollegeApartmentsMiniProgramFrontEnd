@@ -140,7 +140,9 @@ const valiForm = ref()
 const submit = async (ref) => {
 	//先检验必填信息项
 	valiForm.value?.validate().then(async res1 => {
-		console.log('success', res1);	
+		console.log('success', res1);
+		console.log(data.current);
+		console.log(data.questionList);
 		//再检验问题
 		if(data.current.length != data.questionList.length){
 			uni.showToast({
@@ -158,14 +160,33 @@ const submit = async (ref) => {
 			answer: answer ,
 			questionnaireId: data.id,
 		},);
-
-		clearTimeout(data.timer);
-		data.timer = setTimeout(()=>{
-			uni.showToast({
-				title: "提交成功"
-			})
-		}, 300)
-		uni.navigateBack();
+		if(res.msg=="您已填写过该问卷"){
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showModal({
+					title: "你已填写过该问卷,是否显示填写情况",
+					success:async (res3) => {
+						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+						if (res3.confirm) {
+							data.current=JSON.parse(res2.data.answer);
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+							data.current={};
+							data.valiFormData={};
+						}
+					}
+				});
+			}, 300)
+			return;
+		}else{
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showToast({
+					title: "提交成功"
+				})
+			}, 300)
+			uni.navigateBack();
+		}
 	}).catch(err => {
 		console.log('err', err);
 	})
@@ -186,7 +207,8 @@ onLoad(async (options) => {
 	data.name=options.name;
 	data.description=options.description;
 	data.startTime=options.startTime;
-	data.endTime =options.endTime ; 
+	data.endTime =options.endTime ;
+	data.isanonymous=options.anonymous=='false'?false:true;
 	clearTimeout(data.timer);
 	data.timer = setTimeout(()=>{
 		getquestions();

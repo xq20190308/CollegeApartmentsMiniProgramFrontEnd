@@ -124,13 +124,13 @@ const submit = async ()=> {
 		list[i].content=JSON.stringify(list[i].content);
 	}
 	console.log('data.questionList',data.questionList)
-	const res = await http('/questionnaire/updateQuestionnaireById/'+data.info.id,'POST',{...data.info,questionList:list},);
+	const res = await http('/questionnaire/updateQuestionnaireById/'+data.info.id,'POST',{...data.info,questionList:list,anonymous:data.isanonymous},);
 
 	uni.showToast({
 		title: "创建成功"
 	});
 	setTimeout(() => {
-		uni.navigateTo({
+		uni.navigateBack({
 			url: '../questionnaire_list/questionnaire_list'
 		});
 	}, 2000); 

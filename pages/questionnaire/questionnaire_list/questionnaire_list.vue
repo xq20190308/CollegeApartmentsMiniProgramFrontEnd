@@ -62,7 +62,8 @@ const gotonaire = (item) =>{
 			url:'../questionnaire_home/questionnaire_home?id='+item.id+
 			'&type='+item.type+'&name='+item.name+
 			'&description='+item.description+'&startTime='+item.startTime+
-			'&endTime='+item.endTime,
+			'&endTime='+item.endTime+
+			'&anonymous='+item.anonymous,
 		})
 	}
 }

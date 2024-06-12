@@ -159,14 +159,14 @@ const submit = async ()=> {
 		list[i].content=JSON.stringify(list[i].content);
 	}
 	console.log('data.questionList',data.questionList)
-	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list},);
+	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list,anonymous:true},);
 	
 
 	uni.showToast({
 		title: "创建成功"
 	});
 	setTimeout(() => {
-		uni.navigateTo({
+		uni.navigateBack({
 			url: '../questionnaire_list/questionnaire_list'
 		});
 	}, 2000); 

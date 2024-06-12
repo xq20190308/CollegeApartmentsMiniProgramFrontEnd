@@ -37,9 +37,12 @@ const mywssent = async () => {
 	}
 }
 onShow(()=>{
-	// uni.removeTabBarBadge({
-	//   index: 2,
-	// })
+	uni.removeTabBarBadge({
+		index:2,
+		complete:(res)=> {
+			console.log(res)
+		}
+	})
 })
 // setInterval(() => {
 // 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
@@ -57,19 +60,12 @@ onShow(()=>{
 setInterval(() => {
 	let old=data.messages;
 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-	// if(old==data.messages){
-	// 	console.log('没变')
-	// }else{
-	// 	console.log('变了')
-	// 	uni.pageScrollTo({//不太稳定
-	// 		selector: '#input',
-	// 		duration: 50
-	// 	});
-	// // }
-	// if(true){
-	// 	uni.pageScrollTo({
-	// 		selector: '#input',
-	// 		duration: 50
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
 	// 	});
 	// }
 }, 100);
