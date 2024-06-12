@@ -37,6 +37,7 @@ const mywssent = async () => {
 	}
 }
 onShow(()=>{
+	socketMsgQueue.length=0;
 	uni.removeTabBarBadge({
 		index:2,
 		complete:(res)=> {
