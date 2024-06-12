@@ -1,76 +1,83 @@
-
-
 <template>
-  <view class="banner">
-    <!-- 轮播图区域 -->
-    <swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
-      <swiper-item v-for="(item, index) in bannerList" :key="index">
-        <img :src="item.url" alt="" class="swiper-image" @click="bannerclick(item)">
-      </swiper-item>
-    </swiper>
-		<view class="spacing"></view>
-		
-    <!-- 主要功能区域 -->
-        <view class="func1">
-      <view class="func1_item" v-for="(item, i) in func_list" :key="i" @click="func1Click(item)">
-        <image :src="item.imgPath" class="func1_img"></image>
-        <text class="func1_text">{{ item.name }}</text>
-      </view>
-    </view>
-		
+    <view class="banner">
+		<!-- 轮播图区域 -->
+		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
+			<swiper-item v-for="(item, index) in data.articles" :key="index">
+				<img :src="item.url" alt="" class="swiper-image" @click="bannerclick(index)">
+				<view class="describe">{{data.articles[index].title}}</view>
+			</swiper-item>
+		</swiper>
+		<!-- 主要功能区域 -->
+		<view class="func1">
+			<view class="func1_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">
+				<image :src="item.imgPath" class="func1_img"></image>
+				<text class="func1_text">{{ item.name }}</text>
+			</view>
+		</view>
 		<!-- 未来倒计时 -->
 		<view class="spacing"></view>
-				 <uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
-				    <text>这是分栏内容 {{ plan }}</text>
-					</uni-card>
-  </view>
-	
+		<uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
+			<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
+		</uni-card>
+	</view>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      bannerList: [
-        { url: "/static/home/swiper/schoolmark.jpg" },
-        { url: "/static/home/swiper/schoolmark.jpg" },
-        { url: "/static/home/swiper/schoolmark.jpg" },
-        { url: "/static/home/swiper/schoolmark.jpg" }
-      ],
-      func_list: [
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-				{ name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
+<script setup>
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {reactive} from "vue";
+import {http} from '@/utils/http'
+import {getarticles} from "../notice/api/getnotices.js"
+import {getCurrentTime} from '@/utils/time'
+import {mainFun} from '../../main.js'
+import { socketMsgQueue } from "../../utils/socket.js";
+const data = reactive({
+	articles:[],
+	func_list: [
+				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
+				{ name: "聊天", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../chat/chat" },
+				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
+				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
+				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
+				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
 		],
-	  plan:["planA","planB"],	
-    }
-  },
-	methods: {
-		func1Click(item) {
-			uni.reLaunch({
-				url: item.pagePath
-			})
-		},
-		bannerclick(item){
-			uni.navigateTo({
-				url:'../notice/notice'
-			})
-		},
-	},
-  onLoad() {
-    this.func_list = [ 
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" },
-      { name: "功能", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../myself/myself" }
-    ]
-  }
+	plan:[
+		"距离打工结束还有9999天\n",
+		"早上好\n",
+		"中午好\n",
+		"晚上好\n",],	
+})
+const func1Click=(item)=> {
+	uni.reLaunch({
+		url: item.pagePath
+	})
 }
+const bannerclick=(index)=>{
+	console.log(data.articles);
+	uni.navigateTo({
+		url:'../notice/noticedetail?id=' + data.articles[index].id
+	})
+}
+
+onLoad(()=>{ 
+	// 使用函数并打印结果
+	getarticles({ typeName : '主页'}).then(response => {
+		// 在这里处理数据
+		data.articles = response.sort((a, b) => a.id - b.id);
+		for (let i = 0; i < data.articles.length; i++) {
+			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
+		}
+})})
+onShow(()=>{ 
+	console.log(uni.getStorageSync('token'))
+	if(socketMsgQueue.length>0){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+			// 显示的文本，超过99显示成99+
+		});
+	}
+})
 </script>
 
 <style>
@@ -80,9 +87,11 @@ export default {
 
 .swiper-image {
   width: 100%;
-  height: 100%;
+  height: 120px;
 }
-
+.describe{
+	height: 20px;
+}
 .func1 {
   display: flex;
   flex-wrap: wrap;

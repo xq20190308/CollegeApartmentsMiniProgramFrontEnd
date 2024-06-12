@@ -1,2 +1,9 @@
-uni_modules
-a.vue
+# Mac
+.DS_Store
+**/.DS_Store
+
+# JavaScript
+node_modules/
+
+# uni-app
+unpackage/

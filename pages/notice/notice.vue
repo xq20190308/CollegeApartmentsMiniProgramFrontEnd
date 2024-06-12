@@ -1,102 +1,114 @@
 <template>
-	<view>
-		<view class="cates">
-			<view v-for="(cate,index) in cates" :class="{'cateitem':true,'cateactive':index==active,}" :key="index" @click="dircate(index)">
-				{{cate.name}}
-			</view>
+	<view style="display: flex;flex-direction: column;">
+		<view style="width: 100%; height: auto;">
+			<d-search-log color_border="#666666" color_text="#666666"
+			:search_list_hot="data.search_list" :store_key="data.store_key" :input_text="data.input_text"
+			@onClickDelAllApi="onClickDelAll" @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
-		<uni-section v-for="(item,index) in catenotice" :key="index" :title="item" sub-title="" type="line" style="width: 98%;margin: auto;">
-			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
-					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
-					<text>{{item.content}}</text>
-					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
-					<text style="text-align: right;">类型：{{item.typeName}}</text>
+		<view style="position: relative;top: auto;">
+			<uni-section title="个人通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
+				<view class="notice-list">
+					<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
+						<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
+						<text>{{item.content}}</text>
+						<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
+						<text style="text-align: right;">类型：{{item.typeName}}</text>
+					</view>
 				</view>
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
-					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
-					<text>{{item.content}}</text>
-					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
-					<text style="text-align: right;">类型：{{item.typeName}}</text>
+			</uni-section>
+			<uni-section title="学校通知" sub-title="" type="line" style="width: 98%;margin: auto;font-weight: 550;">
+				<view class="notice-list">
+					<view class="notice-item" v-for="(item,index) in data.articles" :key="index">
+						<view style="display: flex;flex-wrap: nowrap;">
+							<text style="font-size: 16px; text-aign: center;width: 85%;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"  @click="todetail(index)">{{item.id}}.{{item.title}}</text>
+							<button @click="deletenotice(index)" class="deletbutton">删除</button>
+						</view>
+						<text style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">{{item.content}}</text>
+						<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
+						<text style="text-align: right;">类型：{{item.typeName}}</text>
+					</view>
 				</view>
-				<view class="notice-item" v-for="(item,index) in articles" :key="index" @click="todetail(index)">
-					<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
-					<text>{{item.content}}</text>
-					<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
-					<text style="text-align: right;">类型：{{item.typeName}}</text>
-				</view>
-			</view>
-		</uni-section>
+			</uni-section>
+		</view>
+		<view>
+			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('addnotice','noticeManage')"></image>
+		</view>
 	</view>
 </template>
 
-<script>
-	export default{
-		data(){
-			return {
-				articles:[{//测试数据
-					content: "Lorem",
-					id: 87,
-					isActive: true,
-					publishTime: "1976-01-02 07:27:42",
-					title: "学府属习",
-					typeName: "律况平将体集题",
-					}
-				],
-				catenotice:["学校通知","个人通知"],
-				cates:[{
-						id:0,
-						name:"全部"
-					},{
-						id:1,
-						name:"未结束"
-					},{
-						id:2,
-						name:"已结束"
-				}],
-				active:0
-			}
-		},
-		methods:{
-			todetail(id){
-				uni.navigateTo({
-					url:"../notice/noticedetail?content="+this.articles[id].content+
-					'&id='+this.articles[id].id+
-					'&isActive='+this.articles[id].isActive+
-					'&publishTime='+this.articles[id].publishTime+
-					'&title='+this.articles[id].title+
-					'&typeName='+this.articles[id].typeName
-				})
-			},
-			getarticles(cates){
-				console.log("分类请求的参数",cates);
-				
-				//获取通知数据
-			   uni.request({
-				url: "http://localhost:8080/notifications?isActive="+cates,
-				method: 'GET',
-				success: (res) => {
-					console.log("success",res);
-					this.articles = res.data.data;
-					console.log(this.articles)
-				},
-				fail: (err) => {
-					 console.error('Fetch error:', err);
+<script setup>
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
+import {reactive} from "vue";
+import {http} from '@/utils/http'
+import {goto} from "../../utils/access.js"
+import {getarticles} from "../notice/api/getnotices.js"
+const data = reactive({
+	articles:[],
+	individualarticles:[],
+	catenotice:["个人通知","学校通知"],
+	search_list:[],
+	store_key:'notice_keywordlist',
+	input_text:''
+})
+const onClickDelAll = (e)=>{
+	//console.log(e)
+}
+const onSearchName = (e)=>{
+	//在此添加关键词参数请求通知列表
+	console.log(e)
+	getarticles({keyword:e}).then(response => {
+	  // 在这里处理数据
+	  data.articles = response.sort((a, b) => a.id - b.id);
+		console.log('response',response); // 输出: 这是返回的数据
+	})
+}
+const todetail = (index) =>{
+	console.log('index',index);
+	uni.navigateTo({
+		url:"../notice/noticedetail?id="+data.articles[index].id
+	})
+}
+const deletenotice = async (index) =>{
+	if(getLocalData('noticeManage')==true){
+		//获取通知数据
+		uni.showModal({
+			title: '提示',
+			content: '确认删除该通知吗',
+			success: async (r) => {
+				if (r.confirm) {
+					const res = await http('/notifications/modify','POST',{
+						id : data.articles[index].id,
+						isActive: 0,
+					},)
+					getarticles({}).then(response => {
+					  // 在这里处理数据
+					  data.articles = response.sort((a, b) => a.id - b.id);;
+						console.log('response',response); // 输出: 这是返回的数据
+					})
+					console.log("删除的res",res)
+					console.log('用户点击确定');
+				} else if (r.cancel) {
+					console.log('用户点击取消');
 				}
-			   });
-			},
-			dircate(options){
-				this.active=options;
-				console.log("点击事件的参数",options)
-				if(options===0){this.getarticles();}
-				else{this.getarticles(options);}
-			},
-		},
-		onLoad(options) {
-			console.log("通知列表参数",options);
-			this.getarticles();
-		}
+			}
+		});
+	}else{
+		uni.showToast({
+			title: "你没有权限",
+			icon: "error"
+		})
 	}
+}
+onShow(()=>{
+	getarticles({}).then(response => {
+    // 在这里处理数据
+    data.articles = response.sort((a, b) => a.id - b.id);
+	})
+})
+onLoad((options) => {
+	console.log("通知列表",data.articles);
+})
 </script>
 
 
@@ -110,7 +122,7 @@
 	}
 	.cateitem{
 		text-align: center;
-		width: 33.33%;
+		width: 50%;
 		padding-top: 9px;
 		padding-bottom: 9px;
 		background-color: #008cff;
@@ -130,43 +142,57 @@
 		padding-top: 30rpx;
 		flex-shrink: 0;
 		margin-top: 24rpx!important;
-		margin-button: 24rpx;
+		margin-button: 28rpx;
 		font-family: 'Inter';
 		font-style: normal;
-		font-weight: 400;
-		font-size: calc(14rpx * 2);
+		font-weight: 500;
+		font-size: calc(18rpx * 2);
 		line-height: calc(17rpx * 2);
-		color: #333333;
+		color: #444444;
 		margin: auto;
-		
+		z-index: 99;
 	}
-
+	.deletbutton {
+		width: 15%;
+		font-size: 12px;
+		padding: 0px;
+		margin: 0px;
+		bottom: 8px;
+		z-index: 999;
+	}
 	.notice-item>text {
 		display: block;
 	}
 	
 	.notice-item text:nth-child(2) {
-		text-indent: 2em;
+		text-indent: 1em;
 		display: flex;
 		padding-top: 10rpx;
 	}
 
 	.notice-item text:nth-child(3) {
 		padding-top: 24rpx;
-		font-size: 16rpx !important;
+		font-size: 24rpx !important;
 	}
 	.notice-item text:nth-child(4) {
-		font-size: 16rpx !important;
+		font-size: 24rpx !important;
 	}
 	
 	.notice-item text:nth-child(2),
 	.notice-item text:nth-child(3),
 	.notice-item text:nth-child(4) {
-		color: #999999;
+		color: #444444;
 		font-family: 'Inter';
 		font-style: normal;
-		font-weight: 400;
-		font-size: calc(12rpx * 2);
+		font-weight: 500;
+		font-size: calc(14rpx * 2);
 		line-height: calc(15rpx * 2);
+	}
+	.addnaireicon {
+		position: fixed;
+		bottom:60rpx; 
+		right: 50rpx; 
+		width: 80rpx; 
+		height: 80rpx; 
 	}
 </style>

@@ -1,205 +1,247 @@
 <template>
 	<view class="container">
-		<uni-section :title="id+'.'+name" type="line" titleFontSize=42rpx>
+		<view style="height: 20px;margin-bottom: 1px;">
+			<text class="underline-text" @click="overview">提交情况</text>
+		</view>
+		<uni-section :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
+			<template v-slot:right>
+				<uni-icons @click="showmyanswer" type="arrow-up" size="20"></uni-icons>
+			</template>
 			<view class="questionsform">
-				<view class="questionitem" v-for="(que,qindex) in questionList" :key="qindex">
-					<view class="quetitle">{{que.id}}.{{que.name}}</view>
-					<view class="quedes">描述:{{que.describe}}</view>
+				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
+					<view class="quetitle">{{qindex + 1}}.{{que.name}}</view>
+					<view class="quedes">描述:{{que.description}}</view>
 					<view class="choice" v-if="que.type===1">
-						<radio-group @change="(e) => radioChange(e,qindex)">
+						<radio-group  @change="(e) => radioChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="choitem">
-									<radio :value="index" />
+									<radio :value="index" :checked="index==data.current[qindex]" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</radio-group>
 					</view>
 					<view class="mulchoice"  v-else-if="que.type===2">
-						<checkbox-group @change="(e) => checkboxChange(e,qindex)">
+						<checkbox-group :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="mulchoitem">
-									<checkbox :value="index"  />
+									<checkbox :value="index" :checked="ischeckedmul(qindex,index)" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</checkbox-group>
 					</view>
 					<view v-else class="answer">
-						<input class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
+						<input v-model="data.current[qindex]" class="answerinput" placeholder="请输入" placeholder-class="answerplacehoder" />
 					</view>
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<uni-forms ref="valiForm" :rules="rules" :modelValue="valiFormData" label-position="top">
-				<uni-forms-item class="form-item" label="姓名" required name="name">
-					<uni-easyinput v-model="valiFormData.name" placeholder="请输入姓名" />
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
+				<uni-forms-item  class="form-item" label="姓名" name="name" :required="data.isanonymous">
+					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item class="form-item" label="学号" required name="id">
-					<uni-easyinput v-model="valiFormData.id" placeholder="请输入学号" />
+				<uni-forms-item  class="form-item" label="学号" name="id" :required="data.isanonymous">
+					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
+			
 			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
-		
 		</uni-section>
 	</view>
 </template>
-<script>
-	import question from '../../../components/question/question.vue'
-	
-	export default {
-		data() {
-			return {
-				timer:null,//延时器，用于防抖处理
-				id:"",
-				type: 0,
-				name: "",
-				descr: null,
-				startTime: "",
-				endTime: "",
-				questionList: [{
-					id: "",
-					type: 1,
-					name: "",
-					describe: "",
-					content: "[]",
-					questionnaire: ""
-				}],
-				questionidList: [],
-				current: [],
-				// 校验表单数据
-				valiFormData: {
-					name: '',
-					id: '',
-				},
-				// 校验规则
-				rules: {
-					name: {
-						rules: [{
-							required: true,
-							errorMessage: '姓名不能为空'
-						}]
-					},
-					id: {
-						rules: [{
-							required: true,
-							errorMessage: '年龄不能为空'
-						}, {
-							minLength: 12,
-							maxLength: 12,
-							errorMessage: '请输入12位学号'
-						}]
-					}
-				},
+<script setup>
+import '@/utils/http'
+import {computed, reactive, ref} from "vue"; 
+import {onLoad,onReady} from "@dcloudio/uni-app";
+import {http} from '@/utils/http'
+const data = reactive({
+	timer:null,//延时器，用于防抖处理
+	//匿名的话questionnaire加一个isAnonymous
+	isanonymous:true,//需要从后端获取
+	id:"",
+	type: 0,
+	name: "",
+	description: null,
+	startTime: "",
+	endTime: "",
+	questionList: [
+	// 	{
+	// 	id: "",
+	// 	type: 1,
+	// 	name: "",
+	// 	describe: "",
+	// 	content: "[]",
+	// 	questionnaire: ""
+	// },
+	],
+	current: [],
+	// 校验表单数据
+	valiFormData: {
+		name: '',
+		id: '',
+	},
+	// 校验规则
+})
+const overview = ()=>{
+	uni.showToast({
+		title: "敬请期待",
+		icon:'error'
+	})
+}
+const rules = computed(()=>{
+	if(data.isanonymous==true){
+		return {
+			name: {
+				rules: [{
+					required: true,
+					errorMessage: '姓名不能为空'
+				}]
+			},
+			id: {
+				rules: [{
+					required: true,
+					errorMessage: '学号不能为空'
+				},{
+					minLength: 12,
+					maxLength: 12,
+					errorMessage: '请输入12位学号'
+				}]
 			}
-		},
-		props:{
-		},
-		methods: {
-			inputChange: function (evt,qindex) {
-				clearTimeout(this.timer);
-				this.timer = setTimeout(()=>{
-					console.log(evt);
-					console.log(qindex);
-					this.current[qindex]=evt.detail.value;
-					console.log(this.current);
-					
-				}, 500)
-			},
-			checkboxChange: function (evt,qindex) {
-				console.log(evt);
-				console.log(qindex);
-				this.current[qindex]=evt.detail.value;
-				console.log(this.current);
-			},
-			radioChange: function(evt,qindex) {
-				console.log(evt);
-				console.log(qindex);
-				this.current[qindex]=evt.detail.value;
-				console.log(this.current);
-			},
-			submit(ref) {
-				this.$refs[ref].validate().then(res => {
-					console.log('success', res);	
-					//检验问题
-					if(this.current.length != this.questionList.length){
-						uni.showToast({
-							title: "请检查作答",
-							icon: "error"
-						});
-						return;
-					};
-					console.log("填写正确",this.current);
-					console.log(this.valiFormData);
-					//POST
-					uni.request({
-						url:'',
-						method: 'POST',
-						data:{
-						},
-						success: (res)=> {
-							uni.showToast({
-								title: "提交成功"
-							})			
-						},
-						complete: (res)=>{
-							
+		}
+	}else{
+		return {};
+	};
+})
+const ischeckedmul = (qindex,index)=>{
+	//console.log("--",data.current[qindex]);
+	return (data.current[qindex]?data.current[qindex].indexOf(String(index)):-1)!=-1;
+}
+const showmyanswer = async () => {
+	console.log("显示我的回答questionnaireId=",data.id);
+	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	if(res.msg=='您还没有填写该问卷'){
+		uni.showModal({
+			title:'您还没有填写该问卷',
+			icon: 'error'
+		})
+	}else{
+		data.current=JSON.parse(res.data.answer);
+	}
+	console.log(data.current);
+}
+const inputChange = (evt,qindex) => {
+	clearTimeout(data.timer);
+	data.timer = setTimeout(()=>{
+		data.current[qindex]=evt.detail.value;
+		console.log(data.current);
+	}, 500)
+}
+const checkboxChange = (evt,qindex) => {
+	data.current[qindex]=evt.detail.value;
+	console.log(data.current);
+}
+const radioChange = (evt,qindex) => {
+	data.current[qindex]=evt.detail.value;
+	console.log(data.current);
+}
+const valiForm = ref()
+const submit = async (ref) => {
+	//先检验必填信息项
+	valiForm.value?.validate().then(async res1 => {
+		console.log('success', res1);
+		console.log(data.current);
+		console.log(data.questionList);
+		//再检验问题
+		if(data.current.length != data.questionList.length){
+			uni.showToast({
+				title: "请检查作答",
+				icon: "error"
+			});
+			return;
+		};
+		//POST提交到后端
+		let answer = JSON.stringify(data.current);
+		if(data.isanonymous){
+			answer = JSON.stringify([...data.current,res1.name,res1.id])
+		}
+		const res = await http('/useranswer/submit','POST',{
+			answer: answer ,
+			questionnaireId: data.id,
+		},);
+		if(res.msg=="您已填写过该问卷"){
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showModal({
+					title: "你已填写过该问卷,是否显示填写情况",
+					success:async (res3) => {
+						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+						if (res3.confirm) {
+							data.current=JSON.parse(res2.data.answer);
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+							data.current={};
+							data.valiFormData={};
 						}
-					});
-					
-				}).catch(err => {
-					console.log('err', err);
-				})
-			},
-			getquestions(){
-				uni.request({
-					//url:'http://127.0.0.1:4523/m1/4414254-4059226-default/question/selectById?idList='+this.questionidList,
-					url:'http://localhost:8080/question/selectById?idList='+this.questionidList,
-					method: 'GET',
-					data:{
-						idList:this.questionidList,
-					},
-					success: (res)=> {
-						
-						console.log("请求返回",res)
-						this.questionList=res.data.data;
-						console.log('获取到问题',this.questionList);
-						
-						// 使用for循环来修改数据
-						for (let i = 0; i < this.questionList.length; i++) {
-						  //this.questionList[i].content=JSON.parse(this.questionList[i].content);
-							this.questionList[i].content=["A","B","C"]
-						}
-					},
-					complete: (res)=>{
-						console.log();
 					}
 				});
-			},
-		},
-		computed: {
-			
-		},
-		onLoad(options) {
-			console.log("参数列表",options);
-			this.questionidList=["20181252102","20187874601"]
-			//this.questionidList = JSON.parse(options.questionidList);
-			console.log('问题列表：',this.questionidList);
-			
-			this.id=options.id;
-			this.type=options.type;
-			this.name=options.name;
-			this.descr=options.descr;
-			this.startTime=options.startTime;
-			this.endTime =options.endTime ;
-			
-			this.getquestions();
-			
-		},
-		onReady() {
-			
+			}, 300)
+			return;
+		}else{
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showToast({
+					title: "提交成功"
+				})
+			}, 300)
+			uni.navigateBack();
 		}
+	}).catch(err => {
+		console.log('err', err);
+	})
+}
+const getquestions = async () => { 
+	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
+	
+	data.questionList=res.data;
+	for(let i=0;i<data.questionList.length;i++){
+		data.questionList[i].content=JSON.parse(data.questionList[i].content)
 	}
+}
+onLoad(async (options) => {
+	console.log("参数列表",options);
+	
+	data.id=options.id;
+	data.type=options.type;
+	data.name=options.name;
+	data.description=options.description;
+	data.startTime=options.startTime;
+	data.endTime =options.endTime ;
+	data.isanonymous=options.anonymous=='false'?false:true;
+	clearTimeout(data.timer);
+	data.timer = setTimeout(()=>{
+		getquestions();
+	}, 100)
+	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	
+	if(res.msg=='您还没有填写该问卷'){
+		console.log("该用户没填写过此问卷")
+	}else{
+		uni.showModal({
+			title: "已填写过,是否显示填写情况",
+			success: (res1) => {
+				if (res1.confirm) {
+					data.current=JSON.parse(res.data.answer);
+				} else if (res1.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		});
+	}
+})
+onReady(()=>{
+	
+}) 
 </script>
 
 <style lang="scss" scoped>
@@ -214,6 +256,19 @@
 		display: flex;
 		flex-wrap: wrap;
 	}
+	.underline-text {
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+		text-decoration: underline;
+		color: #000000;
+	  }
+	  .underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+	  }
 	.questionitem{
 		width: 100%;
 		margin-bottom: 20px;
