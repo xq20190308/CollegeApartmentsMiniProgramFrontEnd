@@ -6,8 +6,8 @@
 			</template>
 			<view class="questionsform">
 				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
-					<view class="quetitle">{{que.id}}.{{que.name}}</view>
-					<view class="quedes">描述:{{que.describe}}</view>
+					<view class="quetitle">{{qindex + 1}}.{{que.name}}</view>
+					<view class="quedes">描述:{{que.description}}</view>
 					<view class="choice" v-if="que.type===1">
 						<radio-group  @change="(e) => radioChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
@@ -22,40 +22,40 @@
 						<checkbox-group :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
 							<label v-for="(item, index) in que.content" :key="index">
 								<view class="mulchoitem">
-									<checkbox :value="index"  />
+									<checkbox :value="index" :checked="ischeckedmul(qindex,index)" />
 									<text>{{item}}</text>
 								</view>
 							</label>
 						</checkbox-group>
 					</view>
 					<view v-else class="answer">
-						<input v-model="data.current[qindex]" class="answerinput" @input="(e) => inputChange(e,qindex)" placeholder="请输入" placeholder-class="answerplacehoder" />
+						<input v-model="data.current[qindex]" class="answerinput" placeholder="请输入" placeholder-class="answerplacehoder" />
 					</view>
 				</view>
 			</view>
 			<!-- 表单校验 -->
-			<uni-forms ref="valiForm" :rules="data.rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item  class="form-item" label="姓名" name="name">
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
+				<uni-forms-item  class="form-item" label="姓名" name="name" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item  class="form-item" label="学号" name="id">
+				<uni-forms-item  class="form-item" label="学号" name="id" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
+			
 			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
-		
 		</uni-section>
 	</view>
 </template>
 <script setup>
 import '@/utils/http'
-import {reactive, ref} from "vue"; 
+import {computed, reactive, ref} from "vue"; 
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
 const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	//匿名的话questionnaire加一个isAnonymous
-	
+	isanonymous:true,//需要从后端获取
 	id:"",
 	type: 0,
 	name: "",
@@ -79,49 +79,60 @@ const data = reactive({
 		id: '',
 	},
 	// 校验规则
-	 rules: {
-	// answer: {
-	// 	rules: [{
-	// 		required: true,
-	// 		errorMessage: '姓名不能为空'
-	// 	}]
-	// },
-	// 	id: {
-	// 		rules: [{
-	// 			required: true,
-	// 			errorMessage: '年龄不能为空'
-	// 		}, {
-	// 			minLength: 12,
-	// 			maxLength: 12,
-	// 			errorMessage: '请输入12位学号'
-	// 		}]
-	// 	}
-	},
-}) 
+})
+const rules = computed(()=>{
+	if(data.isanonymous==true){
+		return {
+			name: {
+				rules: [{
+					required: true,
+					errorMessage: '姓名不能为空'
+				}]
+			},
+			id: {
+				rules: [{
+					required: true,
+					errorMessage: '学号不能为空'
+				},{
+					minLength: 12,
+					maxLength: 12,
+					errorMessage: '请输入12位学号'
+				}]
+			}
+		}
+	}else{
+		return {};
+	};
+})
+const ischeckedmul = (qindex,index)=>{
+	//console.log("--",data.current[qindex]);
+	return (data.current[qindex]?data.current[qindex].indexOf(String(index)):-1)!=-1;
+}
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
 	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
-	data.current=JSON.parse(res.data.answer);
+	if(res.msg=='您还没有填写该问卷'){
+		uni.showModal({
+			title:'您还没有填写该问卷',
+			icon: 'error'
+		})
+	}else{
+		data.current=JSON.parse(res.data.answer);
+	}
 	console.log(data.current);
 }
 const inputChange = (evt,qindex) => {
 	clearTimeout(data.timer);
 	data.timer = setTimeout(()=>{
-		console.log(evt);
-		console.log(qindex);
 		data.current[qindex]=evt.detail.value;
 		console.log(data.current);
 	}, 500)
 }
 const checkboxChange = (evt,qindex) => {
-	console.log(evt);
-	console.log(qindex);
 	data.current[qindex]=evt.detail.value;
 	console.log(data.current);
 }
 const radioChange = (evt,qindex) => {
-	console.log(evt);
-	console.log(qindex);
 	data.current[qindex]=evt.detail.value;
 	console.log(data.current);
 }
@@ -129,7 +140,9 @@ const valiForm = ref()
 const submit = async (ref) => {
 	//先检验必填信息项
 	valiForm.value?.validate().then(async res1 => {
-		console.log('success', res1);	
+		console.log('success', res1);
+		console.log(data.current);
+		console.log(data.questionList);
 		//再检验问题
 		if(data.current.length != data.questionList.length){
 			uni.showToast({
@@ -138,20 +151,42 @@ const submit = async (ref) => {
 			});
 			return;
 		};
-		console.log("填写正确",data.current);
-		console.log('JSON.stringify(data.valiFormData)',JSON.stringify(data.valiFormData));
 		//POST提交到后端
+		let answer = JSON.stringify(data.current);
+		if(data.isanonymous){
+			answer = JSON.stringify([...data.current,res1.name,res1.id])
+		}
 		const res = await http('/useranswer/submit','POST',{
-			answer: JSON.stringify(data.current),
+			answer: answer ,
 			questionnaireId: data.id,
 		},);
-	
-		console.log("封装后请求的结果",res)
-		uni.showToast({
-			title: "提交成功"
-		})
-		
-		
+		if(res.msg=="您已填写过该问卷"){
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showModal({
+					title: "你已填写过该问卷,是否显示填写情况",
+					success:async (res3) => {
+						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+						if (res3.confirm) {
+							data.current=JSON.parse(res2.data.answer);
+						} else if (res3.cancel) {
+							console.log('用户点击取消');
+							data.current={};
+							data.valiFormData={};
+						}
+					}
+				});
+			}, 300)
+			return;
+		}else{
+			clearTimeout(data.timer);
+			data.timer = setTimeout(()=>{
+				uni.showToast({
+					title: "提交成功"
+				})
+			}, 300)
+			uni.navigateBack();
+		}
 	}).catch(err => {
 		console.log('err', err);
 	})
@@ -159,14 +194,12 @@ const submit = async (ref) => {
 const getquestions = async () => { 
 	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
 	
-	console.log("封装后请求的结果",res);
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){
 		data.questionList[i].content=JSON.parse(data.questionList[i].content)
 	}
-	console.log('获取到问题',data.questionList);
 }
-onLoad((options) => {
+onLoad(async (options) => {
 	console.log("参数列表",options);
 	
 	data.id=options.id;
@@ -174,9 +207,28 @@ onLoad((options) => {
 	data.name=options.name;
 	data.description=options.description;
 	data.startTime=options.startTime;
-	data.endTime =options.endTime ; 
-	getquestions();
+	data.endTime =options.endTime ;
+	data.isanonymous=options.anonymous=='false'?false:true;
+	clearTimeout(data.timer);
+	data.timer = setTimeout(()=>{
+		getquestions();
+	}, 100)
+	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 	
+	if(res.msg=='您还没有填写该问卷'){
+		console.log("该用户没填写过此问卷")
+	}else{
+		uni.showModal({
+			title: "已填写过,是否显示填写情况",
+			success: (res1) => {
+				if (res1.confirm) {
+					data.current=JSON.parse(res.data.answer);
+				} else if (res1.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		});
+	}
 })
 onReady(()=>{
 	

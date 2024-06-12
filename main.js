@@ -1,5 +1,7 @@
 import App from './App'
-
+export const mainFun = ()=>{
+	console.log("mainFun");
+}
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
@@ -19,5 +21,5 @@ export function createApp() {
     app
   }
 }
+mainFun();
 // #endif
-

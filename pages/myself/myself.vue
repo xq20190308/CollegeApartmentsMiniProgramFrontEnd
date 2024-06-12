@@ -1,5 +1,5 @@
 <template>
-	<view class="mask" v-if="userInfo.token===''">
+	<view class="mask" v-if="data.userInfo.token===''">
 		<view style="top: 400px;position: fixed;margin-left: 40px;">
 			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
 				<text>登录</text>
@@ -15,17 +15,18 @@
 	<view style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view class="User">
-			<uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
-				ref="uniFilePicker" disable-preview :imageStyles="imageStyles" :del-icon='false' required>
-				<image :src="userInfo.avatarUrl" class="avatar" />
-			</uni-file-picker>
-			<text class="avatarName" >{{this.userInfo.nickName}}</text>
+			<view><uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
+				ref="uniFilePicker" disable-preview :imageStyles="data.imageStyles" :del-icon='false' required>
+				<view style="background-color: transparent;border-radius: 50%; width: 100px; height: 100%;" />
+			</uni-file-picker><image :src="data.userInfo.avatarUrl" class="avatar" />
+			</view>
+			<text class="avatarName" >{{data.userInfo.nickName}}</text>
 		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
 			<uni-list border-full>
-				<uni-list-item showArrow title="姓名" :rightText="userInfo.trueName" />
-				<uni-list-item showArrow title="学号" :rightText="userInfo.username" />
+				<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
+				<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
 				<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
 				<uni-list-item showArrow title="专业" rightText="软件工程" />
 				<uni-list-item showArrow title="建言献策" />
@@ -43,102 +44,103 @@
 	</view>
 </template>
 
-<script>
-import {
-	getLocalData,
-	setLocalData,
-	delLocalData,
-	clearUserInfo
-} from "../../utils/cache.js"
+<script setup>
+import { onLoad, onShow} from "@dcloudio/uni-app";
+import { getLocalData, setLocalData, delLocalData, clearUserInfo } from "../../utils/cache.js"
+import { reactive } from "vue";
 import {load,http} from "../../utils/http.js"
-	export default {
-		data() {
-			return {
-				imageStyles: {
-					border: {
-						radius: '50%'
-					}
-				},
-				userInfo: { //默认头像
-					avatarUrl: '',
-					nickName: '默认',
-					token:null,
-					username: "",
-					trueName: "",
-				},
-				useravatarImg: "",
-				func1_List: [],
-			}
-		},
-		methods: {
-			async delogin(meg) {
-				 uni.showModal({
-				 	title: '提示',
-				 	content: meg,
-				 	success: (res) => {
-				 		if (res.confirm) {
-				 			clearUserInfo()
-				 			this.userInfo.token=getLocalData("token")
-				 			console.log('用户点击确定this.userInfo.token',this.userInfo.token);
-				 			this.tologin("正在跳转")
-				 		} else if (res.cancel) {
-				 			console.log('用户点击取消');
-				 		}
-				 	}
-				 });
-			},
-			tologin(meg) {
-				uni.showLoading({
-					title: meg,
-					mask:true,
-				})
-				setTimeout(() => {
-					uni.hideLoading();
-					uni.navigateTo({
-						url: "/pages/login/loginPage"
-					})
-				}, 1000)
-			},
-			async selectUpload(e){
-				console.log(e.tempFilePaths[0]);
-				this.userInfo.avatarUrl = e.tempFilePaths[0];
-				// console.log(this.userInfo.avatarUrl);
-				// await setLocalData('avatarUrl',this.userInfo.avatarUrl);
-				await load('/user/uploadavatar',this.userInfo.avatarUrl,"avatar").then(
-					(res1)=>{
-						console.log("res1",res1);
-					}
-				)
-			}
-		},
-		async onShow() {
-			this.userInfo.avatarUrl = getLocalData('avatarUrl');
-			console.log(this.userInfo.avatarUrl);
-			this.userInfo.username=getLocalData("username")
-			this.userInfo.trueName=getLocalData("trueName")
-			this.userInfo.token=getLocalData("token")
-			if(this.userInfo.token===""){
-				uni.showModal({
-					title: '提示',
-					content: '未登录影响功能的使用',
-					success: (res) => {
-						if (res.confirm) {
-							console.log('用户点击确定');
-							this.tologin("正在跳转")
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-						}
-					}
-				});
-			}
-		},
-		onLoad() {
+import { wsclose,wsopen,wssend } from "../../utils/socket.js";
+import { socketMsgQueue } from "../../utils/socket.js";
+const data = reactive({
+	imageStyles: {
+		border: {
+			radius: '50%'
 		}
+	},
+	userInfo: { //默认头像
+		avatarUrl: '',
+		nickName: '默认',
+		token:null,
+		username: "",
+		trueName: "",
+	},
+	useravatarImg: "",
+	func1_List: [],
+})
+const delogin=async (meg)=> {
+	 uni.showModal({
+	 	title: '提示',
+	 	content: meg,
+	 	success: (res) => {
+	 		if (res.confirm) {
+	 			clearUserInfo()
+				wsclose();//退出登录后关闭socket连接
+	 			data.userInfo.token=getLocalData("token")
+	 			tologin("正在跳转")
+	 		} else if (res.cancel) {
+	 		}
+	 	}
+	 });
+} 
+const tologin=async (meg)=> {
+		uni.showLoading({
+			title: meg,
+			mask:true,
+		})
+		setTimeout(() => {
+			uni.hideLoading();
+			uni.navigateTo({
+				url: "/pages/login/loginPage"
+			})
+		}, 1000)
+	} 
+	const selectUpload = async (e)=>{
+		console.log(e);
+		await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
+			(res1)=>{
+				console.log("res1",res1);
+				data.userInfo.avatarUrl = res1.data;
+			}
+		)
+		await setLocalData('avatarUrl',data.userInfo.avatarUrl);
 	}
+onShow( async () => {
+	data.userInfo.avatarUrl=getLocalData("avatarUrl")
+	console.log('头像',data.userInfo.avatarUrl);
+	data.userInfo.username=getLocalData("username")
+	data.userInfo.trueName=getLocalData("trueName")
+	data.userInfo.token=getLocalData("token")
+	if(data.userInfo.token===""){
+		uni.showModal({
+			title: '提示',
+			content: '未登录影响功能的使用',
+			success: (res) => {
+				if (res.confirm) { 
+					tologin("正在跳转")
+				} else if (res.cancel) { 
+				}
+			}
+		});
+	}
+	if(socketMsgQueue.length>0){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+			// 显示的文本，超过99显示成99+
+		});
+	}
+})
+onLoad(()=>{
+}) 
 </script>
 
 <style lang="scss" scoped>
 	::v-deep .uni-file-picker{
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		z-index: 100;
 		.uni-file-picker__container {
 			width: 100%;
 			height: 100%;
@@ -148,6 +150,10 @@ import {load,http} from "../../utils/http.js"
 				width: 95%!important;
 				height: 100%!important;
 				.file-picker__box-content {
+					.file-image{
+						-webkit-mask-image: url('../../static/tabBar/home_icon.png');
+						opacity: 0;
+					}
 					.file-picker__progress {
 						display: none!important;
 					}
@@ -166,10 +172,13 @@ import {load,http} from "../../utils/http.js"
 	}
 
 	.avatar {
+		position: relative;
 		background-color: #ad7d7d;
 		border-radius: 50%;
-		width: 100px;
-		height: 100%;
+		width: 83px;
+		height: 83px;
+		top: 9px;
+	    left: 5px;
 		/*圆形裁剪*/
 	}
 

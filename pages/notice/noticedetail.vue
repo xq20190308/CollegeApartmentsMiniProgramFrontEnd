@@ -34,11 +34,10 @@ onShow(()=>{
 	getarticles({id:data.option}).then(response => {
     // 在这里处理数据
     data.detail = response[0];
-	console.log('response',response); // 输出: 这是返回的数据
-  })
+	})
 })
 onLoad((options) => {
-	console.log('--',options.id);
+	console.log(options.id);
 	data.option=options.id;
 	console.log('data.option',data.option);
 })

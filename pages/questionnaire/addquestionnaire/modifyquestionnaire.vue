@@ -1,21 +1,21 @@
 <template>
 	<view style="margin-top: 2px; display: flex; justify-content: space-between;"><text style="margin-left: 5px;">实名</text><switch color="#008fff" style="margin-right: 5px;" :checked="data.isanonymous" @change="(e)=>{data.isanonymous=e.detail.value}" /></view>
 	<uni-section title="问卷类型（下拉选择）：" type="line" padding>
-		<uni-data-select :localdata="data.types" @change="(e) => {data.newNaire.type = data.types[e].value; console.log(data.newNaire.type)}"></uni-data-select>
+		<uni-data-select v-model="data.info.type" :localdata="data.types" ></uni-data-select>
 	</uni-section>
 	<uni-section title="问卷名称（填写）：" type="line" padding>
 		<view style="display: flex;flex-wrap: nowrap;">
-			<input @input="(e) => {data.newNaire.name=newdata(e.detail.value);}" placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
+			<input v-model="data.info.name"  placeholder="请输入问卷名称" placeholder-class="answerplacehoder" />
 		</view>
 	</uni-section>
 	<uni-section title="问卷描述（填写）：" type="line" padding>
 		<view style="display: flex;flex-wrap: nowrap;">
-			<input @input="(e) => {data.newNaire.description=newdata(e.detail.value);}" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
+			<input v-model="data.info.description" placeholder="请输入问卷描述" placeholder-class="answerplacehoder" />
 		</view>
 	</uni-section>
-	<uni-section title="选择日期及时间：" type="line" padding>
+	<uni-section title="选择日期及时间：" type="line" paddindata.rangeg>
 		<view class="example-body">
-			<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {data.newNaire.startTime = e[0];console.log(data.newNaire.startTime);data.newNaire.endTime = e[1];console.log(data.newNaire.endTime)}" />
+			<uni-datetime-picker v-model="data.range" type="datetimerange" rangeSeparator="至" @change="(e) => {data.info.startTime = e[0];console.log(data.info.startTime);data.info.endTime = e[1];console.log(data.info.endTime);console.log(data.range)}" />
 		</view>
 	</uni-section>
 	<view class="questionsform">
@@ -29,15 +29,15 @@
 		
 		<view class="questionitem" >
 			<view class="answer">
-				<input @input="(e) => {data.questionList[qindex].name=qnewdata(e,qindex)}" placeholder="请输入题目名称"  />
+				<input v-model="data.questionList[qindex].name"  placeholder="请输入题目名称"  />
 			</view>
 			<view class="answer">
-				<input @input="(e) => {data.questionList[qindex].description=qnewdata(e,qindex)}" placeholder="请输入题目描述"  />
+				<input v-model="data.questionList[qindex].description" placeholder="请输入题目描述"  />
 			</view>
 			<view class="choice" v-if="que.type===1">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px;border-radius: 50px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input  @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex);console.log(data.questionList[qindex].content)}" placeholder="请输入选项"  />
+					<input v-model="data.questionList[qindex].content[index]" placeholder="请输入选项"  />
 					<uni-icons style="margin-left: 140px;" @click="()=>{
 						console.log(qindex,index);
 						data.questionList[qindex].content = data.questionList[qindex].content.filter((item, eindex) => eindex !== index)
@@ -51,7 +51,7 @@
 			<view class="mulchoice"  v-else-if="que.type===2">
 				<view style="display: flex; flex-wrap: nowrap; margin-bottom: 2px;" v-for="(item, index) in que.content" :key="index">
 					<view style="background-color: white; width: 20px;height: 20px; border: 1px solid #7f7f7f; margin-right: 5px;"></view>
-					<input @input="(e) => {data.questionList[qindex].content[index]=qnewdata(e,qindex);console.log(data.questionList[qindex].content[index])}" placeholder="请输入选项"  />
+					<input v-model="data.questionList[qindex].content[index]" placeholder="请输入选项"  />
 					<uni-icons style="margin-left: 140px;" @click="()=>{
 						console.log(qindex,index);
 						data.questionList[qindex].content = data.questionList[qindex].content.filter((item, eindex) => eindex !== index)
@@ -71,7 +71,7 @@
 		<button class="add" @click="(e)=>add(e,2)">创建多选</button>
 		<button class="add" @click="(e)=>add(e,3)">创建问答</button>
 	</view>
-	<view id="addquestion" style="padding-bottom: 5px;">
+	<view>
 		<button class="submit" @click="submit">创建</button>
 	</view>
 </template>
@@ -81,6 +81,7 @@ import {reactive,ref,watch} from "vue";
 import {http} from '@/utils/http'
 const data = reactive({
 	isanonymous:true,//需要传给后端
+	range:[],
 	types:[
           { value: 0, text: '篮球' },
           { value: 1, text: '足球' },
@@ -88,38 +89,9 @@ const data = reactive({
         ],
 	timer:null,//延时器，用于防抖处理
 	//传到后端的数据
-	newNaire:{//传到问卷列表页面中的数据
-		/*descr: "",
-		endTime: "",
-		name: "",
-		startTime: "",
-		type: 1,
-		id: "",
-		questionList: “["","",""]”,*/
-	},
-	questionList: [/*{
-		content: ["", "", ""],
-		describe: "",
-		name: "",
-		type: 1,
-		id: "",
-		questionnaire: "",// 用questionnaire的id标记
-	}*/],
+	info:{},
+	questionList: [],
 })
-const newdata=(value)=>{
-	clearTimeout(data.timer);
-	data.timer = setTimeout(()=>{
-		console.log(value);
-	}, 500)
-	return value;
-}
-const qnewdata=(e,qindex)=>{
-	clearTimeout(data.timer);
-	data.timer = setTimeout(()=>{
-		console.log(qindex+ '.' +data.questionList[qindex].name);
-	}, 500)
-	return e.detail.value;
-}
 const questype=(type,qindex)=>{
 	if(type===1){
 		return '单选题'
@@ -139,17 +111,10 @@ const add=(e,option)=>{
 		questionnaire_id: "",
 	});
 	console.log(data.questionList)
-	uni.pageScrollTo({
-		selector: '#addquestion',
-		duration: 50,
-		complete:(res)=> {
-			console.log(res)
-		}
-	});
 } 
 const submit = async ()=> {
-	console.log("新问卷",data.newNaire)
-	console.log("新问卷的问题",data.questionList)
+	console.log("修改后的问卷",data.info)
+	console.log("修改后的问卷的问题",data.questionList)
 	//校验
 	
 	//提交到后端
@@ -159,8 +124,7 @@ const submit = async ()=> {
 		list[i].content=JSON.stringify(list[i].content);
 	}
 	console.log('data.questionList',data.questionList)
-	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list,anonymous:true},);
-	
+	const res = await http('/questionnaire/updateQuestionnaireById/'+data.info.id,'POST',{...data.info,questionList:list,anonymous:data.isanonymous},);
 
 	uni.showToast({
 		title: "创建成功"
@@ -170,15 +134,34 @@ const submit = async ()=> {
 			url: '../questionnaire_list/questionnaire_list'
 		});
 	}, 2000); 
-
 }
-
+const getquestions = async () => { 
+	const res = await http('/question/selectByQuestionnaireId/'+data.info.id,'GET',{},)
+	
+	data.questionList=res.data;
+	for(let i=0;i<data.questionList.length;i++){
+		data.questionList[i].content=JSON.parse(data.questionList[i].content)
+	}
+}
+onLoad((options)=>{
+	data.info=JSON.parse(options.info)
+	console.log(data.info);
+	// description: "吃啥呀"
+	// endTime: "2024-06-29"
+	// id: 5
+	// isEnd: false
+	// name: "星期三吃啥"
+	// startTime: "2024-05-29"
+	// type: 1
+	data.range=[data.info.startTime,data.info.endTime];
+	console.log("--",data.range);
+	getquestions();
+})
 </script>
 
 <style lang="scss" scoped>
 .submit{
 	margin-top: 20px;
-	margin-bottom: 5px;
 	background-color:#008cff;
 	width: 80%;
 }

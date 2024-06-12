@@ -41,6 +41,7 @@
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {getLocalData,delLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
+import { socketMsgQueue } from "../../utils/socket.js";
 const data = reactive({
 	islogined:false,
 	navList1: [
@@ -65,6 +66,14 @@ const data = reactive({
 onShow(()=>{
 	data.islogined=getLocalData('token')!="";
 	console.log(data.islogined);
+	if(socketMsgQueue.length>0){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+			// 显示的文本，超过99显示成99+
+		});
+	}
 })
 onLoad(()=>{
     data.navList1 = [

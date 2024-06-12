@@ -9,8 +9,11 @@ export function setLocalData(key, data) {
 		uni.setStorageSync(key, JSON.stringify(data))
 	}
 }
-
-
+export const getLocalAll = () => uni.getStorageInfo({
+	success: function (res) {
+		console.log(res);
+	}
+});
 // 取数据
 export const getLocalData = key => uni.getStorageSync(key) 
 

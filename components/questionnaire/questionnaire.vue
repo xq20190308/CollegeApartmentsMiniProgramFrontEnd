@@ -20,10 +20,6 @@ const props = defineProps({
 			questionList: null,
 		},
 	},
-	filter:{
-		type: String,
-		default: 'filter: grayscale(1)',
-	}
 })
 </script>
 <style>

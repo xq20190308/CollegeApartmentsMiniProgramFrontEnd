@@ -23,12 +23,13 @@
 </template>
 
 <script setup>
-import {onLoad} from "@dcloudio/uni-app";
+import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
-
+import {mainFun} from '../../main.js'
+import { socketMsgQueue } from "../../utils/socket.js";
 const data = reactive({
 	articles:[],
 	func_list: [
@@ -59,16 +60,24 @@ const bannerclick=(index)=>{
 
 onLoad(()=>{ 
 	// 使用函数并打印结果
-	console.log(getCurrentTime());
 	getarticles({ typeName : '主页'}).then(response => {
 		// 在这里处理数据
 		data.articles = response.sort((a, b) => a.id - b.id);
-		console.log('response',response);//输出:这是返回的数据
 		for (let i = 0; i < data.articles.length; i++) {
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
-		console.log('data.articles',data.articles); 
 })})
+onShow(()=>{ 
+	console.log(uni.getStorageSync('token'))
+	if(socketMsgQueue.length>0){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+			// 显示的文本，超过99显示成99+
+		});
+	}
+})
 </script>
 
 <style>
