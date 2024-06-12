@@ -1,9 +1,9 @@
 <template>
     <view class="banner">
 		<!-- 轮播图区域 -->
-		<swiper :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
+		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
 			<swiper-item v-for="(item, index) in data.articles" :key="index">
-				<img :src="item.url" alt="" class="swiper-image" @click="bannerclick(index)">
+				<img :src="data.staticpictures[index%6]" alt="" class="swiper-image" @click="bannerclick(index)">
 				<view class="describe">{{data.articles[index].title}}</view>
 			</swiper-item>
 		</swiper>
@@ -31,6 +31,14 @@ import {getCurrentTime} from '@/utils/time'
 import {mainFun} from '../../main.js'
 import { socketMsgQueue } from "../../utils/socket.js";
 const data = reactive({
+	staticpictures:[
+		"https://img1.baidu.com/it/u=2786021056,112418886&fm=253&fmt=auto&app=120&f=JPEG?w=735&h=500",
+		"https://img0.baidu.com/it/u=3286729325,3246720713&fm=253&fmt=auto&app=138&f=PNG?w=686&h=448",
+		"https://img1.baidu.com/it/u=2043767765,404385374&fm=253&fmt=auto&app=138&f=JPEG?w=888&h=500",
+		"https://img1.baidu.com/it/u=1163428398,2582932958&fm=253&fmt=auto&app=120&f=JPEG?w=779&h=500",
+		"https://img0.baidu.com/it/u=3652594722,3615488402&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
+		"https://img2.baidu.com/it/u=3568434744,2179779602&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
+	],
 	articles:[],
 	func_list: [
 				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
@@ -84,10 +92,12 @@ onShow(()=>{
 .banner {
   margin: 20rpx;
 }
-
+.swiperp{
+	height: 190px;
+}
 .swiper-image {
   width: 100%;
-  height: 120px;
+  height: 150px;
 }
 .describe{
 	height: 20px;
