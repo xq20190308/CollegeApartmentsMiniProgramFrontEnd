@@ -5,7 +5,7 @@
     </view>
     <view class="content">
         <view v-if="data.current === 0">
-                <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex">
+                <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
 
                     <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
                         <!-- 显示头像的 -->
@@ -30,7 +30,7 @@
                 </view>
         </view>
         <view v-if="data.current === 1">
-            <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex">
+            <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
 
                 <uni-card title="丢失东西" :sub-title="item.name" padding="10px 0">
                     <!-- 显示头像的 -->
@@ -58,69 +58,95 @@
     </view>
 		
 		    <view>
-		        <image class="floating-button" src="../../static/tabBar/myself_icon.png" @click="changePage"></image>
+		        <image class="floating-button" src="../../static/function/lostandfound_per.png" @click="changePage"></image>
 		    </view>
 </template>
 
+
 <script setup>
-	//vue3导入
-	import {
-		onLoad,
-		onShow
-	} from "@dcloudio/uni-app";
-	import {
-		reactive
-	} from "vue";
-	import {
-		http
-	} from '@/utils/http'
+import {
+  onLoad,
+  onShow
+} from "@dcloudio/uni-app";
+import {
+  reactive
+} from "vue";
+import {
+  http
+} from '@/utils/http'
 
-	const data = reactive({
-		items: ['寻物广场', '捡到的来找'],
-		colors: ['#007aff', '#4cd964', '#dd524d'],
-		current: 0,
-		colorIndex: 0,
-		activeColor: '#007aff',
-		styleType: 'button',
-		AllItems: [
-		    { name: '耳机', img: '../../static/feedback/plus.png', describes: '求求你快显示出来吧，别报错谢谢' },
-		    { name: '耳机', img: '../../static/feedback/plus.png', describes: '求求你快显示出来吧，别报错谢谢阿巴巴巴巴巴' }
-		  ]
+const data = reactive({
+  items: ['捡到的', '丢失的'],
+  colors: ['#007aff', '#4cd964', '#dd524d'],
+  current: 0,
+  colorIndex: 0,
+  activeColor: '#007aff',
+  styleType: 'button',
+  AllItems: [],
+})
 
-	})
-	onLoad(() => {
+onLoad(() => {
+	fetchallItems();
+})
 
-	})
-	//用户从其他页面返回到当前页面，或者从后台切前台时，onShow会被触发
-	//onshow是原生的 onshow()最外面的括号表示传递参数
-	onShow(() => {
-		fetchallItems();
-	})
-	const onClickItem = (e) => {
-		if (data.current != e.currentIndex) {
-			data.current = e.currentIndex;
-		}
-	}
-	const fetchallItems = async () => {
-		const res = await http()
-		console.log("封装后请求的结果", res);
-		data.AllItems = res.data //与问卷的返回不同
-		console.log("data.allItems", data.AllItmes)
-	}
-	const onpress = (options) => {
-		console.log("跳转到每条失物招领的详细信息,要携带id"),
-			uni.navigateTo({
-				url: '../',
-			});
-	}
-	const changePage = () => {
-		console.log("跳转到发布页面"),
-			uni.navigateTo({
-				url: '../../pages/lostAndFound/lostAndFoundMysef',
-			});
-	}
+onShow(() => {
+  fetchallItems();
+})
+
+//要实时更新current，注意fetchallItems的调用时机
+const onClickItem = (e) => {
+	console.log("点击的索引",e.currentIndex);
+  if (data.current != e.currentIndex) {
+    data.current = e.currentIndex;
+  }
+	fetchallItems();
+	
+}
+
+ const fetchallItems = async () => {
+	 console.log("当前索引faaaaaaaaaa",data.current);
+        if(data.current == 0)
+        {
+            const category = 'found';
+            //奇了怪了，为什么
+            //const res = await http(`/api/Getdata?category=${category}`, 'GET',{})就不行
+            //破案了，少了个横线，参照下面lost的写法
+            //是用``不是单引号写网址
+            const res = await http(`/api/Getdata/${category}`, 'GET',{})
+            console.log("封装后请求的结果", res);
+						console.log("找的的", res);
+            data.AllItems = res.data //与问卷的返回不同
+        }
+        else
+        {
+            const category = 'lost';
+						// const res = await http(`/api/Getdata/?category=${category}`, 'GET')
+           const res = await http(`/api/Getdata/${category}`, 'GET',{})
+            console.log("丢失的", res);
+            data.AllItems = res.data //与问卷的返回不同
+        }
+    }
+
+const onpress = (item) => {
+  console.log("跳转到每条失物招领的详细信息,要携带id", item.pickLocation);
+  uni.navigateTo({
+    url: `../lostAndFound/detailLostandFound?` +
+      `describes=${item.describes}&` +
+      `img=${item.img}&` +
+      `contactobject=${item.contactobject}&` +
+      `pickLocation=${item.pickLocation}&` +
+      `pickTime=${item.pickTime}&` +
+			`filepath=${item.filepath}`,
+  });
+}
+
+const changePage = () => {
+  console.log("跳转到发布页面");
+  uni.navigateTo({
+    url: '../../pages/lostAndFound/lostAndFoundMysef',
+  });
+}
 </script>
-
 <style lang="scss">
 	.notice-list {
 		width: 95%;

@@ -2,19 +2,19 @@
 	<view class="input-container">
 		<text>请输入第</text>
 		<input v-model="data.weeks" class="short-input"/>
-				<button type="primary" size="mini" @click="add">查看</button>
 		<text>周</text>
 	</view>
 <view>
-	<uni-section title="111">
+	<uni-section title="">
 		<view class="example-body">
-			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
+			<uni-file-picker limit="9" @select="selectUpload" file-extname='png,git,jpeg,pdf,jpg,xlsx'  file-mediatype="all" title="请上传成绩文件"
 				ref="uniFilePicker" required>
 				<button type="primary" size="mini">选择文件</button>
 			</uni-file-picker>
 		</view>
 	</uni-section>
 	</view>
+	<button type="primary" @click="add">提交</button>
 </template>
 
 <script setup>
@@ -24,14 +24,31 @@
 	
 	//传不过去？
 	const data = reactive({
-		 weeks:''
+		 weeks:'',
+		 path0:[],
+		 path:[],
 	})
-	const add =async ()=>{
-		let res = await load('/api/updateData', '','file',{
-			weeks:data.weeks
-		});
-		console.log("封装后交给后端的", res);
+	console.log("weeks类型", typeof data.weeks);
+	const selectUpload = (e) =>{
+		console.log(e);
+		data.path0.push(e.tempFiles[0]);
 	}
+	const add =async ()=>{
+		for(var i = 0; i < data.path0.length; i++){
+			
+		 await load('/api/updateData', data.path0[i].url,'file',{
+			weeks:data.weeks
+		}).then((res1) =>{
+			console.log("返回的文件路径", res1);
+			data.path.push(res1.data);
+		})
+		};
+		uni.navigateBack({
+			url:'../../pages/hygiene/showhygiene',
+		})
+		
+	}
+
 </script>
 
 <style lang="scss">

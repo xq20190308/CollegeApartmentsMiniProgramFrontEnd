@@ -156,15 +156,9 @@
 				"enablePullDownRefresh": false
 			}
 		},
+
 		{
-			"path": "pages/lostAndFound/detailLost",
-			"style": {
-				"navigationBarTitleText": "丢失细节",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/lostAndFound/detailFound",
+			"path": "pages/lostAndFound/detailLostandFound",
 			"style": {
 				"navigationBarTitleText": "找到细节",
 				"enablePullDownRefresh": false
