@@ -16,6 +16,7 @@ const httpInterceptor = {
 
 		//添加token
 		const token = getLocalData('token');
+		
 		options.header.Authorization = token;
 	},
 

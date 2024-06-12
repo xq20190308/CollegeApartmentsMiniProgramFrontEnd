@@ -111,64 +111,85 @@ const selectUpload = (e) => {//上传文件的函数
 }
 const baseForm = ref()
 const submit = (ref) => {
-	//console.log(data.baseFormData)
-	baseForm.value?.validate(['']).then(async res => {
-		//console.log('success', res);
-		uni.showToast({
-			title: `校验通过`,
-		});
-		for (var i = 0; i < data.baseFormData.path0.length; i++) {
-			//这里需要改
-			await load('http://localhost:8080/api/upload', data.baseFormData.path0[i].url, "files").then(
-				(res1) => {
-					//console.log("res1", res1);
-					data.baseFormData.path.push(res1.data);
-				}
-			)
-		}
-		//console.log("this.baseFormData.path", data.baseFormData.path)
-		const res1 = await http('/api/suggestions','POST',{
-			describes: data.baseFormData.describes,
-			contactobject: data.baseFormData.contactobject,
-			category: data.baseFormData.category,
-			path: JSON.stringify(data.baseFormData.path)
-		},);
-		uni.navigateBack({
-			url: '/pages/feedback/feedback',
+	
+		//console.log(data.baseFormData)
+		baseForm.value?.validate(['']).then(async res => {
+			//console.log('success', res);
+			uni.showToast({
+				title: `校验通过`,
+			});
+			for (var i = 0; i < data.baseFormData.path0.length; i++) {
+				//这里需要改
+				await load('http://localhost:8080/api/upload', data.baseFormData.path0[i].url, "files").then(
+					(res1) => {
+						//console.log("res1", res1);
+						data.baseFormData.path.push(res1.data);
+					}
+				)
+			}
+			//console.log("this.baseFormData.path", data.baseFormData.path)
+			const res1 = await http('/api/suggestions','POST',{
+				describes: data.baseFormData.describes,
+				contactobject: data.baseFormData.contactobject,
+				category: data.baseFormData.category,
+				path: JSON.stringify(data.baseFormData.path)
+			},);
+			uni.navigateBack({
+				url: '/pages/feedback/feedback',
+			})
+		}).catch(err => {
+			console.log('err', err);
+			// 处理验证失败的情况
 		})
-	}).catch(err => {
-		console.log('err', err);
-		// 处理验证失败的情况
-	})
+	
 }
 //保存和提交分别交到后端不同的地方
 const save = async () => {
-	console.log("++data.index", data.index);
-	console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
-	let newlist;
-	if (data.index === '') {
-		console.log('data.index==" "');
-		newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]');
-	} else {
-		console.log("data.index", data.index);
-		newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index);
-	}
-	console.log("newlist", newlist);
-	await setLocalData('feedDraft', [
-		...newlist,
-		{
-			describes: data.baseFormData.describes,
-			contactobject: data.baseFormData.contactobject,
-			category: data.baseFormData.category,
-			path: JSON.stringify(data.baseFormData.path0),
-			pushtime: getCurrentTime(),
-		},
-	])
-	uni.navigateBack({
-		url: '/pages/feedback/feedback',
-	})
+	
+		console.log("++data.index", data.index);
+		console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
+		let newlist;
+		if (data.index === '') {
+			console.log('data.index==" "');
+			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]');
+		} else {
+			console.log("data.index", data.index);
+			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index);
+		}
+		console.log("newlist", newlist);
+		await setLocalData('feedDraft', [
+			...newlist,
+			{
+				describes: data.baseFormData.describes,
+				contactobject: data.baseFormData.contactobject,
+				category: data.baseFormData.category,
+				path: JSON.stringify(data.baseFormData.path0),
+				pushtime: getCurrentTime(),
+			},
+		])
+		uni.navigateBack({
+			url: '/pages/feedback/feedback',
+		})
+	
 }
 onShow(() => {
+	if(getLocalData('token')==''){
+		uni.showModal({
+			title: '提示',
+			content: '您未登录，是否前去登录',
+			success: (res) => {
+				if (res.confirm) { 
+					uni.navigateTo({
+						url: "/pages/login/loginPage"
+					})
+				} else if (res.cancel) { 
+					uni.reLaunch({
+						url: "/pages/home/home"
+					})
+				}
+			}
+		});
+	}
 })
 onLoad(async (options) => {
 	//需要获取已经id的草稿内容

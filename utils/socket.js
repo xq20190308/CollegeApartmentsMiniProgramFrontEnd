@@ -98,7 +98,8 @@ export const wssend = (msg) => {
 	  		} else if (res.cancel) { 
 	  		}
 	  	}
-	  });}
+	  });
+	}
 };
 export const wsclose = () => {
   socketTask.close({

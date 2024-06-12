@@ -2,7 +2,7 @@
 	<view>
 		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<text class="underline-text" @click="lookFeed">已提交投诉</text>
-			<view class="notice-list">
+			<view v-if="islogin" class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
 					<view style="display: flex;width: 80%; flex-direction: column;justify-content: center; align-items: left;" @click="change(item,index)">
 						<view>时间：{{item.pushtime}}</view>
@@ -30,6 +30,27 @@ import {getCurrentTime} from '@/utils/time'
 const data = reactive({
 	complaintDrafts: [] // 初始为空数组
 })
+const islogin = ()=>{
+	if(getLocalData('token')==''){
+		uni.showModal({
+			title: '提示',
+			content: '您未登录，是否前去登录',
+			success: (res) => {
+				if (res.confirm) { 
+					uni.navigateTo({
+						url: "/pages/login/loginPage"
+					})
+				} else if (res.cancel) { 
+				}
+			}
+		});
+		return false;
+	}
+	else{
+		return true;
+	}
+	
+}
 onLoad(()=> {
 })
 onShow(async()=>{

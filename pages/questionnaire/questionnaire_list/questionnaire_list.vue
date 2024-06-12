@@ -65,13 +65,27 @@ const gotonaire = (item) =>{
 			icon:'error'
 		})
 	}else{
-		uni.navigateTo({
-			url:'../questionnaire_home/questionnaire_home?id='+item.id+
-			'&type='+item.type+'&name='+item.name+
-			'&description='+item.description+'&startTime='+item.startTime+
-			'&endTime='+item.endTime+
-			'&anonymous='+item.anonymous,
-		})
+		if(uni.getStorageSync('token')){
+			uni.navigateTo({
+				url:'../questionnaire_home/questionnaire_home?id='+item.id+
+				'&type='+item.type+'&name='+item.name+
+				'&description='+item.description+'&startTime='+item.startTime+
+				'&endTime='+item.endTime+
+				'&anonymous='+item.anonymous,
+			})
+		}else{
+			uni.showModal({
+				title: '提示',
+				content: '您未登录，是否前去登录',
+				success: (res) => {
+					if (res.confirm) { 
+						uni.navigateTo({
+							url: "/pages/login/loginPage"
+						})
+					}
+				}
+			});
+		}
 	}
 }
 const modifynaire = (item)=>{
@@ -87,6 +101,7 @@ const modifynaire = (item)=>{
 	}
 }
 const deletenaire =async (item)=> {
+	
 	if(item.isEnd){
 		console.log("问卷已结束");
 		uni.showModal({
@@ -94,7 +109,7 @@ const deletenaire =async (item)=> {
 			icon:'error'
 		})
 	}else{
-		if(true){
+		if(uni.getStorageSync('questionnaireManage')){
 			uni.showModal({
 				title: '提示',
 				content: '确定要删除该文件吗',

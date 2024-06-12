@@ -1,5 +1,5 @@
 export const goto = (url,condition)=> {
-	console.log("页面跳转")
+	//console.log("页面跳转")
 	if(uni.getStorageSync(condition)==true){
 		console.log(url,condition);
 		if(url!=''){
