@@ -121,8 +121,8 @@
 				console.log("封装后请求的结果", res)
 				console.log(res.data);
 
-				uni.navigateTo({
-					url: '../../pages/lostAndFound/lostAndFoundMysef',
+				uni.navigateBack({
+					url: '../../pages/lostAndFound/lostAndFound',
 				});
 
 			}).catch(err => {

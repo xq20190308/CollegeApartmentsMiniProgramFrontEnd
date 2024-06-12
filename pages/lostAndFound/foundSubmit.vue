@@ -117,7 +117,7 @@
 				console.log(res.data);
 
 				uni.navigateBack({
-					url:'../../pages/lostAndFound/lostAndFoundMysef',
+					url:'../../pages/lostAndFound/lostAndFound',
 				});
 			}).catch(err => {
 				console.log('err', err);

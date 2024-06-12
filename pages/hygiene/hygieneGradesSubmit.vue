@@ -7,7 +7,7 @@
 <view>
 	<uni-section title="">
 		<view class="example-body">
-			<uni-file-picker limit="9" @select="selectUpload" file-mediatype="video,image" title="最多选择9个图片"
+			<uni-file-picker limit="9" @select="selectUpload" file-extname='png,git,jpeg,pdf,jpg,xlsx'  file-mediatype="all" title="请上传成绩文件"
 				ref="uniFilePicker" required>
 				<button type="primary" size="mini">选择文件</button>
 			</uni-file-picker>
@@ -28,15 +28,26 @@
 		 path0:[],
 		 path:[],
 	})
-	//本地存储不用了
-	// const add =async ()=>{
-	// 	 res = await load('/api/updateData', data.path0[i].url,'file',{
-	// 		weeks:data.weeks
-	// 	}).then(res1) =>{
-	// 		data.path.push(res1.data);
-	// 	}
-	// 	console.log("封装后交给后端的", res);
-	// }
+	console.log("weeks类型", typeof data.weeks);
+	const selectUpload = (e) =>{
+		console.log(e);
+		data.path0.push(e.tempFiles[0]);
+	}
+	const add =async ()=>{
+		for(var i = 0; i < data.path0.length; i++){
+			
+		 await load('/api/updateData', data.path0[i].url,'file',{
+			weeks:data.weeks
+		}).then((res1) =>{
+			console.log("返回的文件路径", res1);
+			data.path.push(res1.data);
+		})
+		};
+		uni.navigateBack({
+			url:'../../pages/hygiene/showhygiene',
+		})
+		
+	}
 
 </script>
 

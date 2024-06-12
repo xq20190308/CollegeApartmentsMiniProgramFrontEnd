@@ -21,6 +21,7 @@ const httpInterceptor = {
 	},
 
 }
+//在request请求前进行拦截，调用httpInterceptor方法
 uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
 export const load = (url,filePath,name,formData) => {
@@ -29,15 +30,20 @@ export const load = (url,filePath,name,formData) => {
 		 uni.uploadFile({
 		 	url: url, //仅为示例，非真实的接口地址
 		 	filePath: filePath,
+			//传参传过去的名称
 		 	name: name,
+			//额外的参数
 			formData: formData,
 		 	header:{},
 		 	success: (uploadFileRes) => {
+				//接收服务器数据时一般是字符串。我们可以使用 JSON.parse() 方法将数据转换为 JavaScript 对象。
 		 		console.log("--",JSON.parse(uploadFileRes.data));
+				//成功时调用resolve(自带的)函数,任何通过.then()方法添加到这个Promise上的成功回调函数，都会接收到这个解析后的JavaScript对象作为参数。
 		 		resolve(JSON.parse(uploadFileRes.data))
 		 	},
 		 	fail: (err) => {
 		 		console.log("--",err);
+				//和上面的resolve同理
 		 		reject(err)
 		 	}
 		 })
