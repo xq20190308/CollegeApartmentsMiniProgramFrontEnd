@@ -1,5 +1,8 @@
 <template>
 	<view class="container">
+		<view style="height: 20px;margin-bottom: 1px;">
+			<text class="underline-text" @click="overview">提交情况</text>
+		</view>
 		<uni-section :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
 			<template v-slot:right>
 				<uni-icons @click="showmyanswer" type="arrow-up" size="20"></uni-icons>
@@ -80,6 +83,12 @@ const data = reactive({
 	},
 	// 校验规则
 })
+const overview = ()=>{
+	uni.showToast({
+		title: "敬请期待",
+		icon:'error'
+	})
+}
 const rules = computed(()=>{
 	if(data.isanonymous==true){
 		return {
@@ -247,6 +256,19 @@ onReady(()=>{
 		display: flex;
 		flex-wrap: wrap;
 	}
+	.underline-text {
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+		text-decoration: underline;
+		color: #000000;
+	  }
+	  .underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+	  }
 	.questionitem{
 		width: 100%;
 		margin-bottom: 20px;

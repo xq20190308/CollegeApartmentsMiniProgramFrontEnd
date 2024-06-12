@@ -135,7 +135,6 @@ onShow(()=>{
 	background-color: #fff;
 }
 .qusnalist{
-	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
