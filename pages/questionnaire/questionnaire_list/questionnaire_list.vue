@@ -47,6 +47,7 @@ const getNaireslist = async ()=>{
 	data.questionnairelist=res.data;
 	let currentTimeStamp = getTimeStamp(await getCurrentTime())
 	for (let i=0;i<data.questionnairelist.length;i++) {
+		data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
 		data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
 	}
 }
@@ -55,6 +56,12 @@ const gotonaire = (item) =>{
 		console.log("问卷已结束");
 		uni.showModal({
 			title:'问卷已结束',
+			icon:'error'
+		})
+	}else if(!item.isBegin){
+		console.log("问卷未开始");
+		uni.showModal({
+			title:'问卷未开始',
 			icon:'error'
 		})
 	}else{
