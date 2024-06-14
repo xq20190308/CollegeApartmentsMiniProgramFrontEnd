@@ -136,6 +136,13 @@
 			}
 		},
 		{
+			"path": "pages/lostandfoundManage/lostandfoundManage",
+			"style": {
+				"navigationBarTitleText": "失物招领管理",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/lostAndFound/lostAndFound",
 			"style": {
 				"navigationBarTitleText": "失物招领",

@@ -9,6 +9,10 @@
 		<!-- 这里路径没写对，所以他会报错? -->
 		{{i}}是{{item}}
 	</view>
+	<view class="button-row">
+		<button @click="submit('baseForm')" class="button">通过</button>
+		<button @click="retreat" class="button" style="background-color:green; color: #ffffff;">驳回</button>
+	</view>
 </template>
 
 <script setup>
@@ -39,6 +43,18 @@
 		//给他转换成数组
 		data.filepath = options.filepath.split(',');
 	})
+	const submitreason =()=>{
+		
+	}
+	const submit=() =>{
+		
+	}
+	
+	const retreat=() =>{
+		onShow(()=>{
+			
+		})
+	}
 </script>
 
 <style lang="scss">
@@ -66,4 +82,22 @@
     border-radius: 50%;
 		background-color: $uni-success;
   }
+	
+	.button-row {
+		//margin-bottom: 20px;
+		display: flex;
+		justify-content: space-between;
+		/* 用于在按钮之间添加等间距 */
+	
+	}
+	.button {
+		background-color: dodgerblue;
+		color: white;
+		width: 300px;
+		height: 47px;
+		border: 0;
+		font-size: 16px;
+		border-radius: 30px;
+		margin: 10px;
+	}
 </style>
