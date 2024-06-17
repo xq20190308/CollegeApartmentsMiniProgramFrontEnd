@@ -24,7 +24,7 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
@@ -75,7 +75,7 @@ onLoad(()=>{
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
 })})
-onShow(()=>{ 
+onShow(()=>{
 	console.log(uni.getStorageSync('token'))
 	if(socketMsgQueue.length>0){
 		uni.setTabBarBadge({
@@ -84,6 +84,12 @@ onShow(()=>{
 			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
 			// 显示的文本，超过99显示成99+
 		});
+		// 这会实时打印出变化的值
+		let array=socketMsgQueue.content.split("<br/>")
+		 
+		uni.showModal({
+			title:array[array.length-2],
+		})
 	}
 })
 </script>

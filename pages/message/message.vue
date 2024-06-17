@@ -20,6 +20,7 @@ const position = 'bottom'
 const data = reactive({
 	message:'',
 	messages:'',
+	currentmsg:'',
 })
 const mywssent = async () => {
 	console.log('data.message',data.message)
@@ -61,6 +62,8 @@ onShow(()=>{
 setInterval(() => {
 	let old=data.messages;
 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
+	//let array=data.messages.split("<br/>")
+	//data.messages=array[array.length-2]
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({
 	// 		index: 2,

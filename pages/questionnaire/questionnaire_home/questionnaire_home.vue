@@ -145,7 +145,7 @@ const inputChange = (evt,qindex) => {
 	}, 500)
 }
 const checkboxChange = (evt,qindex) => {
-	data.current[qindex]=evt.detail.value;
+	data.current[qindex]=evt.detail.value.sort();
 	console.log(data.current);
 }
 const radioChange = (evt,qindex) => {
