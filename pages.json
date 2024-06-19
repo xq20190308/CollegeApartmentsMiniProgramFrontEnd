@@ -172,6 +172,13 @@
 			}
 		},
 		{
+			"path": "pages/lostAndFound/test_pop",
+			"style": {
+				"navigationBarTitleText": "我就不信搞不出来你了",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/lostAndFound/lostAndFoundMysef",
 			"style": {
 				"navigationBarTitleText": "我的",
