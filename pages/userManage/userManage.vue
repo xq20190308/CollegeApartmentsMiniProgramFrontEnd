@@ -5,40 +5,34 @@
 			:is_show_more="false" @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
 	</view>
-	<uni-section title="个人信息" type="line" v-if="data.userInfo!=''">
+	<uni-section title="个人信息" type="line" v-if="data.userInfo!=null">
 		<view style="margin: 15px;
 					border-radius: 20px;
 					overflow: hidden;
 					box-shadow: 0px 2px 20px rgb(0 0 0 / 10%);">
 			<uni-list border-full>
-				<uni-list-item style="padding: 2px 8px;" showArrow title="微信解绑" rightText="" >
+				<uni-list-item style="padding: 2px 8px;" showArrow clickable @click="debindwx" title="微信解绑" rightText="" >
+
+				</uni-list-item>
+				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="学号" rightText="" >
 					<template v-slot:footer>
-						<template v-slot:footer>
-							<uni-data-picker popup-title="请选择" :localdata="data.dataTree" v-model="data.classes"
-							:border="false" :clear-icon="false"
-							@change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
-							</uni-data-picker>
-						</template>
+						<uni-easyinput v-model="data.newInfo.id" maxlength=12 :clearable="false" :inputBorder="false" type="line" :placeholder="data.userInfo.userid"></uni-easyinput>
 					</template>
 				</uni-list-item>
-				<uni-list-item style="padding: 2px 8px;" showArrow title="学号" :rightText="data.userInfo.userid" >
+				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="密码" rightText="" >
 					<template v-slot:footer>
-						<text style="color: #c1c1c1;font-size: small;">{{data.userInfo.userid}}</text>
+						<!--text style="color: #c1c1c1;font-size: small;">{{data.userInfo.password}}</text-->
+						<uni-easyinput v-model="data.newInfo.password" maxlength=12 :clearable="false" :inputBorder="false" type="line" :placeholder="data.userInfo.password"></uni-easyinput>
 					</template>
 				</uni-list-item>
-				<uni-list-item style="padding: 2px 8px;" showArrow title="密码" :rightText="data.userInfo.password" >
+				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="姓名" rightText="" >
 					<template v-slot:footer>
-						<text style="color: #c1c1c1;font-size: small;">{{data.userInfo.password}}</text>
-					</template>
-				</uni-list-item>
-				<uni-list-item style="padding: 2px 8px;" showArrow title="姓名" :rightText="data.userInfo.name" >
-					<template v-slot:footer>
-						<text style="color: #c1c1c1;font-size: small;">{{data.userInfo.name}}</text>
+						<uni-easyinput v-model="data.newInfo.name" :clearable="false" :inputBorder="false" type="line" :placeholder="data.userInfo.name"></uni-easyinput>
 					</template>
 				</uni-list-item>
 				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="权限" :righticon="''" >
 					<template v-slot:footer>
-						<uni-data-picker popup-title="请选择" :localdata="data.dataTree" v-model="data.classes"
+						<uni-data-picker popup-title="" :localdata="data.dataTree" v-model="data.newInfo.userLevel"
 						:border="false" :clear-icon="false"
 						@change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
 						</uni-data-picker>
@@ -47,7 +41,8 @@
 			</uni-list>
 		</view>
 	</uni-section>
-	<view>{{data.userInfo}}</view>
+	<button v-if="data.userInfo!=null" style="left: 150px; top: 50px; color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="modify">提交修改</button>
+	
 </template>
 
 <script setup>
@@ -56,33 +51,113 @@ import {computed, reactive, ref} from "vue";
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http';
 const data = reactive({
-	inputValue : '',
-	userInfo:{
-		avatar: "2705e30c-7192-4b0b-96da-1e5c525b1e49",
-		id: 2,
-		name: "曹晓玉",
-		openid: "ormTS5A6OPUrfzEUmUL2gSozu7y4",
-		password: "123456",
-		phone: "18765248196",
-		userLevel: "0",
-		userid: "202211070501",
-		username: "202211070501",
+	newInfo:{
+		id:"",
+		password:"",
+		name:"",
+		userLevel:"",
 	},
-	classes: '1',
+	inputValue : '',
+	userInfo:null,
 	dataTree: [{
 		text: "管理员",
-		value: "1"
+		value: "0"
 	},
 	{
 		text: "教师",
-		value: "2",
+		value: "1",
 	},
 	{
 		text: "学生",
-		value: "3",
+		value: "2",
 		//disable: true
 	}],
 })
+const onnodeclick=(e)=> {
+	console.log('onnodeclick');
+	console.log(e);
+}
+const onpopupopened=(e)=> {
+	console.log('popupopened');
+}
+const onpopupclosed=(e)=> {
+	console.log('popupclosed');
+}
+const onchange=(e)=> {
+	console.log('onchange:', e);
+}
+const modify=async()=>{
+	console.log(data.newInfo)
+	if(data.newInfo.password!=data.userInfo.password){
+		//改密码
+		const res = await http('/user/updatePasswordByUserid/'+data.userInfo.userid,'POST',{
+			password:data.newInfo.password,
+		},)
+		if(res.msg=="success"){
+			uni.showToast({
+				icon:"success",
+				title:"修改成功"
+			})
+			data.userInfo.password=data.newInfo.password;
+			data.newInfo.password=""
+		}else{
+			uni.showToast({
+				icon:"error",
+				title:"修改失败"
+			})
+		}
+	}
+	if(data.newInfo.userLevel!=data.userInfo.userLevel){
+		//改level
+		const res = await http('/user/updateLevelByUserid/'+data.userInfo.userid,'POST',{
+			userLevel:data.newInfo.userLevel,
+		},)
+		if(res.msg=="success"){
+			uni.showToast({
+				icon:"success",
+				title:"修改成功"
+			})
+			data.userInfo.userLevel=data.newInfo.userLevel;
+		}else{
+			uni.showToast({
+				icon:"error",
+				title:"修改失败"
+			})
+		}
+	}
+}
+const debindwx=async()=>{
+	if(data.userInfo.openid==null){
+		uni.showToast({
+			icon:"error",
+			title:"该用户尚未绑定微信账号"
+		})
+	}else{
+		uni.showModal({
+			title: "确定解除绑定微信吗",
+			success: async(res1) => {
+				if (res1.confirm) {
+					console.log('用户点击确认');
+					const res = await http('/user/initOpenidByUserid/'+data.userInfo.userid,'POST',{},)
+					if(res.msg=="success"){
+						uni.showToast({
+							icon:"success",
+							title:"解绑成功"
+						})
+						data.userInfo.openid=null
+					}else{
+						uni.showToast({
+							icon:"error",
+							title:"解绑失败"
+						})
+					}
+				} else if (res1.cancel) {
+					console.log('用户点击取消');
+				}
+			}
+		})
+	}
+}
 const onSearchName = async (e)=>{
 	data.inputValue=e;
 	console.log(data.inputValue);
@@ -90,16 +165,23 @@ const onSearchName = async (e)=>{
 		console.log("数据有效")
 		const res = await http('/user/findByUserid?userid='+data.inputValue,'GET',{},)
 		data.userInfo = res.data;
+		data.newInfo.userLevel=data.userInfo.userLevel;
 	}
 }
 onLoad(async ()=>{
-	const res = await http('/user/findByUserid?userid='+"202211070501",'GET',{},)
-	data.userInfo = res.data;
+	
 })
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+::v-deep .uni-easyinput{
+	text-align: end;
+}
+::v-deep .text-color {
+  color: #9e9a9a;
+  font-family: UICTFontTextStyleBody;
+  font-size: smaller;
+}
 </style>
 
 
