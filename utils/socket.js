@@ -75,12 +75,14 @@ export const wsopen = (url) => {
     console.log("未登录");
   }
 };
-export const wssend = (id,msg) => {
+export const wssend = (type,msg,ids) => {
 	if(getLocalData('token')!=''){
+		console.log(ids);
 	  socketTask.send({
 		data: JSON.stringify({
-			to:id,
-			message:msg
+			type:type,
+			data:msg,
+			recevier:ids,
 		}),
 		success: (res) => {
 		  console.log("ws send successed ", res);
