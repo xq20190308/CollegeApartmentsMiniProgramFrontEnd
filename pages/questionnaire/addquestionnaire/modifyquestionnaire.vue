@@ -107,7 +107,7 @@ const add=(e,option)=>{
 		type: option,
 		name: "",
 		description: "",
-		content: ["A", "B", "C"],
+		content: option==3?null:["A", "B", "C"],
 		questionnaire_id: "",
 	});
 	console.log(data.questionList)

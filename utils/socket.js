@@ -23,12 +23,12 @@ export var socketMsgQueue = {
   length: 0
 };
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
+
 export const wsopen = (url) => {
   if (uni.getStorageSync("token") != "") {
     socketTask = uni.connectSocket({
       url: url,
-      header: {
-      },
+      header: {},
       method: "GET",
       success: (e) => {
         console.log("ws connected ", e);
@@ -75,10 +75,13 @@ export const wsopen = (url) => {
     console.log("未登录");
   }
 };
-export const wssend = (msg) => {
+export const wssend = (id,msg) => {
 	if(getLocalData('token')!=''){
 	  socketTask.send({
-		data: msg,
+		data: JSON.stringify({
+			to:id,
+			message:msg
+		}),
 		success: (res) => {
 		  console.log("ws send successed ", res);
 		},

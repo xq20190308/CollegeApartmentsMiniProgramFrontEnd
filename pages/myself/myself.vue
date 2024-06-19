@@ -24,14 +24,16 @@
 		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
-			<uni-list border-full>
-				<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
-				<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
-				<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
-				<uni-list-item showArrow title="专业" rightText="软件工程" />
-				<uni-list-item showArrow title="建言献策" />
-				<uni-list-item showArrow title="关于" />
-			</uni-list>
+		<view style="border-radius: 20px;overflow: hidden;">
+				<uni-list border-full>
+					<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
+					<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
+					<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
+					<uni-list-item showArrow title="专业" rightText="软件工程" />
+					<uni-list-item showArrow title="建言献策" />
+					<uni-list-item showArrow title="关于" />
+				</uni-list>
+		</view>
 		</uni-section>
 	</view>
 	

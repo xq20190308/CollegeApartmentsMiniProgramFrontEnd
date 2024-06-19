@@ -1,4 +1,54 @@
 <template>
+	<uni-list>
+		<uni-list :border="true">
+			<!-- 右侧带角标 -->
+			<uni-list-chat title="uni-app" avatar="https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
+			<!-- 显示多头像 -->
+			<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
+		</uni-list>
+	</uni-list>
+</template>
+
+<script setup>
+import '@/utils/http'
+import {computed, reactive, ref} from "vue"; 
+import {onLoad,onReady} from "@dcloudio/uni-app";
+import {http} from '@/utils/http'
+const data = reactive({
+		avatarList: [{
+			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
+		}, {
+			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
+		}, {
+			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
+		}]
+})
+</script>
+
+<style>
+	.chat-custom-right {
+		flex: 1;
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: flex-end;
+	}
+	
+	.chat-custom-text {
+		font-size: 12px;
+		color: #999;
+	}
+
+</style>
+
+
+
+
+
+
+<!-- <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
 		<view style="text-align: center;margin-bottom: 60px;" id="content"><rich-text :nodes="data.messages"></rich-text></view>
 		
@@ -24,7 +74,7 @@ const data = reactive({
 })
 const mywssent = async () => {
 	console.log('data.message',data.message)
-	await wssend(data.message===''?"发射爱心":data.message)
+	await wssend("202211070625",data.message===''?"发射爱心":data.message)
 	data.message='';
 	// uni.pageScrollTo({
 	// 	selector: '#input',
@@ -87,4 +137,4 @@ setInterval(() => {
 		padding-bottom: 2px;
 		padding-left: 5px;
 	}
-</style>
+</style> -->
