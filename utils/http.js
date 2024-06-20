@@ -1,5 +1,5 @@
 import { getLocalData } from "../utils/cache.js"
-const developUrl = 'http://localhost:8080'
+const developUrl = 'http://192.168.88.218:8080'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
 // main 分支提交的测试数据: 

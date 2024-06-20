@@ -1,5 +1,5 @@
 import {getLocalData} from "../utils/cache.js"
-const wsUrl= "ws://localhost:8080"
+const wsUrl= "ws://192.168.88.218:8080"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {

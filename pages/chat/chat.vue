@@ -60,7 +60,7 @@ onLoad((options)=>{
 	    console.error('标题设置失败', err);
 	  }
 	});
-	data.messages=getLocalData('single_with_'+data.info.userid)?JSON.parse(getLocalData('single_with_'+data.info.userid)):[]
+	data.messages=getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)?JSON.parse(getLocalData('single_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 })
 onUnload(()=>{

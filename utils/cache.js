@@ -28,6 +28,7 @@ export const clearUserInfo = () => {
 	delLocalData("token");
 	delLocalData("trueName");
 	delLocalData("username");
+	delLocalData("userid");
 	delLocalData("accountManage");
 	delLocalData("noticeManage");
 	delLocalData("feedbackManage");
@@ -39,6 +40,7 @@ export const setUserInfo = (res) => {
 	setLocalData("token", res.data.data.token)
 	setLocalData("trueName", res.data.data.trueName);
 	setLocalData("username", res.data.data.username);
+	setLocalData("userid", res.data.data.userid);
 	console.log(res.data.data.userPermission)
 	if(res.data.data.userPermission!=null){
 		setLocalData("accountManage", res.data.data.userPermission.accountManage);
