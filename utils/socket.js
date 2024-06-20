@@ -82,7 +82,7 @@ export const wssend = (type,msg,ids) => {
 		data: JSON.stringify({
 			type:type,
 			data:msg,
-			recevier:ids,
+			receviers:ids,
 		}),
 		success: (res) => {
 		  console.log("ws send successed ", res);
