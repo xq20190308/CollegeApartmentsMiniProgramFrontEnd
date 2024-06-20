@@ -1,5 +1,6 @@
+import { ref, watch,reactive } from "vue";
 import {getLocalData} from "../utils/cache.js"
-const wsUrl= "ws://192.168.174.218:8080"
+const wsUrl= "ws://192.168.88.218:8080"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -18,10 +19,10 @@ const wsInterceptor = {
 }
 uni.addInterceptor('connectSocket', wsInterceptor)
 export var socketTask = "";
-export var socketMsgQueue = {
+export var socketMsgQueue = reactive({
   content: "",
   length: 0
-};
+});
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
 
 export const wsopen = (url) => {
@@ -38,9 +39,11 @@ export const wsopen = (url) => {
 		console.log("Ws open " + res.data);
     });
     socketTask.onMessage(async (res) => {
+		console.log("socket.js中的onMessage");
 		if (res.data != "biu~biu~") {
 			console.log("ws receive ", res.data);
 			socketMsgQueue.content = res.data;
+			console.log("socketMsgQueue",socketMsgQueue);
 			try{
 				let pages = await  getCurrentPages();
 				if(pages[pages.length - 1]==undefined||pages[pages.length - 1].$page.fullPath != '/pages/message/message'){

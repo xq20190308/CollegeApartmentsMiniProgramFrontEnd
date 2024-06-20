@@ -11,7 +11,7 @@
 
 <script setup>
 import '@/utils/http'
-import {computed, reactive, ref} from "vue"; 
+import {computed, reactive, ref, watch} from "vue"; 
 import {onLoad,onReady,onShow} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
@@ -57,6 +57,7 @@ onShow(()=>{
 	// 	}
 	// })
 })
+
 // setInterval(() => {
 // 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
 // 	if(old==data.messages){

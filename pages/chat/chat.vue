@@ -1,5 +1,7 @@
 <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
+		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="()=>{Queue.content=(Queue.content=='1')?'2':'1';console.log(Queue.content)}">发射爱心</button>
+		
 		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content"><text>{{msg}}</text></view>
 		
 		<view style="height: 120px;"></view>
@@ -7,7 +9,7 @@
 		<view id="input" style="margin-top: 80px;"></view>
 		
 		<view class="inputstyle">
-			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
+			<uni-easyinput v-model="message" type="line" placeholder=""></uni-easyinput>
 			<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
 		</view>
 	</view>
@@ -15,7 +17,7 @@
 
 <script setup>
 import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
-import { reactive, ref,computed } from "vue";
+import { reactive, ref,computed,watch } from "vue";
 import { getCurrentTime } from '@/utils/time'
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
@@ -29,16 +31,20 @@ const data = reactive({
 	messages:[],
 	currentmsg:'',
 })
-socketTask.onMessage(async (res) => {
-	data.messages.push(res.data)
-	// 	data.messages.push(res.data)
-	// 	// data.messages.push({
-	// 	// 	data:"静态消息",
-	// 	// 	senderUserId:"202211070625",
-	// 	// 	sendTime:"2024-06-20 17:03",
-	// 	// })
-	console.log("data.messages",data.messages)
+const Queue = reactive({
+  content: "1",
+  length: 0
 });
+watch(socketMsgQueue,async(newvalue,oldvalue)=>{
+	console.log("监听事件newvalue:",newvalue);
+	let message=JSON.parse(newvalue.content);
+	console.log(message);
+	if(message.senderUserId==data.info.userid){
+		console.log(message.senderUserId+"=="+data.info.userid)
+		data.messages.push(message)
+	}
+}, { deep: true })
+
 const mywssent = async () => {
 	console.log('data.message',data.message)
 	let recevier=[];
@@ -78,6 +84,7 @@ onLoad((options)=>{
 	console.log("调出本地聊天记录",data.messages)
 })
 onUnload(()=>{
+	
 	console.log("onUnload")
 	console.log("存储聊天记录到本地")
 	setLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid,JSON.stringify(data.messages))
