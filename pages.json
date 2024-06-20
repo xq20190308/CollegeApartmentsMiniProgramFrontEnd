@@ -122,6 +122,13 @@
 			}
 		},
 		{
+			"path": "pages/notice/notice_markdown",
+			"style": {
+				"navigationBarTitleText": "通知markdown",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/chat/chat",
 			"style": {
 				"navigationBarTitleText": "聊天",
@@ -175,6 +182,20 @@
 			"path": "pages/lostAndFound/test_pop",
 			"style": {
 				"navigationBarTitleText": "我就不信搞不出来你了",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostandfoundManage/lostandfoundManagelist",
+			"style": {
+				"navigationBarTitleText": "找到细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostandfoundManage/detailLostandFoundManage",
+			"style": {
+				"navigationBarTitleText": "找到细节",
 				"enablePullDownRefresh": false
 			}
 		},
