@@ -48,10 +48,10 @@ watch(socketMsgQueue,async(newvalue,oldvalue)=>{
 
 const mywssent = async () => {
 	console.log('data.message',data.message)
-	let recevier=[];
-	recevier.push(data.info.userid)
-	console.log("receiver",recevier)
-	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,recevier)
+	let receiver=[];
+	receiver.push(data.info.userid)
+	console.log("receiver",receiver)
+	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,receiver)
 	console.log("发送消息的res",res1);
 	data.messages.push({
 		data:data.message===''?"发射爱心":data.message,

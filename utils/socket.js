@@ -86,13 +86,13 @@ export const wssend = (type,msg,ids) => {
 				JSON.stringify({
 					type:type,
 					data:msg,
-					receviers:ids,
+					receivers:ids,
 				}))
 			socketTask.send({
 			data: JSON.stringify({
 				type:type,
 				data:msg,
-				receviers:ids,
+				receivers:ids,
 			}),
 			success: (res) => {
 			  console.log("ws send successed ", res);

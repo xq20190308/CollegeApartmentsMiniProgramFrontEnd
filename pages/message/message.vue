@@ -18,7 +18,7 @@ import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/soc
 
 const data = reactive({
 	message:'',
-	messages:[],
+	lastmessages:[],
 	currentmsg:'',
 	contacts:[
 		{name:"张晨冉1",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
