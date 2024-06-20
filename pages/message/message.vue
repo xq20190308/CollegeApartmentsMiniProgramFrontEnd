@@ -2,7 +2,7 @@
 	<uni-list>
 		<uni-list :border="true">
 			<!-- 右侧带角标 -->
-			<uni-list-chat :clickable="true" @click="()=>{console.log('点击事件',item)}" v-for="(item,index) in data.contacts" :key="index" :title="item.name" :avatar="item.avatar" :note="data.messages" :to="'../chat/chat?info='+JSON.stringify(item)" time="2020-02-02 20:20" badge-text="1"></uni-list-chat>
+			<uni-list-chat :clickable="true" @click="()=>{console.log('点击事件',item)}" v-for="(item,index) in data.contacts" :key="index" :title="item.name" :avatar="item.avatar" :note="item.userid" :to="'../chat/chat?info='+JSON.stringify(item)" time="2020-02-02 20:20" badge-text="1"></uni-list-chat>
 			<!-- 显示多头像 -->
 			<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
 		</uni-list>
@@ -18,16 +18,17 @@ import '@/utils/http'
 import {computed, reactive, ref} from "vue"; 
 import {onLoad,onReady,onShow} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketMsgQueue } from "../../utils/socket.js";
+import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
+
 const data = reactive({
 	message:'',
-	messages:'',
+	messages:[],
 	currentmsg:'',
 	contacts:[
 		{name:"张晨冉1",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"张晨冉2",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"张晨冉3",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"张晨冉4",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
+		{name:"张晨冉2",userid:"202211070624",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
+		{name:"张晨冉3",userid:"202211070623",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
+		{name:"张晨冉4",userid:"202211070622",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
 	],
 	avatarList: [{
 		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
@@ -37,6 +38,16 @@ const data = reactive({
 		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
 	}]
 })
+// socketTask.onMessage(async (res) => {
+// 	console.log(res);
+// 	data.messages.push(res.data)
+// 	// data.messages.push({
+// 	// 	data:"静态消息",
+// 	// 	senderUserId:"202211070625",
+// 	// 	sendTime:"2024-06-20 17:03",
+// 	// })
+// 	console.log("data.messages",data.messages)
+// });
 const mywssent = async () => {
 	console.log('data.message',data.message)
 	let recevier=[];

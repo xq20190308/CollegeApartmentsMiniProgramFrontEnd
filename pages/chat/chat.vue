@@ -27,6 +27,12 @@ const data = reactive({
 })
 socketTask.onMessage(async (res) => {
 	data.messages.push(res.data)
+	// 	data.messages.push(res.data)
+	// 	// data.messages.push({
+	// 	// 	data:"静态消息",
+	// 	// 	senderUserId:"202211070625",
+	// 	// 	sendTime:"2024-06-20 17:03",
+	// 	// })
 	console.log("data.messages",data.messages)
 });
 const mywssent = async () => {
@@ -34,7 +40,13 @@ const mywssent = async () => {
 	let recevier=[];
 	recevier.push("202211070625")
 	console.log("receiver",recevier)
-	await wssend("0",data.message===''?"发射爱心":data.message,recevier)
+	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,recevier)
+	console.log("发送消息的res",res1);
+	data.messages.push({
+		data:data.message===''?"发射爱心":data.message,
+		senderUserId:getLocalData('userid'),
+		sendTime:"2024-06-20 17:03",
+	})
 	data.message='';
 	// uni.pageScrollTo({
 	// 	selector: '#input',
@@ -66,7 +78,7 @@ onLoad((options)=>{
 onUnload(()=>{
 	console.log("onUnload")
 	console.log("存储聊天记录到本地")
-	setLocalData('single_with_'+data.info.userid,JSON.stringify(data.messages))
+	setLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid,JSON.stringify(data.messages))
 })
 onShow(()=>{
 	console.log("onShow")

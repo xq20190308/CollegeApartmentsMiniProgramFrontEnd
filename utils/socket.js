@@ -1,5 +1,5 @@
 import {getLocalData} from "../utils/cache.js"
-const wsUrl= "ws://192.168.88.218:8080"
+const wsUrl= "ws://192.168.174.218:8080"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -78,19 +78,29 @@ export const wsopen = (url) => {
 export const wssend = (type,msg,ids) => {
 	if(getLocalData('token')!=''){
 		console.log(ids);
-	  socketTask.send({
-		data: JSON.stringify({
-			type:type,
-			data:msg,
-			receviers:ids,
-		}),
-		success: (res) => {
-		  console.log("ws send successed ", res);
-		},
-		fail: (err) => {
-		  console.log("send fail ", err);
-		}
-	  });
+		return new Promise((resolve, reject) => {
+			console.log(
+				JSON.stringify({
+					type:type,
+					data:msg,
+					receviers:ids,
+				}))
+			socketTask.send({
+			data: JSON.stringify({
+				type:type,
+				data:msg,
+				receviers:ids,
+			}),
+			success: (res) => {
+			  console.log("ws send successed ", res);
+			  resolve('success');
+			},
+			fail: (err) => {
+			  console.log("send fail ", err);
+			  reject('error');
+			}
+			});
+		})
 	}else{
 	  uni.showModal({
 	  	title: '提示',
