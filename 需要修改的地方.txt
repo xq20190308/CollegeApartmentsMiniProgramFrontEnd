@@ -8,3 +8,195 @@ markdown
 获取头像加可选参数
 问卷统计数据展示方式
 获取导师信息列表，拓展成获得单人信息
+导师列表返回的index不对
+首字母索引表没法定位
+
+<!-- <template>
+	
+	<view style="display: flex;flex-direction: column;">
+		<view style="width: 100%; height: auto;">
+			<d-search-log placeholder="搜索姓名" color_border="#666666" color_text="#666666"
+			:search_list_hot="data.search_list" :store_key="data.store_key" :input_text="data.input_text"
+			@onClickDelAllApi="onClickDelAll" @onSearchNameApi="onSearchName"></d-search-log>
+		</view>
+	</view>
+	<view class="mentor_list">
+		<!--uni-list>
+			<uni-list-item v-for="(item,index) in data.mentor_list" :key="index" :title="item.name" :to="'../chat/chat'" @click="(e)=>{console.log('--',e)}" />
+		</uni-list>
+		<uni-indexed-list :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
+	</view>
+</template>
+
+<script setup>
+import {onLoad,onShow} from "@dcloudio/uni-app";
+import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
+import {reactive} from "vue";
+import {http} from '@/utils/http'
+import {goto} from "../../utils/access.js"
+const data = reactive({
+	mentor_list:[],
+	mentor_list_ABC:[],
+	search_list:[],
+	store_key:'mentor_namelist',
+	input_text:''
+})
+const bindClick=(e)=>{
+	console.log('点击item，返回数据' + JSON.stringify(e))
+}
+const onClickDelAll = (e)=>{
+	console.log("onClickDelAll",e)
+}
+const onSearchName = (e)=>{
+	console.log("onSearchName",e)
+}
+onShow(()=>{
+	
+})
+onLoad(async (options) => {
+	const res = await http('/user/findByUserLevel?userLevel='+1,'GET',{},)
+	// console.log("张三"+("张三">"李四"?">":"<")+"李四")
+	// res.data.sort((a,b)=>{
+	// 	console.log(a.name+(a.name>b.name?">":"<")+b.name)
+	// 	return a.name>=b.name?1:-1
+	// });
+	
+	console.log("导师信息表",res.data)
+	data.mentor_list=[{
+		letter: 'A',
+		name: "啊吧的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'A',
+		name: "啊的吧",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'A',
+		name: "啊的的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧啊的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧的啊",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧的的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'D',
+		name: "的啊吧",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'D',
+		name: "的吧啊",
+		userid: "33",
+		phone: "33333333333",}]
+		
+	data.mentor_list_ABC=[{letter: 'A',data: []},{letter: 'B',data: []},{letter: 'C',data: []},
+	{letter: 'D',data: []},{letter: 'E',data: []},{letter: 'F',data: []},{letter: 'G',data: []},
+	{letter: 'H',data: []},{letter: 'I',data: []},{letter: 'J',data: []},{letter: 'K',data: []},
+	{letter: 'L',data: []},{letter: 'M',data: []},{letter: 'N',data: []},{letter: 'O',data: []},
+	{letter: 'P',data: []},{letter: 'Q',data: []},{letter: 'R',data: []},{letter: 'S',data: []},
+	{letter: 'T',data: []},{letter: 'U',data: []},{letter: 'V',data: []},{letter: 'W',data: []},
+	{letter: 'X',data: []},{letter: 'Y',data: []},{letter: 'Z',data: []}]
+	for (var i = 0; i < data.mentor_list.length; i++) {
+		let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].letter);
+		console.log('index_of_letter',data.mentor_list_ABC[index].letter)
+		data.mentor_list_ABC[index].data.push(data.mentor_list[i].name)
+	}
+	console.log('data.mentor_list_ABC',data.mentor_list_ABC)
+})
+</script>
+
+
+<style lang="scss" scoped>
+	::v-deep .uni-indexed-list.data-v-476e099e{
+		position: relative;
+	}
+	.cates{
+		display: flex;
+		flex-direction: row;
+		background-color: #fff;
+		height: 40px;
+		justify-content: space-between;
+	}
+	.cateitem{
+		text-align: center;
+		width: 50%;
+		padding-top: 9px;
+		padding-bottom: 9px;
+		background-color: #008cff;
+	}
+	.cateactive{
+		background-color: #fff;
+	}
+	.notice-list {
+	}
+	.notice-item {
+		width: 89%;
+		height: auto;
+		border: 1px solid #e2e2e2;
+		border-radius: calc(18rpx * 2);
+		box-sizing: border-box;
+		padding: 10rpx 30rpx;
+		padding-top: 30rpx;
+		flex-shrink: 0;
+		margin-top: 24rpx!important;
+		margin-button: 28rpx;
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 500;
+		font-size: calc(18rpx * 2);
+		line-height: calc(17rpx * 2);
+		color: #444444;
+		margin: auto;
+		z-index: 99;
+	}
+	.deletbutton {
+		width: 15%;
+		font-size: 12px;
+		padding: 0px;
+		margin: 0px;
+		bottom: 8px;
+		z-index: 999;
+	}
+	.notice-item>text {
+		display: block;
+	}
+	
+	.notice-item text:nth-child(2) {
+		text-indent: 1em;
+		display: flex;
+		padding-top: 10rpx;
+	}
+
+	.notice-item text:nth-child(3) {
+		padding-top: 24rpx;
+		font-size: 24rpx !important;
+	}
+	.notice-item text:nth-child(4) {
+		font-size: 24rpx !important;
+	}
+	
+	.notice-item text:nth-child(2),
+	.notice-item text:nth-child(3),
+	.notice-item text:nth-child(4) {
+		color: #444444;
+		font-family: 'Inter';
+		font-style: normal;
+		font-weight: 500;
+		font-size: calc(14rpx * 2);
+		line-height: calc(15rpx * 2);
+	}
+	.addnaireicon {
+		position: fixed;
+		bottom:60rpx; 
+		right: 50rpx; 
+		width: 80rpx; 
+		height: 80rpx; 
+	}
+</style> -->

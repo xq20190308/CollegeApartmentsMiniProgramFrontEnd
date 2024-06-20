@@ -1,17 +1,17 @@
 <template>
-	<!--多个学院/单位时，在该页面前再加一个选择学院的页面-->
-	<view style="display: flex;flex-direction: column;">
+	
+	<!--view style="display: flex;flex-direction: column;">
 		<view style="width: 100%; height: auto;">
 			<d-search-log placeholder="搜索姓名" color_border="#666666" color_text="#666666"
 			:search_list_hot="data.search_list" :store_key="data.store_key" :input_text="data.input_text"
 			@onClickDelAllApi="onClickDelAll" @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
-	</view>
+	</view-->
 	<view class="mentor_list">
 		<!--uni-list>
 			<uni-list-item v-for="(item,index) in data.mentor_list" :key="index" :title="item.name" :to="'../chat/chat'" @click="(e)=>{console.log('--',e)}" />
 		</uni-list-->
-		<uni-indexed-list :options="data.mentor_list_ABC" :show-select="true" @click="(e)=>{console.log(e)}" />
+		<uni-indexed-list :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
 	</view>
 </template>
 
@@ -28,6 +28,9 @@ const data = reactive({
 	store_key:'mentor_namelist',
 	input_text:''
 })
+const bindClick=(e)=>{
+	console.log('点击item，返回数据' + JSON.stringify(e))
+}
 const onClickDelAll = (e)=>{
 	console.log("onClickDelAll",e)
 }
@@ -78,6 +81,38 @@ onLoad(async (options) => {
 		letter: 'D',
 		name: "的吧啊",
 		userid: "33",
+		phone: "33333333333",},{
+		letter: 'A',
+		name: "啊吧的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'A',
+		name: "啊的吧",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'A',
+		name: "啊的的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧啊的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧的啊",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'B',
+		name: "吧的的",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'D',
+		name: "的啊吧",
+		userid: "33",
+		phone: "33333333333",},{
+		letter: 'D',
+		name: "的吧啊",
+		userid: "33",
 		phone: "33333333333",}]
 		
 	data.mentor_list_ABC=[{letter: 'A',data: []},{letter: 'B',data: []},{letter: 'C',data: []},
@@ -92,6 +127,7 @@ onLoad(async (options) => {
 		console.log('index_of_letter',data.mentor_list_ABC[index].letter)
 		data.mentor_list_ABC[index].data.push(data.mentor_list[i].name)
 	}
+	console.log('data.mentor_list_ABC',data.mentor_list_ABC)
 })
 </script>
 

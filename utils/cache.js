@@ -39,9 +39,12 @@ export const setUserInfo = (res) => {
 	setLocalData("token", res.data.data.token)
 	setLocalData("trueName", res.data.data.trueName);
 	setLocalData("username", res.data.data.username);
-	setLocalData("accountManage", res.data.data.userPermission.accountManage);
-	setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
-	setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
-	setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
+	console.log(res.data.data.userPermission)
+	if(res.data.data.userPermission!=null){
+		setLocalData("accountManage", res.data.data.userPermission.accountManage);
+		setLocalData("noticeManage", res.data.data.userPermission.noticeManage);
+		setLocalData("feedbackManage", res.data.data.userPermission.feedbackManage);
+		setLocalData("questionnaireManage", res.data.data.userPermission.questionnaireManage);
+	}
 }
 					

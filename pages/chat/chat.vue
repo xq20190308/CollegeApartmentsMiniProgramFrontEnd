@@ -1,6 +1,6 @@
 <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
-		<view style="text-align: center;margin-bottom: 82px;" id="content"><rich-text :nodes="data.messages"></rich-text></view>
+		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 82px;" id="content"><text>{{msg}}</text></view>
 		
 		<view class="inputstyle">
 			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
@@ -11,18 +11,24 @@
 </template>
 
 <script setup>
-import { onLoad, onShow } from "@dcloudio/uni-app";
+import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
 import { reactive, ref,computed } from "vue";
 import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketMsgQueue } from "../../utils/socket.js";
+import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
 import { onMounted, onUnmounted } from 'vue';
+import { getLocalData, setLocalData } from "../../utils/cache.js"
 
 const position = 'bottom'
 const data = reactive({
+	info:{},
 	message:'',
-	messages:'',
+	messages:[],
 	currentmsg:'',
 })
+socketTask.onMessage(async (res) => {
+	data.messages.push(res.data)
+	console.log("data.messages",data.messages)
+});
 const mywssent = async () => {
 	console.log('data.message',data.message)
 	let recevier=[];
@@ -41,7 +47,31 @@ const mywssent = async () => {
 		});
 	}
 }
+onLoad((options)=>{
+	console.log("onLoad")
+	console.log(options)
+	data.info=JSON.parse(options.info)
+	uni.setNavigationBarTitle({
+	  title: data.info.name,
+	  success: () => {
+	    console.log('标题设置成功');
+	  },
+	  fail: (err) => {
+	    console.error('标题设置失败', err);
+	  }
+	});
+	data.messages=getLocalData('single_with_'+data.info.userid)?JSON.parse(getLocalData('single_with_'+data.info.userid)):[]
+	console.log("调出本地聊天记录",data.messages)
+})
+onUnload(()=>{
+	console.log("onUnload")
+	console.log("存储聊天记录到本地")
+	setLocalData('single_with_'+data.info.userid,JSON.stringify(data.messages))
+})
 onShow(()=>{
+	console.log("onShow")
+})
+	
 	// socketMsgQueue.length=0;
 	// uni.removeTabBarBadge({
 	// 	index:2,
@@ -49,7 +79,6 @@ onShow(()=>{
 	// 		console.log(res)
 	// 	}
 	// })
-})
 // setInterval(() => {
 // 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
 // 	if(old==data.messages){
@@ -63,9 +92,9 @@ onShow(()=>{
 // 		});
 // 	}
 // }, 100);
-setInterval(() => {
-	let old=data.messages;
-	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
+//setInterval(() => {
+	//let old=data.messages;
+	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
 	//let array=data.messages.split("<br/>")
 	//data.messages=array[array.length-2]
 	// if(socketMsgQueue.length>0){
@@ -76,7 +105,7 @@ setInterval(() => {
 	// 		// 显示的文本，超过99显示成99+
 	// 	});
 	// }
-}, 100);
+//}, 100);
 </script>
 
 <style>

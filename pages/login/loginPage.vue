@@ -125,19 +125,13 @@ const loginConfirm = async (ref) => {
 					return ;
 				}else{
 					//用户信息保存到本地用于其他页面的渲染
-					try {
-						await setUserInfo(res);
-					} catch (e) {
-						console.log("set不对", e);
-					}
+					setUserInfo(res);
 					//获取头像
 					const res1 = await http('/user/getavatar','GET',{});
 					setLocalData('avatarUrl',res1.data);
-					try {
-						getLocalAll();
-					} catch (e) {
-						console.log("get不对", e);
-					}
+					
+					console.log("get");
+					getLocalAll();
 					
 					show.value = false
 					uni.showToast({

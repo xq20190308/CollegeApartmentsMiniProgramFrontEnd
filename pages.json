@@ -131,7 +131,7 @@
 		{
 			"path": "pages/chat/chat",
 			"style": {
-				"navigationBarTitleText": "聊天",
+				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
 		},
