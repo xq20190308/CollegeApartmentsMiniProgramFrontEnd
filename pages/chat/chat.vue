@@ -2,7 +2,11 @@
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
 		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="()=>{Queue.content=(Queue.content=='1')?'2':'1';console.log(Queue.content)}">发射爱心</button>
 		
-		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content"><text>{{msg}}</text></view>
+		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content">
+			<text>{{msg.sendTime}}</text>
+			<br/>
+			<text >{{msg.senderUserId}}:{{msg.data}}</text>
+		</view>
 		
 		<view style="height: 120px;"></view>
 		
@@ -31,16 +35,13 @@ const data = reactive({
 	messages:[],
 	currentmsg:'',
 })
-const Queue = reactive({
-  content: "1",
-  length: 0
-});
 watch(socketMsgQueue,async(newvalue,oldvalue)=>{
 	console.log("监听事件newvalue:",newvalue);
 	let message=JSON.parse(newvalue.content);
 	console.log(message);
 	if(message.senderUserId==data.info.userid){
 		console.log(message.senderUserId+"=="+data.info.userid)
+		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		data.messages.push(message)
 	}
 }, { deep: true })
@@ -84,7 +85,6 @@ onLoad((options)=>{
 	console.log("调出本地聊天记录",data.messages)
 })
 onUnload(()=>{
-	
 	console.log("onUnload")
 	console.log("存储聊天记录到本地")
 	setLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid,JSON.stringify(data.messages))

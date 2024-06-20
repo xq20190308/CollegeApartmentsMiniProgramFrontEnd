@@ -47,7 +47,7 @@ export const wsopen = (url) => {
 			try{
 				let pages = await  getCurrentPages();
 				if(pages[pages.length - 1]==undefined||pages[pages.length - 1].$page.fullPath != '/pages/message/message'){
-					socketMsgQueue.length = socketMsgQueue.length + 1;
+					socketMsgQueue.length = socketMsgQueue.length + 0;
 				}else{
 					socketMsgQueue.length=0;
 					console.log("**",socketMsgQueue.length);
