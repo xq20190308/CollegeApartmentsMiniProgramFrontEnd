@@ -1,18 +1,22 @@
 <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
-		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 82px;" id="content"><text>{{msg}}</text></view>
+		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content"><text>{{msg}}</text></view>
+		
+		<view style="height: 120px;"></view>
+		
+		<view id="input" style="margin-top: 80px;"></view>
 		
 		<view class="inputstyle">
 			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
 			<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
 		</view>
 	</view>
-	<view id="input" style="height: 0px;"></view>
 </template>
 
 <script setup>
 import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
 import { reactive, ref,computed } from "vue";
+import { getCurrentTime } from '@/utils/time'
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
 import { onMounted, onUnmounted } from 'vue';
@@ -38,26 +42,24 @@ socketTask.onMessage(async (res) => {
 const mywssent = async () => {
 	console.log('data.message',data.message)
 	let recevier=[];
-	recevier.push("202211070625")
+	recevier.push(data.info.userid)
 	console.log("receiver",recevier)
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,recevier)
 	console.log("发送消息的res",res1);
 	data.messages.push({
 		data:data.message===''?"发射爱心":data.message,
 		senderUserId:getLocalData('userid'),
-		sendTime:"2024-06-20 17:03",
+		sendTime:getCurrentTime(),
 	})
 	data.message='';
 	// uni.pageScrollTo({
 	// 	selector: '#input',
 	// 	duration: 50
 	// });
-	if(true){
-		uni.pageScrollTo({
-			selector: '#input',
-			duration: 400
-		});
-	}
+	uni.pageScrollTo({
+		selector: '#input',
+		duration: 400
+	});
 }
 onLoad((options)=>{
 	console.log("onLoad")
@@ -72,7 +74,7 @@ onLoad((options)=>{
 	    console.error('标题设置失败', err);
 	  }
 	});
-	data.messages=getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)?JSON.parse(getLocalData('single_with_'+data.info.userid)):[]
+	data.messages=getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 })
 onUnload(()=>{

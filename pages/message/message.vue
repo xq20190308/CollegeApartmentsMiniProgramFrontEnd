@@ -7,10 +7,6 @@
 			<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
 		</uni-list>
 	</uni-list>
-	<view class="inputstyle">
-		<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
-		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
-	</view>
 </template>
 
 <script setup>
@@ -48,24 +44,7 @@ const data = reactive({
 // 	// })
 // 	console.log("data.messages",data.messages)
 // });
-const mywssent = async () => {
-	console.log('data.message',data.message)
-	let recevier=[];
-	recevier.push("202211070625")
-	console.log("receiver",recevier)
-	await wssend("0",data.message===''?"发射爱心":data.message,recevier)
-	data.message='';
-	// uni.pageScrollTo({
-	// 	selector: '#input',
-	// 	duration: 50
-	// });
-	if(true){
-		uni.pageScrollTo({
-			selector: '#input',
-			duration: 400
-		});
-	}
-}
+
 onShow(()=>{
 	// socketMsgQueue.length=0;
 	// uni.removeTabBarBadge({
@@ -88,9 +67,9 @@ onShow(()=>{
 // 		});
 // 	}
 // }, 100);
-setInterval(() => {
-	let old=data.messages;
-	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
+//setInterval(() => {
+	//let old=data.messages;
+	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
 	//let array=data.messages.split("<br/>")
 	//data.messages=array[array.length-2]
 	// if(socketMsgQueue.length>0){
@@ -101,7 +80,7 @@ setInterval(() => {
 	// 		// 显示的文本，超过99显示成99+
 	// 	});
 	// }
-}, 100);
+//}, 100);
 </script>
 
 <style>
