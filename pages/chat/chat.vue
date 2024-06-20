@@ -13,7 +13,7 @@
 		<view id="input" style="margin-top: 80px;"></view>
 		
 		<view class="inputstyle">
-			<uni-easyinput v-model="message" type="line" placeholder=""></uni-easyinput>
+			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
 			<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
 		</view>
 	</view>
