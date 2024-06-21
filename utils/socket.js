@@ -19,10 +19,10 @@ const wsInterceptor = {
 }
 uni.addInterceptor('connectSocket', wsInterceptor)
 export var socketTask = "";
-export var socketMsgQueue = reactive({
-  content: "",
-  length: 0
-});
+// export var socketMsgQueue = reactive({
+//   content: "",
+//   length: 0
+// });
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
 
 export const wsopen = (url) => {
@@ -38,37 +38,7 @@ export const wsopen = (url) => {
     socketTask.onOpen(async (res) => {
 		console.log("Ws open " + res.data);
     });
-    socketTask.onMessage(async (res) => {
-		console.log("socket.js中的onMessage");
-		if (res.data != "biu~biu~") {
-			console.log("ws receive ", res.data);
-			socketMsgQueue.content = res.data;
-			console.log("socketMsgQueue",socketMsgQueue);
-			try{
-				let pages = await  getCurrentPages();
-				if(pages[pages.length - 1]==undefined||pages[pages.length - 1].$page.fullPath != '/pages/message/message'){
-					socketMsgQueue.length = socketMsgQueue.length + 0;
-				}else{
-					socketMsgQueue.length=0;
-					console.log("**",socketMsgQueue.length);
-				}
-				if(pages[pages.length - 1]==undefined||tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1){
-					console.log("++")
-					if(socketMsgQueue.length>0){
-						uni.setTabBarBadge({
-							index: 2,
-							// tabIndex，tabbar的哪一项，从0开始
-							text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-							// 显示的文本，超过99显示成99+
-						});
-					}
-				}
-			}catch(err){
-				console.log(err);
-			}
-		}
-		
-    });
+    onMessage();
     socketTask.onError(function(res) {
       console.log("ws error " + res.errMsg);
     });
@@ -79,9 +49,46 @@ export const wsopen = (url) => {
     console.log("未登录");
   }
 };
+export const onMessage=()=>{
+	socketTask.onMessage(async (res) => {
+		//console.log("socket.js中的onMessage");
+		if (res.data != "心跳") {
+			//console.log("ws receive ", res.data);
+			//socketMsgQueue.content = res.data;
+			//console.log("socketMsgQueue",socketMsgQueue);
+			// try{
+			// 	let pages = await  getCurrentPages();
+			// 	if(pages[pages.length - 1]==undefined||pages[pages.length - 1].$page.fullPath != '/pages/message/message'){
+			// 		socketMsgQueue.length = socketMsgQueue.length + 0;
+			// 	}else{
+			// 		socketMsgQueue.length=0;
+			// 		console.log("**",socketMsgQueue.length);
+			// 	}
+			// 	if(pages[pages.length - 1]==undefined||tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1){
+			// 		console.log("++")
+			// 		if(socketMsgQueue.length>0){
+			// 			uni.setTabBarBadge({
+			// 				index: 2,
+			// 				// tabIndex，tabbar的哪一项，从0开始
+			// 				text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+			// 				// 显示的文本，超过99显示成99+
+			// 			});
+			// 		}
+			// 	}
+			// }catch(err){
+			// 	console.log(err);
+			// }
+		handleOnMessage(res.data);
+		}
+	});
+}
+export const handleOnMessage=(msg)=>{
+	console.log("handleOnMessage");
+	uni.$emit("onMessage",msg);
+}
 export const wssend = (type,msg,ids) => {
 	if(getLocalData('token')!=''){
-		console.log(ids);
+		//console.log(ids);
 		return new Promise((resolve, reject) => {
 			console.log(
 				JSON.stringify({

@@ -52,7 +52,7 @@ import { getLocalData, setLocalData, delLocalData, clearUserInfo } from "../../u
 import { reactive } from "vue";
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
-import { socketMsgQueue } from "../../utils/socket.js";
+import { } from "../../utils/socket.js";
 const data = reactive({
 	imageStyles: {
 		border: {
@@ -77,8 +77,8 @@ const delogin=async (meg)=> {
 	 		if (res.confirm) {
 	 			clearUserInfo()
 				wsclose();//退出登录后关闭socket连接
-				socketMsgQueue.length=0;
-				socketMsgQueue.content="";
+				//socketMsgQueue.length=0;
+				//socketMsgQueue.content="";
 				uni.removeTabBarBadge({
 					index:2,
 					complete:(res)=> {
@@ -132,14 +132,14 @@ onShow( async () => {
 			}
 		});
 	}
-	if(socketMsgQueue.length>0){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-			// 显示的文本，超过99显示成99+
-		});
-	}
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
+	// 	});
+	// }
 })
 onLoad(()=>{
 }) 

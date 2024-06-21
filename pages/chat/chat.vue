@@ -1,6 +1,5 @@
 <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
-		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="()=>{Queue.content=(Queue.content=='1')?'2':'1';console.log(Queue.content)}">发射爱心</button>
 		
 		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content">
 			<view style="margin-right: 4px;margin-left: 4px;"><text class="time">{{msg.sendTime}}</text></view>
@@ -21,12 +20,12 @@
 
 <script setup>
 import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
-import { reactive, ref,computed,watch } from "vue";
+import { reactive, ref,computed,watch,onMounted, onUnmounted } from "vue";
 import { getCurrentTime } from '@/utils/time'
 import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
-import { onMounted, onUnmounted } from 'vue';
+import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getLocalData, setLocalData } from "../../utils/cache.js"
+import { useUserStore } from "../../store/User.js"
 
 const position = 'bottom'
 const data = reactive({
@@ -36,24 +35,24 @@ const data = reactive({
 	currentmsg:'',
 	myid:""
 })
-watch(socketMsgQueue,async(newvalue,oldvalue)=>{
-	console.log("监听事件newvalue:",newvalue);
-	let message=JSON.parse(newvalue.content);
-	console.log(message);
-	if(message.senderUserId==data.info.userid){
-		console.log(message.senderUserId+"=="+data.info.userid)
-		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-		data.messages.push(message)
-	}
-}, { deep: true })
+// watch(socketMsgQueue,async(newvalue,oldvalue)=>{
+// 	console.log("监听事件newvalue:",newvalue);
+// 	let message=JSON.parse(newvalue.content);
+// 	console.log(message);
+// 	if(message.senderUserId==data.info.userid){
+// 		console.log(message.senderUserId+"=="+data.info.userid)
+// 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+// 		data.messages.push(message)
+// 	}
+// }, { deep: true })
 
 const mywssent = async () => {
-	console.log('data.message',data.message)
+	console.log('mywssent ',data.message)
 	let receiver=[];
 	receiver.push(data.info.userid)
-	console.log("receiver",receiver)
+	//console.log("receiver",receiver)
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,receiver)
-	console.log("发送消息的res",res1);
+	//console.log("发送消息的res",res1);
 	data.messages.push({
 		data:data.message===''?"发射爱心":data.message,
 		senderUserId:getLocalData('userid'),
@@ -70,26 +69,33 @@ const mywssent = async () => {
 	});
 }
 onLoad((options)=>{
+	console.log("useUserStore",useUserStore())
 	data.myid=getLocalData('userid')
 	console.log("onLoad")
-	console.log(options)
+	console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
-	  title: data.info.name,
-	  success: () => {
-	    console.log('标题设置成功');
-	  },
-	  fail: (err) => {
-	    console.error('标题设置失败', err);
-	  }
+	  title: data.info.name
 	});
 	data.messages=getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
+	uni.$on('onMessage',(msg)=>{
+		console.log("uni.$on('onMessage')",msg)
+		let message=JSON.parse(msg);
+		if(message.senderUserId==data.info.userid){
+			console.log(message.senderUserId+"=="+data.info.userid)
+			message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+			data.messages.push(message)
+		}
+	})
+	
 })
 onUnload(()=>{
 	console.log("onUnload")
 	console.log("存储聊天记录到本地")
 	setLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid,JSON.stringify(data.messages))
+	uni.$off('onMessage')
+	console.log("after uni.$off('onMessage')")
 })
 onShow(()=>{
 	console.log("onShow")

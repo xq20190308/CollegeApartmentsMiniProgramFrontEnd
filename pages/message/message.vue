@@ -7,14 +7,15 @@
 			<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
 		</uni-list>
 	</uni-list>
+	<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="wssend('0','给曹晓玉发的消息',['202211070501'])">给曹晓玉发信息</button>
 </template>
 
 <script setup>
 import '@/utils/http'
 import {computed, reactive, ref, watch} from "vue"; 
-import {onLoad,onReady,onShow} from "@dcloudio/uni-app";
+import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketMsgQueue,socketTask } from "../../utils/socket.js";
+import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 
 const data = reactive({
 	message:'',
@@ -37,54 +38,15 @@ const data = reactive({
 		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
 	}]
 })
-// socketTask.onMessage(async (res) => {
-// 	console.log(res);
-// 	data.messages.push(res.data)
-// 	// data.messages.push({
-// 	// 	data:"静态消息",
-// 	// 	senderUserId:"202211070625",
-// 	// 	sendTime:"2024-06-20 17:03",
-// 	// })
-// 	console.log("data.messages",data.messages)
-// });
-
 onShow(()=>{
-	// socketMsgQueue.length=0;
-	// uni.removeTabBarBadge({
-	// 	index:2,
-	// 	complete:(res)=> {
-	// 		console.log(res)
-	// 	}
-	// })
+	console.log("onShow")
 })
-
-// setInterval(() => {
-// 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-// 	if(old==data.messages){
-// 		console.log('没变')
-// 	}else{
-// 		console.log(old)
-// 		console.log(data.messages)
-// 		uni.pageScrollTo({
-// 			selector: '#input',
-// 			duration: 50
-// 		});
-// 	}
-// }, 100);
-//setInterval(() => {
-	//let old=data.messages;
-	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-	//let array=data.messages.split("<br/>")
-	//data.messages=array[array.length-2]
-	// if(socketMsgQueue.length>0){
-	// 	uni.setTabBarBadge({
-	// 		index: 2,
-	// 		// tabIndex，tabbar的哪一项，从0开始
-	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
-	// 		// 显示的文本，超过99显示成99+
-	// 	});
-	// }
-//}, 100);
+onLoad(()=>{
+	console.log("onLoad")
+})
+onUnload(()=>{
+	console.log("onUnLoad")
+})
 </script>
 
 <style>
@@ -116,7 +78,53 @@ onShow(()=>{
 
 </style>
 
+<!-- 
+// socketTask.onMessage(async (res) => {
+// 	console.log(res);
+// 	data.messages.push(res.data)
+// 	// data.messages.push({
+// 	// 	data:"静态消息",
+// 	// 	senderUserId:"202211070625",
+// 	// 	sendTime:"2024-06-20 17:03",
+// 	// })
+// 	console.log("data.messages",data.messages)
+// });
 
+	// socketMsgQueue.length=0;
+	// uni.removeTabBarBadge({
+	// 	index:2,
+	// 	complete:(res)=> {
+	// 		console.log(res)
+	// 	}
+	// })
+
+// setInterval(() => {
+// 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
+// 	if(old==data.messages){
+// 		console.log('没变')
+// 	}else{
+// 		console.log(old)
+// 		console.log(data.messages)
+// 		uni.pageScrollTo({
+// 			selector: '#input',
+// 			duration: 50
+// 		});
+// 	}
+// }, 100);
+//setInterval(() => {
+	//let old=data.messages;
+	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
+	//let array=data.messages.split("<br/>")
+	//data.messages=array[array.length-2]
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
+	// 	});
+	// }
+//}, 100);-->
 
 
 
