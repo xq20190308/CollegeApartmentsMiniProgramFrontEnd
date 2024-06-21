@@ -5,7 +5,7 @@
 				<text class="underline-text" @click="goto('addnotice?id='+data.detail.id,'noticeManage')"> 修改</text> 
 			</view>
 			<view class="message" >
-				<view :v-html= "data.detail.typeName"></view>
+				<view v-html= "data.detail.content"></view>
 				<!-- <view v-html="markdown(data.detail.img)"></view> -->
 				<!-- //绑定不用加冒号 -->
 				<!-- <image :src="data.detail.img"></image> -->
@@ -48,6 +48,7 @@ onShow(()=>{
 		data.detail.title = '<h1>'+data.detail.title+'</h1>'
 	//	data.detail.img = '![]'+'('+data.detail.img+')';
 		data.detail.typeName = '# '+data.detail.typeName;
+		data.detail.content = '<br>'+data.detail.content+'<\\br>'
 		
 	})
 })
@@ -108,7 +109,7 @@ const markdown = (text) =>{
 		font-weight: 400;
 		font-size: 12px;
 		line-height: 15px;
-		color: #999999;
+		color: black;
 		margin-bottom: 70rpx;
 		margin-top: 6rpx;
 	}
