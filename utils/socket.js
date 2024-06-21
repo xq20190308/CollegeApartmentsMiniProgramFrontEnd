@@ -67,6 +67,7 @@ export const wsopen = (url) => {
 				console.log(err);
 			}
 		}
+		
     });
     socketTask.onError(function(res) {
       console.log("ws error " + res.errMsg);

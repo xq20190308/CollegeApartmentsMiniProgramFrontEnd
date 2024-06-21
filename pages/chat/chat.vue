@@ -5,7 +5,7 @@
 		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content">
 			<view style="margin-right: 4px;margin-left: 4px;"><text class="time">{{msg.sendTime}}</text></view>
 			
-			<view style="margin-right: 4px;margin-left: 4px;" :class="(msg.senderUserId!=data.myid)?'left':'right'"><text >{{msg.data}}</text></view>
+			<view style="margin-right: 4px;margin-left: 4px;" :class="(msg.senderUserId!=data.myid)?'left':'right'"><text >{{data.myid}}{{msg.senderUserId}}{{msg.data}}</text></view>
 		</view>
 		
 		<view style="height: 120px;"></view>
