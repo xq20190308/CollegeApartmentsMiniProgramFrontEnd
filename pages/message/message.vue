@@ -16,33 +16,31 @@ import {computed, reactive, ref, watch} from "vue";
 import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
-
+import { useUserStore } from "../../store/User.js"
+import { storeToRefs } from 'pinia'
 const data = reactive({
 	message:'',
 	lastmessages:[],
 	currentmsg:'',
-	contacts:[
-		{name:"张晨冉1",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"曹晓玉2",userid:"202211070501",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"朱喜珍3",userid:"202311071133",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"王义仓4",userid:"202211070621",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"王克帅5",userid:"202211070617",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		{name:"徐敏清6",userid:"202311071222",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg"},
-		
-	],
-	avatarList: [{
-		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-	}, {
-		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-	}, {
-		url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-	}]
+	contacts:[],
+	avatarList: []
 })
 onShow(()=>{
 	console.log("onShow")
 })
 onLoad(()=>{
-	console.log("onLoad")
+	console.log("messageonLoad")
+	const store=useUserStore()
+	data.contacts=store.chatList
+	const nref = store.count
+	store.count++
+	console.log("nref",nref)
+	console.log("store.count",store.count)
+	for (var i = 0; i < 3; i++) {
+		data.avatarList.push({
+			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
+		})
+	}
 })
 onUnload(()=>{
 	console.log("onUnLoad")

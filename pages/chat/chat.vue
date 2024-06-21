@@ -26,7 +26,7 @@ import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getLocalData, setLocalData } from "../../utils/cache.js"
 import { useUserStore } from "../../store/User.js"
-
+import { storeToRefs } from 'pinia'
 const position = 'bottom'
 const data = reactive({
 	info:{},
@@ -69,9 +69,22 @@ const mywssent = async () => {
 	});
 }
 onLoad((options)=>{
-	console.log("useUserStore",useUserStore())
+	console.log("chatonLoad")
+	const store = useUserStore();
+	console.log("useUserStore",store)
+	//const { count, doubleCount, increment,user,token,mailList,chat } = storeToRefs(store)
+	//console.log("count",count.value)
+	//count++;
+	//console.log("count++",count.value)
+	
+	//console.log("user",user.value)
+	//const nref = store.count
+	//store.count++
+	//console.log("nref",nref)
+	// const { count, doubleCount, increment,user,token,mailList,chat } = (store)
+	// console.log("----------",count)
+	// console.log(user)
 	data.myid=getLocalData('userid')
-	console.log("onLoad")
 	console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
