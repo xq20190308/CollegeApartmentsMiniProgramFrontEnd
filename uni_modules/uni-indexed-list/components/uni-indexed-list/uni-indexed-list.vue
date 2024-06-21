@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-indexed-list" ref="list" id="list">
 		<!-- #ifdef APP-NVUE -->
-		<list class="uni-indexed-list__scroll" scrollable="true" show-scrollbar="false">
+		<list  class="uni-indexed-list__scroll" :scrollable="true" :show-scrollbar="true">
 			<cell v-for="(list, idx) in lists" :key="idx" :ref="'uni-indexed-list-' + idx">
 				<!-- #endif -->
 				<!-- #ifndef APP-NVUE -->
@@ -18,7 +18,7 @@
 			</cell>
 		</list>
 		<!-- #endif -->
-		<view class="uni-indexed-list__menu" @touchstart="touchStart" @touchmove.stop.prevent="touchMove"
+		<view v-if="false" class="uni-indexed-list__menu" @touchstart="touchStart" @touchmove.stop.prevent="touchMove"
 			@touchend="touchEnd" @mousedown.stop="mousedown" @mousemove.stop.prevent="mousemove"
 			@mouseleave.stop="mouseleave">
 			<view v-for="(list, key) in lists" :key="key" class="uni-indexed-list__menu-item"
@@ -27,7 +27,7 @@
 					:class="touchmoveIndex == key ? 'uni-indexed-list__menu-text--active' : ''">{{ list.key }}</text>
 			</view>
 		</view>
-		<view v-if="touchmove" class="uni-indexed-list__alert-wrapper">
+		<view v-if="false" class="uni-indexed-list__alert-wrapper">
 			<text class="uni-indexed-list__alert">{{ lists[0].key }}</text>
 		</view>
 	</view>

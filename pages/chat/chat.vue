@@ -3,9 +3,9 @@
 		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="()=>{Queue.content=(Queue.content=='1')?'2':'1';console.log(Queue.content)}">发射爱心</button>
 		
 		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content">
-			<text>{{msg.sendTime}}</text>
-			<br/>
-			<text >{{msg.senderUserId}}:{{msg.data}}</text>
+			<view style="margin-right: 4px;margin-left: 4px;"><text class="time">{{msg.sendTime}}</text></view>
+			
+			<view style="margin-right: 4px;margin-left: 4px;" :class="(msg.senderUserId!=data.myid)?'left':'right'"><text >{{msg.data}}</text></view>
 		</view>
 		
 		<view style="height: 120px;"></view>
@@ -34,6 +34,7 @@ const data = reactive({
 	message:'',
 	messages:[],
 	currentmsg:'',
+	myid:""
 })
 watch(socketMsgQueue,async(newvalue,oldvalue)=>{
 	console.log("监听事件newvalue:",newvalue);
@@ -69,6 +70,7 @@ const mywssent = async () => {
 	});
 }
 onLoad((options)=>{
+	data.myid=getLocalData('userid')
 	console.log("onLoad")
 	console.log(options)
 	data.info=JSON.parse(options.info)
@@ -130,6 +132,16 @@ onShow(()=>{
 </script>
 
 <style>
+	.time{
+		font-size: small;
+		color: #c1c1c1;
+	}
+	.right{
+		text-align: end;
+	}
+	.left{
+		text-align: start;
+	}
 	.inputstyle{
 		position: fixed;
 		width: 100%;
