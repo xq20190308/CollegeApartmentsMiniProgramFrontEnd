@@ -38,9 +38,9 @@
 import { onLoad} from "@dcloudio/uni-app";
 import { reactive, ref, computed, onMounted } from "vue";
 import { login } from "./api/login.js"
-import { getLocalData, setLocalData, setUserInfo,getLocalAll } from "../../utils/cache.js"
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
+import { useUserStore } from "../../store/User.js"
 // 校验规则
 const data = reactive({
 	rules: {
@@ -125,19 +125,15 @@ const loginConfirm = async (ref) => {
 					return ;
 				}else{
 					//用户信息保存到本地用于其他页面的渲染
-					setUserInfo(res);
-					//获取头像
-					const res1 = await http('/user/getavatar','GET',{});
-					setLocalData('avatarUrl',res1.data);
+					//setUserInfo(res);
+					const store = useUserStore()
+					store.login(res.data.data)
 					
-					console.log("get");
-					getLocalAll();
 					
 					show.value = false
 					uni.showToast({
 						title: "登录成功"
 					})
-					wsopen('/websocket1');//登陆成功后打开socket
 					setTimeout(() => {
 						uni.navigateBack({
 							url: "/pages/myself/myself"

@@ -26,7 +26,6 @@ export var socketTask = "";
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
 
 export const wsopen = (url) => {
-  if (uni.getStorageSync("token") != "") {
     socketTask = uni.connectSocket({
       url: url,
       header: {},
@@ -45,9 +44,6 @@ export const wsopen = (url) => {
     socketTask.onClose(function(res) {
       console.log("ws close " + res.reson);
     });
-  } else {
-    console.log("未登录");
-  }
 };
 export const onMessage=()=>{
 	socketTask.onMessage(async (res) => {

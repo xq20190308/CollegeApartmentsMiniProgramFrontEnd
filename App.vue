@@ -1,9 +1,10 @@
 <script>
-	import {wsopen} from './utils/socket.js'
+	import { useUserStore } from "./store/User.js"
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			wsopen('/websocket1');
+			const store=useUserStore();
+			store.initLogin()
 		},
 		onShow: function() {
 			console.log('App Show')
