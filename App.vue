@@ -14,6 +14,11 @@
 					console.log("APP.vue uni.$on('onMessage')",msg)
 					//存本地
 					message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+					if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
+						store.chatList.push(info)
+						uni.$emit('upgradeChatList',store.chatList)
+						console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
+					}
 					let prelog=uni.getStorageSync('single'+ store.user.userid +'_with_'+message.senderUserId)
 					prelog=prelog!=""?JSON.parse(prelog):[]
 					prelog.push(message)

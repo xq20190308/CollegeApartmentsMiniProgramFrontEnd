@@ -47,6 +47,7 @@ const data = reactive({
 // }, { deep: true })
 
 const mywssent = async () => {
+	//对话添加到列表中
 	console.log('mywssent ',data.message)
 	let receiver=[];
 	receiver.push(data.info.userid)
@@ -65,6 +66,7 @@ const mywssent = async () => {
 	});
 }
 const handlemsg=(msg)=>{
+	//对话添加到列表中
 	console.log("uni.$on('onMessage')",msg)
 	let message=JSON.parse(msg);
 	if(message.senderUserId==data.info.userid){
@@ -103,7 +105,6 @@ onLoad((options)=>{
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 	uni.$on('onMessage',handlemsg)//只移除这一个回调的监听事件
-	
 })
 onUnload(()=>{
 	console.log("onUnload")

@@ -17,6 +17,9 @@ import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
+import { useUserStore } from "../../store/User.js"
+import { storeToRefs } from 'pinia'
+const store=useUserStore()
 const data = reactive({
 	mentor_list:[],
 	mentor_list_ABC:[],
@@ -25,7 +28,23 @@ const data = reactive({
 	input_text:''
 })
 const bindClick=(e)=>{
-	console.log('点击item，返回数据' + JSON.stringify(e))
+	let detail=data.mentor_list[e.item.itemIndex]
+	console.log(data.mentor_list[e.item.itemIndex])
+	let info={
+		name:detail.trueName,
+		userid:detail.userId,
+		avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+		unreceivedNum:""
+	}
+	//对话添加到列表中
+	if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
+		store.chatList.push(info)
+		uni.$emit('upgradeChatList',store.chatList)
+		console.log("uni.$emit('upgradeChatList',store.chatList)")
+	}
+	uni.navigateTo({
+		url:'/pages/chat/chat?info='+JSON.stringify(info)
+	})
 }
 const onClickDelAll = (e)=>{
 	console.log("onClickDelAll",e)
@@ -38,91 +57,18 @@ onShow(()=>{
 })
 onLoad(async (options) => {
 	const res = await http('/user/findByUserLevel?userLevel='+1,'GET',{},)
-	// console.log("张三"+("张三">"李四"?">":"<")+"李四")
-	// res.data.sort((a,b)=>{
-	// 	console.log(a.name+(a.name>b.name?">":"<")+b.name)
-	// 	return a.name>=b.name?1:-1
-	// });
-	
 	console.log("导师信息表",res.data)
-	data.mentor_list=[{
-		nameInitialLetter: 'A',
-		name: "啊吧的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'A',
-		name: "啊的吧",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'A',
-		name: "啊的的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧啊的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧的啊",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧的的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'D',
-		name: "的啊吧",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'D',
-		name: "的吧啊",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'A',
-		name: "啊吧的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'A',
-		name: "啊的吧",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'A',
-		name: "啊的的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧啊的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧的啊",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'B',
-		name: "吧的的",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'D',
-		name: "的啊吧",
-		userid: "33",
-		phone: "33333333333",},{
-		nameInitialLetter: 'D',
-		name: "的吧啊",
-		userid: "33",
-		phone: "33333333333",}]
 	data.mentor_list=res.data
-	data.mentor_list_ABC=[{letter: 'A',data: []},{letter: 'B',data: []},{letter: 'C',data: []},
-	{letter: 'D',data: []},{letter: 'E',data: []},{letter: 'F',data: []},{letter: 'G',data: []},
-	{letter: 'H',data: []},{letter: 'I',data: []},{letter: 'J',data: []},{letter: 'K',data: []},
-	{letter: 'L',data: []},{letter: 'M',data: []},{letter: 'N',data: []},{letter: 'O',data: []},
-	{letter: 'P',data: []},{letter: 'Q',data: []},{letter: 'R',data: []},{letter: 'S',data: []},
-	{letter: 'T',data: []},{letter: 'U',data: []},{letter: 'V',data: []},{letter: 'W',data: []},
-	{letter: 'X',data: []},{letter: 'Y',data: []},{letter: 'Z',data: []}]
+	data.mentor_list_ABC=[]
+	
+	for (var i = 0; i < 26; i++) {
+		data.mentor_list_ABC.push({
+			letter:String.fromCharCode('A'.charCodeAt(0)+ i),
+			data: []
+		});
+	}
 	for (var i = 0; i < data.mentor_list.length; i++) {
 		let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].nameInitialLetter);
-		console.log('index_of_letter',data.mentor_list_ABC[index].letter)
-		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
-		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
 		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
 	}
 	console.log('data.mentor_list_ABC',data.mentor_list_ABC)
