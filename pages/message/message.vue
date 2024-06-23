@@ -28,9 +28,9 @@ const data = reactive({
 onShow(()=>{
 	console.log("onShow")
 })
+const store=useUserStore()
 onLoad(()=>{
 	console.log("messageonLoad")
-	const store=useUserStore()
 	data.contacts=store.chatList
 	const nref = store.count
 	store.count++

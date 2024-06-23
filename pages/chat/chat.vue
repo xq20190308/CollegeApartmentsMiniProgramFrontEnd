@@ -75,7 +75,8 @@ onLoad((options)=>{
 	uni.setNavigationBarTitle({
 	  title: data.info.name
 	});
-	data.messages=getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid)):[]
+	console.log('--1single'+ data.myid +'_with_'+data.info.userid)
+	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 	uni.$on('onMessage',(msg)=>{
 		console.log("uni.$on('onMessage')",msg)
@@ -84,6 +85,20 @@ onLoad((options)=>{
 			console.log(message.senderUserId+"=="+data.info.userid)
 			message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 			data.messages.push(message)
+		}else{//存本地
+			console.log(message.senderUserId+"!="+data.info.userid)
+			message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+			let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
+			if(prelog!=""){
+				prelog=JSON.parse(prelog)
+			}else{
+				prelog=[]
+			}
+			prelog.push(message)
+			console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
+			console.log(prelog)
+			setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
+			console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
 		}
 	})
 	

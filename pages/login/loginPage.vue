@@ -109,8 +109,8 @@ const returnerr = (msg) => {
 const quicklogin = async()=>{
 	data.reqdata={
 		code: "",
-		username: "202211070625",
-		password: "11",
+		username: "202211070501",
+		password: "123",
 	}
 	data.reqdata.code = await getCode();
 	//发送请求
