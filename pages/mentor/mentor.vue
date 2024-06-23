@@ -4,9 +4,9 @@
 			<d-search-log placeholder="输入学号" color_border="#666666" color_text="#666666"
 			:is_show_more="false" @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
-		<uni-list>
+		<!--uni-list>
 			<uni-list-item v-for="(item,index) in data.mentor_list" :key="index" :title="item.name" :to="'../chat/chat'" @click="(e)=>{console.log('--',e)}" />
-		</uni-list>
+		</uni-list-->
 		<uni-indexed-list :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
 	</view>
 </template>
@@ -110,7 +110,7 @@ onLoad(async (options) => {
 		name: "的吧啊",
 		userid: "33",
 		phone: "33333333333",}]
-		
+	data.mentor_list=res.data
 	data.mentor_list_ABC=[{letter: 'A',data: []},{letter: 'B',data: []},{letter: 'C',data: []},
 	{letter: 'D',data: []},{letter: 'E',data: []},{letter: 'F',data: []},{letter: 'G',data: []},
 	{letter: 'H',data: []},{letter: 'I',data: []},{letter: 'J',data: []},{letter: 'K',data: []},
@@ -121,7 +121,9 @@ onLoad(async (options) => {
 	for (var i = 0; i < data.mentor_list.length; i++) {
 		let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].nameInitialLetter);
 		console.log('index_of_letter',data.mentor_list_ABC[index].letter)
-		data.mentor_list_ABC[index].data.push(data.mentor_list[i].name)
+		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
+		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
+		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
 	}
 	console.log('data.mentor_list_ABC',data.mentor_list_ABC)
 })
