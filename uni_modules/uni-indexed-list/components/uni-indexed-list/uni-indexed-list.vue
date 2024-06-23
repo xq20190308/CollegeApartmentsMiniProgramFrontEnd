@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-indexed-list" ref="list" id="list">
 		<!-- #ifdef APP-NVUE -->
-		<list  class="uni-indexed-list__scroll" :scrollable="true" :show-scrollbar="true">
+		<list class="uni-indexed-list__scroll" scrollable="true" show-scrollbar="false">
 			<cell v-for="(list, idx) in lists" :key="idx" :ref="'uni-indexed-list-' + idx">
 				<!-- #endif -->
 				<!-- #ifndef APP-NVUE -->
@@ -18,7 +18,7 @@
 			</cell>
 		</list>
 		<!-- #endif -->
-		<view v-if="false" class="uni-indexed-list__menu" @touchstart="touchStart" @touchmove.stop.prevent="touchMove"
+		<view class="uni-indexed-list__menu" @touchstart="touchStart" @touchmove.stop.prevent="touchMove"
 			@touchend="touchEnd" @mousedown.stop="mousedown" @mousemove.stop.prevent="mousemove"
 			@mouseleave.stop="mouseleave">
 			<view v-for="(list, key) in lists" :key="key" class="uni-indexed-list__menu-item"
@@ -27,8 +27,8 @@
 					:class="touchmoveIndex == key ? 'uni-indexed-list__menu-text--active' : ''">{{ list.key }}</text>
 			</view>
 		</view>
-		<view v-if="false" class="uni-indexed-list__alert-wrapper">
-			<text class="uni-indexed-list__alert">{{ lists[0].key }}</text>
+		<view v-if="touchmove" class="uni-indexed-list__alert-wrapper">
+			<text class="uni-indexed-list__alert">{{ lists[touchmoveIndex].key }}</text>
 		</view>
 	</view>
 </template>
@@ -53,7 +53,7 @@
 
 	function touchMove(e) {
 		let pageY = e.touches[0].pageY
-		let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
+		let index = Math.floor((pageY - this.winOffsetY) / 18)
 		if (this.touchmoveIndex === index) {
 			return false
 		}
@@ -183,7 +183,7 @@
 			touchStart(e) {
 				this.touchmove = true
 				let pageY = this.isPC ? e.pageY : e.touches[0].pageY
-				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
+				let index = Math.floor((pageY - this.winOffsetY) / 18)
 				let item = this.lists[index]
 				if (item) {
 					this.scrollViewId = 'uni-indexed-list-' + index
@@ -198,7 +198,7 @@
 			touchMove(e) {
 				// #ifndef APP-PLUS
 				let pageY = this.isPC ? e.pageY : e.touches[0].pageY
-				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
+				let index = Math.floor((pageY - this.winOffsetY) / 18)
 				if (this.touchmoveIndex === index) {
 					return false
 				}
@@ -305,13 +305,18 @@
 		display: flex;
 		/* #endif */
 		flex-direction: column;
+		float: left!important;
+		margin-left: -30px;
+		z-index: 9;
+		height: fit-content;
 	}
 
 	.uni-indexed-list__menu-item {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		flex: 1;
+		//flex: 1;
+		height: 18px;
 		align-items: center;
 		justify-content: center;
 		/* #ifdef H5 */

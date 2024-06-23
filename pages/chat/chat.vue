@@ -51,7 +51,7 @@ const mywssent = async () => {
 	let receiver=[];
 	receiver.push(data.info.userid)
 	//console.log("receiver",receiver)
-	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,receiver)
+	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,data.info.userid)
 	//console.log("发送消息的res",res1);
 	data.messages.push({
 		data:data.message===''?"发射爱心":data.message,
@@ -88,6 +88,7 @@ const handlemsg=(msg)=>{
 	}
 }
 onLoad((options)=>{
+	//需要把对应的未读消息数设为0
 	console.log("chatonLoad")
 	const store = useUserStore();
 	console.log("useUserStore",store)
