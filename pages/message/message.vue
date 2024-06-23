@@ -32,10 +32,7 @@ const store=useUserStore()
 onLoad(()=>{
 	console.log("messageonLoad")
 	data.contacts=store.chatList
-	const nref = store.count
-	store.count++
-	console.log("nref",nref)
-	console.log("store.count",store.count)
+	
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
 			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'

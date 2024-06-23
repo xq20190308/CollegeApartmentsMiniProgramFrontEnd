@@ -64,6 +64,29 @@ const mywssent = async () => {
 		duration: 400
 	});
 }
+const handlemsg=(msg)=>{
+	console.log("uni.$on('onMessage')",msg)
+	let message=JSON.parse(msg);
+	if(message.senderUserId==data.info.userid){
+		console.log(message.senderUserId+"=="+data.info.userid)
+		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+		data.messages.push(message)
+	}else{//存本地
+		console.log(message.senderUserId+"!="+data.info.userid)
+		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+		let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
+		if(prelog!=""){
+			prelog=JSON.parse(prelog)
+		}else{
+			prelog=[]
+		}
+		prelog.push(message)
+		console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
+		console.log(prelog)
+		setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
+		console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
+	}
+}
 onLoad((options)=>{
 	console.log("chatonLoad")
 	const store = useUserStore();
@@ -78,37 +101,15 @@ onLoad((options)=>{
 	console.log('--1single'+ data.myid +'_with_'+data.info.userid)
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
-	uni.$on('onMessage',(msg)=>{
-		console.log("uni.$on('onMessage')",msg)
-		let message=JSON.parse(msg);
-		if(message.senderUserId==data.info.userid){
-			console.log(message.senderUserId+"=="+data.info.userid)
-			message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-			data.messages.push(message)
-		}else{//存本地
-			console.log(message.senderUserId+"!="+data.info.userid)
-			message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-			let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
-			if(prelog!=""){
-				prelog=JSON.parse(prelog)
-			}else{
-				prelog=[]
-			}
-			prelog.push(message)
-			console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
-			console.log(prelog)
-			setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
-			console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
-		}
-	})
+	uni.$on('onMessage',handlemsg)//只移除这一个回调的监听事件
 	
 })
 onUnload(()=>{
 	console.log("onUnload")
 	console.log("存储聊天记录到本地")
-	setLocalData('single'+ getLocalData('userid') +'_with_'+data.info.userid,JSON.stringify(data.messages))
-	uni.$off('onMessage')
-	console.log("after uni.$off('onMessage')")
+	setLocalData('single'+ data.myid +'_with_'+data.info.userid,JSON.stringify(data.messages))
+	uni.$off('onMessage',handlemsg)
+	console.log("after uni.$off('onMessage',handlemsg)")
 })
 onShow(()=>{
 	console.log("onShow")
