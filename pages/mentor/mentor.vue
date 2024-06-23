@@ -2,7 +2,7 @@
 	<view class="mentor_list">
 		<view style="width: 100%; height: auto;">
 			<d-search-log placeholder="输入学号" color_border="#666666" color_text="#666666"
-			:is_show_more="false" @onSearchNameApi="onSearchName"></d-search-log>
+			:is_show_more="false"  @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
 		<!--uni-list>
 			<uni-list-item v-for="(item,index) in data.mentor_list" :key="index" :title="item.name" :to="'../chat/chat'" @click="(e)=>{console.log('--',e)}" />
