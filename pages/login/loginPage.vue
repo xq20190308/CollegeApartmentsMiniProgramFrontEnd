@@ -28,7 +28,7 @@
 			<view>
 				<button type="primary"
 					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
-					@click="loginConfirm('req')">点击登录</button>
+					@click="quicklogin()">点击登录</button><!--loginConfirm('req')-->
 			</view>
 		</view>
 	</view>
@@ -41,6 +41,7 @@ import { login } from "./api/login.js"
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
 import { useUserStore } from "../../store/User.js"
+const store = useUserStore()
 // 校验规则
 const data = reactive({
 	rules: {
@@ -97,12 +98,47 @@ const getCode = () => {
 const changeConfirm = (e) => {
 	licenseDisagree.value = !licenseDisagree.value
 }
+//弹窗显示用户登录失败的信息提示
 const returnerr = (msg) => {
-		console.log(msg);
-		uni.showModal({
-			title: msg,
-			showCancel: false,
-		})
+	console.log(msg);
+	uni.showModal({
+		title: msg,
+		showCancel: false,
+	})
+}
+const quicklogin = async()=>{
+	data.reqdata={
+		code: "",
+		username: "202211070625",
+		password: "11",
+	}
+	data.reqdata.code = await getCode();
+	//发送请求
+	await login(data.reqdata).then(async (res) => {
+		if (res.statusCode == 200) {
+			if(res.data.msg!='success'){
+				returnerr(res.data.msg);
+				return ;
+			}else{
+				//用户登录请求成功后的数据存储
+				await store.login(res.data.data)
+				
+				show.value = false
+				uni.showToast({
+					title: "登录成功"
+				})
+				uni.navigateBack({
+					url: "/pages/myself/myself"
+				})
+			}
+		} else {
+			console.log("登陆失败，请求状态码非200")
+			uni.showToast({
+				title: "登陆失败",
+				icon: "error"
+			})
+		}
+	})
 }
 const req = ref()
 const loginConfirm = async (ref) => {
@@ -124,11 +160,8 @@ const loginConfirm = async (ref) => {
 					returnerr(res.data.msg);
 					return ;
 				}else{
-					//用户信息保存到本地用于其他页面的渲染
-					//setUserInfo(res);
-					const store = useUserStore()
+					//用户登录请求成功后的数据存储
 					store.login(res.data.data)
-					
 					
 					show.value = false
 					uni.showToast({
@@ -141,7 +174,7 @@ const loginConfirm = async (ref) => {
 					}, 2000)
 				}
 			} else {
-				console.log("登陆失败")
+				console.log("登陆失败，请求状态码非200")
 				uni.showToast({
 					title: "登陆失败",
 					icon: "error"
@@ -149,7 +182,7 @@ const loginConfirm = async (ref) => {
 			}
 		})
 	}).catch(err => {
-		console.log('填写错误', err);
+		console.log('error', err);
 	})
 	console.log("结束")
 }

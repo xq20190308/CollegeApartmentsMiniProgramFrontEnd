@@ -1,4 +1,4 @@
-
+import { useUserStore } from "../store/User";
 // 存数据
 // 单个具名函数导出
 export function setLocalData(key, data) {
@@ -12,7 +12,9 @@ export function setLocalData(key, data) {
 }
 export const getLocalAll = () => uni.getStorageInfo({
 	success: function (res) {
-		console.log(res);
+		console.log("success in getLocalAll",res);
+	},
+	complete:function (res) {
 	}
 });
 // 取数据
@@ -25,15 +27,9 @@ export const delLocalData = key => uni.removeStorageSync(key)
 export const clearLocalData = key => uni.clearStorageSync()
 
 export const clearUserInfo = () => {
+	delLocalData("userInfo");
 	delLocalData("token");
-	delLocalData("trueName");
-	delLocalData("username");
-	delLocalData("userid");
-	delLocalData("accountManage");
-	delLocalData("noticeManage");
-	delLocalData("feedbackManage");
-	delLocalData("questionnaireManage");
-	delLocalData("avatarUrl");
+	delLocalData("avatarUrl")
 }
 export const setUserInfo = (res) => {
 	setLocalData("isShowLocal",true)

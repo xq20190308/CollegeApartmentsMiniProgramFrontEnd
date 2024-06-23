@@ -12,7 +12,7 @@ const httpInterceptor = {
 		//添加超时请求
 		options.timeout = 10000
 		console.log("拦截器", options)
-		//添加请求头，还没添加呢看啥看
+		//添加请求头
 
 		//添加token
 		const token = getLocalData('token');

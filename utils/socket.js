@@ -83,6 +83,7 @@ export const handleOnMessage=(msg)=>{
 	uni.$emit("onMessage",msg);
 }
 export const wssend = (type,msg,ids) => {
+	console.log("socketTask in wssend",socketTask)
 	if(getLocalData('token')!=''){
 		//console.log(ids);
 		return new Promise((resolve, reject) => {

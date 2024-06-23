@@ -55,14 +55,10 @@ const mywssent = async () => {
 	//console.log("发送消息的res",res1);
 	data.messages.push({
 		data:data.message===''?"发射爱心":data.message,
-		senderUserId:getLocalData('userid'),
+		senderUserId:data.myid,
 		sendTime:getCurrentTime(),
 	})
 	data.message='';
-	// uni.pageScrollTo({
-	// 	selector: '#input',
-	// 	duration: 50
-	// });
 	uni.pageScrollTo({
 		selector: '#input',
 		duration: 400
@@ -72,19 +68,8 @@ onLoad((options)=>{
 	console.log("chatonLoad")
 	const store = useUserStore();
 	console.log("useUserStore",store)
-	//const { count, doubleCount, increment,user,token,mailList,chat } = storeToRefs(store)
-	//console.log("count",count.value)
-	//count++;
-	//console.log("count++",count.value)
-	
-	//console.log("user",user.value)
-	//const nref = store.count
-	//store.count++
-	//console.log("nref",nref)
-	// const { count, doubleCount, increment,user,token,mailList,chat } = (store)
-	// console.log("----------",count)
-	// console.log(user)
-	data.myid=getLocalData('userid')
+	data.myid=store.user.userid
+	console.log(data.myid)
 	console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
