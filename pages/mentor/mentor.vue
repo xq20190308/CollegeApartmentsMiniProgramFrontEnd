@@ -4,10 +4,12 @@
 			<d-search-log placeholder="输入学号" color_border="#666666" color_text="#666666"
 			:is_show_more="false"  @onSearchNameApi="onSearchName"></d-search-log>
 		</view>
-		<!--uni-list>
-			<uni-list-item v-for="(item,index) in data.mentor_list" :key="index" :title="item.name" :to="'../chat/chat'" @click="(e)=>{console.log('--',e)}" />
-		</uni-list-->
-		<uni-indexed-list :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
+		<uni-list v-if="data.isonsearch">
+			<view class="searchList" v-for="(i,index) in data.searchIndex" :key="index">
+				<uni-list-item :title="data.mentor_list[i].trueName" :clickable="true" @click="bindClick(i)" />
+			</view>
+		</uni-list>
+		<uni-indexed-list v-else :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
 	</view>
 </template>
 
@@ -25,16 +27,20 @@ const data = reactive({
 	mentor_list_ABC:[],
 	search_list:[],
 	store_key:'mentor_namelist',
-	input_text:''
+	input_text:'',
+	searchIndex:[],
+	isonsearch:false,
 })
 const bindClick=(e)=>{
-	let detail=data.mentor_list[e.item.itemIndex]
-	console.log(data.mentor_list[e.item.itemIndex])
+	console.log(e)
+	let i=typeof e=="number"?e:e.item.itemIndex
+	let detail=data.mentor_list[i]
+	console.log(data.mentor_list[i])
 	let info={
 		name:detail.trueName,
 		userid:detail.userId,
 		avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
-		unreceivedNum:""
+		unreceivedNum:0
 	}
 	//对话添加到列表中
 	if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
@@ -51,6 +57,16 @@ const onClickDelAll = (e)=>{
 }
 const onSearchName = (e)=>{
 	console.log("onSearchName",e)
+	if(e!=""){//搜索
+		data.searchIndex = data.mentor_list.map((item, index) => ({ item, index }))
+        .filter(({ item }) => item.trueName == e)
+        .map(({ index }) => index);
+		console.log("data.searchIndex",data.searchIndex)
+		data.isonsearch=true
+	}else{
+		data.searchIndex=[]
+		data.isonsearch=false;
+	}
 }
 onShow(()=>{
 	

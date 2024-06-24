@@ -25,7 +25,7 @@
 							name:res.data.name,
 							userid:message.senderUserId,
 							avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
-							unreceivedNum:""
+							unreceivedNum:0
 						}
 						store.chatList.push(info)
 						uni.$emit('upgradeChatList',store.chatList)
@@ -38,8 +38,10 @@
 					uni.setStorageSync('single'+ store.user.userid +'_with_'+message.senderUserId,JSON.stringify(prelog))
 					//需要更新store.chatList中的未读消息数
 					let index = store.chatList.findIndex(item => item.userid === message.senderUserId);
-					store.chatList[index].unreceivedNum=store.chatList[index].unreceivedNum==""?1:store.chatList[index].unreceivedNum++;
-					console.log('index_of_sender in chatList',store.chatList[index].unreceivedNum)
+					console.log("++store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
+					store.chatList[index].unreceivedNum++;
+					console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
+					console.log('index_of_sender in chatList',index)
 				}else{
 					console.log('pages/chat/caht',"---",pages[pages.length - 1].$vm.__route__)
 				}

@@ -138,7 +138,7 @@ const data = reactive({
 const overview = async ()=>{
 	data.showsubmits=data.showsubmits?false:true;
 	if(data.showsubmits==true&&data.answerCountList.length==0){
-		const res = await http('/useranswer/anssum?questionnaireId='+data.id,'GET',{},)
+		const res = await http('/questionnaire/useranswer/anssum?questionnaireId='+data.id,'GET',{},)
 		data.numOfAnswers=res.data.numOfAnswers
 		data.answerCountList=res.data.answerCountList;
 		console.log(data.answerCountList)
@@ -205,7 +205,7 @@ const ischeckedmul = (qindex,index)=>{
 }
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
-	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	const res = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 	if(res.msg=='您还没有填写该问卷'){
 		uni.showModal({
 			title:'您还没有填写该问卷',
@@ -253,7 +253,7 @@ const submit = async (ref) => {
 		if(data.isanonymous){
 			answer = JSON.stringify([...data.current,res1.name,res1.id])
 		}
-		const res = await http('/useranswer/submit','POST',{
+		const res = await http('/questionnaire/useranswer/submit','POST',{
 			answer: answer ,
 			questionnaireId: data.id,
 		},);
@@ -263,7 +263,7 @@ const submit = async (ref) => {
 				uni.showModal({
 					title: "你已填写过该问卷,是否显示填写情况",
 					success:async (res3) => {
-						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+						const res2 = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 						if (res3.confirm) {
 							data.current=JSON.parse(res2.data.answer);
 							if(!data.isanonymous){
@@ -292,7 +292,7 @@ const submit = async (ref) => {
 	})
 }
 const getquestions = async () => { 
-	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
+	const res = await http('/questionnaire/question/selectByQuestionnaireId/'+data.id,'GET',{},)
 	
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){
@@ -313,7 +313,7 @@ onLoad(async (options) => {
 	data.timer = setTimeout(()=>{
 		getquestions();
 	}, 100)
-	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	const res = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 	
 	if(res.msg=='您还没有填写该问卷'){
 		console.log("该用户没填写过此问卷")

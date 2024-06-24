@@ -136,7 +136,7 @@ const submit = async ()=> {
 	}, 2000); 
 }
 const getquestions = async () => { 
-	const res = await http('/question/selectByQuestionnaireId/'+data.info.id,'GET',{},)
+	const res = await http('/questionnaire/question/selectByQuestionnaireId/'+data.info.id,'GET',{},)
 	
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){

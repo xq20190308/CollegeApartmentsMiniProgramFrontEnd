@@ -2,7 +2,7 @@
 	<uni-list>
 		<uni-list :border="true">
 			<!-- 右侧带角标 -->
-			<uni-list-chat :clickable="true" @click="()=>{console.log('点击事件',item)}" v-for="(item,index) in data.contacts" :key="index" :title="item.name" :avatar="item.avatar" :note="item.userid" :to="'../chat/chat?info='+JSON.stringify(item)" time="2020-02-02 20:20" :badge-text="item.unreceivedNum"></uni-list-chat>
+			<uni-list-chat :clickable="true" @click="()=>{console.log('点击事件',item)}" v-for="(item,index) in data.contacts" :key="index" :title="item.name" :avatar="item.avatar" :note="item.userid" :to="'../chat/chat?info='+JSON.stringify(item)" time="2020-02-02 20:20" :badge-text="String(item.unreceivedNum)"></uni-list-chat>
 			<!-- 显示多头像 -->
 			<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
 		</uni-list>
@@ -19,7 +19,7 @@ import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
 const data = reactive({
-	unreceivedNum:1,
+	unreceivedNum:0,
 	message:'',
 	lastmessages:[],
 	currentmsg:'',
