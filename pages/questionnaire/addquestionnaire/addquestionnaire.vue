@@ -89,13 +89,11 @@ const data = reactive({
 	timer:null,//延时器，用于防抖处理
 	//传到后端的数据
 	newNaire:{//传到问卷列表页面中的数据
-		/*descr: "",
+		description : "",
 		endTime: "",
 		name: "",
 		startTime: "",
-		type: 1,
-		id: "",
-		questionList: “["","",""]”,*/
+		type: "",
 	},
 	questionList: [/*{
 		content: ["", "", ""],
@@ -135,8 +133,7 @@ const add=(e,option)=>{
 		type: option,
 		name: "",
 		description: "",
-		content: option==3?null:["A", "B", "C"],
-		questionnaire_id: "",
+		content: option==3?"":["", "", ""],
 	});
 	console.log(data.questionList)
 	uni.pageScrollTo({
@@ -149,9 +146,47 @@ const add=(e,option)=>{
 } 
 const submit = async ()=> {
 	console.log("新问卷",data.newNaire)
+	console.log("新问卷是否匿名",data.isanonymous)
 	console.log("新问卷的问题",data.questionList)
 	//校验
-	
+	for (const key in data.newNaire) {
+		console.log(key,data.newNaire[key])
+		if(key!="type"&&data.newNaire[key]==""){//问卷信息有空项
+		console.log("data.newNaire[key]==''",key)
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}
+	}
+	for (const question in data.questionList) {
+		if(data.questionList[question].name==""||data.questionList[question].description==""){//问卷信息有空项
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}
+		if(typeof data.questionList[question].content == "String" && data.questionList[question].content == ""){//问卷信息有空项
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}else{
+			for (var i = 0; i < data.questionList[question].content.length; i++) {
+				if(data.questionList[question].content[i]=""){
+					uni.showToast({
+						title:"请填写完整",
+						icon:"error"
+					})
+					return ;
+				}
+			}
+		}
+		console.log("已填写完整")
+	}
 	//提交到后端
 	let list=[];
 	for(let i=0;i<data.questionList.length;i++){
@@ -159,7 +194,7 @@ const submit = async ()=> {
 		list[i].content=JSON.stringify(list[i].content);
 	}
 	console.log('data.questionList',data.questionList)
-	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list,anonymous:true},);
+	const res = await http('/questionnaire/add','POST',{...data.newNaire,questionList:list,anonymous:data.isanonymous},);
 	
 
 	uni.showToast({
