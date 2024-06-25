@@ -28,7 +28,7 @@
 			<view>
 				<button type="primary"
 					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
-					@click="quicklogin()">点击登录</button><!--loginConfirm('req')-->
+					@click="loginConfirm('req')">点击登录</button><!--loginConfirm('req')-->
 			</view>
 		</view>
 	</view>
