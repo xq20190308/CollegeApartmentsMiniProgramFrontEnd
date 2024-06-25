@@ -15,10 +15,6 @@
         "type": "git",
         "url": ""
     },
-    "devDependencies": {
-        "node-sass": "^4.14.0",
-        "sass-loader": "^8.0.2"
-    },
     "author": "uView",
     "license": "MIT",
     "id": "uview-v1",
@@ -27,5 +23,13 @@
             "前端组件",
             "通用组件"
         ]
+    },
+    "dependencies": {
+        "markdown-it": "^14.1.0",
+        "vue-markdown": "^2.2.4",
+        "vue3-markdown-it": "^1.0.10"
+    },
+    "devDependencies": {
+        "@types/markdown-it": "^14.1.1"
     }
 }

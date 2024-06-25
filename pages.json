@@ -129,6 +129,13 @@
 			}
 		},
 		{
+			"path": "pages/notice/notice_markdown",
+			"style": {
+				"navigationBarTitleText": "通知markdown",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/chat/chat",
 			"style": {
 				"navigationBarTitleText": "",
@@ -139,6 +146,13 @@
 			"path": "pages/userManage/userManage",
 			"style": {
 				"navigationBarTitleText": "账号管理",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFoundManage/lostandfoundManagelist",
+			"style": {
+				"navigationBarTitleText": "失物招领列表",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -166,6 +180,21 @@
 
 		{
 			"path": "pages/lostAndFound/detailLostandFound",
+			"style": {
+				"navigationBarTitleText": "找到细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/test_pop",
+			"style": {
+				"navigationBarTitleText": "我就不信搞不出来你了",
+				"enablePullDownRefresh": false
+			}
+		},
+
+		{
+			"path": "pages/lostAndFoundManage/detailLostandFoundManage",
 			"style": {
 				"navigationBarTitleText": "找到细节",
 				"enablePullDownRefresh": false

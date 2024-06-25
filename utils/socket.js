@@ -1,6 +1,6 @@
-import { ref, watch,reactive } from "vue";
-import {getLocalData} from "../utils/cache.js"
-const wsUrl= "ws://localhost:8080"
+import { ref, watch, reactive } from "vue";
+import { getLocalData } from "../utils/cache.js"
+const wsUrl = "ws://localhost:8080"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -10,10 +10,10 @@ const wsInterceptor = {
 		options.timeout = 10000
 		console.log("拦截器", options)
 		//添加请求头，还没添加呢看啥看
-		
+
 		//添加token
 		const token = getLocalData('token');
-		options.header.Authorization=token;
+		options.header.Authorization = token;
 	},
 
 }
@@ -26,26 +26,26 @@ export var socketTask = "";
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
 
 export const wsopen = (url) => {
-    socketTask = uni.connectSocket({
-      url: url,
-      header: {},
-      method: "GET",
-      success: (e) => {
-        console.log("ws connected ", e);
-      }
-    });
-    socketTask.onOpen(async (res) => {
+	socketTask = uni.connectSocket({
+		url: url,
+		header: {},
+		method: "GET",
+		success: (e) => {
+			console.log("ws connected ", e);
+		}
+	});
+	socketTask.onOpen(async (res) => {
 		console.log("Ws open " + res.data);
-    });
-    onMessage();
-    socketTask.onError(function(res) {
-      console.log("ws error " + res.errMsg);
-    });
-    socketTask.onClose(function(res) {
-      console.log("ws close " + res.reson);
-    });
+	});
+	onMessage();
+	socketTask.onError(function (res) {
+		console.log("ws error " + res.errMsg);
+	});
+	socketTask.onClose(function (res) {
+		console.log("ws close " + res.reson);
+	});
 };
-export const onMessage=()=>{
+export const onMessage = () => {
 	socketTask.onMessage(async (res) => {
 		//console.log("socket.js中的onMessage");
 		if (res.data != "心跳") {
@@ -74,61 +74,61 @@ export const onMessage=()=>{
 			// }catch(err){
 			// 	console.log(err);
 			// }
-		handleOnMessage(res.data);
+			handleOnMessage(res.data);
 		}
 	});
 }
-export const handleOnMessage=(msg)=>{
+export const handleOnMessage = (msg) => {
 	console.log("handleOnMessage");
-	uni.$emit("onMessage",msg);
+	uni.$emit("onMessage", msg);
 }
-export const wssend = (type,msg,ids) => {
-	console.log("socketTask in wssend",socketTask)
-	if(getLocalData('token')!=''){
+export const wssend = (type, msg, ids) => {
+	console.log("socketTask in wssend", socketTask)
+	if (getLocalData('token') != '') {
 		//console.log(ids);
 		return new Promise((resolve, reject) => {
 			console.log(
 				JSON.stringify({
-					type:type,
-					data:msg,
-					receivers:ids,
+					type: type,
+					data: msg,
+					receivers: ids,
 				}))
 			socketTask.send({
-			data: JSON.stringify({
-				type:type,
-				data:msg,
-				receiver:ids,
-			}),
-			success: (res) => {
-			  console.log("ws send successed ", res);
-			  resolve('success');
-			},
-			fail: (err) => {
-			  console.log("send fail ", err);
-			  reject('error');
-			}
+				data: JSON.stringify({
+					type: type,
+					data: msg,
+					receiver: ids,
+				}),
+				success: (res) => {
+					console.log("ws send successed ", res);
+					resolve('success');
+				},
+				fail: (err) => {
+					console.log("send fail ", err);
+					reject('error');
+				}
 			});
 		})
-	}else{
-	  uni.showModal({
-	  	title: '提示',
-	  	content: '您未登录，是否前去登录',
-	  	success: (res) => {
-	  		if (res.confirm) { 
-	  			uni.navigateTo({
-	  				url: "/pages/login/loginPage"
-	  			})
-	  		} else if (res.cancel) { 
-	  		}
-	  	}
-	  });
+	} else {
+		uni.showModal({
+			title: '提示',
+			content: '您未登录，是否前去登录',
+			success: (res) => {
+				if (res.confirm) {
+					uni.navigateTo({
+						url: "/pages/login/loginPage"
+					})
+				} else if (res.cancel) {
+				}
+			}
+		});
 	}
 };
 export const wsclose = () => {
-  socketTask.close({
-    //有待添加
-    success: (res) => {
-      console.log("ws closed ", res);
-    }
-  });
+	socketTask.close({
+		//有待添加
+		success: (res) => {
+			console.log("ws closed ", res);
+		}
+	});
 };

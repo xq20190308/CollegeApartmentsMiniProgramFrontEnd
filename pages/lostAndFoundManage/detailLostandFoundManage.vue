@@ -9,7 +9,24 @@
 		<!-- 这里路径没写对，所以他会报错? -->
 		<!-- {{i}}是{{item}} -->
 <!-- 	</view> -->
-
+<br>
+<br>
+	<view class="button-row">
+			<button @click="submit" class="button">通过</button>
+			<button class="button" type="primary" @click="inputDialogToggle" 
+				style="background-color:red; color: #ffffff;"><text class="button-text" >驳回</text></button>
+			<view v-if = "data.showReason"  class="dialog-box">
+				<textarea class="dialog-text">   驳回原因：{{ data.reason }}</textarea>
+			</view>
+			
+	</view>
+	<view>
+		<!-- 输入框示例 -->
+		<uni-popup ref="inputDialog" type="dialog">
+			<uni-popup-dialog ref="inputClose" mode="input" title="输入驳回原因" value="对话框预置提示内容" placeholder="请输入内容"
+				@close="close" @confirm="dialogInputConfirm"></uni-popup-dialog>
+		</uni-popup>
+	</view>
 </template>
 
 <script setup>
@@ -34,8 +51,23 @@
 		name: '',
 		pickTime: '',
 		filepath: ["@/static/feedback/plus.png"],
+		reason: '',
+		showReason:false,
 	})
+	//弹窗
+	const inputDialog = ref(null);
 	
+	//驳回按钮
+	const inputDialogToggle = () => {
+		inputDialog.value.open();
+		data.showReason = true;
+		submitreason();
+		
+	}
+
+	const dialogInputConfirm = (val) => {
+		data.reason = val;
+	}
 	onLoad((options) => {
 		console.log('所有信息', options);
 		//检查filepath是否为数组，结果不是
@@ -48,7 +80,20 @@
 		//给他转换成数组
 		//data.filepath = options.filepath.split(',');
 	})
-
+	const submitreason = () => {
+			// const res = await http(`/api/updateStatus`, 'POST', status);
+	}
+	//通过按钮
+	const submit = async() =>{
+		const status = '已通过';
+	//	const res = await http(`/api/updateStatus`, 'POST', );
+	//	console.log("修改状态是否成功", res);
+		uni.navigateBack({
+			url:'../../pages/lostAndFoundManage/lostandfoundManagelist',
+		})
+	}
+	
+	
 </script>
 
 <style lang="scss">
