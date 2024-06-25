@@ -51,12 +51,12 @@ export const useUserStore = defineStore('User', ()=>{
 			upgradeUnreceivedNum(total);
 		})
 		if(totalUnreceived.value){//触发计算
-			console.log("if(totalUnreceived.value)用于初始化")
+			console.log("if(totalUnreceived.value)用于初始化",totalUnreceived.value)
 		}
 		
 	}
 	//用计算属性试试能不能自动更新,响应式，不能自动初始化
-    const totalUnreceived = computed(async() => {
+    const totalUnreceived = computed(() => {//不能异步
 		let total=0;
 		for (var i = 0; i < chatList.value.length; i++) {
 			total+=chatList.value[i].unreceivedNum

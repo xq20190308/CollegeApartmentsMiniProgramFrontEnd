@@ -121,6 +121,8 @@ onShow( async () => {
 		console.log("get user in store",data.userInfo)
 		data.userInfo.avatarUrl=store.avatar
 		console.log("get avatar in store",data.userInfo.avatarUrl)
+		let total = store.totalUnreceived
+		uni.$emit('upgradeUnreceivedNum',total)
 	}else{
 		uni.showModal({
 			title: '提示',
