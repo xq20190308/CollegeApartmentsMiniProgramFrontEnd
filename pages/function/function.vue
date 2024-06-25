@@ -93,7 +93,7 @@ onLoad(()=>{
 	],
 	data.navList3 = [
 		{ name: "账号管理", imgPath: "../../static/function/userManage.png", pagePath:"../userManage/userManage"},
-		{ name:"失物招领管理", imgPath:'../../static/function/lostandfound.png', pagePath:"../lostandfoundManage/lostandfoundManage"}
+		{ name:"失物招领管理", imgPath:'../../static/function/lostandfound.png', pagePath:"../lostAndFoundManage/lostandfoundManagelist"}
 	]
 }) 
 const Function1Click=(item)=> {

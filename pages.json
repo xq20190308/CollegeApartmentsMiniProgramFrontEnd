@@ -143,9 +143,9 @@
 			}
 		},
 		{
-			"path": "pages/lostandfoundManage/lostandfoundManage",
+			"path": "pages/lostAndFoundManage/lostandfoundManagelist",
 			"style": {
-				"navigationBarTitleText": "失物招领管理",
+				"navigationBarTitleText": "失物招领列表",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -185,15 +185,9 @@
 				"enablePullDownRefresh": false
 			}
 		},
+
 		{
-			"path": "pages/lostandfoundManage/lostandfoundManagelist",
-			"style": {
-				"navigationBarTitleText": "找到细节",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/lostandfoundManage/detailLostandFoundManage",
+			"path": "pages/lostAndFoundManage/detailLostandFoundManage",
 			"style": {
 				"navigationBarTitleText": "找到细节",
 				"enablePullDownRefresh": false

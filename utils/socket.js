@@ -52,12 +52,12 @@ export const wsopen = (url) => {
 				if(pages[pages.length - 1]==undefined||tabbarPathList.indexOf(pages[pages.length - 1].$page.fullPath) != -1){
 					console.log("++")
 					if(socketMsgQueue.length>0){
-						uni.setTabBarBadge({
-							index: 2,
-							// tabIndex，tabbar的哪一项，从0开始
-							text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-							// 显示的文本，超过99显示成99+
-						});
+						// uni.setTabBarBadge({
+						// 	index: 2,
+						// 	// tabIndex，tabbar的哪一项，从0开始
+						// 	text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+						// 	// 显示的文本，超过99显示成99+
+						// });
 					}
 				}
 			}catch(err){

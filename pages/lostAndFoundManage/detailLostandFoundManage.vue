@@ -23,7 +23,7 @@
 	<view>
 		<!-- 输入框示例 -->
 		<uni-popup ref="inputDialog" type="dialog">
-			<uni-popup-dialog ref="inputClose" mode="input" title="输入内容" value="对话框预置提示内容" placeholder="请输入内容"
+			<uni-popup-dialog ref="inputClose" mode="input" title="输入驳回原因" value="对话框预置提示内容" placeholder="请输入内容"
 				@close="close" @confirm="dialogInputConfirm"></uni-popup-dialog>
 		</uni-popup>
 	</view>
@@ -86,8 +86,8 @@
 	//通过按钮
 	const submit = async() =>{
 		const status = '已通过';
-		const res = await http(`/api/updateStatus`, 'POST', status);
-		console.log("修改状态是否成功", res);
+	//	const res = await http(`/api/updateStatus`, 'POST', );
+	//	console.log("修改状态是否成功", res);
 		uni.navigateBack({
 			url:'../../pages/lostAndFoundManage/lostandfoundManagelist',
 		})

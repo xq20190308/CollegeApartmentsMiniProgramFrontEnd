@@ -4,6 +4,7 @@
            :active-color="data.activeColor" @clickItem="onClickItem" />
         <view class="content">
             <view v-show="data.current === 0">
+							<!-- 待审核 -->
                 <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
                 
                     <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
@@ -13,16 +14,20 @@
                 </view>
             </view>
             <view v-show="data.current === 1">
+							<view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
                 <uni-card :title="item.category === 'lost' ? '捡到的东西' : '丢失的东西'" :sub-title="item.name" padding="10px 0">
                     <image style="width:100%;" :src="item.img"></image>
                     <text class="uni-body uni-mt-5">{{item.describes}}</text>
                 </uni-card>
+								</view>
             </view>
             <view v-show="data.current === 2">
+							<view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
                 <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
                     <image style="width:100%;" :src="item.img"></image>
                     <text class="uni-body uni-mt-5">{{item.describes}}</text>
                 </uni-card>
+								</view>
             </view>
         </view>
     </view>
@@ -45,7 +50,10 @@
 	  colorIndex: 0,
 	  activeColor: '#007aff',
 	  styleType: 'button',
-	  AllItems: [],
+	  AllItems: [
+			{category:'lost',name:'耳机', describes:'找不到了'}
+			
+		],
 		status:'',
 	})
   const  onClickItem = (e)=> {
