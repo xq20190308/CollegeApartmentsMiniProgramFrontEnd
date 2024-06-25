@@ -107,8 +107,7 @@ const add=(e,option)=>{
 		type: option,
 		name: "",
 		description: "",
-		content: option==3?null:["A", "B", "C"],
-		questionnaire_id: "",
+		content: option==3?"":["", "", ""],
 	});
 	console.log(data.questionList)
 } 
@@ -116,12 +115,50 @@ const submit = async ()=> {
 	console.log("修改后的问卷",data.info)
 	console.log("修改后的问卷的问题",data.questionList)
 	//校验
+	for (const key in data.info) {
+		console.log(key,data.info[key])
+		if((key!="type"&&key!="isBegin"&&key!="isEnd"&&key!="anonymous")&&data.info[key]==""){//问卷信息有空项
+		console.log("data.info[key]==''",key)
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}
+	}
+	for (const question in data.questionList) {
+		if(data.questionList[question].name==""||data.questionList[question].description==""){//问卷信息有空项
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}
+		if(typeof data.questionList[question].content == "String" && data.questionList[question].content == ""){//问卷信息有空项
+			uni.showToast({
+				title:"请填写完整",
+				icon:"error"
+			})
+			return ;
+		}else{
+			for (var i = 0; i < data.questionList[question].content.length; i++) {
+				if(data.questionList[question].content[i]==""){
+					uni.showToast({
+						title:"请填写完整",
+						icon:"error"
+					})
+					return ;
+				}
+			}
+		}
+		console.log("已填写完整")
+	}
 	
 	//提交到后端
 	let list=[];
 	for(let i=0;i<data.questionList.length;i++){
 		list[i]={...data.questionList[i]};
-		list[i].content=JSON.stringify(list[i].content);
+		list[i].content=JSON.stringify(list[i].content);//好像会把原数据修改，导致渲染错误，并且问题列表为啥提交上之后是空的
 	}
 	console.log('data.questionList',data.questionList)
 	const res = await http('/questionnaire/updateQuestionnaireById/'+data.info.id,'POST',{...data.info,questionList:list,anonymous:data.isanonymous},);

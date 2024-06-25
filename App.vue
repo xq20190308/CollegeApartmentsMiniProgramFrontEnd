@@ -42,6 +42,10 @@
 					store.chatList[index].unreceivedNum++;
 					console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 					console.log('index_of_sender in chatList',index)
+					//用于触发
+					console.log("store.totalUnreceived",store.totalUnreceived)
+					
+					
 				}else{
 					console.log('pages/chat/caht',"---",pages[pages.length - 1].$vm.__route__)
 				}

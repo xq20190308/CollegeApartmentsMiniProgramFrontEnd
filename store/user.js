@@ -46,7 +46,25 @@ export const useUserStore = defineStore('User', ()=>{
 			//存到本地
 			uni.setStorageSync('chatList',JSON.stringify(newlist))
 		})
+		uni.$on('upgradeUnreceivedNum',(total)=>{
+			console.log("监听函数")
+			upgradeUnreceivedNum(total);
+		})
+		if(totalUnreceived.value){//触发计算
+			console.log("if(totalUnreceived.value)用于初始化")
+		}
+		
 	}
+	//用计算属性试试能不能自动更新,响应式，不能自动初始化
+    const totalUnreceived = computed(async() => {
+		let total=0;
+		for (var i = 0; i < chatList.value.length; i++) {
+			total+=chatList.value[i].unreceivedNum
+		}
+		console.log("computed totalUnreceived----------------")
+		uni.$emit('upgradeUnreceivedNum',total)
+		return total;
+	})
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
 		//所以要和login函数统一
 		console.log("login in User.js")
@@ -72,10 +90,36 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("socketTask",socketTask)
 		chat.value=socketTask;
 		console.log("save socket in store chat",chat.value);
-		getChatList();
+		await getChatList();
+		
 	}
-	
-	const initLogin = ()=>{
+	const upgradeUnreceivedNum=(total)=>{
+		console.log("upgradeUnreceivedNum函数,total:",total)
+		setTimeout(async() => {
+			let pages = await getCurrentPages();
+			console.log("pages",pages)
+			if(pages[pages.length - 1]!=undefined&&(
+			pages[pages.length - 1].$vm.__route__ == 'pages/home/home'||
+			pages[pages.length - 1].$vm.__route__ == 'pages/function/function'||
+			pages[pages.length - 1].$vm.__route__ == 'pages/message/message'||
+			pages[pages.length - 1].$vm.__route__ == 'pages/myself/myself')){
+				console.log("store.totalUnreceived",total)
+				if(total){
+					uni.setTabBarBadge({
+						index: 2,
+						// tabIndex，tabbar的哪一项，从0开始
+						text: String(total).length > 2 ? "99+" : String(total)
+						// 显示的文本，超过99显示成99+
+					});					
+				}else{
+					uni.removeTabBarBadge({
+						index:2
+					})
+				}
+			}
+		}, 60)
+	}
+	const initLogin = async ()=>{
 		console.log("initLogin in store")
 		//本地用户信息存到store中	
 		token.value=uni.getStorageSync('token')
@@ -89,7 +133,7 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("get avatar in Storage",avatar.value)
 			//建立socket连接
 			wsopen('/websocket1');
-			getChatList()
+			await getChatList()
 		}else{
 			console.log("用户不在线")
 		}
@@ -99,7 +143,7 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,
+		user, token, avatar, chat,chatList,totalUnreceived,
 		//用户登录，程序启动时的登录初始化
 		login,initLogin, }
 })

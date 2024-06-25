@@ -89,10 +89,9 @@ const handlemsg=(msg)=>{
 		console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
 	}
 }
+const store = useUserStore();
 onLoad((options)=>{
-	//需要把对应的未读消息数设为0
 	console.log("chatonLoad")
-	const store = useUserStore();
 	console.log("useUserStore",store)
 	data.myid=store.user.userid
 	console.log(data.myid)

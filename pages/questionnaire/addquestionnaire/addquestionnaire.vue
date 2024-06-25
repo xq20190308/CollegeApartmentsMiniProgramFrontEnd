@@ -176,7 +176,7 @@ const submit = async ()=> {
 			return ;
 		}else{
 			for (var i = 0; i < data.questionList[question].content.length; i++) {
-				if(data.questionList[question].content[i]=""){
+				if(data.questionList[question].content[i]==""){
 					uni.showToast({
 						title:"请填写完整",
 						icon:"error"
