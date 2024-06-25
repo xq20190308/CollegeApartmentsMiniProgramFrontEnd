@@ -26,6 +26,8 @@ export const useUserStore = defineStore('User', ()=>{
 	const chat = ref(null)
 	// 会话列表
 	const chatList = ref([])
+	// 最新消息列表
+	const lastList = ref([])
 	//方法
 	const getChatList = ()=>{//和初始化登录一起调用
 		// chatList.value = [
@@ -143,7 +145,7 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,totalUnreceived,
+		user, token, avatar, chat,chatList,totalUnreceived,lastList ,
 		//用户登录，程序启动时的登录初始化
 		login,initLogin, }
 })
