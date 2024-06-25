@@ -4,9 +4,9 @@
 
 <script setup>
 import { onLoad, onShow} from "@dcloudio/uni-app";
-import { wsclose,wsopen,wssend,socketMsgQueue } from "../../utils/socket.js";
+import { wsclose,wsopen,wssend} from "../../utils/socket.js";
 onShow(() => {
-	socketMsgQueue.length=0;
+	//socketMsgQueue.length=0;
 	uni.removeTabBarBadge({
 		index: 2 // tabIndex，tabbar的哪一项，从0开始
 	});

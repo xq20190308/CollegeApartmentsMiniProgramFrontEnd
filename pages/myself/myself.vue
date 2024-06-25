@@ -1,5 +1,5 @@
 <template>
-	<view class="mask" v-if="data.userInfo.token===''">
+	<view class="mask" v-if="store.token==''">
 		<view style="top: 400px;position: fixed;margin-left: 40px;">
 			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
 				<text>登录</text>
@@ -24,14 +24,16 @@
 		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
-			<uni-list border-full>
-				<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
-				<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
-				<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
-				<uni-list-item showArrow title="专业" rightText="软件工程" />
-				<uni-list-item showArrow title="建言献策" />
-				<uni-list-item showArrow title="关于" />
-			</uni-list>
+		<view style="border-radius: 20px;overflow: hidden;">
+				<uni-list border-full>
+					<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
+					<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
+					<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
+					<uni-list-item showArrow title="专业" rightText="软件工程" />
+					<uni-list-item showArrow title="建言献策" />
+					<uni-list-item showArrow title="关于" />
+				</uni-list>
+		</view>
 		</uni-section>
 	</view>
 	
@@ -50,75 +52,76 @@ import { getLocalData, setLocalData, delLocalData, clearUserInfo } from "../../u
 import { reactive } from "vue";
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
-import { socketMsgQueue } from "../../utils/socket.js";
+import { } from "../../utils/socket.js";
+import { useUserStore } from "../../store/User.js";
 const data = reactive({
 	imageStyles: {
 		border: {
 			radius: '50%'
 		}
 	},
-	userInfo: { //默认头像
-		avatarUrl: '',
-		nickName: '默认',
-		token:null,
-		username: "",
-		trueName: "",
-	},
-	useravatarImg: "",
+	userInfo: {},
 	func1_List: [],
 })
+const store = useUserStore()
 const delogin=async (meg)=> {
 	 uni.showModal({
 	 	title: '提示',
 	 	content: meg,
 	 	success: (res) => {
 	 		if (res.confirm) {
-	 			clearUserInfo()
-				wsclose();//退出登录后关闭socket连接
-				socketMsgQueue.length=0;
-				socketMsgQueue.content="";
 				uni.removeTabBarBadge({
 					index:2,
 					complete:(res)=> {
 						console.log(res)
 					}
 				})
-	 			data.userInfo.token=getLocalData("token")
+	 			clearUserInfo()
+				wsclose();
+	 			data.userInfo={}
+				store.user={}
+				store.avatar=""
+				store.token=""
+				delLocalData()
 	 			tologin("正在跳转")
 	 		} else if (res.cancel) {
+				
 	 		}
 	 	}
 	 });
 } 
 const tologin=async (meg)=> {
-		uni.showLoading({
-			title: meg,
-			mask:true,
+	uni.showLoading({
+		title: meg,
+		mask:true,
+	})
+	setTimeout(() => {
+		uni.hideLoading();
+		uni.navigateTo({
+			url: "/pages/login/loginPage"
 		})
-		setTimeout(() => {
-			uni.hideLoading();
-			uni.navigateTo({
-				url: "/pages/login/loginPage"
-			})
-		}, 1000)
-	} 
-	const selectUpload = async (e)=>{
-		console.log(e);
-		await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
-			(res1)=>{
-				console.log("res1",res1);
-				data.userInfo.avatarUrl = res1.data;
-			}
-		)
-		await setLocalData('avatarUrl',data.userInfo.avatarUrl);
-	}
+	}, 500)
+} 
+const selectUpload = async (e)=>{
+	console.log(e);
+	await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
+		(res1)=>{
+			console.log("res1",res1);
+			data.userInfo.avatarUrl = res1.data;
+		}
+	)
+	await setLocalData('avatarUrl',data.userInfo.avatarUrl);
+	//更新store
+	store.avatar=data.userInfo.avatarUrl;
+}
 onShow( async () => {
-	data.userInfo.avatarUrl=getLocalData("avatarUrl")
-	console.log('头像',data.userInfo.avatarUrl);
-	data.userInfo.username=getLocalData("username")
-	data.userInfo.trueName=getLocalData("trueName")
-	data.userInfo.token=getLocalData("token")
-	if(data.userInfo.token===""){
+	console.log("myself onShow",data.userInfo)
+	if(store.token!=""){
+		data.userInfo=store.user
+		console.log("get user in store",data.userInfo)
+		data.userInfo.avatarUrl=store.avatar
+		console.log("get avatar in store",data.userInfo.avatarUrl)
+	}else{
 		uni.showModal({
 			title: '提示',
 			content: '未登录影响功能的使用',
@@ -130,14 +133,14 @@ onShow( async () => {
 			}
 		});
 	}
-	if(socketMsgQueue.length>0){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-			// 显示的文本，超过99显示成99+
-		});
-	}
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
+	// 	});
+	// }
 })
 onLoad(()=>{
 }) 

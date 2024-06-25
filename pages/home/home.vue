@@ -24,12 +24,12 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
 import {mainFun} from '../../main.js'
-import { socketMsgQueue } from "../../utils/socket.js";
+import { } from "../../utils/socket.js";
 const data = reactive({
 	staticpictures:[
 		"https://img1.baidu.com/it/u=2786021056,112418886&fm=253&fmt=auto&app=120&f=JPEG?w=735&h=500",
@@ -75,16 +75,22 @@ onLoad(()=>{
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
 })})
-onShow(()=>{ 
+onShow(()=>{
 	console.log(uni.getStorageSync('token'))
-	if(socketMsgQueue.length>0){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-			// 显示的文本，超过99显示成99+
-		});
-	}
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
+	// 	});
+	// 	// 这会实时打印出变化的值
+	// 	let array=socketMsgQueue.content.split("<br/>")
+		 
+	// 	uni.showModal({
+	// 		title:array[array.length-2],
+	// 	})
+	// }
 })
 </script>
 

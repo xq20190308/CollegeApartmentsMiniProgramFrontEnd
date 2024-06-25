@@ -41,45 +41,30 @@
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {getLocalData,delLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
-import { socketMsgQueue } from "../../utils/socket.js";
+import { } from "../../utils/socket.js";
 const data = reactive({
 	islogined:false,
-	navList1: [
-		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_home"},
-		{ name: "教室预约", imgPath: "../../static/function/classes.png", pagePath:"../questionnaire/questionnaire_home"},
-		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../questionnaire/questionnaire_home" },
-		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_home"}
-	] ,
-	navList2: [
-		{ name: "问卷投票", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_home"},
-	    { name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
-	    { name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-	    { name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_home"}
-	 ],
-	navList3:[
-		{ name: "热水系统", imgPath: "../../static/function/water.png", pagePath:"../questionnaire/questionnaire_home"},
-		{ name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../questionnaire/questionnaire_home"},
-		{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
-		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_home"}
-	],
+	navList1: [] ,
+	navList2: [],
+	navList3:[],
 })
 onShow(()=>{
 	data.islogined=getLocalData('token')!="";
 	console.log(data.islogined);
-	if(socketMsgQueue.length>0){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-			// 显示的文本，超过99显示成99+
-		});
-	}
+	// if(socketMsgQueue.length>0){
+	// 	uni.setTabBarBadge({
+	// 		index: 2,
+	// 		// tabIndex，tabbar的哪一项，从0开始
+	// 		text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
+	// 		// 显示的文本，超过99显示成99+
+	// 	});
+	// }
 })
 onLoad(()=>{
     data.navList1 = [
 		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "教室预约", imgPath: "../../static/function/classes.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
-		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list" },
+		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
     ] ,
 	data.navList2 = [

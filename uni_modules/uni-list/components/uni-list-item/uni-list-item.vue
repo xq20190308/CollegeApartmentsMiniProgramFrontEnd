@@ -6,7 +6,7 @@
 			:hover-class="(!clickable && !link) || disabled || showSwitch ? '' : 'uni-list-item--hover'"
 			class="uni-list-item" @click="onClick">
 			<view v-if="!isFirstChild" class="border--left" :class="{ 'uni-list--border': border }"></view>
-			<view class="uni-list-item__container"
+			<view class="uni-list-item__container" style="padding-top:2px;padding-bottom:2px"
 				:class="{ 'container--right': showArrow || link, 'flex--direction': direction === 'column'}"
 				:style="{paddingTop:padding.top,paddingLeft:padding.left,paddingRight:padding.right,paddingBottom:padding.bottom}">
 				<slot name="header">
@@ -20,7 +20,7 @@
 					</view>
 				</slot>
 				<slot name="body">
-					<view class="uni-list-item__content"
+					<view class="uni-list-item__content" 
 						:class="{ 'uni-list-item__content--center': thumb || showExtraIcon || showBadge || showSwitch }">
 						<text v-if="title" class="uni-list-item__content-title"
 							:class="[ellipsis !== 0 && ellipsis <= 2 ? 'uni-ellipsis-' + ellipsis : '']">{{ title }}</text>
@@ -342,6 +342,7 @@
 		align-items: center;
 		background-color: #fff;
 		flex-direction: row;
+		height: 40px;
 		/* #ifdef H5 */
 		cursor: pointer;
 		/* #endif */
@@ -410,7 +411,7 @@
 		color: #3b4144;
 		// overflow: hidden;
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: center;
 		overflow: hidden;
 	}
 

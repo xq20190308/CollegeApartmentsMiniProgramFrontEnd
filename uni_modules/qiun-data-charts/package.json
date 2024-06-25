@@ -1,20 +1,17 @@
 {
-  "id": "uni-icons",
-  "displayName": "uni-icons 图标",
-  "version": "2.0.10",
-  "description": "图标组件，用于展示移动端常见的图标，可自定义颜色、大小。",
+  "id": "qiun-data-charts",
+  "displayName": "秋云 ucharts echarts 高性能跨全端图表组件",
+  "version": "2.5.0-20230101",
+  "description": "uCharts 新增正负柱状图！支持H5及APP用 ucharts echarts 渲染图表，uniapp可视化首选组件",
   "keywords": [
-    "uni-ui",
-    "uniui",
-    "icon",
-    "图标"
+    "ucharts",
+    "echarts",
+    "f2",
+    "图表",
+    "可视化"
 ],
-  "repository": "https://github.com/dcloudio/uni-ui",
-  "engines": {
-    "HBuilderX": "^3.2.14"
-  },
-  "directories": {
-    "example": "../../temps/example_temps"
+  "repository": "https://gitee.com/uCharts/uCharts",
+"engines": {
   },
 "dcloudext": {
     "sale": {
@@ -26,30 +23,28 @@
       }
     },
     "contact": {
-      "qq": ""
+      "qq": "474119"
     },
     "declaration": {
       "ads": "无",
-      "data": "无",
+      "data": "插件不采集任何数据",
       "permissions": "无"
     },
-    "npmurl": "https://www.npmjs.com/package/@dcloudio/uni-ui",
+    "npmurl": "https://www.npmjs.com/~qiun",
     "type": "component-vue"
   },
   "uni_modules": {
-    "dependencies": ["uni-scss"],
+    "dependencies": [],
     "encrypt": [],
     "platforms": {
       "cloud": {
         "tcb": "y",
-        "aliyun": "y",
-        "alipay": "n"
+        "aliyun": "y"
       },
       "client": {
         "App": {
           "app-vue": "y",
-          "app-nvue": "y",
-          "app-uvue": "y"
+          "app-nvue": "y"
         },
         "H5-mobile": {
           "Safari": "y",
@@ -69,11 +64,7 @@
           "阿里": "y",
           "百度": "y",
           "字节跳动": "y",
-          "QQ": "y",
-					"钉钉": "y",
-					"快手": "y",
-					"飞书": "y",
-					"京东": "y"
+          "QQ": "y"
         },
         "快应用": {
           "华为": "y",

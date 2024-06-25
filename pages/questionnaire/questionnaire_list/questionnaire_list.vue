@@ -1,6 +1,6 @@
 <template> 
 	<view class="qusnalist">
-		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="questionnaire" :style="item.id===1?filter:''"  @click="gotonaire(item)">
+		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="questionnaire"  @click="gotonaire(item)">
 			<uni-section :style="item.isEnd?'opacity: 0.5':''" :title="item.name" type="line" titleFontSize=42rpx>
 				<template v-slot:right style="margin-left: 10px;">
 					<view style="display: flex; flex-direction: row;">
@@ -13,7 +13,7 @@
 		</view>
 	</view>
 	<view>
-		<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
+		<image class = "addnaireicon" src="../../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
 	</view>
 </template>
 
@@ -25,6 +25,7 @@ import questionnaire from '../../../components/questionnaire/questionnaire.vue'
 import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
 import {getCurrentTime,getTimeStamp} from '@/utils/time'
+import { useUserStore } from "../../../store/User.js";
 const data = reactive({
 	questionnairelist:[],
 	total: 0,
@@ -40,6 +41,7 @@ const data = reactive({
 	}],
 	active:0
 })
+const store = useUserStore()
 const getNaireslist = async ()=>{
 	
 	const res = await http('/questionnaire/selectAll','GET',{},);
@@ -50,6 +52,7 @@ const getNaireslist = async ()=>{
 		data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
 		data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
 	}
+	console.log("data.questionnairelist",data.questionnairelist)
 }
 const gotonaire = (item) =>{
 	if(item.isEnd){
@@ -109,7 +112,7 @@ const deletenaire =async (item)=> {
 			icon:'error'
 		})
 	}else{
-		if(uni.getStorageSync('questionnaireManage')){
+		if(store.user.userPermission['questionnaireManage']){
 			uni.showModal({
 				title: '提示',
 				content: '确定要删除该文件吗',

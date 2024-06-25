@@ -1,9 +1,41 @@
 <template>
 	<view class="container">
 		<view style="height: 20px;margin-bottom: 1px;">
-			<text class="underline-text" @click="overview">提交情况</text>
+			<text class="underline-text" @click="overview">{{data.showsubmits?"问卷详情":"提交情况"}}</text>
 		</view>
-		<uni-section :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
+		<uni-section v-if="data.showsubmits">
+			<text>总提交份数：{{data.numOfAnswers}}</text>
+			<text class="underline-text" @click="()=>{data.table=data.table?false:true}">{{data.table?"饼状图":"表格"}}</text>
+			<view style="height: 20px;"></view>
+			<view  v-if="data.table">
+				<uni-table border stripe emptyText="暂无更多数据" >
+					<!-- 表头行 -->
+					<uni-tr>
+						<uni-th :width="50" align="center">序号</uni-th>
+						<uni-th :width="100" align="center">选项</uni-th>
+						<uni-th :width="50" align="left">数量</uni-th>
+						<uni-th :width="100" align="left">题目</uni-th>
+					</uni-tr>
+					<!-- 表格数据行 -->
+					<uni-tr v-for="(item,index) in data.answerCountList" :key="index">
+						<uni-td>{{index+1}}</uni-td>
+						<uni-td>
+							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{String.fromCharCode(indexofc.toString().charCodeAt(0)-'0'.charCodeAt(0)+'A'.charCodeAt(0))+"  "+data.questionList[index].content[indexofc]}}</uni-tr>
+						</uni-td>
+						<uni-td>
+							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc}}</uni-tr>
+						</uni-td>
+						<uni-td>{{data.questionList[index].name}}</uni-td>
+					</uni-tr>
+				</uni-table>
+			</view>
+			<view v-else v-for="(item,index) in data.chartDatas" :key="index">
+				<view class="charts-box" style="top: 2px;" v-if="data.chartDatas[index].series[0].data.length>0">{{index+1}}.{{data.questionList[index].name}}：
+					<qiun-data-charts type="pie" :opts="data.opts" :chartData="data.chartDatas[index]"></qiun-data-charts>
+				</view>
+			</view>
+		</uni-section>
+		<uni-section v-else :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
 			<template v-slot:right>
 				<uni-icons @click="showmyanswer" type="arrow-up" size="20"></uni-icons>
 			</template>
@@ -56,6 +88,25 @@ import {computed, reactive, ref} from "vue";
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
 const data = reactive({
+	numOfAnswers:0,
+	answerCountList:[],
+	opts: {
+	        color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
+	        padding: [5,5,5,5],
+	        enableScroll: false,
+	        extra: {
+	          pie: {
+	            activeOpacity: 0.5,
+	            activeRadius: 10,
+	            offsetAngle: 0,
+	            labelWidth: 15,
+	            border: true,
+	            borderWidth: 3,
+	            borderColor: "#FFFFFF"
+	          }
+	        }
+	      },
+	showsubmits:false,
 	timer:null,//延时器，用于防抖处理
 	//匿名的话questionnaire加一个isAnonymous
 	isanonymous:true,//需要从后端获取
@@ -82,12 +133,40 @@ const data = reactive({
 		id: '',
 	},
 	// 校验规则
+	chartDatas:[],
 })
-const overview = ()=>{
-	uni.showToast({
-		title: "敬请期待",
-		icon:'error'
-	})
+const overview = async ()=>{
+	data.showsubmits=data.showsubmits?false:true;
+	if(data.showsubmits==true&&data.answerCountList.length==0){
+		const res = await http('/questionnaire/useranswer/anssum?questionnaireId='+data.id,'GET',{},)
+		data.numOfAnswers=res.data.numOfAnswers
+		data.answerCountList=res.data.answerCountList;
+		console.log(data.answerCountList)
+		for (var i = 0; i < data.answerCountList.length; i++) {
+			if(data.answerCountList[i].answerType<=2){
+				let datai=[]
+				for (var j = 0; j < data.answerCountList[i].choiceSumList.length; j++) {
+					datai.push({"name":data.questionList[i].content[j],"value":data.answerCountList[i].choiceSumList[j]})
+				}
+				data.chartDatas.push({
+				  series: [
+					{
+					  data: datai
+					}
+				  ]
+				})
+			}else{
+				data.chartDatas.push({
+				  series: [
+					{
+					  data: []
+					}
+				  ]
+				})
+			}
+		}
+		console.log(data.chartDatas)
+	}
 }
 const rules = computed(()=>{
 	if(data.isanonymous==true){
@@ -126,7 +205,7 @@ const ischeckedmul = (qindex,index)=>{
 }
 const showmyanswer = async () => {
 	console.log("显示我的回答questionnaireId=",data.id);
-	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	const res = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 	if(res.msg=='您还没有填写该问卷'){
 		uni.showModal({
 			title:'您还没有填写该问卷',
@@ -145,7 +224,7 @@ const inputChange = (evt,qindex) => {
 	}, 500)
 }
 const checkboxChange = (evt,qindex) => {
-	data.current[qindex]=evt.detail.value;
+	data.current[qindex]=evt.detail.value.sort();
 	console.log(data.current);
 }
 const radioChange = (evt,qindex) => {
@@ -174,7 +253,7 @@ const submit = async (ref) => {
 		if(data.isanonymous){
 			answer = JSON.stringify([...data.current,res1.name,res1.id])
 		}
-		const res = await http('/useranswer/submit','POST',{
+		const res = await http('/questionnaire/useranswer/submit','POST',{
 			answer: answer ,
 			questionnaireId: data.id,
 		},);
@@ -184,7 +263,7 @@ const submit = async (ref) => {
 				uni.showModal({
 					title: "你已填写过该问卷,是否显示填写情况",
 					success:async (res3) => {
-						const res2 = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+						const res2 = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 						if (res3.confirm) {
 							data.current=JSON.parse(res2.data.answer);
 							if(!data.isanonymous){
@@ -213,7 +292,7 @@ const submit = async (ref) => {
 	})
 }
 const getquestions = async () => { 
-	const res = await http('/question/selectByQuestionnaireId/'+data.id,'GET',{},)
+	const res = await http('/questionnaire/question/selectByQuestionnaireId/'+data.id,'GET',{},)
 	
 	data.questionList=res.data;
 	for(let i=0;i<data.questionList.length;i++){
@@ -234,7 +313,7 @@ onLoad(async (options) => {
 	data.timer = setTimeout(()=>{
 		getquestions();
 	}, 100)
-	const res = await http('/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
+	const res = await http('/questionnaire/useranswer/getmyanswer?questionnaireId='+data.id,'GET',{},)
 	
 	if(res.msg=='您还没有填写该问卷'){
 		console.log("该用户没填写过此问卷")
@@ -263,6 +342,12 @@ onReady(()=>{
 </script>
 
 <style lang="scss" scoped>
+	.charts-box {
+		padding-left: 40px;
+	    width: 80%;
+	    height: 150px;
+		padding-top: 5px;
+	  }
 	::v-deep .uni-forms-item{
 		margin-left: 10px;
 		margin-right: 10px;

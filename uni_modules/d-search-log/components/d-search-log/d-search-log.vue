@@ -4,7 +4,7 @@
 		<view class="dSLComVueTop">
 			<view class="dSLComVueTopLeft">
 				<image src="../../../../static/hygiene/search.png" class="dSLComVueTopLeftImg" style="width: 30rpx;height: 30rpx;flex: none;"></image>
-				<input  class="dSLComVueTopLeftInput" v-model="search_input" type="text" :placeholder="placeholder" @blur="onClickInput" />
+				<input  class="dSLComVueTopLeftInput" v-model="search_input" type="text" :placeholder="placeholder" @blur="()=>{}" />
 				<view class="dSLComVueTopLeftDel" v-if="search_input" @click="onClickDel">
 					<image src="../../../../static/hygiene/del.png" class="dSLComVueTopLeftDelImg" style="width: 35rpx;height: 35rpx;flex: none;" ></image>
 				</view>
@@ -234,6 +234,7 @@
 	}
 	.mytext {
 		color: #8799a3;
+		font-size: smaller;
 	}
 	.dSLComVue {
 		width: 100%;
@@ -268,7 +269,7 @@
 					flex: 1;
 					height: 60rpx;
 					padding: 0 20rpx;
-					
+					font-size: smaller;
 				}
 				
 				.dSLComVueTopLeftDel {
@@ -296,6 +297,7 @@
 					// border:1rpx solid #ff00ff;
 					align-items: center;
 					justify-content: center;
+					font-size: smaller;
 				}
 			}
 			

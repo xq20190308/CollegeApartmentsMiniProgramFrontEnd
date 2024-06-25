@@ -101,6 +101,13 @@
 			}
 		},
 		{
+			"path": "pages/mentor/mentor",
+			"style": {
+				"navigationBarTitleText": "导师互动",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "通知列表",
@@ -131,7 +138,7 @@
 		{
 			"path": "pages/chat/chat",
 			"style": {
-				"navigationBarTitleText": "聊天",
+				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
 		},
