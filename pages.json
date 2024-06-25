@@ -1,0 +1,238 @@
+{
+	"easycom": {
+		"custom": {
+			"^u--(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/function/function",
+			"style": {
+				"navigationBarTitleText": "功能",
+				"backgroundColor": "#000000"
+			}
+		},
+		{
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		},
+		{
+			"path": "pages/myself/myself",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/pu/pu",
+			"style": {
+				"navigationBarTitleText": "pu活动"
+			}
+		},
+		{
+			"path": "pages/login/loginPage",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
+			"style": {
+				"navigationBarTitleText": "调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
+			"style": {
+				"navigationBarTitleText": "调查问卷列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
+			"style": {
+				"navigationBarTitleText": "创建调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/questionnaire/addquestionnaire/modifyquestionnaire",
+			"style": {
+				"navigationBarTitleText": "修改调查问卷",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "草稿列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/feedbackSubmit",
+			"style": {
+				"navigationBarTitleText": "草稿",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/manageFeed",
+			"style": {
+				"navigationBarTitleText": "已提交投诉",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/feedback/showFeed",
+			"style": {
+				"navigationBarTitleText": "投诉",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/mentor/mentor",
+			"style": {
+				"navigationBarTitleText": "导师互动",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notice/notice",
+			"style": {
+				"navigationBarTitleText": "通知列表",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notice/noticedetail",
+			"style": {
+				"navigationBarTitleText": "通知详情",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/notice/addnotice",
+			"style": {
+				"navigationBarTitleText": "创建通知",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/chat/chat",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/userManage/userManage",
+			"style": {
+				"navigationBarTitleText": "账号管理",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFound",
+			"style": {
+				"navigationBarTitleText": "失物招领",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostSubmit",
+			"style": {
+				"navigationBarTitleText": "我丢失的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/foundSubmit",
+			"style": {
+				"navigationBarTitleText": "我捡到的",
+				"enablePullDownRefresh": false
+			}
+		},
+
+		{
+			"path": "pages/lostAndFound/detailLostandFound",
+			"style": {
+				"navigationBarTitleText": "找到细节",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/lostAndFound/lostAndFoundMysef",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/search",
+			"style": {
+				"navigationBarTitleText": "卫生检查",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/showhygiene",
+			"style": {
+				"navigationBarTitleText": "卫生检查",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/hygiene/hygieneGradesSubmit",
+			"style": {
+				"navigationBarTitleText": "上传成绩",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#008cff",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"list": [
+			{
+				"pagePath": "pages/home/home",
+				"text": "首页",
+				"iconPath": "static/tabBar/home_icon.png",
+				"selectedIconPath": "static/tabBar/home_icon.png"
+			},
+			{
+				"pagePath": "pages/function/function",
+				"text": "功能",
+				"iconPath": "static/tabBar/function_icon.png",
+				"selectedIconPath": "static/tabBar/function_icon.png"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"text": "消息",
+				"iconPath": "static/tabBar/notice_icon.png",
+				"selectedIconPath": "static/tabBar/notice_icon.png"
+			},
+			{
+				"pagePath": "pages/myself/myself",
+				"text": "我的",
+				"iconPath": "static/tabBar/myself_icon.png",
+				"selectedIconPath": "static/tabBar/myself_icon.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
