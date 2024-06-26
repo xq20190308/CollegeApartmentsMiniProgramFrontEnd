@@ -7,7 +7,7 @@
 			<!--uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat-->
 		</uni-list>
 	</uni-list>
-	<!--button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="wssend('0','给曹晓玉发的消息','202211070501')">给曹晓玉发信息</button-->
+	<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="wssend('1','群发的消息','1')">群发消息测试</button>
 </template>
 
 <script setup>
