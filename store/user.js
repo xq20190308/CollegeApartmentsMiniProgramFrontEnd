@@ -39,6 +39,8 @@ export const useUserStore = defineStore('User', ()=>{
 			}
 		}
 		console.log("computed unreceivedNoticeNum----------------",total)
+		// if(totalUnreceived.value){//触发计算
+		// }
 		return total;
 	})
 	//用计算属性试试能不能自动更新,响应式，不能自动初始化
@@ -47,6 +49,7 @@ export const useUserStore = defineStore('User', ()=>{
 		for (var i = 0; i < chatList.value.length; i++) {
 			total+=chatList.value[i].unreceivedNum
 		}
+		total+=unreceivedNoticeNum.value
 		console.log("computed totalUnreceived----------------")
 		uni.$emit('upgradeUnreceivedNum',total)
 		return total;
@@ -103,7 +106,21 @@ export const useUserStore = defineStore('User', ()=>{
 			isConfirm:false,
 			}
 		);
+		uni.showModal({
+			title: '通知',
+			content: '你有一条新的通知',
+			success: (res) => {
+				if (res.confirm) { 
+					uni.navigateTo({
+						url: "/pages/chat/noticechat"
+					})
+				} else if (res.cancel) { 
+				}
+			}
+		});
 		uni.$emit('upgradeNoticeList',noticeList.value)
+		console.log("--收到通知，触发total计算totalUnreceived.value",totalUnreceived.value)
+		//uni.$emit('upgradeUnreceivedNum',totalUnreceived.value+unreceivedNoticeNum)
 	}
 	const handlemessage = async(message)=>{
 		console.log("store 中的 handlemessage",message)
