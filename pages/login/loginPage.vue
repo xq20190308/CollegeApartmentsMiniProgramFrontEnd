@@ -151,39 +151,7 @@ const loginConfirm = async (ref) => {
 					const history = await http('/message/history','GET',{})
 					console.log("登录后http请求聊天记录",history)
 					for (var i = 0; i < history.data.length; i++) {
-						history.data[i].sendTime=history.data[i].sendTime.slice(0,10) +" "+ history.data[i].sendTime.slice(11,19);
-						if(store.chatList.findIndex(item => item.userid === history.data[i].senderUserId)==-1){
-							//需要向后端请求用户信息
-							const res = await http('/user/findByUserid?userid='+history.data[i].senderUserId,'GET',{},)
-							console.log("发来消息的人的信息",res);
-							
-							let info={
-								name:res.data.name,
-								userid:history.data[i].senderUserId,
-								avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
-								unreceivedNum:0
-							}
-							store.chatList.push(info)
-							store.lastList.push(history.data[i])
-						}
-						let prelog=uni.getStorageSync('single'+ store.user.userid +'_with_'+history.data[i].senderUserId)
-						prelog=prelog!=""?JSON.parse(prelog):[]
-						prelog.push(history.data[i])
-						console.log(prelog)
-						uni.setStorageSync('single'+ store.user.userid +'_with_'+history.data[i].senderUserId,JSON.stringify(prelog))
-						//需要更新store.chatList中的未读消息数
-						let index = store.chatList.findIndex(item => item.userid === history.data[i].senderUserId);
-						console.log("++store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
-						store.chatList[index].unreceivedNum++;
-						store.lastList[index]=history.data[i]
-						uni.$emit('upgradeChatList',store.chatList)
-						console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
-						uni.$emit('upgradLastList',store.lastList)
-						console.log("uni.$emit('upgradeLastList',store.lastList) in APP.vue")
-						console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
-						console.log('index_of_sender in chatList',index)
-						//用于触发
-						console.log("store.totalUnreceived",store.totalUnreceived)
+						store.handlemessage(history.data[i])
 					}
 					//把重登陆标记清除
 					store.isRelogin=true;

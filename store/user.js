@@ -12,7 +12,7 @@ import { getLocalData, setLocalData, setUserInfo,getLocalAll } from "../utils/ca
 export const useUserStore = defineStore('User', ()=>{
     //测试数据
 	const isRelogin = ref(false)
-	const count = ref(202211070501)
+	const count= ref(5)
     const doubleCount = computed(() => count.value * 2)
     function increment() {
       count.value++
@@ -31,6 +31,26 @@ export const useUserStore = defineStore('User', ()=>{
 	const chatList = ref([])
 	// 最新消息列表
 	const lastList = ref([])
+	const unreceivedNoticeNum = computed(() => {//不能异步
+		let total=0;
+		for (var i = 0; i < noticeList.value.length; i++) {
+			if(noticeList.value[i].isConfirm==false){
+				total++
+			}
+		}
+		console.log("computed unreceivedNoticeNum----------------",total)
+		return total;
+	})
+	//用计算属性试试能不能自动更新,响应式，不能自动初始化
+    const totalUnreceived = computed(() => {//不能异步
+		let total=0;
+		for (var i = 0; i < chatList.value.length; i++) {
+			total+=chatList.value[i].unreceivedNum
+		}
+		console.log("computed totalUnreceived----------------")
+		uni.$emit('upgradeUnreceivedNum',total)
+		return total;
+	})
 	//方法
 	const getChatList = ()=>{//和初始化登录一起调用
 		// chatList.value = [
@@ -47,6 +67,8 @@ export const useUserStore = defineStore('User', ()=>{
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
 		let localLastList = uni.getStorageSync('lastListOf'+user.userid)
 		lastList.value=localLastList!=''?JSON.parse(localLastList):[]
+		let localNoticeList = uni.getStorageSync('noticeListOf'+user.userid)
+		noticeList.value=localNoticeList!=''?JSON.parse(localNoticeList):[]
 		//监听会话列表变化
 		uni.$on('upgradeChatList',(newlist)=>{
 			console.log("uni.$on('upgradeChatList',(newlist)")
@@ -58,6 +80,11 @@ export const useUserStore = defineStore('User', ()=>{
 			//存到本地
 			uni.setStorageSync('lastListOf'+user.userid,JSON.stringify(newlist))
 		})
+		uni.$on('upgradeNoticeList',(newlist)=>{
+			console.log("uni.$on('upgradeNoticeList',(newlist)")
+			//存到本地
+			uni.setStorageSync('noticeListOf'+user.userid,JSON.stringify(newlist))
+		})
 		uni.$on('upgradeUnreceivedNum',(total)=>{
 			console.log("监听函数")
 			upgradeUnreceivedNum(total);
@@ -65,18 +92,59 @@ export const useUserStore = defineStore('User', ()=>{
 		if(totalUnreceived.value){//触发计算
 			console.log("if(totalUnreceived.value)用于初始化",totalUnreceived.value)
 		}
-		
-	}
-	//用计算属性试试能不能自动更新,响应式，不能自动初始化
-    const totalUnreceived = computed(() => {//不能异步
-		let total=0;
-		for (var i = 0; i < chatList.value.length; i++) {
-			total+=chatList.value[i].unreceivedNum
+		if(unreceivedNoticeNum.value){//触发计算
+			console.log("if(unreceivedNoticeNum.value)用于初始化",unreceivedNoticeNum.value)
 		}
-		console.log("computed totalUnreceived----------------")
-		uni.$emit('upgradeUnreceivedNum',total)
-		return total;
-	})
+	}
+	const handlenotice = (message) => {
+		console.log("handlenotice");
+		noticeList.value.push({
+			...message,
+			isConfirm:false,
+			}
+		);
+		uni.$emit('upgradeNoticeList',noticeList.value)
+	}
+	const handlemessage = async(message)=>{
+		console.log("store 中的 handlemessage",message)
+		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+		if(message.type>0){
+			console.log("message.type>0");
+			handlenotice(message)
+		}else{
+			if(chatList.value.findIndex(item => item.userid === message.senderUserId)==-1){
+				//需要向后端请求用户信息
+				const res = await http('/user/findByUserid?userid='+message.senderUserId,'GET',{},)
+				console.log("发来消息的人的信息",res);
+				
+				let info={
+					name:res.data.name,
+					userid:message.senderUserId,
+					avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+					unreceivedNum:0
+				}
+				chatList.value.push(info)
+				lastList.value.push(message)
+			}
+			let prelog=uni.getStorageSync('single'+ user.value.userid +'_with_'+message.senderUserId)
+			prelog=prelog!=""?JSON.parse(prelog):[]
+			prelog.push(message)
+			console.log(prelog)
+			uni.setStorageSync('single'+ user.value.userid +'_with_'+message.senderUserId,JSON.stringify(prelog))
+			//需要更新store.chatList中的未读消息数
+			let index = chatList.value.findIndex(item => item.userid === message.senderUserId);
+			console.log("++store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
+			chatList.value[index].unreceivedNum++;
+			lastList.value[index]=message
+			uni.$emit('upgradeChatList',chatList.value)
+			uni.$emit('upgradeLastList',lastList.value)
+			console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
+			console.log("--store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
+			console.log('index_of_sender in chatList',index)
+			//用于触发
+			console.log("store.totalUnreceived",totalUnreceived.value)
+		}
+	}
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
 		//所以要和login函数统一
 		console.log("login in User.js")
@@ -155,7 +223,7 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,
+		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
 		//用户登录，程序启动时的登录初始化
-		login,initLogin, }
+		login,initLogin,handlemessage }
 })
