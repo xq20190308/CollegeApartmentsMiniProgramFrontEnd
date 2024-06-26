@@ -78,6 +78,8 @@ const delogin=async (meg)=> {
 				})
 	 			clearUserInfo()
 				store.chatList=[]
+				store.lastList=[]
+				wsclose();
 				wsclose();
 	 			data.userInfo={}
 				store.user={}

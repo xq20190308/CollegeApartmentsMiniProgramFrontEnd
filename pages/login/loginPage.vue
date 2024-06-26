@@ -164,6 +164,7 @@ const loginConfirm = async (ref) => {
 								unreceivedNum:0
 							}
 							store.chatList.push(info)
+							store.lastList.push(history.data[i])
 						}
 						let prelog=uni.getStorageSync('single'+ store.user.userid +'_with_'+history.data[i].senderUserId)
 						prelog=prelog!=""?JSON.parse(prelog):[]
@@ -174,8 +175,11 @@ const loginConfirm = async (ref) => {
 						let index = store.chatList.findIndex(item => item.userid === history.data[i].senderUserId);
 						console.log("++store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 						store.chatList[index].unreceivedNum++;
+						store.lastList[index]=history.data[i]
 						uni.$emit('upgradeChatList',store.chatList)
 						console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
+						uni.$emit('upgradLastList',store.lastList)
+						console.log("uni.$emit('upgradeLastList',store.lastList) in APP.vue")
 						console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 						console.log('index_of_sender in chatList',index)
 						//用于触发

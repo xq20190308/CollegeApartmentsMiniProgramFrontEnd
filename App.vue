@@ -28,6 +28,7 @@
 							unreceivedNum:0
 						}
 						store.chatList.push(info)
+						store.lastList.push(message)
 					}
 					let prelog=uni.getStorageSync('single'+ store.user.userid +'_with_'+message.senderUserId)
 					prelog=prelog!=""?JSON.parse(prelog):[]
@@ -38,7 +39,9 @@
 					let index = store.chatList.findIndex(item => item.userid === message.senderUserId);
 					console.log("++store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 					store.chatList[index].unreceivedNum++;
+					store.lastList[index]=message
 					uni.$emit('upgradeChatList',store.chatList)
+					uni.$emit('upgradeLastList',store.lastList)
 					console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
 					console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 					console.log('index_of_sender in chatList',index)

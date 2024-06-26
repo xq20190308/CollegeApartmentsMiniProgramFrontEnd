@@ -2,7 +2,7 @@
 	<uni-list>
 		<uni-list :border="true">
 			<!-- 右侧带角标 -->
-			<uni-list-chat :clickable="true" v-for="(item,index) in data.contacts" :key="index" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="item.userid" time="2020-02-02 20:20" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
+			<uni-list-chat :clickable="true" v-for="(item,index) in data.contacts" :key="index" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="data.lastList[index].data" time="2020-02-02 20:20" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
 			<!-- 显示多头像 -->
 			<!--uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat-->
 		</uni-list>
@@ -21,7 +21,7 @@ import { storeToRefs } from 'pinia'
 const data = reactive({
 	unreceivedNum:0,
 	message:'',
-	lastmessages:[],
+	lastList:[],
 	currentmsg:'',
 	contacts:[],
 	avatarList: []
@@ -40,12 +40,14 @@ const clickChatItem = (index)=>{
 		})
 	},60)
 }
+const store=useUserStore()
 onShow(()=>{
 	console.log("onShow")
 	data.contacts=store.chatList
 	console.log("data.contacts",data.contacts)
+	data.lastList=store.lastList
+	console.log("store.lastList",data.lastList)
 })
-const store=useUserStore()
 onLoad(()=>{
 	console.log("messageonLoad")
 	for (var i = 0; i < 3; i++) {
