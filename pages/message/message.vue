@@ -3,7 +3,7 @@
 		<uni-list :border="true">
 			<!-- 右侧带角标 -->
 			<uni-list-chat :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" time="2020-02-02 20:20" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
-			<uni-list-chat :clickable="true" v-for="(item,index) in data.contacts" :key="index" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="data.lastList[index].data" :time="data.lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
+			<uni-list-chat :clickable="true" v-for="(item,index) in contacts" :key="index" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
 			<!-- 显示多头像 -->
 			<!--uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat-->
 		</uni-list>
@@ -17,12 +17,12 @@ import {computed, reactive, ref, watch} from "vue";
 import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
+import { getTimeStamp } from "../../utils/time.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
 const data = reactive({
 	unreceivedNum:0,
 	message:'',
-	contacts:[],
 	lastList:[],
 	noticeList:[],
 	currentmsg:'',
@@ -38,17 +38,29 @@ const clickChatItem = (index)=>{
 	
 	setTimeout(()=>{
 		uni.navigateTo({
-			url:'../chat/chat?info='+JSON.stringify(data.contacts[index]) 
+			url:'../chat/chat?info='+JSON.stringify(contacts[index]) 
 		})
 	},60)
 }
 const store=useUserStore()
+const contacts = computed(() => {
+	console.log("contacts = computed(()------------",store.lastList)
+	return [...store.chatList].sort((a,b)=>{
+		let indexa = store.lastList.findIndex(item => item.senderUserId === a.userid);
+		let indexb = store.lastList.findIndex(item => item.senderUserId === b.userid);
+		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
+	});
+});
+const lastList = computed(() => {
+	console.log("lastList = computed(()------------",store.lastList)
+	return [...store.lastList].sort((a,b)=>{
+		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
+	});
+});
 onShow(()=>{
 	console.log("onShow")
-	data.contacts=store.chatList
-	console.log("data.contacts",data.contacts)
-	data.lastList=store.lastList
-	console.log("store.lastList",data.lastList)
+	console.log("contacts",contacts.value)
+	console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
 	console.log("store.noticeList",data.noticeList)
 })
