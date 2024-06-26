@@ -38,7 +38,7 @@ const clickChatItem = (index)=>{
 	
 	setTimeout(()=>{
 		uni.navigateTo({
-			url:'../chat/chat?info='+JSON.stringify(contacts[index]) 
+			url:'../chat/chat?info='+JSON.stringify(contacts.value[index]) 
 		})
 	},60)
 }

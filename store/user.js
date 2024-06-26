@@ -160,7 +160,7 @@ export const useUserStore = defineStore('User', ()=>{
 		//获取头像
 		//const ava = await http('/user/getavatar','GET',{});
 		avatar.value='https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-		uni.setStorageSync('avatarUrl',ava.data);
+		uni.setStorageSync('avatarUrl','https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg');
 		console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
 		console.log("save avatar in store",avatar.value)
 		console.log("getLocalAll");
