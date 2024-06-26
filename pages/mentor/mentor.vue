@@ -72,22 +72,40 @@ onShow(()=>{
 	
 })
 onLoad(async (options) => {
-	const res = await http('/user/findByUserLevel?userLevel='+1,'GET',{},)
-	console.log("导师信息表",res.data)
-	data.mentor_list=res.data
-	data.mentor_list_ABC=[]
-	
-	for (var i = 0; i < 26; i++) {
-		data.mentor_list_ABC.push({
-			letter:String.fromCharCode('A'.charCodeAt(0)+ i),
-			data: []
+	console.log("store.user",store.user.length)
+	if(store.user.length>0){//这里
+		const res = await http('/user/findByUserLevel?userLevel='+1,'GET',{},)
+		console.log("导师信息表",res.data)
+		data.mentor_list=res.data
+		data.mentor_list_ABC=[]
+		
+		for (var i = 0; i < 26; i++) {
+			data.mentor_list_ABC.push({
+				letter:String.fromCharCode('A'.charCodeAt(0)+ i),
+				data: []
+			});
+		}
+		for (var i = 0; i < data.mentor_list.length; i++) {
+			let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].nameInitialLetter);
+			data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
+		}
+		console.log('data.mentor_list_ABC',data.mentor_list_ABC)
+	}else{
+		data.mentor_list=[]
+		data.mentor_list_ABC=[]
+		uni.showModal({
+			title: '提示',
+			content: '未登录影响功能的使用',
+			success: (res) => {
+				if (res.confirm) { 
+					uni.navigateTo({
+						url: "/pages/login/loginPage"
+					})
+				} else if (res.cancel) { 
+				}
+			}
 		});
 	}
-	for (var i = 0; i < data.mentor_list.length; i++) {
-		let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].nameInitialLetter);
-		data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
-	}
-	console.log('data.mentor_list_ABC',data.mentor_list_ABC)
 })
 </script>
 

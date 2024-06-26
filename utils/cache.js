@@ -27,9 +27,9 @@ export const delLocalData = key => uni.removeStorageSync(key)
 export const clearLocalData = key => uni.clearStorageSync()
 
 export const clearUserInfo = () => {
-	delLocalData("userInfo");
-	delLocalData("token");
-	delLocalData("avatarUrl")
+	delLocalData('userInfo')
+	delLocalData('token')
+	delLocalData('avatarUrl')
 }
 export const setUserInfo = (res) => {
 	setLocalData("isShowLocal",true)

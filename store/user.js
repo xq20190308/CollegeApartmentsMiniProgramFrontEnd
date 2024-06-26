@@ -11,6 +11,7 @@ import { getLocalData, setLocalData, setUserInfo,getLocalAll } from "../utils/ca
 //要点：存
 export const useUserStore = defineStore('User', ()=>{
     //测试数据
+	const isRelogin = ref(false)
 	const count = ref(202211070501)
     const doubleCount = computed(() => count.value * 2)
     function increment() {
@@ -40,13 +41,13 @@ export const useUserStore = defineStore('User', ()=>{
 			
 		// ]
 		console.log("getChatList in store")
-		let localChatList = uni.getStorageSync('chatList')
+		let localChatList = uni.getStorageSync('chatListOf'+user.userid)
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
 		//监听会话列表变化
 		uni.$on('upgradeChatList',(newlist)=>{
 			console.log("uni.$on('upgradeChatList',(newlist)")
 			//存到本地
-			uni.setStorageSync('chatList',JSON.stringify(newlist))
+			uni.setStorageSync('chatListOf'+user.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeUnreceivedNum',(total)=>{
 			console.log("监听函数")
@@ -145,7 +146,7 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,totalUnreceived,lastList ,
+		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,
 		//用户登录，程序启动时的登录初始化
 		login,initLogin, }
 })

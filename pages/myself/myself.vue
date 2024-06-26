@@ -77,12 +77,12 @@ const delogin=async (meg)=> {
 					}
 				})
 	 			clearUserInfo()
+				store.chatList=[]
 				wsclose();
 	 			data.userInfo={}
 				store.user={}
 				store.avatar=""
 				store.token=""
-				delLocalData()
 	 			tologin("正在跳转")
 	 		} else if (res.cancel) {
 				
@@ -121,19 +121,22 @@ onShow( async () => {
 		console.log("get user in store",data.userInfo)
 		data.userInfo.avatarUrl=store.avatar
 		console.log("get avatar in store",data.userInfo.avatarUrl)
-		let total = store.totalUnreceived
-		uni.$emit('upgradeUnreceivedNum',total)
+		if(store.isRelogin){
+			let total = store.totalUnreceived
+			uni.$emit('upgradeUnreceivedNum',total)
+			store.isRelogin=false;
+		}
 	}else{
-		uni.showModal({
-			title: '提示',
-			content: '未登录影响功能的使用',
-			success: (res) => {
-				if (res.confirm) { 
-					tologin("正在跳转")
-				} else if (res.cancel) { 
-				}
-			}
-		});
+		// uni.showModal({
+		// 	title: '提示',
+		// 	content: '未登录影响功能的使用',
+		// 	success: (res) => {
+		// 		if (res.confirm) { 
+		// 			tologin("正在跳转")
+		// 		} else if (res.cancel) { 
+		// 		}
+		// 	}
+		// });
 	}
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({

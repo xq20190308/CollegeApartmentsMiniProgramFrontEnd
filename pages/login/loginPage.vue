@@ -28,7 +28,12 @@
 			<view>
 				<button type="primary"
 					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
-					@click="loginConfirm('req')">点击登录</button><!--loginConfirm('req')-->
+					@click="loginConfirm('req')">点击登录</button>
+			</view>
+			<view>
+				<button type="primary"
+					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
+					@click="quicklogin()">快速登录</button>
 			</view>
 		</view>
 	</view>
@@ -109,38 +114,13 @@ const returnerr = (msg) => {
 const quicklogin = async()=>{
 	data.reqdata={
 		code: "",
-		username: "202211070501",
-		password: "123",
+		username: uni.getStorageSync('lastusername'),
+		password: uni.getStorageSync('lastpassword'),
 	}
 	data.reqdata.code = await getCode();
+	licenseDisagree.value=true;
 	//发送请求
-	await login(data.reqdata).then(async (res) => {
-		if (res.statusCode == 200) {
-			if(res.data.msg!='success'){
-				returnerr(res.data.msg);
-				return ;
-			}else{
-				//用户登录请求成功后的数据存储
-				await store.login(res.data.data)
-				const res = await http('/message/history','GET',{})
-				console.log("登录后http请求聊天记录",res)
-				
-				show.value = false
-				uni.showToast({
-					title: "登录成功"
-				})
-				uni.navigateBack({
-					url: "/pages/myself/myself"
-				})
-			}
-		} else {
-			console.log("登陆失败，请求状态码非200")
-			uni.showToast({
-				title: "登陆失败",
-				icon: "error"
-			})
-		}
-	})
+	loginConfirm('req')
 }
 const req = ref()
 const loginConfirm = async (ref) => {
@@ -164,6 +144,10 @@ const loginConfirm = async (ref) => {
 				}else{
 					//用户登录请求成功后的数据存储
 					await store.login(res.data.data)
+					//保存用户账号密码用于下次登录
+					uni.setStorageSync('lastusername',data.reqdata.username)
+					uni.setStorageSync('lastpassword',data.reqdata.password)
+					//登录后http请求聊天记录
 					const history = await http('/message/history','GET',{})
 					console.log("登录后http请求聊天记录",history)
 					for (var i = 0; i < history.data.length; i++) {
@@ -180,8 +164,6 @@ const loginConfirm = async (ref) => {
 								unreceivedNum:0
 							}
 							store.chatList.push(info)
-							uni.$emit('upgradeChatList',store.chatList)
-							console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
 						}
 						let prelog=uni.getStorageSync('single'+ store.user.userid +'_with_'+history.data[i].senderUserId)
 						prelog=prelog!=""?JSON.parse(prelog):[]
@@ -192,11 +174,15 @@ const loginConfirm = async (ref) => {
 						let index = store.chatList.findIndex(item => item.userid === history.data[i].senderUserId);
 						console.log("++store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 						store.chatList[index].unreceivedNum++;
+						uni.$emit('upgradeChatList',store.chatList)
+						console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
 						console.log("--store.chatList[index].unreceivedNum",store.chatList[index].unreceivedNum)
 						console.log('index_of_sender in chatList',index)
 						//用于触发
 						console.log("store.totalUnreceived",store.totalUnreceived)
 					}
+					//把重登陆标记清除
+					store.isRelogin=true;
 					show.value = false
 					uni.showToast({
 						title: "登录成功"
