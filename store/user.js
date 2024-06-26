@@ -158,10 +158,10 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("save token in Storage",uni.getStorageSync('token'))
 		console.log("save user in Storage",uni.getStorageSync('userInfo'))
 		//获取头像
-		const ava = await http('/user/getavatar','GET',{});
+		//const ava = await http('/user/getavatar','GET',{});
+		avatar.value='https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
 		uni.setStorageSync('avatarUrl',ava.data);
 		console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
-		avatar.value=ava.data
 		console.log("save avatar in store",avatar.value)
 		console.log("getLocalAll");
 		getLocalAll()
