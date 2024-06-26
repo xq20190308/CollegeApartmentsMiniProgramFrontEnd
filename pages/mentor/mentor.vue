@@ -72,8 +72,8 @@ onShow(()=>{
 	
 })
 onLoad(async (options) => {
-	console.log("store.user",store.user.length)
-	if(store.user.length>0){//这里
+	console.log("store.user",store.token)
+	if(store.token!=""){//这里
 		const res = await http('/user/findByUserLevel?userLevel='+1,'GET',{},)
 		console.log("导师信息表",res.data)
 		data.mentor_list=res.data

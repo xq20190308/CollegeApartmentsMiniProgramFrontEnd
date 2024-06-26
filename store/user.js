@@ -19,7 +19,7 @@ export const useUserStore = defineStore('User', ()=>{
     }
     //用户信息...
 	const user = ref({})
-	const token = ref(false)
+	const token = ref("")
 	const avatar = ref("")
 	// 通讯录列表，目前不需要
 	//const mailList = ref([])
