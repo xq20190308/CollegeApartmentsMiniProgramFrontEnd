@@ -207,6 +207,7 @@
 				"enablePullDownRefresh": false
 			}
 		},
+		
 		{
 			"path": "pages/hygiene/search",
 			"style": {
@@ -226,6 +227,20 @@
 			"style": {
 				"navigationBarTitleText": "上传成绩",
 				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path" : "pages/course_show/course_show",
+			"style" : 
+			{
+				"navigationBarTitleText" : "课程表"
+			}
+		},
+		{
+			"path" : "components/ClassTable/ClassTable",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],
