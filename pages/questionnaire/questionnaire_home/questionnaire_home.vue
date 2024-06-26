@@ -78,7 +78,7 @@
 				</uni-forms-item>
 			</uni-forms>
 			
-			<button type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
+			<button v-if="data.isEnd!='true'" type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
 		</uni-section>
 	</view>
 </template>
@@ -302,6 +302,8 @@ const getquestions = async () => {
 onLoad(async (options) => {
 	console.log("参数列表",options);
 	
+	data.isEnd=options.isEnd;
+	console.log("data.isEnd",data.isEnd)
 	data.id=options.id;
 	data.type=options.type;
 	data.name=options.name;

@@ -55,13 +55,7 @@ const getNaireslist = async ()=>{
 	console.log("data.questionnairelist",data.questionnairelist)
 }
 const gotonaire = (item) =>{
-	if(item.isEnd){
-		console.log("问卷已结束");
-		uni.showModal({
-			title:'问卷已结束',
-			icon:'error'
-		})
-	}else if(!item.isBegin){
+	if(!item.isBegin){
 		console.log("问卷未开始");
 		uni.showModal({
 			title:'问卷未开始',
@@ -74,7 +68,8 @@ const gotonaire = (item) =>{
 				'&type='+item.type+'&name='+item.name+
 				'&description='+item.description+'&startTime='+item.startTime+
 				'&endTime='+item.endTime+
-				'&anonymous='+item.anonymous,
+				'&anonymous='+item.anonymous+
+				'&isEnd='+item.isEnd,
 			})
 		}else{
 			uni.showModal({
