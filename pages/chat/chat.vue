@@ -98,19 +98,20 @@ const handlemsg=(msg)=>{
 		bottom.value="msg"+String(data.messages.length-1)
 		console.log("bottom.value",bottom.value)
 	}else{//存本地
-		console.log(message.senderUserId+"!="+data.info.userid)
-		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-		let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
-		if(prelog!=""){
-			prelog=JSON.parse(prelog)
-		}else{
-			prelog=[]
-		}
-		prelog.push(message)
-		console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
-		console.log(prelog)
-		setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
-		console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
+		store.handlemessage(message)
+		// console.log(message.senderUserId+"!="+data.info.userid)
+		// message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
+		// let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
+		// if(prelog!=""){
+		// 	prelog=JSON.parse(prelog)
+		// }else{
+		// 	prelog=[]
+		// }
+		// prelog.push(message)
+		// console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
+		// console.log(prelog)
+		// setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
+		// console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
 	}
 }
 onUnload(()=>{
