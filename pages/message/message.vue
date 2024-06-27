@@ -13,7 +13,7 @@
 
 <script setup>
 import '@/utils/http'
-import {computed, reactive, ref, watch} from "vue"; 
+import {computed, reactive, ref, watch,onMounted} from "vue"; 
 import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
@@ -57,7 +57,7 @@ const lastList = computed(() => {
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
 	});
 });
-onShow(()=>{
+onMounted(()=>{
 	let total=store.totalUnreceived
 	if(total){
 		uni.setTabBarBadge({

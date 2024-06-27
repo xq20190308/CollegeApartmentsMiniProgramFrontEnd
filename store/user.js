@@ -79,7 +79,7 @@ export const useUserStore = defineStore('User', ()=>{
 			uni.setStorageSync('chatListOf'+user.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeLastList',(newlist)=>{
-			console.log("uni.$on('upgradeLastList',(newlist)")
+			console.log("uni.$on('upgradeLastList',(newlist)",newlist)
 			//存到本地
 			uni.setStorageSync('lastListOf'+user.userid,JSON.stringify(newlist))
 		})

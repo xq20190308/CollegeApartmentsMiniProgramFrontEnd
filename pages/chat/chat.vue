@@ -1,15 +1,31 @@
 <template>
 	<view style="display: flex;flex-direction: column;justify-content: space-between;">
 		
-		<view v-for="(msg,index) in data.messages" :key="index" style="text-align: center;margin-bottom: 8px;" id="content">
-			<view style="margin-right: 4px;margin-left: 4px;"><text class="time">{{msg.sendTime}}</text></view>
+		<scroll-view :scroll-into-view="bottom" class="uni-indexed-list__scroll" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
 			
-			<view style="margin-right: 4px;margin-left: 4px;" :class="(msg.senderUserId!=data.myid)?'left':'right'"><text >{{data.myid}}{{msg.senderUserId}}{{msg.data}}</text></view>
-		</view>
-		
-		<view style="height: 120px;"></view>
-		
-		<view id="input" style="margin-top: 80px;"></view>
+			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 8px;">
+				<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{msg.sendTime}}</text></view>
+				
+				<view v-if="data.info.userid==msg.senderUserId" :class="'left'">
+					<view>
+						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
+					</view>
+					<view class="textbox">
+						<text class="textcontent">{{data.info.name}}{{msg.data}}</text>
+					</view>
+				</view>
+				<view v-else :class="'right'">
+					<view class="textbox">
+						<text class="textcontent">{{data.myname}}{{msg.data}}</text>
+					</view>
+					<view>
+						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
+					</view>
+				</view>
+				
+			</view>
+			<view :id="'bottom'" style=""></view>
+		</scroll-view>
 		
 		<view class="inputstyle">
 			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
@@ -33,7 +49,12 @@ const data = reactive({
 	message:'',
 	messages:[],
 	currentmsg:'',
-	myid:""
+	myid:"",
+})
+const bottom=ref("")
+onMounted(()=>{
+	console.log("onMounted");
+	bottom.value="bottom"
 })
 // watch(socketMsgQueue,async(newvalue,oldvalue)=>{
 // 	console.log("监听事件newvalue:",newvalue);
@@ -55,15 +76,15 @@ const mywssent = async () => {
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,data.info.userid)
 	//console.log("发送消息的res",res1);
 	data.messages.push({
+		type:"0",
 		data:data.message===''?"发射爱心":data.message,
 		senderUserId:data.myid,
 		sendTime:getCurrentTime(),
 	})
 	data.message='';
-	uni.pageScrollTo({
-		selector: '#input',
-		duration: 400
-	});
+	console.log("data.messages.length",data.messages.length)
+	bottom.value="msg"+String(data.messages.length-1)
+	console.log("bottom.value",bottom.value)
 }
 const handlemsg=(msg)=>{
 	//对话添加到列表中
@@ -73,6 +94,9 @@ const handlemsg=(msg)=>{
 		console.log(message.senderUserId+"=="+data.info.userid)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		data.messages.push(message)
+		console.log("data.messages.length",data.messages.length)
+		bottom.value="msg"+String(data.messages.length-1)
+		console.log("bottom.value",bottom.value)
 	}else{//存本地
 		console.log(message.senderUserId+"!="+data.info.userid)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
@@ -89,11 +113,24 @@ const handlemsg=(msg)=>{
 		console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
 	}
 }
+onUnload(()=>{
+	console.log("onUnload")
+	console.log("存储聊天记录到本地")
+	setLocalData('single'+ data.myid +'_with_'+data.info.userid,JSON.stringify(data.messages))
+	uni.$off('onMessage',handlemsg)
+	console.log("after uni.$off('onMessage',handlemsg)")
+	//最后一条存到最新消息列表
+	let index = store.chatList.findIndex(item => item.userid === data.info.userid);
+	store.lastList[index]=data.messages[data.messages.length-1]
+	uni.$emit('upgradeLastList',store.lastList)
+	
+})
 const store = useUserStore();
 onLoad((options)=>{
 	console.log("chatonLoad")
-	console.log("useUserStore",store)
+	console.log("useUserStore",store.user.trueName)
 	data.myid=store.user.userid
+	data.myname=store.user.trueName
 	console.log(data.myid)
 	console.log("options",options)
 	data.info=JSON.parse(options.info)
@@ -104,13 +141,6 @@ onLoad((options)=>{
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 	uni.$on('onMessage',handlemsg)//只移除这一个回调的监听事件
-})
-onUnload(()=>{
-	console.log("onUnload")
-	console.log("存储聊天记录到本地")
-	setLocalData('single'+ data.myid +'_with_'+data.info.userid,JSON.stringify(data.messages))
-	uni.$off('onMessage',handlemsg)
-	console.log("after uni.$off('onMessage',handlemsg)")
 })
 onShow(()=>{
 	console.log("onShow")
@@ -158,10 +188,18 @@ onShow(()=>{
 		color: #c1c1c1;
 	}
 	.right{
-		text-align: end;
+		justify-content: flex-end;
+		display: flex;
+		flex-direction: row;
+		margin-right: 4px;
+		margin-left: 4px;
 	}
 	.left{
-		text-align: start;
+		justify-content: flex-start;
+		display: flex;
+		flex-direction: row;
+		margin-right: 4px;
+		margin-left: 4px;
 	}
 	.inputstyle{
 		position: fixed;
@@ -173,6 +211,30 @@ onShow(()=>{
 		padding-top: 2px;
 		padding-bottom: 4px;
 		padding-left: 5px;
+	}
+	.uni-indexed-list__scroll {
+		height: 540px;
+	}
+	.avatar {
+		background-color: #ad7d7d;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		top: 9px;
+		left: 5px;
+	}
+	.textbox{
+		height: 20px;
+		padding: 10px;
+		background-color: #008cffdb;
+		border-radius: 20px;
+		margin: 2px;
+	}
+	.textcontent{
+		font-size: 14px;
+		font-weight: 200;
+		font-family: monospace;
+		color: aliceblue;
 	}
 </style>
 
