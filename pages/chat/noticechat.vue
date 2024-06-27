@@ -38,6 +38,8 @@ const popupToggle =(e)=>{
 	console.log('index',e);
 	data.clickindex=e;
 	store.noticeList[e].isConfirm=true
+	//触发更新事件
+	uni.$emit('upgradeNoticeList',store.noticeList)
 	console.log("store.noticeList[e].isConfirm",store.noticeList[e].isConfirm)
 	popup.value.open()
 }
