@@ -78,6 +78,8 @@ onMounted(()=>{
 	console.log("store.noticeList",data.noticeList)
 })
 onLoad(()=>{
+	//手动触发计算
+	console.log("contacts",contacts.value)
 	console.log("messageonLoad")
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
