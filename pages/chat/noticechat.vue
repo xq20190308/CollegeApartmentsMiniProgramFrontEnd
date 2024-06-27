@@ -1,17 +1,23 @@
 <template>
+	<uni-popup ref="popup" background-color="#fff" @change="(e)=>{console.log('change',e)}">
+		<scroll-view :scroll-y="true" class="popup-content">
+			<text class="title">通知</text><br/><text class="timebottom">{{store.noticeList[data.clickindex].sendTime}}</text>
+			<br/>
+			<view class="content">
+				<text class="text">{{store.noticeList[data.clickindex].data}}</text>
+			</view>
+		</scroll-view>
+	</uni-popup>
 	<view class="notice-list">
-	<uni-card title="通知1" sub-title="副标题" thumbnail="../../../../static/home/future_icon.png">
-		<text>通知内容</text>
-	</uni-card>
-	<uni-card title="通知2" sub-title="副标题" thumbnail="../../../../static/home/future_icon.png">
-		<text>通知内容</text>
-	</uni-card>
-	<uni-card title="通知3" sub-title="副标题" thumbnail="../../../../static/home/future_icon.png">
-		<text>通知内容</text>
-	</uni-card>
-	<uni-card title="通知4" sub-title="副标题" thumbnail="../../../../static/home/future_icon.png">
-		<text>通知内容</text>
-	</uni-card>
+		<view v-for="(item,index) in store.noticeList" :key="index" >
+			<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{item.sendTime}}</text></view>
+			<uni-card @click="(e)=>{popupToggle(index)}" title="通知" :sub-title="item.senderUserId" thumbnail="../../../../static/home/future_icon.png">
+				<text>{{item.senderUserId}}:{{item.data}}</text>
+				<template v-slot:extra>
+					<uni-badge v-if="item.isConfirm===false" text="1" :is-dot="true" />
+				</template>
+			</uni-card>
+		</view>
 	</view>
 </template>
 
@@ -24,11 +30,17 @@ import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getLocalData, setLocalData } from "../../utils/cache.js"
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
-
+const popup=ref(null)
 const data = reactive({
-	
+	clickindex:0,
 })
-
+const popupToggle =(e)=>{
+	console.log('index',e);
+	data.clickindex=e;
+	store.noticeList[e].isConfirm=true
+	console.log("store.noticeList[e].isConfirm",store.noticeList[e].isConfirm)
+	popup.value.open()
+}
 const store = useUserStore();
 onLoad(()=>{
 })
@@ -44,4 +56,34 @@ onShow(()=>{
 		display: flex;
 	    flex-direction: column-reverse;
 	}
+	.time{
+		font-size: small;
+		color: #c1c1c1;
+	}
+	.popup-content{
+		padding: 15px;
+		height: 450px;
+		width: 300px;
+		display: flex;
+		flex-direction: column;
+	    justify-content: center;
+	}
+	.text{
+		color: rgb(66, 62, 62);
+	}
+	.title{
+		color: #000000;
+		font-size: larger;
+		font-weight: 800;
+		font-style: bolder;
+	}
+	.content{
+		text-indent: 30px;
+	}
+	.timebottom{
+		font-size: small;
+	    color: #c1c1c1;
+	    padding-left: 170px;
+	}
+
 </style>

@@ -20,6 +20,7 @@ import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getTimeStamp } from "../../utils/time.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
+const store=useUserStore()
 const data = reactive({
 	unreceivedNum:0,
 	message:'',
@@ -42,7 +43,6 @@ const clickChatItem = (index)=>{
 		})
 	},60)
 }
-const store=useUserStore()
 const contacts = computed(() => {
 	console.log("contacts = computed(()------------",store.lastList)
 	return [...store.chatList].sort((a,b)=>{
@@ -58,6 +58,19 @@ const lastList = computed(() => {
 	});
 });
 onShow(()=>{
+	let total=store.totalUnreceived
+	if(total){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(total).length > 2 ? "99+" : String(total)
+			// 显示的文本，超过99显示成99+
+		});					
+	}else{
+		uni.removeTabBarBadge({
+			index:2
+		})
+	}
 	console.log("onShow")
 	console.log("contacts",contacts.value)
 	console.log("lastList",lastList.value)

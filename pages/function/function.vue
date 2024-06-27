@@ -42,6 +42,9 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {getLocalData,delLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
 import { } from "../../utils/socket.js";
+import { useUserStore } from "../../store/User.js"
+import { storeToRefs } from 'pinia'
+const store=useUserStore()
 const data = reactive({
 	islogined:false,
 	navList1: [] ,
@@ -59,6 +62,19 @@ onShow(()=>{
 	// 		// 显示的文本，超过99显示成99+
 	// 	});
 	// }
+	let total=store.totalUnreceived
+	if(total){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(total).length > 2 ? "99+" : String(total)
+			// 显示的文本，超过99显示成99+
+		});					
+	}else{
+		uni.removeTabBarBadge({
+			index:2
+		})
+	}
 })
 onLoad(()=>{
     data.navList1 = [

@@ -99,35 +99,38 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("if(unreceivedNoticeNum.value)用于初始化",unreceivedNoticeNum.value)
 		}
 	}
-	const handlenotice = (message) => {
+	const handlenotice = (message,option) => {
 		console.log("handlenotice");
 		noticeList.value.push({
 			...message,
 			isConfirm:false,
 			}
 		);
-		uni.showModal({
-			title: '通知',
-			content: '你有一条新的通知',
-			success: (res) => {
-				if (res.confirm) { 
-					uni.navigateTo({
-						url: "/pages/chat/noticechat"
-					})
-				} else if (res.cancel) { 
+		console.log("****************option",option)
+		if(!option){
+			uni.showModal({
+				title: '通知',
+				content: '你有一条新的通知',
+				success: (res) => {
+					if (res.confirm) { 
+						uni.navigateTo({
+							url: "/pages/chat/noticechat"
+						})
+					} else if (res.cancel) { 
+					}
 				}
-			}
-		});
+			});
+		}
 		uni.$emit('upgradeNoticeList',noticeList.value)
 		console.log("--收到通知，触发total计算totalUnreceived.value",totalUnreceived.value)
 		//uni.$emit('upgradeUnreceivedNum',totalUnreceived.value+unreceivedNoticeNum)
 	}
-	const handlemessage = async(message)=>{
+	const handlemessage = async(message,option)=>{
 		console.log("store 中的 handlemessage",message)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		if(message.type>0){
 			console.log("message.type>0");
-			handlenotice(message)
+			handlenotice(message,option)
 		}else{
 			if(chatList.value.findIndex(item => item.userid === message.senderUserId)==-1){
 				//需要向后端请求用户信息

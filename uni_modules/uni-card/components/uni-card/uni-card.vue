@@ -8,9 +8,9 @@
 			</view>
 		</slot>
 		<slot name="title">
-			<view v-if="title || extra" class="uni-card__header">
+			<view v-if="title" class="uni-card__header">
 				<!-- 卡片标题 -->
-				<view class="uni-card__header-box" @click="onClick('title')">
+				<view class="uni-card__header-box" @click="onClick(title)">
 					<view v-if="thumbnail" class="uni-card__header-avatar">
 						<image class="uni-card__header-avatar-image" :src="thumbnail" mode="aspectFit" />
 					</view>
@@ -20,9 +20,10 @@
 							class="uni-card__header-content-subtitle uni-ellipsis">{{ subTitle }}</text>
 					</view>
 				</view>
-				<view class="uni-card__header-extra" @click="onClick('extra')">
+				<!--view class="uni-card__header-extra" @click="onClick('extra')">
 					<text class="uni-card__header-extra-text">{{ extra }}</text>
-				</view>
+				</view-->
+				<slot name="extra"></slot>
 			</view>
 		</slot>
 		<!-- 卡片内容 -->
@@ -110,8 +111,8 @@
 			}
 		},
 		methods: {
-			onClick(type) {
-				this.$emit('click', type)
+			onClick(info) {
+				this.$emit('click', info)
 			}
 		}
 	}

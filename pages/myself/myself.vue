@@ -53,7 +53,8 @@ import { reactive } from "vue";
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
 import { } from "../../utils/socket.js";
-import { useUserStore } from "../../store/User.js";
+import { useUserStore } from "../../store/User.js"
+import { storeToRefs } from 'pinia'
 const data = reactive({
 	imageStyles: {
 		border: {
@@ -139,6 +140,19 @@ onShow( async () => {
 		// 		}
 		// 	}
 		// });
+	}
+	let total=store.totalUnreceived
+	if(total){
+		uni.setTabBarBadge({
+			index: 2,
+			// tabIndex，tabbar的哪一项，从0开始
+			text: String(total).length > 2 ? "99+" : String(total)
+			// 显示的文本，超过99显示成99+
+		});					
+	}else{
+		uni.removeTabBarBadge({
+			index:2
+		})
 	}
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({

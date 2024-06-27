@@ -151,7 +151,7 @@ const loginConfirm = async (ref) => {
 					const history = await http('/message/history','GET',{})
 					console.log("登录后http请求聊天记录",history)
 					for (var i = 0; i < history.data.length; i++) {
-						store.handlemessage(history.data[i])
+						store.handlemessage(history.data[i],1)
 					}
 					//把重登陆标记清除
 					store.isRelogin=true;
