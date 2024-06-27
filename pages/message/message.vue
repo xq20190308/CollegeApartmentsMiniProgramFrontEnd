@@ -57,7 +57,7 @@ const lastList = computed(() => {
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
 	});
 });
-onMounted(()=>{
+onShow(()=>{
 	let total=store.totalUnreceived
 	if(total){
 		uni.setTabBarBadge({
