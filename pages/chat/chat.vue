@@ -121,7 +121,7 @@ onUnload(()=>{
 	console.log("after uni.$off('onMessage',handlemsg)")
 	//最后一条存到最新消息列表
 	let index = store.chatList.findIndex(item => item.userid === data.info.userid);
-	store.lastList[index]=data.messages[data.messages.length-1]
+	store.lastList[index]={...data.messages[data.messages.length-1],contactid:data.info.userid}
 	uni.$emit('upgradeLastList',store.lastList)
 	
 })

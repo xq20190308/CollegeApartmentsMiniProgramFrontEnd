@@ -31,6 +31,21 @@ export const useUserStore = defineStore('User', ()=>{
 	const chatList = ref([])
 	// 最新消息列表
 	const lastList = ref([])
+	// const contacts = computed(() => {
+	// 	console.log("contacts = computed(()+++++++++++++",chatList.value)
+	// 	console.log("lastest+++++++++",lastList.value)
+	// 	return [...chatList.value].sort((a,b)=>{
+	// 		let indexa = lastList.value.findIndex(item => item.contactid === a.userid);
+	// 		let indexb = lastList.value.findIndex(item => item.contactid === b.userid);
+	// 		return getTimeStamp(lastList.value[indexb].sendTime)-getTimeStamp(lastList.value[indexa].sendTime)
+	// 	});
+	// });
+	// const lastest = computed(() => {
+	// 	console.log("lastest = computed(()++++++++++++++",lastList.value)
+	// 	return [...lastList.value].sort((a,b)=>{
+	// 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
+	// 	});
+	// });
 	const unreceivedNoticeNum = computed(() => {//不能异步
 		let total=0;
 		for (var i = 0; i < noticeList.value.length; i++) {
@@ -79,7 +94,7 @@ export const useUserStore = defineStore('User', ()=>{
 			uni.setStorageSync('chatListOf'+user.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeLastList',(newlist)=>{
-			console.log("uni.$on('upgradeLastList',(newlist)",newlist)
+			console.log("uni.$on('upgradeLastList',(newlist)")
 			//存到本地
 			uni.setStorageSync('lastListOf'+user.userid,JSON.stringify(newlist))
 		})
@@ -144,7 +159,7 @@ export const useUserStore = defineStore('User', ()=>{
 					unreceivedNum:0
 				}
 				chatList.value.push(info)
-				lastList.value.push(message)
+				lastList.value.push({...message,contactid:message.senderUserId})
 			}
 			let prelog=uni.getStorageSync('single'+ user.value.userid +'_with_'+message.senderUserId)
 			prelog=prelog!=""?JSON.parse(prelog):[]
@@ -155,7 +170,7 @@ export const useUserStore = defineStore('User', ()=>{
 			let index = chatList.value.findIndex(item => item.userid === message.senderUserId);
 			console.log("++store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
 			chatList.value[index].unreceivedNum++;
-			lastList.value[index]=message
+			lastList.value[index]={...message,contactid:message.senderUserId}
 			uni.$emit('upgradeChatList',chatList.value)
 			uni.$emit('upgradeLastList',lastList.value)
 			console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")

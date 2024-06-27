@@ -44,10 +44,12 @@ const clickChatItem = (index)=>{
 	},60)
 }
 const contacts = computed(() => {
-	console.log("contacts = computed(()------------",store.lastList)
+	console.log("contacts = computed(()------------",store.chatList)
 	return [...store.chatList].sort((a,b)=>{
-		let indexa = store.lastList.findIndex(item => item.senderUserId === a.userid);
-		let indexb = store.lastList.findIndex(item => item.senderUserId === b.userid);
+		
+		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
+		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
+		console.log("indexa",indexa,"indexb",indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
 	});
 });
@@ -74,13 +76,20 @@ onShow(()=>{
 	console.log("*********onShow")
 	console.log("contacts",contacts.value)
 	console.log("lastList",lastList.value)
+	//console.log("contacts",store.contacts)
+	//console.log("lastest",store.lastList)
 	data.noticeList=store.noticeList
 	console.log("store.noticeList",data.noticeList)
 })
 onLoad(()=>{
 	//手动触发计算
 	console.log("messageonLoad")
-	console.log("contacts",contacts.value)
+	setTimeout(()=>{
+		console.log("////contacts",contacts.value)
+		console.log("////lastList",lastList.value)
+		console.log("////contacts",store.contacts)
+		console.log("////lastest",store.lastList)
+	},6000)
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
 			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
