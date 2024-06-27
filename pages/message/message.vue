@@ -71,7 +71,7 @@ onShow(()=>{
 			index:2
 		})
 	}
-	console.log("onShow")
+	console.log("*********onShow")
 	console.log("contacts",contacts.value)
 	console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
@@ -79,8 +79,8 @@ onShow(()=>{
 })
 onLoad(()=>{
 	//手动触发计算
-	console.log("contacts",contacts.value)
 	console.log("messageonLoad")
+	console.log("contacts",contacts.value)
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
 			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
