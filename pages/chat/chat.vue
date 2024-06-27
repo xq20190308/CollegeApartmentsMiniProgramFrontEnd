@@ -90,7 +90,7 @@ const handlemsg=(msg)=>{
 	//对话添加到列表中
 	console.log("uni.$on('onMessage')",msg)
 	let message=JSON.parse(msg);
-	if(message.senderUserId==data.info.userid){
+	if(message.type=="0"&&message.senderUserId==data.info.userid){
 		console.log(message.senderUserId+"=="+data.info.userid)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		data.messages.push(message)
