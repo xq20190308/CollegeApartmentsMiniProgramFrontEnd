@@ -9,7 +9,7 @@
 		<uni-list border-full>
 			<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="权限" :righticon="''" >
 				<template v-slot:footer>
-					<uni-data-picker popup-title="" :localdata="data.dataTree" v-model="data.receiver"
+					<uni-data-picker popup-title="" :localdata="storedata.classes" v-model="data.receiver"
 					:border="false" :clear-icon="false"
 					@change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
 					</uni-data-picker>
@@ -30,89 +30,12 @@ import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getTimeStamp } from "../../utils/time.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
+import { useDataStore } from '../../store/data.js';
 const data = reactive({
 	content:"",
 	placeholderStyle:"",
 	receiver:"",
-	dataTree: [{
-		text: "专业一",
-		value: "1-0-0",
-		children: [{
-			text: "一年级",
-			value: "1-1-0",
-			children: [{
-				text: "1.1.1班",
-				value: "1-1-1"
-			},
-			{
-				text: "1.1.2班",
-				value: "1-1-2"
-			}]
-		},{
-			text: "二年级",
-			value: "1-2-0",
-			children: [{
-				text: "1.2.1班",
-				value: "1-2-1"
-			},
-			{
-				text: "1.2.1班",
-				value: "1-2-2"
-			}]
-		}]
-	},{
-		text: "专业二",
-		value: "2-0-0",
-		children: [{
-			text: "一年级",
-			value: "2-1-0",
-			children: [{
-				text: "2.1.1班",
-				value: "2-1-1"
-			},
-			{
-				text: "2.1.2班",
-				value: "2-1-2"
-			}]
-		},{
-			text: "二年级",
-			value: "2-2-0",
-			children: [{
-				text: "2.2.1班",
-				value: "2-2-1"
-			},
-			{
-				text: "2.2.2班",
-				value: "2-2-2"
-			}]
-		}]
-	},{
-		text: "专业三",
-		value: "3-0-0",
-		children: [{
-			text: "一年级",
-			value: "3-1-0",
-			children: [{
-				text: "3.1.1班",
-				value: "3-1-1"
-			},
-			{
-				text: "3.1.2班",
-				value: "3-1-2"
-			}]
-		},{
-			text: "二年级",
-			value: "3-2-0",
-			children: [{
-				text: "3.2.1班",
-				value: "3-2-1"
-			},
-			{
-				text: "3.2.2班",
-				value: "3-2-2"
-			}]
-		}]
-	},]
+	dataTree:[],
 })
 const store = useUserStore()
 const post = ()=>{
@@ -142,8 +65,10 @@ const onchange=(e)=> {
 	//console.log('onchange:', e);
 	console.log("receiver",data.receiver)
 }
+const storedata = useDataStore()
 onLoad(()=>{
-	console.log("store.user",store.user)
+	//console.log("store.user",store.user)
+	//console.log("storedata.classes",storedata.classes)	
 })
 </script>
 

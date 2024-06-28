@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { reactive,ref,computed } from "vue";
 import {wsopen,socketTask} from '../utils/socket.js'
 import {http} from '../utils/http.js'
+import {useDataStore} from '../store/data.js'
 import { getLocalData, setLocalData, setUserInfo,getLocalAll } from "../utils/cache.js"
 
 // 你可以任意命名 `defineStore()` 的返回值，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
@@ -181,6 +182,7 @@ export const useUserStore = defineStore('User', ()=>{
 		}
 	}
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
+		//console.log("storedata.classes",storedata.classes)
 		//所以要和login函数统一
 		console.log("login in User.js")
 		//本地用户信息存到store中
@@ -193,9 +195,9 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("save token in Storage",uni.getStorageSync('token'))
 		console.log("save user in Storage",uni.getStorageSync('userInfo'))
 		//获取头像
-		//const ava = await http('/user/getavatar','GET',{});
-		avatar.value='https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-		uni.setStorageSync('avatarUrl','https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg');
+		const ava = await http('/user/getavatar','GET',{});
+		avatar.value=ava.data
+		uni.setStorageSync('avatarUrl',avatar.value);
 		console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
 		console.log("save avatar in store",avatar.value)
 		console.log("getLocalAll");
@@ -206,6 +208,8 @@ export const useUserStore = defineStore('User', ()=>{
 		chat.value=socketTask;
 		console.log("save socket in store chat",chat.value);
 		await getChatList();
+		let storedata = useDataStore()
+		storedata.getclasses()
 		
 	}
 	const upgradeUnreceivedNum=(total)=>{
@@ -235,6 +239,7 @@ export const useUserStore = defineStore('User', ()=>{
 		}, 60)
 	}
 	const initLogin = async ()=>{
+		//console.log("storedata.classes",storedata.classes)
 		console.log("initLogin in store")
 		//本地用户信息存到store中	
 		token.value=uni.getStorageSync('token')
@@ -249,6 +254,8 @@ export const useUserStore = defineStore('User', ()=>{
 			//建立socket连接
 			wsopen('/websocket1');
 			await getChatList()
+			let storedata = useDataStore()
+			storedata.getclasses()
 		}else{
 			console.log("用户不在线")
 		}

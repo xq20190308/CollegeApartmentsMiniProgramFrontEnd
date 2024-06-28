@@ -8,7 +8,7 @@
 			</swiper-item>
 		</swiper>
 		<uni-notice-bar show-icon scrollable background-color="#fff" color="#000" :speed="50"
-		:single="true" :text="store.noticeList[store.noticeList.length-1].data" />
+		:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
 		<!--uni-grid :column="3" :highlight="true" @change="change">
 			<uni-grid-item v-for="(item, i) in data.func_list" :key="i" :index="i" @click="func1Click(item)">
 				<view class="grid-item-box" style="background-color: #fff;">
@@ -162,15 +162,15 @@ onShow(()=>{
 	border: 0;
 	width: 26.8%;
 	padding: 20rpx;
-	border: 1px #d2d2d242 solid;
+	    border: 1px #d2d2d21c solid;
 }
 
 .func1_img {
-  width: 80rpx;
-  height: 80rpx;
-  margin-bottom: 10rpx;
-  border-radius: 50%; 
-	
+	width: 80rpx;
+	height: 80rpx;
+	margin-bottom: 10rpx;
+	border-radius: 50%; 
+	opacity: 0.75;
 }
 
 .func1_text {

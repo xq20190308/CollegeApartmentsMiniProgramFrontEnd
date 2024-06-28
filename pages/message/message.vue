@@ -30,7 +30,7 @@ const data = reactive({
 })
 //添加一个watch更新最新一条消息和未读消息数(charList)
 const clickChatItem = (index)=>{
-	console.log("--");
+	//console.log("--");
 	contacts.value[index].unreceivedNum=0
 	uni.$emit('upgradeChatList',contacts.value)
 	//uni.$emit('upgradeUnreceivedNum',store.totalUnreceived)
@@ -44,17 +44,17 @@ const clickChatItem = (index)=>{
 	},60)
 }
 const contacts = computed(() => {
-	console.log("contacts = computed(()------------",store.chatList)
+	//console.log("contacts = computed(()------------",store.chatList)
 	return [...store.chatList].sort((a,b)=>{
 		
 		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
 		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
-		console.log("indexa",indexa,"indexb",indexb)
+		//console.log("indexa",indexa,"indexb",indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
 	});
 });
 const lastList = computed(() => {
-	console.log("lastList = computed(()------------",store.lastList)
+	//console.log("lastList = computed(()------------",store.lastList)
 	return [...store.lastList].sort((a,b)=>{
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
 	});
@@ -73,23 +73,15 @@ onShow(()=>{
 			index:2
 		})
 	}
-	console.log("*********onShow")
-	console.log("contacts",contacts.value)
-	console.log("lastList",lastList.value)
-	//console.log("contacts",store.contacts)
-	//console.log("lastest",store.lastList)
+	console.log("messageonShow")
+	//console.log("contacts",contacts.value)
+	//console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
 	console.log("store.noticeList",data.noticeList)
 })
 onLoad(()=>{
 	//手动触发计算
 	console.log("messageonLoad")
-	setTimeout(()=>{
-		console.log("////contacts",contacts.value)
-		console.log("////lastList",lastList.value)
-		console.log("////contacts",store.contacts)
-		console.log("////lastest",store.lastList)
-	},6000)
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
 			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'

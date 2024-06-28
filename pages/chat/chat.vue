@@ -6,20 +6,20 @@
 			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 8px;">
 				<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{msg.sendTime}}</text></view>
 				
-				<view v-if="data.info.userid==msg.senderUserId" :class="'left'">
-					<view>
-						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
-					</view>
+				<view v-if="data.myid==msg.senderUserId" :class="'right'">
 					<view class="textbox">
 						<text class="textcontent">{{msg.data}}</text>
+					</view>
+					<view>
+						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
 					</view>
 				</view>
-				<view v-else :class="'right'">
-					<view class="textbox">
-						<text class="textcontent">{{msg.data}}</text>
-					</view>
+				<view v-else :class="'left'">
 					<view>
 						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
+					</view>
+					<view class="textbox">
+						<text class="textcontent">{{msg.data}}</text>
 					</view>
 				</view>
 				
@@ -75,12 +75,16 @@ const mywssent = async () => {
 	//console.log("receiver",receiver)
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,data.info.userid)
 	//console.log("发送消息的res",res1);
-	data.messages.push({
-		type:"0",
-		data:data.message===''?"发射爱心":data.message,
-		senderUserId:data.myid,
-		sendTime:getCurrentTime(),
-	})
+	if(data.info.userid==data.myid){
+		console.log("自己发的消息不用多存一下，只需要接收")
+	}else{
+		data.messages.push({
+			type:"0",
+			data:data.message===''?"发射爱心":data.message,
+			senderUserId:data.myid,
+			sendTime:getCurrentTime(),
+		})
+	}
 	data.message='';
 	console.log("data.messages.length",data.messages.length)
 	bottom.value="msg"+String(data.messages.length-1)
