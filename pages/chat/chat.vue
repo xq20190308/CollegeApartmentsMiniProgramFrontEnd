@@ -214,7 +214,7 @@ onShow(()=>{
 		padding-left: 5px;
 	}
 	.uni-indexed-list__scroll {
-		height: 540px;
+		height: 1100rpx;
 	}
 	.avatar {
 		background-color: #ad7d7d;
