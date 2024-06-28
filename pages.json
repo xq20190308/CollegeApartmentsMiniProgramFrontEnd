@@ -147,6 +147,12 @@
 				"navigationBarTitleText": "学校通知",
 				"enablePullDownRefresh": false
 			}
+		},{
+			"path": "pages/chat/postnotice",
+			"style": {
+				"navigationBarTitleText": "通告发布",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/userManage/userManage",

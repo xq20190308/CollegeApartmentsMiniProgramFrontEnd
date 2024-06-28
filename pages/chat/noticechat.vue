@@ -8,7 +8,7 @@
 			</view>
 		</scroll-view>
 	</uni-popup>
-	<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="readall">全部已读</button>
+	<text class="underline-text" @click="readall">全部已读</text>
 	<view class="notice-list">
 		<view v-for="(item,index) in store.noticeList" :key="index" >
 			<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{item.sendTime}}</text></view>
@@ -96,5 +96,19 @@ onShow(()=>{
 	    color: #c1c1c1;
 	    padding-left: 170px;
 	}
-
+	.underline-text {
+		padding-bottom: 5px;
+		padding-left: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+		text-decoration: underline;
+		color: #000000;
+		position: fixed;
+		left: 300px;
+		top: 15px;
+	  }
+	  .underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+	  }
 </style>

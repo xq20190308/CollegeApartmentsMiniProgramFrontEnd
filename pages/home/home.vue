@@ -7,6 +7,16 @@
 				<view class="describe">{{data.articles[index].title}}</view>
 			</swiper-item>
 		</swiper>
+		<uni-notice-bar show-icon scrollable background-color="#fff" color="#000" :speed="50"
+		:single="true" :text="store.noticeList[store.noticeList.length-1].data" />
+		<!--uni-grid :column="3" :highlight="true" @change="change">
+			<uni-grid-item v-for="(item, i) in data.func_list" :key="i" :index="i" @click="func1Click(item)">
+				<view class="grid-item-box" style="background-color: #fff;">
+					<image :src="item.imgPath" class="func1_img"></image>
+					<text class="text">{{ item.name }}</text>
+				</view>
+			</uni-grid-item>
+		</uni-grid-->
 		<!-- 主要功能区域 -->
 		<view class="func1">
 			<view class="func1_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">
@@ -44,12 +54,12 @@ const data = reactive({
 	],
 	articles:[],
 	func_list: [
-				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
-				{ name: "聊天", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../chat/chat" },
-				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
-				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
-				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
-				{ name: "未知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
+				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
+				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
+				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
+				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
+				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
 		],
 	plan:[
 		"距离打工结束还有9999天\n",
@@ -131,18 +141,28 @@ onShow(()=>{
   margin: 15rpx;
   border-radius: 20rpx;
   /* background-color: #ffffff; */
-  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05); /* 添加阴影 */
 }
-
+.text {
+	font-size: 14px;
+	margin-top: 5px;
+}
+.grid-item-box {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 15rpx;
+	border-radius: 20rpx;
+	box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05);
+	justify-content: center;
+}
 .func1_item {
-  width: calc(25% - 20rpx);
-  margin-bottom: 20rpx; 
-  border-radius: 16rpx; 
-  padding: 20rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	border: 0;
+	width: 26.8%;
+	padding: 20rpx;
+	border: 1px #d2d2d242 solid;
 }
 
 .func1_img {

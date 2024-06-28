@@ -32,17 +32,20 @@ export const wsopen = (url) => {
 		method: "GET",
 		success: (e) => {
 			console.log("ws connected ", e);
+		},
+		fail:(err) => {
+			console.log("ws connected fail", err);
 		}
 	});
 	socketTask.onOpen(async (res) => {
-		console.log("Ws open " + res.data);
+		console.log("Ws open " + res);
 	});
 	onMessage();
 	socketTask.onError(function (res) {
-		console.log("ws error " + res.errMsg);
+		console.log("ws error " + res);
 	});
 	socketTask.onClose(function (res) {
-		console.log("ws close " + res.reson);
+		console.log("ws close " + res);
 	});
 };
 export const onMessage = () => {

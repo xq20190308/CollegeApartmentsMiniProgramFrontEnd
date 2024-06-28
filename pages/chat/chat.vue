@@ -11,12 +11,12 @@
 						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />
 					</view>
 					<view class="textbox">
-						<text class="textcontent">{{data.info.name}}{{msg.data}}</text>
+						<text class="textcontent">{{msg.data}}</text>
 					</view>
 				</view>
 				<view v-else :class="'right'">
 					<view class="textbox">
-						<text class="textcontent">{{data.myname}}{{msg.data}}</text>
+						<text class="textcontent">{{msg.data}}</text>
 					</view>
 					<view>
 						<image :src="'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'" class="avatar" />

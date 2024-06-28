@@ -227,7 +227,7 @@
 			},
 			primaryColor: {
 				type: String,
-				default: '#2979ff'
+				default: '#fff'
 			},
 			styles: {
 				type: Object,
@@ -583,6 +583,7 @@
 		color: #999;
 		font-size: 12px;
 		// font-weight: 200;
+		
 	}
 
 	.is-textarea {

@@ -68,6 +68,9 @@ export const http = (url, method, data) => {
 					resolve(res.data)
 					console.log("success", res)
 				} else {
+					if(res.statusCode==403){
+						console.log("res.statusCode==403")
+					}
 					uni.showToast({
 						title: "网路请求失败",
 						icon: "error"
