@@ -1,5 +1,5 @@
 <template>
-  <!-- 课表组件 -->
+  <!-- 课表组件
   <div class="class-table">
     <div class="table-wrapper">
       <div class="table-container">
@@ -30,51 +30,51 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
  
 <script>
-//var that;
-//import { Dialog } from "vant";
-export default {
-  props: {
-    classTableData: {
-      type: Object
-    }
-  },
-  computed: {
-    // 将数字转换成汉字
-    changeCharacter(num) {
-      return function(num) {
-        var digArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        var characterArr = [
-          "一",
-          "二",
-          "三",
-          "四",
-          "五",
-          "六",
-          "七",
-          "八",
-          "九"
-        ];
-        return characterArr[num];
-      };
-    }
-  },
-  methods: {
-    // 查看该课程的相关详情
-    toScanDetail(item, idx) {
-      var con = `<div style="width:180px;text-align:left!important;margin:0 auto;color:#999;font-size:16px">课程名称：${item.lessonsName}<br/>上课时间：${item.lessonsTime}<br/>上课地点：${item.lessonsAddress}<br/>授课老师：${item.lessonsTeacher}<br/>课程课时：${item.lessonsRemark}</div>`;
-      // if (item.lessonsName) {
-      //   Dialog.alert({
-      //     message: con
-      //   });
-      // }
-    }
-  }
-};
+// //var that;
+// //import { Dialog } from "vant";
+// export default {
+//   props: {
+//     classTableData: {
+//       type: Object
+//     }
+//   },
+//   computed: {
+//     // 将数字转换成汉字
+//     changeCharacter(num) {
+//       return function(num) {
+//         var digArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+//         var characterArr = [
+//           "一",
+//           "二",
+//           "三",
+//           "四",
+//           "五",
+//           "六",
+//           "七",
+//           "八",
+//           "九"
+//         ];
+//         return characterArr[num];
+//       };
+//     }
+//   },
+//   methods: {
+//     // 查看该课程的相关详情
+//     toScanDetail(item, idx) {
+//       var con = `<div style="width:180px;text-align:left!important;margin:0 auto;color:#999;font-size:16px">课程名称：${item.lessonsName}<br/>上课时间：${item.lessonsTime}<br/>上课地点：${item.lessonsAddress}<br/>授课老师：${item.lessonsTeacher}<br/>课程课时：${item.lessonsRemark}</div>`;
+//       // if (item.lessonsName) {
+//       //   Dialog.alert({
+//       //     message: con
+//       //   });
+//       // }
+//     }
+//   }
+// };
 </script>
  
 <style scoped>
@@ -98,7 +98,7 @@ export default {
   border: 1px solid #ccc;
   padding: 8px;
   background-color: #f0f0f0;
-	height: 50px;
+    height: 50px;
 }
 
 .tbody {
@@ -110,7 +110,7 @@ export default {
   text-align: center;
   border: 1px solid #ccc;
   padding: 8px;
-	height: 100px;
+    height: 100px;
 }
 
 .tr .td:first-child {

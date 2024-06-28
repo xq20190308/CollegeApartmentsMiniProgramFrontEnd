@@ -1,12 +1,12 @@
 <template>
-	<uni-list>
-		<uni-list :border="true">
-			<!-- 右侧带角标 -->
-			<uni-list-chat :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" time="2020-02-02 20:20" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
-			<uni-list-chat :clickable="true" v-for="(item,index) in contacts" :key="index" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
-			<!-- 显示多头像 -->
-			<!--uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat-->
-		</uni-list>
+	<uni-list :border="true">
+		<uni-list-chat :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" time="2020-02-02 20:20" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
+	</uni-list>
+	<uni-list v-if="contacts.length>0" :border="true">
+		<!-- 右侧带角标 -->
+		<uni-list-chat  v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
+		<!-- 显示多头像 -->
+		<!--uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat-->
 	</uni-list>
 </template>
 
@@ -44,20 +44,24 @@ const clickChatItem = (index)=>{
 	},60)
 }
 const contacts = computed(() => {
-	//console.log("contacts = computed(()------------",store.chatList)
-	return [...store.chatList].sort((a,b)=>{
+	console.log("contacts = computed(()------------",store.chatList)
+	if(store.chatList.length>0){return [...store.chatList].sort((a,b)=>{
 		
 		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
 		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
-		//console.log("indexa",indexa,"indexb",indexb)
+		console.log("indexa",indexa,"indexb",indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
-	});
+	});}else{
+		return []
+	}
 });
 const lastList = computed(() => {
-	//console.log("lastList = computed(()------------",store.lastList)
-	return [...store.lastList].sort((a,b)=>{
+	console.log("lastList = computed(()------------",store.lastList)
+	if(store.lastList.length>0){return [...store.lastList].sort((a,b)=>{
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
-	});
+	});}else{
+		return []
+	}
 });
 onShow(()=>{
 	let total=store.totalUnreceived

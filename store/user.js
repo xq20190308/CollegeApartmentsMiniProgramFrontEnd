@@ -82,27 +82,27 @@ export const useUserStore = defineStore('User', ()=>{
 			
 		// ]
 		console.log("getChatList in store")
-		let localChatList = uni.getStorageSync('chatListOf'+user.userid)
+		let localChatList = uni.getStorageSync('chatListOf'+user.value.userid)
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
-		let localLastList = uni.getStorageSync('lastListOf'+user.userid)
+		let localLastList = uni.getStorageSync('lastListOf'+user.value.userid)
 		lastList.value=localLastList!=''?JSON.parse(localLastList):[]
-		let localNoticeList = uni.getStorageSync('noticeListOf'+user.userid)
+		let localNoticeList = uni.getStorageSync('noticeListOf'+user.value.userid)
 		noticeList.value=localNoticeList!=''?JSON.parse(localNoticeList):[]
 		//监听会话列表变化
 		uni.$on('upgradeChatList',(newlist)=>{
 			console.log("uni.$on('upgradeChatList',(newlist)")
 			//存到本地
-			uni.setStorageSync('chatListOf'+user.userid,JSON.stringify(newlist))
+			uni.setStorageSync('chatListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeLastList',(newlist)=>{
 			console.log("uni.$on('upgradeLastList',(newlist)")
 			//存到本地
-			uni.setStorageSync('lastListOf'+user.userid,JSON.stringify(newlist))
+			uni.setStorageSync('lastListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeNoticeList',(newlist)=>{
 			console.log("uni.$on('upgradeNoticeList',(newlist)")
 			//存到本地
-			uni.setStorageSync('noticeListOf'+user.userid,JSON.stringify(newlist))
+			uni.setStorageSync('noticeListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeUnreceivedNum',(total)=>{
 			console.log("监听函数")

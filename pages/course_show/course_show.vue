@@ -1,6 +1,6 @@
 <template>
-  <!-- <div>
-    <v-ClassTable :classTableData="classTableData" />
+<!--  <div>
+    <ClassTable :classTableData="classTableData" />
   </div> -->
 </template>
 
@@ -64,9 +64,9 @@
 //   },
 // 	//把接受到的数据进行处理，根据时间，如果是8点就推到第一行，如果是十点就推到第二行
 // 	//但貌似很不灵活，而且对数据格式要求很厉害
-//   components: {
-//     "v-ClassTable": ClassTable
-//   },
+//   // components: {
+//   //   "v-ClassTable": ClassTable
+//   // },
 
 //   // created() {
 //   //   const { userId, userName, roleId } = JSON.parse(
