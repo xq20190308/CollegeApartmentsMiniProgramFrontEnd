@@ -35,7 +35,7 @@
 
  
 <script>
-var that;
+//var that;
 //import { Dialog } from "vant";
 export default {
   props: {

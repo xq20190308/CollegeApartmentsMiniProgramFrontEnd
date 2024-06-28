@@ -1,5 +1,5 @@
 <template>
-	<uni-popup ref="popup" background-color="#fff" @change="(e)=>{console.log('change',e)}">
+	<uni-popup v-if="store.noticeList.length>0" ref="popup" background-color="#fff" @change="(e)=>{console.log('change',e)}">
 		<scroll-view :scroll-y="true" class="popup-content">
 			<text class="title">通知</text><br/><text class="timebottom">{{store.noticeList[data.clickindex].sendTime}}</text>
 			<br/>
@@ -8,8 +8,8 @@
 			</view>
 		</scroll-view>
 	</uni-popup>
-	<text class="underline-text" @click="readall">全部已读</text>
-	<view class="notice-list">
+	<text v-if="store.noticeList.length>0" class="underline-text" @click="readall">全部已读</text>
+	<view v-if="store.noticeList.length>0" class="notice-list">
 		<view v-for="(item,index) in store.noticeList" :key="index" >
 			<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{item.sendTime}}</text></view>
 			<uni-card @click="(e)=>{popupToggle(index)}" title="通知" :sub-title="item.senderUserId" thumbnail="../../../../static/home/future_icon.png">
