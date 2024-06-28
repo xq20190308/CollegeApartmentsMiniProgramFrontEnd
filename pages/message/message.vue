@@ -32,8 +32,9 @@ const data = reactive({
 //添加一个watch更新最新一条消息和未读消息数(charList)
 const clickChatItem = (index)=>{
 	console.log("--");
-	store.chatList[index].unreceivedNum=0
-	uni.$emit('upgradeChatList',store.chatList)
+	contacts.value[index].unreceivedNum=0
+	uni.$emit('upgradeChatList',contacts.value)
+	//uni.$emit('upgradeUnreceivedNum',store.totalUnreceived)
 	
 	console.log("store.totalUnreceived",store.totalUnreceived)
 	

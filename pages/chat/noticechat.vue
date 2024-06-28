@@ -8,6 +8,7 @@
 			</view>
 		</scroll-view>
 	</uni-popup>
+	<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="readall">全部已读</button>
 	<view class="notice-list">
 		<view v-for="(item,index) in store.noticeList" :key="index" >
 			<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{item.sendTime}}</text></view>
@@ -34,6 +35,13 @@ const popup=ref(null)
 const data = reactive({
 	clickindex:0,
 })
+const readall = ()=>{
+	for (var i = 0; i < store.noticeList.length; i++) {
+		store.noticeList[i].isConfirm=true
+	}
+	//触发更新事件
+	uni.$emit('upgradeNoticeList',store.noticeList)
+}
 const popupToggle =(e)=>{
 	console.log('index',e);
 	data.clickindex=e;
@@ -57,6 +65,7 @@ onShow(()=>{
 	.notice-list{
 		display: flex;
 	    flex-direction: column-reverse;
+		margin-top: 15px;
 	}
 	.time{
 		font-size: small;
