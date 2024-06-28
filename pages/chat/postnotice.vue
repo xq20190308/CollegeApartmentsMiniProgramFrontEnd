@@ -9,7 +9,7 @@
 		<uni-list border-full>
 			<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="权限" :righticon="''" >
 				<template v-slot:footer>
-					<uni-data-picker popup-title="" :localdata="storedata.classes" v-model="data.receiver"
+					<uni-data-picker popup-title="" :localdata="storedata.classes"
 					:border="false" :clear-icon="false"
 					@change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
 					</uni-data-picker>
@@ -63,6 +63,7 @@ const onpopupclosed=(e)=> {
 }
 const onchange=(e)=> {
 	//console.log('onchange:', e);
+	data.receiver=e.detail.value[0].value
 	console.log("receiver",data.receiver)
 }
 const storedata = useDataStore()

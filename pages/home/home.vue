@@ -166,8 +166,8 @@ onShow(()=>{
 }
 
 .func1_img {
-	width: 80rpx;
-	height: 80rpx;
+	width: 60rpx;
+	height: 60rpx;
 	margin-bottom: 10rpx;
 	border-radius: 50%; 
 	opacity: 0.75;
