@@ -78,7 +78,7 @@ onShow(()=>{
 })
 onLoad(()=>{
     data.navList1 = [
-		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+		{ name: "课程表", imgPath: "../../static/function/class.png", pagePath:"../course_show/course_show"},
 		{ name: "教室预约", imgPath: "../../static/function/classes.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
