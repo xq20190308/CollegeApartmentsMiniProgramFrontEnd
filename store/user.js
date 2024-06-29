@@ -24,7 +24,7 @@ export const useUserStore = defineStore('User', ()=>{
 	const avatar = ref("")
 	// 通讯录列表，目前不需要
 	//const mailList = ref([])
-	// websocket对象
+	// websocket对象，暂时不用
 	const chat = ref(null)
 	//学校通知列表
 	const noticeList = ref([])
@@ -32,21 +32,6 @@ export const useUserStore = defineStore('User', ()=>{
 	const chatList = ref([])
 	// 最新消息列表
 	const lastList = ref([])
-	// const contacts = computed(() => {
-	// 	console.log("contacts = computed(()+++++++++++++",chatList.value)
-	// 	console.log("lastest+++++++++",lastList.value)
-	// 	return [...chatList.value].sort((a,b)=>{
-	// 		let indexa = lastList.value.findIndex(item => item.contactid === a.userid);
-	// 		let indexb = lastList.value.findIndex(item => item.contactid === b.userid);
-	// 		return getTimeStamp(lastList.value[indexb].sendTime)-getTimeStamp(lastList.value[indexa].sendTime)
-	// 	});
-	// });
-	// const lastest = computed(() => {
-	// 	console.log("lastest = computed(()++++++++++++++",lastList.value)
-	// 	return [...lastList.value].sort((a,b)=>{
-	// 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
-	// 	});
-	// });
 	const unreceivedNoticeNum = computed(() => {//不能异步
 		let total=0;
 		for (var i = 0; i < noticeList.value.length; i++) {
@@ -54,9 +39,7 @@ export const useUserStore = defineStore('User', ()=>{
 				total++
 			}
 		}
-		console.log("computed unreceivedNoticeNum----------------",total)
-		// if(totalUnreceived.value){//触发计算
-		// }
+		//console.log("computed unreceivedNoticeNum----------------",total)
 		return total;
 	})
 	//用计算属性试试能不能自动更新,响应式，不能自动初始化
@@ -66,21 +49,12 @@ export const useUserStore = defineStore('User', ()=>{
 			total+=chatList.value[i].unreceivedNum
 		}
 		total+=unreceivedNoticeNum.value
-		console.log("computed totalUnreceived----------------")
+		//console.log("computed totalUnreceived----------------")
 		uni.$emit('upgradeUnreceivedNum',total)
 		return total;
 	})
 	//方法
 	const getChatList = ()=>{//和初始化登录一起调用
-		// chatList.value = [
-		// 	{name:"晨冉",userid:"202211070625",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-		// 	{name:"晓玉",userid:"202211070501",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-		// 	{name:"喜珍",userid:"202311071133",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-		// 	{name:"义仓",userid:"202211070621",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-		// 	{name:"克帅",userid:"202211070617",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-		// 	{name:"敏清",userid:"202311071222",avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",unreceivedNum:0},
-			
-		// ]
 		console.log("getChatList in store")
 		let localChatList = uni.getStorageSync('chatListOf'+user.value.userid)
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
@@ -90,39 +64,38 @@ export const useUserStore = defineStore('User', ()=>{
 		noticeList.value=localNoticeList!=''?JSON.parse(localNoticeList):[]
 		//监听会话列表变化
 		uni.$on('upgradeChatList',(newlist)=>{
-			console.log("uni.$on('upgradeChatList',(newlist)")
+			console.log("监听会话列表变化")
 			//存到本地
 			uni.setStorageSync('chatListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeLastList',(newlist)=>{
-			console.log("uni.$on('upgradeLastList',(newlist)")
+			console.log("监听最新消息列表变化")
 			//存到本地
 			uni.setStorageSync('lastListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeNoticeList',(newlist)=>{
-			console.log("uni.$on('upgradeNoticeList',(newlist)")
+			console.log("监听通知列表变化")
 			//存到本地
 			uni.setStorageSync('noticeListOf'+user.value.userid,JSON.stringify(newlist))
 		})
 		uni.$on('upgradeUnreceivedNum',(total)=>{
-			console.log("监听函数")
+			console.log("监听未收消息数变化")
 			upgradeUnreceivedNum(total);
 		})
-		if(totalUnreceived.value){//触发计算
-			console.log("if(totalUnreceived.value)用于初始化",totalUnreceived.value)
-		}
 		if(unreceivedNoticeNum.value){//触发计算
-			console.log("if(unreceivedNoticeNum.value)用于初始化",unreceivedNoticeNum.value)
+			console.log("触发计算未读通知数")
+		}
+		if(totalUnreceived.value){//触发计算
+			console.log("触发计算未读消息总数")
 		}
 	}
 	const handlenotice = (message,option) => {
-		console.log("handlenotice");
+		console.log("handlenotice in store");
 		noticeList.value.push({
 			...message,
 			isConfirm:false,
 			}
 		);
-		console.log("****************option",option)
 		if(!option){
 			uni.showModal({
 				title: '通知',
@@ -138,14 +111,13 @@ export const useUserStore = defineStore('User', ()=>{
 			});
 		}
 		uni.$emit('upgradeNoticeList',noticeList.value)
-		console.log("--收到通知，触发total计算totalUnreceived.value",totalUnreceived.value)
-		//uni.$emit('upgradeUnreceivedNum',totalUnreceived.value+unreceivedNoticeNum)
+		console.log("触发计算未读消息总数",totalUnreceived.value)
 	}
 	const handlemessage = async(message,option)=>{
-		console.log("store 中的 handlemessage",message)
+		console.log("handlemessage in store",message)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		if(message.type>0){
-			console.log("message.type>0");
+			console.log("处理通告");
 			handlenotice(message,option)
 		}else{
 			if(chatList.value.findIndex(item => item.userid == message.senderUserId)==-1){
@@ -167,20 +139,20 @@ export const useUserStore = defineStore('User', ()=>{
 			let prelog=uni.getStorageSync('single'+ user.value.userid +'_with_'+message.senderUserId)
 			prelog=prelog!=""?JSON.parse(prelog):[]
 			prelog.push(message)
-			console.log(prelog)
+			//console.log(prelog)
 			uni.setStorageSync('single'+ user.value.userid +'_with_'+message.senderUserId,JSON.stringify(prelog))
 			//需要更新store.chatList中的未读消息数
 			let index = chatList.value.findIndex(item => item.userid === message.senderUserId);
-			console.log("++store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
+			//console.log("++store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
 			chatList.value[index].unreceivedNum++;
 			lastList.value[index]={...message,contactid:message.senderUserId}
 			uni.$emit('upgradeChatList',chatList.value)
 			uni.$emit('upgradeLastList',lastList.value)
-			console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
-			console.log("--store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
-			console.log('index_of_sender in chatList',index)
-			//用于触发
-			console.log("store.totalUnreceived",totalUnreceived.value)
+			//console.log("uni.$emit('upgradeChatList',store.chatList) in APP.vue")
+			//console.log("--store.chatList[index].unreceivedNum",chatList.value[index].unreceivedNum)
+			//console.log('index_of_sender in chatList',index)
+			//触发计算未读消息总数
+			console.log("触发计算未读消息总数",totalUnreceived.value)
 		}
 	}
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
@@ -194,37 +166,37 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("save user in store",user.value)
 		uni.setStorageSync('token', info.token)
 		uni.setStorageSync('userInfo', JSON.stringify(info))
-		console.log("save token in Storage",uni.getStorageSync('token'))
-		console.log("save user in Storage",uni.getStorageSync('userInfo'))
+		//console.log("save token in Storage",uni.getStorageSync('token'))
+		//console.log("save user in Storage",uni.getStorageSync('userInfo'))
 		//获取头像
 		const ava = await http('/user/getavatar','GET',{});
 		avatar.value=ava.data
 		uni.setStorageSync('avatarUrl',avatar.value);
-		console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
+		//console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
 		console.log("save avatar in store",avatar.value)
-		console.log("getLocalAll");
-		getLocalAll()
+		//console.log("getLocalAll");
+		//getLocalAll()
 		//建立socket连接
 		await wsopen('/websocket1')
-		console.log("socketTask",socketTask)
-		chat.value=socketTask;
-		console.log("save socket in store chat",chat.value);
+		//console.log("socketTask",socketTask)
+		//chat.value=socketTask;
+		//console.log("save socket in store chat",chat.value);
 		await getChatList();
 		let storedata = useDataStore()
 		storedata.getclasses()
 		
 	}
 	const upgradeUnreceivedNum=(total)=>{
-		console.log("upgradeUnreceivedNum函数,total:",total)
+		console.log("设置TabBarBadge：",total)
 		setTimeout(async() => {
 			let pages = await getCurrentPages();
-			console.log("pages",pages)
+			//console.log("pages",pages)
 			if(pages[pages.length - 1]!=undefined&&(
 			pages[pages.length - 1].$vm.__route__ == 'pages/home/home'||
 			pages[pages.length - 1].$vm.__route__ == 'pages/function/function'||
 			pages[pages.length - 1].$vm.__route__ == 'pages/message/message'||
 			pages[pages.length - 1].$vm.__route__ == 'pages/myself/myself')){
-				console.log("store.totalUnreceived",total)
+				//console.log("store.totalUnreceived",total)
 				if(total){
 					uni.setTabBarBadge({
 						index: 2,
@@ -245,7 +217,7 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("initLogin in store")
 		//本地用户信息存到store中	
 		token.value=uni.getStorageSync('token')
-		console.log("get token in Storage",token.value)
+		//console.log("get token in Storage",token.value)
 		if(token.value!=""){
 			console.log("用户在线")
 			//用户信息

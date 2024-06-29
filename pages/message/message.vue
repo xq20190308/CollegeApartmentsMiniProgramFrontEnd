@@ -64,10 +64,10 @@ const lastList = computed(() => {
 	}
 });
 setInterval(async()=>{
-	console.log("刷新")
+	console.log("刷新头像")
 	for (var i = 0; i < store.chatList.length; i++) {
 		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
-		console.log(ava)
+		//console.log(ava)
 		if(ava.data){
 			store.chatList[i].avatar=ava.data;}
 	}
