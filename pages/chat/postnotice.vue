@@ -1,5 +1,5 @@
 <template>
-	<text class="underline-text" @click="()=>{data.sendtodoc=data.sendtodoc?false:true}">{{data.sendtodoc?'发给宿舍':"发给教学单位"}}</text>
+	<text class="underline-text" @click="()=>{data.sendtodoc=data.sendtodoc?false:true}">{{data.sendtodoc?"发给教学单位":'发给宿舍'}}</text>
 	<view style="margin: 15px;margin-top: 40px;
 				border-radius: 20px;
 				overflow: hidden;
