@@ -68,7 +68,7 @@ const data = reactive({
 		"晚上好\n",],	
 })
 const func1Click=(item)=> {
-	uni.reLaunch({
+	uni.navigateTo({
 		url: item.pagePath
 	})
 }
