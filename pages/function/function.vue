@@ -99,19 +99,26 @@ onLoad(()=>{
 	]
 }) 
 const Function1Click=(item)=> {
-	uni.reLaunch({
+	uni.navigateTo({
 		url: item.pagePath
 	})
 }
 const Function2Click=(item)=> {
-	uni.reLaunch({
+	uni.navigateTo({
 		url: item.pagePath
 	})
 }
 const Function3Click=(item)=> {
-	uni.reLaunch({
-		url: item.pagePath
-	})
+	if(store.user.userPermission.userLevel==="1"||store.user.userPermission.userLevel==="0"){
+		uni.navigateTo({//uni.reLauch左上角小标就是房子!!!
+			url: item.pagePath
+		})
+	}else{
+		uni.showToast({
+			icon:"error",
+			title:"你没有权限"
+		})
+	}
 }
 </script>
 

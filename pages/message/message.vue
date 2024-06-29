@@ -12,7 +12,7 @@
 
 <script setup>
 import '@/utils/http'
-import {computed, reactive, ref, watch,onMounted} from "vue"; 
+import {computed, reactive, ref, watch,onMounted, onBeforeUnmount} from "vue"; 
 import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
@@ -63,7 +63,10 @@ const lastList = computed(() => {
 		return []
 	}
 });
-setInterval(async()=>{
+
+// setInterval(async()=>{},10000)
+
+const refreshava = async()=>{
 	console.log("刷新头像")
 	for (var i = 0; i < store.chatList.length; i++) {
 		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
@@ -72,7 +75,7 @@ setInterval(async()=>{
 			store.chatList[i].avatar=ava.data;}
 	}
 	uni.$emit('upgradeChatList',store.chatList)
-},10000)
+	}
 onShow(()=>{
 	let total=store.totalUnreceived
 	if(total){
@@ -92,6 +95,7 @@ onShow(()=>{
 	//console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
 	console.log("store.noticeList",data.noticeList)
+	refreshava()
 })
 onLoad(()=>{
 	//手动触发计算
@@ -104,6 +108,9 @@ onLoad(()=>{
 })
 onUnload(()=>{
 	console.log("onUnLoad")
+})
+onMounted(()=>{
+	console.log("onMounted")
 })
 </script>
 

@@ -325,103 +325,105 @@ export const useDataStore = defineStore('Data', ()=>{
 					}]
 			}]}]}]
 	}])
+	
 	const getclasses = async()=>{//http请求在初始化登录时调用
 		console.log(origin.value)
 		console.log(httpdata)
 		
-		const res = await http('/class/get-all','GET',{},)
-		console.log("getclasses res",res.data)
-		classes.value=[];
-		for (var i = 0; i < res.data.length; i++) {
-			classes.value.push({
-				text: res.data[i].campusName+res.data[i].collegeName+res.data[i].grade+res.data[i].major+res.data[i].className,
-				value: String(res.data[i].classId),
-			})
-		}
-		let final = []
-		for (var i = 0; i < origin.length; i++) {//校区
-			//年级
+		const res = await http('/school-info/infos','GET',{},)
+		origin.value=res.data.campusInfoVOList
+		console.log("getclasses res",origin.value)
+	// 	classes.value=[];
+	// 	for (var i = 0; i < res.data.length; i++) {
+	// 		classes.value.push({
+	// 			text: res.data[i].campusName+res.data[i].collegeName+res.data[i].grade+res.data[i].major+res.data[i].className,
+	// 			value: String(res.data[i].classId),
+	// 		})
+	// 	}
+	// 	let final = []
+	// 	for (var i = 0; i < origin.length; i++) {//校区
+	// 		//年级
 			
-		}
-		classes.value=[{
-		text: "专业一",
-		value: 1,
-		children: [{
-			text: "一年级",
-			value: 2,
-			children: [{
-				text: "1.1.1班",
-				value: 3
-			},
-			{
-				text: "1.1.2班",
-				value: 4
-			}]
-		},{
-			text: "二年级",
-			value: 5,
-			children: [{
-				text: "1.2.1班",
-				value: 6
-			},
-			{
-				text: "1.2.1班",
-				value: 7
-			}]
-		}]
-	},{
-		text: "专业二",
-		value: 8,
-		children: [{
-			text: "一年级",
-			value: 9,
-			children: [{
-				text: "2.1.1班",
-				value: 10
-			},
-			{
-				text: "2.1.2班",
-				value: 11
-			}]
-		},{
-			text: "二年级",
-			value: 12,
-			children: [{
-				text: "2.2.1班",
-				value: 13
-			},
-			{
-				text: "2.2.2班",
-				value: 14
-			}]
-		}]
-	},{
-		text: "专业三",
-		value: 15,
-		children: [{
-			text: "一年级",
-			value: 16,
-			children: [{
-				text: "3.1.1班",
-				value: 17
-			},
-			{
-				text: "3.1.2班",
-				value: 18
-			}]
-		},{
-			text: "二年级",
-			value: 19,
-			children: [{
-				text: "3.2.1班",
-				value: 20
-			},
-			{
-				text: "3.2.2班",
-				value: 21
-			}]
-		}]
-	},]
+	// 	}
+	// 	classes.value=[{
+	// 	text: "专业一",
+	// 	value: 1,
+	// 	children: [{
+	// 		text: "一年级",
+	// 		value: 2,
+	// 		children: [{
+	// 			text: "1.1.1班",
+	// 			value: 3
+	// 		},
+	// 		{
+	// 			text: "1.1.2班",
+	// 			value: 4
+	// 		}]
+	// 	},{
+	// 		text: "二年级",
+	// 		value: 5,
+	// 		children: [{
+	// 			text: "1.2.1班",
+	// 			value: 6
+	// 		},
+	// 		{
+	// 			text: "1.2.1班",
+	// 			value: 7
+	// 		}]
+	// 	}]
+	// },{
+	// 	text: "专业二",
+	// 	value: 8,
+	// 	children: [{
+	// 		text: "一年级",
+	// 		value: 9,
+	// 		children: [{
+	// 			text: "2.1.1班",
+	// 			value: 10
+	// 		},
+	// 		{
+	// 			text: "2.1.2班",
+	// 			value: 11
+	// 		}]
+	// 	},{
+	// 		text: "二年级",
+	// 		value: 12,
+	// 		children: [{
+	// 			text: "2.2.1班",
+	// 			value: 13
+	// 		},
+	// 		{
+	// 			text: "2.2.2班",
+	// 			value: 14
+	// 		}]
+	// 	}]
+	// },{
+	// 	text: "专业三",
+	// 	value: 15,
+	// 	children: [{
+	// 		text: "一年级",
+	// 		value: 16,
+	// 		children: [{
+	// 			text: "3.1.1班",
+	// 			value: 17
+	// 		},
+	// 		{
+	// 			text: "3.1.2班",
+	// 			value: 18
+	// 		}]
+	// 	},{
+	// 		text: "二年级",
+	// 		value: 19,
+	// 		children: [{
+	// 			text: "3.2.1班",
+	// 			value: 20
+	// 		},
+	// 		{
+	// 			text: "3.2.2班",
+	// 			value: 21
+	// 		}]
+	// 	}]
+	// },]
 	}
 	return {classes,getclasses,origin}
 })

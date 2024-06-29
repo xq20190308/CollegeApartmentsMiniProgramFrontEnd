@@ -177,7 +177,7 @@ onLoad(()=>{
 	padding-left: 33rpx;
 	margin-top: 50rpx;
 	::v-deep .uni-easyinput__content-textarea {
-		height: 750rpx;
+		height: 550rpx;
 	}
 }
 .list{

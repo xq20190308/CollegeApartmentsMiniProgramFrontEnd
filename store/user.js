@@ -183,7 +183,9 @@ export const useUserStore = defineStore('User', ()=>{
 		//console.log("save socket in store chat",chat.value);
 		await getChatList();
 		let storedata = useDataStore()
-		storedata.getclasses()
+		if(user.value.userPermission.userLevel==="0"||user.value.userPermission.userLevel==="1"){
+			storedata.getclasses()
+		}
 		
 	}
 	const upgradeUnreceivedNum=(total)=>{
@@ -229,7 +231,10 @@ export const useUserStore = defineStore('User', ()=>{
 			wsopen('/websocket1');
 			await getChatList()
 			let storedata = useDataStore()
-			storedata.getclasses()
+			//判断权限
+			if(user.value.userPermission.userLevel<2){
+				storedata.getclasses()
+			}
 		}else{
 			console.log("用户不在线")
 		}
