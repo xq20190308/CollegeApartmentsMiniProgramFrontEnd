@@ -1,9 +1,21 @@
 <template>
-	<view style="margin: 15px;
+	<text class="underline-text" @click="()=>{data.sendtodoc=data.sendtodoc?false:true}">{{data.sendtodoc?'发给宿舍':"发给教学单位"}}</text>
+	<view style="margin: 15px;margin-top: 40px;
 				border-radius: 20px;
 				overflow: hidden;
 				box-shadow: 0px 2px 20px rgb(0 0 0 / 5%);" class="list">
-		<uni-list border-full>
+				
+		<uni-list v-if="data.sendtodoc" border-full>
+			<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="请选择宿舍" :righticon="''" >
+				<template v-slot:footer>
+					<uni-data-picker :clear-icon="true" popup-title="" :localdata="docs"
+					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo" :map="{text:'docName',value:'docId'}"
+					@change="(e)=>{console.log('data.receiverOfDo',data.receiverOfDo)}" >
+					</uni-data-picker>
+				</template>
+			</uni-list-item>
+		</uni-list>
+		<uni-list v-else border-full>
 			<!-- <uni-list-item v-for="(item,key) in data.receiver" :key="key" style="padding: 2px 8px;" :showArrow="false" :title="key" :righticon="''" >
 				<template v-slot:footer>
 					<uni-data-picker :clear-icon="true" popup-title="" :localdata="storedata.classes"
@@ -81,6 +93,7 @@ import { storeToRefs } from 'pinia'
 import { useDataStore } from '../../store/data.js';
 const picker = ref(null)
 const data = reactive({
+	sendtodoc:true,
 	content:"",
 	placeholderStyle:"",
 	idIndex:{
@@ -89,6 +102,7 @@ const data = reactive({
 		collegeIndex:0,
 		majorIndex:0,
 	},
+	receiverOfDo:"",
 	receiver:{
 		campusId:"",
 		gradeId:"",
@@ -98,17 +112,25 @@ const data = reactive({
 	},
 	dataTree:[],
 })
+const docs=ref([{
+	docName:"GA17-436",
+	docId:"GA17-436",
+},{
+	docName:"GB14-412",
+	docId:"GB14-412",
+}])
 const store = useUserStore()
 const post = async()=>{
-	if(data.content&&data.receiver){
+	
+	let rece=data.sendtodoc?data.receiverOfDo:data.receiver
+	if(data.content&&rece){
 		console.log("data.content",data.content)
-		let rece=data.receiver
-		rece.campusId=rece.campusId?rece.campusId:0
+		if(!data.sendtodoc){rece.campusId=rece.campusId?rece.campusId:0
 		rece.gradeId=rece.gradeId?rece.gradeId:0
 		rece.collegeId=rece.collegeId?rece.collegeId:0
 		rece.majorId=rece.majorId?rece.majorId:0
-		rece.classId=rece.classId?rece.classId:0
-		const res = await wssend('1',data.content,rece)
+		rece.classId=rece.classId?rece.classId:0}
+		const res = await wssend(data.sendtodoc?"2":"1",data.content,rece)
 		if(res=="success"){
 			uni.showToast({
 				icon:"success",
@@ -196,4 +218,20 @@ onLoad(()=>{
 	  font-size: smaller;
 	}
 }
+.underline-text {
+		padding-bottom: 5px;
+		padding-left: 5px;
+		float: right;
+		font-weight: 300;
+		font-size: 12px;
+		text-decoration: underline;
+		color: #000000;
+		position: fixed;
+		left: 290px;
+		top: 15px;
+		z-index: 20;
+	  }
+	  .underline-text:active {
+	    color: #0000ff; /* 点击时的蓝色 */
+	  }
 </style>
