@@ -43,11 +43,11 @@ const bindClick=(e)=>{
 		unreceivedNum:0
 	}
 	//对话添加到列表中
-	if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
-		store.chatList.push(info)
-		uni.$emit('upgradeChatList',store.chatList)
-		console.log("uni.$emit('upgradeChatList',store.chatList)")
-	}
+	// if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
+	// 	store.chatList.push(info)
+	// 	uni.$emit('upgradeChatList',store.chatList)
+	// 	console.log("uni.$emit('upgradeChatList',store.chatList)")
+	// }
 	uni.navigateTo({
 		url:'/pages/chat/chat?info='+JSON.stringify(info)
 	})

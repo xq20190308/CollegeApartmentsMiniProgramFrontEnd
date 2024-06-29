@@ -69,7 +69,7 @@ onMounted(()=>{
 
 const mywssent = async () => {
 	//对话添加到列表中
-	console.log('mywssent ',data.message)
+	//console.log('mywssent ',data.message)
 	let receiver=[];
 	receiver.push(data.info.userid)
 	//console.log("receiver",receiver)
@@ -86,21 +86,21 @@ const mywssent = async () => {
 		})
 	}
 	data.message='';
-	console.log("data.messages.length",data.messages.length)
+	//console.log("data.messages.length",data.messages.length)
 	bottom.value="msg"+String(data.messages.length-1)
-	console.log("bottom.value",bottom.value)
+	//console.log("bottom.value",bottom.value)
 }
 const handlemsg=(msg)=>{
 	//对话添加到列表中
-	console.log("uni.$on('onMessage')",msg)
+	//console.log("uni.$on('onMessage')",msg)
 	let message=JSON.parse(msg);
 	if(message.type=="0"&&message.senderUserId==data.info.userid){
-		console.log(message.senderUserId+"=="+data.info.userid)
+		//console.log(message.senderUserId+"=="+data.info.userid)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		data.messages.push(message)
-		console.log("data.messages.length",data.messages.length)
+		//console.log("data.messages.length",data.messages.length)
 		bottom.value="msg"+String(data.messages.length-1)
-		console.log("bottom.value",bottom.value)
+		//console.log("bottom.value",bottom.value)
 	}else{//存本地
 		store.handlemessage(message)
 		// console.log(message.senderUserId+"!="+data.info.userid)
@@ -123,7 +123,12 @@ onUnload(()=>{
 	console.log("存储聊天记录到本地")
 	setLocalData('single'+ data.myid +'_with_'+data.info.userid,JSON.stringify(data.messages))
 	uni.$off('onMessage',handlemsg)
-	console.log("after uni.$off('onMessage',handlemsg)")
+	//console.log("after uni.$off('onMessage',handlemsg)")
+	if(store.chatList.findIndex(item => item.userid === data.info.userid)==-1){
+		store.chatList.push(data.info)
+		uni.$emit('upgradeChatList',store.chatList)
+		console.log("uni.$emit('upgradeChatList',store.chatList)")
+	}
 	//最后一条存到最新消息列表
 	let index = store.chatList.findIndex(item => item.userid === data.info.userid);
 	store.lastList[index]={...data.messages[data.messages.length-1],contactid:data.info.userid}
@@ -133,16 +138,16 @@ onUnload(()=>{
 const store = useUserStore();
 onLoad((options)=>{
 	console.log("chatonLoad")
-	console.log("useUserStore",store.user.trueName)
+	//console.log("useUserStore",store.user.trueName)
 	data.myid=store.user.userid
 	data.myname=store.user.trueName
-	console.log(data.myid)
-	console.log("options",options)
+	//console.log(data.myid)
+	//console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
 	  title: data.info.name
 	});
-	console.log('--1single'+ data.myid +'_with_'+data.info.userid)
+	//console.log('--1single'+ data.myid +'_with_'+data.info.userid)
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 	uni.$on('onMessage',handlemsg)//只移除这一个回调的监听事件

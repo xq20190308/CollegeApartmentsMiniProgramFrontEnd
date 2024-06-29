@@ -53,7 +53,7 @@ const data = reactive({
 })
 onShow(()=>{
 	data.islogined=getLocalData('token')!="";
-	console.log(data.islogined);
+	//console.log(data.islogined);
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({
 	// 		index: 2,

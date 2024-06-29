@@ -94,7 +94,7 @@ onShow(()=>{
 	//console.log("contacts",contacts.value)
 	//console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
-	console.log("store.noticeList",data.noticeList)
+	//console.log("store.noticeList",data.noticeList)
 	refreshava()
 })
 onLoad(()=>{

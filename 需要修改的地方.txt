@@ -14,9 +14,9 @@
 √添加了一个小喇叭
 √缺一个userLevel 在userPermiision中
 √home页面功能框需要美化
+√导师私聊功能，导师接收消息，回复
 feedback需要审核（加一列msg），加分栏
 questionnaire同上
-导师私聊功能，导师接收消息，回复
 socket传来的消息格式怎么优化
 markdown
 获取头像接口废了，后端用户信息ava好像还是null
