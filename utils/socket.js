@@ -94,7 +94,7 @@ export const wssend = (type, msg, ids) => {
 				JSON.stringify({
 					type: type,
 					data: msg,
-					receivers: ids,
+					receiver: ids,
 				}))
 			socketTask.send({
 				data: JSON.stringify({

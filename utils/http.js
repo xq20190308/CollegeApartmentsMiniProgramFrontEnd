@@ -11,7 +11,7 @@ const httpInterceptor = {
 		}
 		//添加超时请求
 		options.timeout = 10000
-		console.log("拦截器", options)
+		//console.log("拦截器", options)
 		//添加请求头
 
 		//添加token
@@ -66,7 +66,7 @@ export const http = (url, method, data) => {
 				//需对状态码进行分类处理，登录信息token
 				if (res.statusCode >= 200 && res.statusCode < 300) {
 					resolve(res.data)
-					console.log("success", res)
+					console.log("success ",url)
 				} else {
 					if(res.statusCode==403){
 						console.log("res.statusCode==403")

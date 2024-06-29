@@ -38,10 +38,22 @@ const data = reactive({
 	dataTree:[],
 })
 const store = useUserStore()
-const post = ()=>{
+const post = async()=>{
 	if(data.content&&data.receiver){
 		console.log("data.content",data.content)
-		wssend('1',data.content,data.receiver)
+		const res = await wssend('1',data.content,data.receiver)
+		if(res=="success"){
+			uni.showToast({
+				icon:"success",
+				title:"发布成功"
+			})
+			data.content=""
+		}else{
+			uni.showToast({
+				icon:"error",
+				title:"发布失败"
+			})
+		}
 	}else{
 		uni.showToast({
 			icon:"error",

@@ -148,15 +148,17 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("message.type>0");
 			handlenotice(message,option)
 		}else{
-			if(chatList.value.findIndex(item => item.userid === message.senderUserId)==-1){
+			if(chatList.value.findIndex(item => item.userid == message.senderUserId)==-1){
+				console.log("会话列表中没有该用户")
 				//需要向后端请求用户信息
 				const res = await http('/user/findByUserid?userid='+message.senderUserId,'GET',{},)
-				console.log("发来消息的人的信息",res);
+				//console.log("发来消息的人的信息",res);
+				const ava = await http('/user/getavatar?otherUserid='+message.senderUserId,'GET',{});
 				
 				let info={
 					name:res.data.name,
 					userid:message.senderUserId,
-					avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+					avatar:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
 					unreceivedNum:0
 				}
 				chatList.value.push(info)

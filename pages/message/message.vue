@@ -63,6 +63,16 @@ const lastList = computed(() => {
 		return []
 	}
 });
+setInterval(async()=>{
+	console.log("刷新")
+	for (var i = 0; i < store.chatList.length; i++) {
+		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
+		console.log(ava)
+		if(ava.data){
+			store.chatList[i].avatar=ava.data;}
+	}
+	uni.$emit('upgradeChatList',store.chatList)
+},10000)
 onShow(()=>{
 	let total=store.totalUnreceived
 	if(total){
