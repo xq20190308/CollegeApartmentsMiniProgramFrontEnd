@@ -102,7 +102,13 @@ const store = useUserStore()
 const post = async()=>{
 	if(data.content&&data.receiver){
 		console.log("data.content",data.content)
-		const res = await wssend('1',data.content,data.receiver)
+		let rece=data.receiver
+		rece.campusId=rece.campusId?rece.campusId:0
+		rece.gradeId=rece.gradeId?rece.gradeId:0
+		rece.collegeId=rece.collegeId?rece.collegeId:0
+		rece.majorId=rece.majorId?rece.majorId:0
+		rece.classId=rece.classId?rece.classId:0
+		const res = await wssend('1',data.content,rece)
 		if(res=="success"){
 			uni.showToast({
 				icon:"success",
