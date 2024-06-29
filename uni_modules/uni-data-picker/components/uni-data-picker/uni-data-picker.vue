@@ -457,7 +457,7 @@
     right: 0;
     bottom: 0;
     /* #ifndef APP-NVUE */
-    display: flex;
+    display: none;
     /* #endif */
     flex-direction: row;
     align-items: center;
