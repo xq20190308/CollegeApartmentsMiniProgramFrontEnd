@@ -93,18 +93,7 @@ onLoad(async (options) => {
 	}else{
 		data.mentor_list=[]
 		data.mentor_list_ABC=[]
-		uni.showModal({
-			title: '提示',
-			content: '未登录影响功能的使用',
-			success: (res) => {
-				if (res.confirm) { 
-					uni.navigateTo({
-						url: "/pages/login/loginPage"
-					})
-				} else if (res.cancel) { 
-				}
-			}
-		});
+		store.tologin()
 	}
 })
 </script>

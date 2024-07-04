@@ -1,4 +1,6 @@
-import { getLocalData } from "../utils/cache.js"
+import { useUserStore } from "../store/User.js"
+import { getLocalData,clearUserInfo } from "../utils/cache.js"
+import { wsclose } from "./socket.js"
 //const developUrl = 'http://192.168.168.204:8080'
 const developUrl = 'http://william.fit:8080'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
@@ -69,14 +71,41 @@ export const http = (url, method, data) => {
 					resolve(res.data)
 					console.log("success ",url,"  ",res)
 				} else {
-					if(res.statusCode==403){
-						console.log("res.statusCode==403")
+					if(res.statusCode==403||res.statusCode==401){
+						console.log("令牌异常，res.statusCode=="+res.statusCode)
+						wsclose()
+						clearUserInfo()
+						uni.showModal({
+							title: '提示',
+							content: '您未登录，是否前去登录',
+							success: (res) => {
+								if (res.confirm) { 
+									uni.showLoading({
+										title: "正在跳转",
+										mask:true,
+									})
+									setTimeout(() => {
+										uni.hideLoading();
+										uni.reLaunch({
+											url: "/pages/myself/myself"
+										})
+									}, 500)
+								} else if (res.cancel) {
+									uni.reLaunch({
+										url: "/pages/home/home"
+									})
+								}
+							}
+						});
+						//reject("令牌异常")
+					}else{
+						uni.showToast({
+							title: "网路请求失败",
+							icon: "error"
+						})
+						//reject("网络异常")
 					}
-					uni.showToast({
-						title: "网路请求失败",
-						icon: "error"
-					})
-					reject(res)
+					
 				}
 
 			},
@@ -85,7 +114,7 @@ export const http = (url, method, data) => {
 					title: "网路请求失败",
 					icon: "error"
 				})
-				reject(err) //需要处理请求失败的操作
+				//reject(err) //需要处理请求失败的操作
 			}
 		})
 	})

@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { reactive,ref,computed } from "vue";
-import {wsopen,socketTask} from '../utils/socket.js'
+import {wsopen,socketTask,wsclose} from '../utils/socket.js'
 import {http} from '../utils/http.js'
 import {useDataStore} from '../store/data.js'
-import { getLocalData, setLocalData, setUserInfo,getLocalAll } from "../utils/cache.js"
+import { getLocalData, setLocalData, setUserInfo,getLocalAll,clearUserInfo } from "../utils/cache.js"
 
 // 你可以任意命名 `defineStore()` 的返回值，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
 // (比如 `useUserStore`，`useCartStore`，`useProductStore`)
@@ -239,6 +239,67 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("用户不在线")
 		}
 	}
+	const tologin=(back,callback)=> {
+		if(token.value==''){
+			uni.showModal({
+				title: '提示',
+				content: '您未登录，是否前去登录',
+				success: (res) => {
+					if (res.confirm) { 
+						uni.showLoading({
+							title: "正在跳转",
+							mask:true,
+						})
+						setTimeout(() => {
+							uni.hideLoading();
+							uni.reLaunch({
+								url: "/pages/myself/myself"
+							})
+						}, 500)
+					} else if (res.cancel) {
+						if(back){
+							uni.reLaunch({
+								url: "/pages/home/home"
+							})
+						}
+						// if(callback!=null){
+						// 	callback();
+						// }
+					}
+				}
+			});
+		}
+	} 
+	const delogin=async (option)=> {
+		 uni.showModal({
+		 	title: '提示',
+		 	content: "确认退出登录？",
+		 	success: (res) => {
+		 		if (res.confirm) {
+					uni.removeTabBarBadge({
+						index:2,
+						complete:(res)=> {
+							console.log(res)
+						}
+					})
+		 			clearUserInfo()
+					chatList.value=[]
+					lastList.value=[]
+					wsclose();
+					user.value={}
+					avatar.value=""
+					token.value=""
+					if(option){
+						uni.navigateTo({
+							url: "/pages/login/loginPage"
+						})
+					}
+		 		} else if (res.cancel) {
+					
+		 		}
+		 	}
+		 });
+	} 
 	//第一行测试数据
 	//第二行用户数据
 	//第三行方法
@@ -246,5 +307,5 @@ export const useUserStore = defineStore('User', ()=>{
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
 		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
 		//用户登录，程序启动时的登录初始化
-		login,initLogin,handlemessage }
+		login,initLogin,handlemessage,delogin,tologin }
 })

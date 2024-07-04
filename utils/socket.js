@@ -114,25 +114,17 @@ export const wssend = (type, msg, ids) => {
 			});
 		})
 	} else {
-		uni.showModal({
-			title: '提示',
-			content: '您未登录，是否前去登录',
-			success: (res) => {
-				if (res.confirm) {
-					uni.navigateTo({
-						url: "/pages/login/loginPage"
-					})
-				} else if (res.cancel) {
-				}
-			}
-		});
+		
 	}
 };
 export const wsclose = () => {
-	socketTask.close({
-		//有待添加
-		success: (res) => {
-			console.log("ws closed ", res);
-		}
-	});
+	console.log("socketTask",socketTask);
+	if(socketTask!=""){
+		socketTask.close({
+			//有待添加
+			success: (res) => {
+				console.log("ws closed ", res);
+			}
+		});
+	}
 };

@@ -27,37 +27,27 @@ import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
 import {getLocalData,setLocalData} from "../../utils/cache.js"
 import {getCurrentTime} from '@/utils/time'
+import { useUserStore } from "../../store/User.js";
 const data = reactive({
 	complaintDrafts: [], // 初始为空数组
 	islogin:false
 })
-
+const store = useUserStore()
 onLoad(()=> {
-	if(getLocalData('token')==''){
-		uni.showModal({
-			title: '提示',
-			content: '您未登录，是否前去登录',
-			success: (res) => {
-				if (res.confirm) { 
-					uni.navigateTo({
-						url: "/pages/login/loginPage"
-					})
-				} else if (res.cancel) { 
-				}
-			}
-		});
-		data.islogin=false;
-	}
-	else{
-		data.islogin=true;
-	}
+	data.islogin=store.token==''?false:true;
+	store.tologin()
 })
 onShow(async()=>{
 	await fetchComplaintDrafts();
 	console.log('草稿箱:',data.complaintDrafts)
 })
 const lookFeed = ()=>{
-	goto('manageFeed','feedbackManage')
+	if(store.token==""){
+		store.tologin()
+	}else{
+		goto('manageFeed','feedbackManage')
+	}
+		
 }
 const fetchComplaintDrafts = async () => {
 	data.complaintDrafts=getLocalData('feedDraft')?JSON.parse(getLocalData('feedDraft')):'';

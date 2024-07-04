@@ -52,6 +52,7 @@ import { load, http } from "../../utils/http.js"
 import { goto } from "../../utils/access.js"
 import { getarticles } from "../notice/api/getnotices.js"
 import { getCurrentTime } from '@/utils/time'
+import { useUserStore } from "../../store/User.js";
 const data = reactive({
 	categoryindex: null,
 	index: '',
@@ -172,24 +173,9 @@ const save = async () => {
 		})
 	
 }
+const store=useUserStore()
 onShow(() => {
-	if(getLocalData('token')==''){
-		uni.showModal({
-			title: '提示',
-			content: '您未登录，是否前去登录',
-			success: (res) => {
-				if (res.confirm) { 
-					uni.navigateTo({
-						url: "/pages/login/loginPage"
-					})
-				} else if (res.cancel) { 
-					uni.reLaunch({
-						url: "/pages/home/home"
-					})
-				}
-			}
-		});
-	}
+	store.tologin(true)
 })
 onLoad(async (options) => {
 	//需要获取已经id的草稿内容

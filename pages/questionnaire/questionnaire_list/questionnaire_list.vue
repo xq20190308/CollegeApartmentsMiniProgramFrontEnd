@@ -72,17 +72,7 @@ const gotonaire = (item) =>{
 				'&isEnd='+item.isEnd,
 			})
 		}else{
-			uni.showModal({
-				title: '提示',
-				content: '您未登录，是否前去登录',
-				success: (res) => {
-					if (res.confirm) { 
-						uni.navigateTo({
-							url: "/pages/login/loginPage"
-						})
-					}
-				}
-			});
+			store.tologin()
 		}
 	}
 }

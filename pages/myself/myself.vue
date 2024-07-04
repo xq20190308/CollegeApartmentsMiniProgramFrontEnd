@@ -1,15 +1,6 @@
 <template>
 	<view class="mask" v-if="store.token==''">
-		<view style="top: 400px;position: fixed;margin-left: 40px;">
-			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
-				<text>登录</text>
-			</button>
-		</view>
-		<view style="top: 300px;position: fixed;margin-left: 40px;">
-			<button class="btn" style="text-align:center" @click="tologin('正在跳转')">
-				<text>注册</text>
-			</button>
-		</view>
+		<my-login></my-login>
 	</view>
 	<!--信息区域 -->
 	<view style="padding-left: 10px;padding-right: 10px;">
@@ -18,16 +9,16 @@
 			<view><uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
 				ref="uniFilePicker" disable-preview :imageStyles="data.imageStyles" :del-icon='false' required>
 				<view style="background-color: transparent;border-radius: 50%; width: 100px; height: 100%;" />
-			</uni-file-picker><image :src="data.userInfo.avatarUrl" class="avatar" />
+			</uni-file-picker><image :src="store.avatar" class="avatar" />
 			</view>
-			<text class="avatarName" >{{data.userInfo.nickName}}</text>
+			<text class="avatarName" >{{store.user.nickName}}</text>
 		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
 		<view style="border-radius: 20px;overflow: hidden;">
 				<uni-list border-full>
-					<uni-list-item showArrow title="姓名" :rightText="data.userInfo.trueName" />
-					<uni-list-item showArrow title="学号" :rightText="data.userInfo.username" />
+					<uni-list-item showArrow title="姓名" :rightText="store.user.trueName" />
+					<uni-list-item showArrow title="学号" :rightText="store.user.username" />
 					<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
 					<uni-list-item showArrow title="专业" rightText="软件工程" />
 					<uni-list-item showArrow title="建言献策" />
@@ -40,7 +31,7 @@
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
 	<view style="margin-top: 40px;">
-		<button class="btn" style="text-align:center" @click="delogin('退出登录影响功能的使用')">
+		<button class="btn" style="text-align:center" @click="()=>{store.delogin();}">
 			<text>退出登录</text>
 		</button>
 	</view>
@@ -61,69 +52,22 @@ const data = reactive({
 			radius: '50%'
 		}
 	},
-	userInfo: {},
 	func1_List: [],
 })
 const store = useUserStore()
-const delogin=async (meg)=> {
-	 uni.showModal({
-	 	title: '提示',
-	 	content: meg,
-	 	success: (res) => {
-	 		if (res.confirm) {
-				uni.removeTabBarBadge({
-					index:2,
-					complete:(res)=> {
-						console.log(res)
-					}
-				})
-	 			clearUserInfo()
-				store.chatList=[]
-				store.lastList=[]
-				wsclose();
-				wsclose();
-	 			data.userInfo={}
-				store.user={}
-				store.avatar=""
-				store.token=""
-	 			tologin("正在跳转")
-	 		} else if (res.cancel) {
-				
-	 		}
-	 	}
-	 });
-} 
-const tologin=async (meg)=> {
-	uni.showLoading({
-		title: meg,
-		mask:true,
-	})
-	setTimeout(() => {
-		uni.hideLoading();
-		uni.navigateTo({
-			url: "/pages/login/loginPage"
-		})
-	}, 500)
-} 
+
 const selectUpload = async (e)=>{
 	console.log(e);
 	await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
 		(res1)=>{
 			console.log("res1",res1);
-			data.userInfo.avatarUrl = res1.data;
+			store.avatar = res1.data;
 		}
 	)
-	await setLocalData('avatarUrl',data.userInfo.avatarUrl);
-	//更新store
-	store.avatar=data.userInfo.avatarUrl;
+	await setLocalData('avatarUrl',store.avatar);
 }
 onShow( async () => {
-	console.log("myself onShow",data.userInfo)
 	if(store.token!=""){
-		data.userInfo=store.user
-		console.log("get user in store",data.userInfo)
-		data.userInfo.avatarUrl=store.avatar
-		console.log("get avatar in store",data.userInfo.avatarUrl)
 		if(store.isRelogin){
 			let total = store.totalUnreceived
 			uni.$emit('upgradeUnreceivedNum',total)
