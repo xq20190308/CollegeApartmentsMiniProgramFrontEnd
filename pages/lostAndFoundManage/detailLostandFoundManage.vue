@@ -86,8 +86,16 @@
 	//通过按钮
 	const submit = async() =>{
 		const status = '已通过';
-	//	const res = await http(`/api/updateStatus`, 'POST', );
-	//	console.log("修改状态是否成功", res);
+		const res = await http(`/api/updateStatus`, 'POST',{
+			category:'found',
+			describes: data.baseFormData.describes,
+			contactobject: data.baseFormData.contactobject,
+			pickTime: data.baseFormData.pickTime,
+			pickLocation:data.baseFormData.pickLocation,
+			filepath: JSON.stringify(data.baseFormData.path),
+			status:1
+		} );
+		console.log("修改状态是否成功", res);
 		uni.navigateBack({
 			url:'../../pages/lostAndFoundManage/lostandfoundManagelist',
 		})
