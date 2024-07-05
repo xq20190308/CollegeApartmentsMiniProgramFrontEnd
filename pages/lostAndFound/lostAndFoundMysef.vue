@@ -6,7 +6,7 @@
 	<view>
 		<view v-if="data.current === 0">
 			<view v-for="(item, index) in data.AllItems" :key="index" @click="onpress(item)">
-				<uni-card :title="item.name">
+				<uni-card :title="item.name" :extra="item.status==0">
 					<text class="uni-body">{{item.describes}}</text>
 				</uni-card>
 				
@@ -74,7 +74,7 @@ const onClickItem = (e) => {
             //const res = await http(`/api/Getdata?category=${category}`, 'GET',{})就不行
             //破案了，少了个横线，参照下面lost的写法
             //是用``不是单引号写网址
-            const res = await http(`/api/Getdata/${category}`, 'GET',{})
+            const res = await http(`/api/getMydata/${category}`, 'GET',{})
             console.log("封装后请求的结果", res);
 						console.log("找的的", res);
             data.AllItems = res.data //与问卷的返回不同
@@ -83,10 +83,11 @@ const onClickItem = (e) => {
         {
             const category = 'lost';
 						// const res = await http(`/api/Getdata/?category=${category}`, 'GET')
-           const res = await http(`/api/Getdata/${category}`, 'GET',{})
+           const res = await http(`/api/getMydata/${category}`, 'GET',{})
             console.log("丢失的", res);
             data.AllItems = res.data //与问卷的返回不同
         }
+				
     }
 
 const onpress = (item) => {
