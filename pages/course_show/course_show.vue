@@ -6,7 +6,7 @@
 
 
 <script>
- var that;
+//var that;
 import {ClassTable} from "../../components/ClassTable/ClassTable";
 //import { reqFindTeacherLesson } from "../../config/api";
 export default {
