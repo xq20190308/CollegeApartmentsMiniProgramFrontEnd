@@ -121,9 +121,9 @@ const docs=ref([{
 }])
 const store = useUserStore()
 const post = async()=>{
-	
+	//宿舍的全选逻辑还不对，因为后端的接口不完善
 	let rece=data.sendtodoc?data.receiverOfDo:data.receiver
-	if(data.content&&rece){
+	if(data.content){
 		console.log("data.content",data.content)
 		if(!data.sendtodoc){rece.campusId=rece.campusId?rece.campusId:0
 		rece.gradeId=rece.gradeId?rece.gradeId:0
