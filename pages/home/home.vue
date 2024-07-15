@@ -1,4 +1,5 @@
 <template>
+	<button @click="subscribe">订阅</button>
     <view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
@@ -43,6 +44,57 @@ import { } from "../../utils/socket.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
 const store=useUserStore()
+const subscribe=()=>{
+	uni.request({
+		url:"https://api.weixin.qq.com/cgi-bin/token",
+		data:{
+			grant_type:"client_credential",
+			appid:"wx3b5ec6e4e336f19e",
+			secret:""
+		},
+		complete: (res) => {
+			console.log("access_token请求：",res)
+		}
+	})
+	uni.showModal({
+		content:"订阅消息推送",
+		success: (res) => {
+			if(res.confirm){
+				wx.requestSubscribeMessage({
+				  tmplIds: ['yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4'],
+				  success (res) { console.log("wx.res:",res) 
+					uni.request({
+						url:"https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token="+store.token,
+						data:{
+							"touser": store.user.openid,
+							"template_id": "yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4",
+							"miniprogram_state":"developer",
+							"lang":"zh_CN",
+							"data": {
+							  "thing5": {
+								  "value": "导师姓名"
+							  },
+							  "thing4": {
+								  "value": "备注"
+							  },
+							  "name1": {
+								  "value": "学生姓名"
+							  } ,
+							  "data3": {
+								  "value": "记录日期"
+							  }
+							}
+						},
+						complete: (res) => {
+							console.log("res:",res)
+						}})	},
+				  fail (res) { console.log("wx.res:fail",res) },
+				})			
+			}
+			else{}
+		}
+	})
+}
 const data = reactive({
 	staticpictures:[
 		"https://img1.baidu.com/it/u=2786021056,112418886&fm=253&fmt=auto&app=120&f=JPEG?w=735&h=500",

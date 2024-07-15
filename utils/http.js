@@ -11,7 +11,6 @@ const httpInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('http')) {
 			options.url = developUrl + options.url
-		}
 		//添加超时请求
 		options.timeout = 10000
 		console.log("拦截器", options.url,"  ",options)
@@ -21,6 +20,7 @@ const httpInterceptor = {
 		const token = getLocalData('token');
 		
 		options.header.Authorization = token;
+		}
 	},
 
 }
