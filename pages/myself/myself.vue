@@ -143,7 +143,7 @@ onLoad(()=>{
 		margin-left: 3%;
 		height: 200rpx;
 		width: 94%;
-		background-color: #F3EBC9;
+		background-color: #c9e8f35e;;
 		border-radius: 35rpx;
 	}
 
@@ -199,8 +199,8 @@ onLoad(()=>{
 	}
 
 	.btn {
-		background-color: #dd7d7d;
-		color: white;
+		background-color: #e4fdff78;
+		color: #000000c2;
 		width: 300px;
 		height: 47px;
 		border: 0;

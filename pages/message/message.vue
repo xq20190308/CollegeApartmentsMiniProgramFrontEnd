@@ -1,6 +1,6 @@
 <template>
 	<uni-list :border="true">
-		<uni-list-chat :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" time="2020-02-02 20:20" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
+		<uni-list-chat v-if="store.noticeList.length>0" :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" :time="store.noticeList[0].sendTime" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
 	</uni-list>
 	<uni-list v-if="contacts.length>0" :border="true">
 		<!-- 右侧带角标 -->
