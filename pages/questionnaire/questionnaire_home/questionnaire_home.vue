@@ -11,9 +11,10 @@
 				<uni-table border stripe emptyText="暂无更多数据" >
 					<!-- 表头行 -->
 					<uni-tr>
-						<uni-th :width="50" align="center">序号</uni-th>
+						<uni-th :width="25" align="center">序号</uni-th>
 						<uni-th :width="100" align="center">选项</uni-th>
-						<uni-th :width="50" align="left">数量</uni-th>
+						<uni-th :width="25" align="left">数量</uni-th>
+						<uni-th :width="50" align="left">百分比</uni-th>
 						<uni-th :width="100" align="left">题目</uni-th>
 					</uni-tr>
 					<!-- 表格数据行 -->
@@ -24,6 +25,9 @@
 						</uni-td>
 						<uni-td>
 							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc}}</uni-tr>
+						</uni-td>
+						<uni-td>
+							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc/data.numOfAnswers*100}}%</uni-tr>
 						</uni-td>
 						<uni-td>{{data.questionList[index].name}}</uni-td>
 					</uni-tr>

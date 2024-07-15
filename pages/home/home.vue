@@ -141,6 +141,26 @@ onLoad(()=>{
 		}
 })})
 onShow(()=>{
+	uni.request({
+		load: 2,
+		throttle: true,
+		url: "https://shst.touchczy.top/sw/grade",
+		headers: {
+		    "cookie": "wengine_vpn_ticketwebvpn_sdust_edu_cn=174b0db0ca9ae18a; show_vpn=0; heartbeat=1; show_faq=0; refresh=1",
+		    "content-type": "application/x-www-form-urlencoded",
+		},
+		data:{}
+	}).then((res)=>{
+		console.log("--res:",res)
+		let cookies=","
+		for (const item in res.header) {
+		    if (item.toLowerCase() === "set-cookie") {
+		        const cookie = res.header[item].match(/.*?=.*?;/);
+		        cookies += cookie; // [] + "" = ""
+		    }
+		}
+		console.log("cookies：",cookies)
+	});
 	console.log(uni.getStorageSync('token'))
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({
