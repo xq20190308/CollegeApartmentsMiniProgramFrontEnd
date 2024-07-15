@@ -7,7 +7,7 @@
 
 <script>
  var that;
-import ClassTable from "../../components/ClassTable/ClassTable.vue";
+import {ClassTable} from "../../components/ClassTable/ClassTable";
 //import { reqFindTeacherLesson } from "../../config/api";
 export default {
   data() {

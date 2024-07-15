@@ -11,12 +11,12 @@
 						<text class="textcontent">{{msg.data}}</text>
 					</view>
 					<view>
-						<image :src="store.avatar" class="avatar" />
+						<image :src="store.avatar" @click="gotoinfo" class="avatar" />
 					</view>
 				</view>
 				<view v-else :class="'left'">
 					<view>
-						<image :src="data.info.avatar" class="avatar" />
+						<image :src="data.info.avatar" @click="gotoinfo" class="avatar" />
 					</view>
 					<view class="textbox">
 						<text class="textcontent">{{msg.data}}</text>
@@ -52,6 +52,12 @@ const data = reactive({
 	myid:"",
 })
 const bottom=ref("")
+const gotoinfo=()=>{
+	console.log("查看信息");
+	uni.navigateTo({
+		url:"/pages/chat/chatinfo?info="+JSON.stringify(data.info)+"&back="+true
+	})
+}
 onMounted(()=>{
 	console.log("onMounted");
 	bottom.value="bottom"

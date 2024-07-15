@@ -6,10 +6,10 @@
 		</view>
 		<uni-list v-if="data.isonsearch">
 			<view class="searchList" v-for="(i,index) in data.searchIndex" :key="index">
-				<uni-list-item :title="data.mentor_list[i].trueName" :clickable="true" @click="bindClick(i)" />
+				<uni-list-item :title="data.mentor_list[i].trueName" :clickable="true" @click="gotoinfo(i)" />
 			</view>
 		</uni-list>
-		<uni-indexed-list v-else :options="data.mentor_list_ABC" :show-select="false" @click="bindClick" />
+		<uni-indexed-list v-else :options="data.mentor_list_ABC" :show-select="false" @click="gotoinfo" />
 	</view>
 </template>
 
@@ -31,27 +31,32 @@ const data = reactive({
 	searchIndex:[],
 	isonsearch:false,
 })
-const bindClick=(e)=>{
+const gotoinfo=(e)=>{
+	console.log("查看信息");
 	console.log(e)
 	let i=typeof e=="number"?e:e.item.itemIndex
 	let detail=data.mentor_list[i]
-	console.log(data.mentor_list[i])
-	let info={
-		name:detail.trueName,
-		userid:detail.userId,
-		avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
-		unreceivedNum:0
-	}
-	//对话添加到列表中
-	// if(store.chatList.findIndex(item => item.userid === detail.userId)==-1){
-	// 	store.chatList.push(info)
-	// 	uni.$emit('upgradeChatList',store.chatList)
-	// 	console.log("uni.$emit('upgradeChatList',store.chatList)")
-	// }
 	uni.navigateTo({
-		url:'/pages/chat/chat?info='+JSON.stringify(info)
+		url:"/pages/chat/chatinfo?info="+JSON.stringify({...{},userid:detail.userId})
 	})
 }
+
+// const bindClick=(e)=>{
+// 	console.log(e)
+// 	let i=typeof e=="number"?e:e.item.itemIndex
+// 	let detail=data.mentor_list[i]
+// 	console.log(data.mentor_list[i])
+// 	let info={
+// 		name:detail.trueName,
+// 		userid:detail.userId,
+// 		avatar:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+// 		unreceivedNum:0
+// 	}
+// 	uni.navigateTo({
+// 		url:'/pages/chat/chat?info='+JSON.stringify(info)
+// 	})
+// }
+
 const onClickDelAll = (e)=>{
 	console.log("onClickDelAll",e)
 }
