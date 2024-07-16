@@ -3,7 +3,7 @@
 	<view style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
-			<image :src="data.info.avatar" class="avatar" />
+			<image @click="getimage" :src="data.info.avatar" class="avatar" />
 			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
 		</view>
 		<!-- 功能区 -->
@@ -37,6 +37,38 @@ const data = reactive({
 	info:{},
 	back:false,
 })
+const getimage=(e)=>{
+	console.log("data.info.avatar:",data.info.avatar)
+	uni.getImageInfo({
+		src:data.info.avatar,
+		complete(res){
+			console.log(res)
+		}
+	})
+	uni.downloadFile({
+		url:data.info.avatar,
+		success: (res) => {
+			console.log("res:",res)
+			uni.saveFile({
+				tempFilePath:res.tempFilePath,
+				success: (success) => {
+					console.log("success",success)
+					uni.getSavedFileList({
+					  success: function (s) {
+					    console.log("s",s);
+					  }
+					});
+				},
+				fail: (e) => {
+					console.log("e",e)
+				}
+			})
+		},
+		fail: (err) => {
+			console.log("err",err)
+		}
+	})
+}
 const gotochat=()=>{
 	console.log("back:",data.back)
 	if(data.back){uni.navigateBack()}else{
