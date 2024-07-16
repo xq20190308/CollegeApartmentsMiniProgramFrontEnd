@@ -91,6 +91,7 @@ import '@/utils/http'
 import {computed, reactive, ref} from "vue"; 
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
+
 const data = reactive({
 	numOfAnswers:0,
 	answerCountList:[],

@@ -1,5 +1,7 @@
 <template>
 	<button @click="subscribe">订阅</button>
+	<button @click="send">推送</button>
+	<!-- <button @click="check">查看模板</button> -->
     <view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
@@ -40,61 +42,10 @@ import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
 import {mainFun} from '../../main.js'
-import { } from "../../utils/socket.js";
+import {send,subscribe,check} from "@/utils/sengmessage.js"
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
 const store=useUserStore()
-const subscribe=()=>{
-	uni.request({
-		url:"https://api.weixin.qq.com/cgi-bin/token",
-		data:{
-			grant_type:"client_credential",
-			appid:"wx3b5ec6e4e336f19e",
-			secret:""
-		},
-		complete: (res) => {
-			console.log("access_token请求：",res)
-		}
-	})
-	uni.showModal({
-		content:"订阅消息推送",
-		success: (res) => {
-			if(res.confirm){
-				wx.requestSubscribeMessage({
-				  tmplIds: ['yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4'],
-				  success (res) { console.log("wx.res:",res) 
-					uni.request({
-						url:"https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token="+store.token,
-						data:{
-							"touser": store.user.openid,
-							"template_id": "yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4",
-							"miniprogram_state":"developer",
-							"lang":"zh_CN",
-							"data": {
-							  "thing5": {
-								  "value": "导师姓名"
-							  },
-							  "thing4": {
-								  "value": "备注"
-							  },
-							  "name1": {
-								  "value": "学生姓名"
-							  } ,
-							  "data3": {
-								  "value": "记录日期"
-							  }
-							}
-						},
-						complete: (res) => {
-							console.log("res:",res)
-						}})	},
-				  fail (res) { console.log("wx.res:fail",res) },
-				})			
-			}
-			else{}
-		}
-	})
-}
 const data = reactive({
 	staticpictures:[
 		"https://img1.baidu.com/it/u=2786021056,112418886&fm=253&fmt=auto&app=120&f=JPEG?w=735&h=500",
@@ -107,7 +58,7 @@ const data = reactive({
 	articles:[],
 	func_list: [
 				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
-				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
+				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/excel"},
 				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
 				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
 				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
@@ -141,26 +92,7 @@ onLoad(()=>{
 		}
 })})
 onShow(()=>{
-	uni.request({
-		load: 2,
-		throttle: true,
-		url: "https://shst.touchczy.top/sw/grade",
-		headers: {
-		    "cookie": "wengine_vpn_ticketwebvpn_sdust_edu_cn=174b0db0ca9ae18a; show_vpn=0; heartbeat=1; show_faq=0; refresh=1",
-		    "content-type": "application/x-www-form-urlencoded",
-		},
-		data:{}
-	}).then((res)=>{
-		console.log("--res:",res)
-		let cookies=","
-		for (const item in res.header) {
-		    if (item.toLowerCase() === "set-cookie") {
-		        const cookie = res.header[item].match(/.*?=.*?;/);
-		        cookies += cookie; // [] + "" = ""
-		    }
-		}
-		console.log("cookies：",cookies)
-	});
+	
 	console.log(uni.getStorageSync('token'))
 	// if(socketMsgQueue.length>0){
 	// 	uni.setTabBarBadge({
