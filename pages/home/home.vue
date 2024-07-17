@@ -1,7 +1,7 @@
 <template>
 	<button @click="subscribe">订阅</button>
 	<button @click="send">推送</button>
-	<!-- <button @click="check">查看模板</button> -->
+	<button @click="test">测试</button>
     <view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
@@ -45,6 +45,7 @@ import {mainFun} from '../../main.js'
 import {send,subscribe,check} from "@/utils/sengmessage.js"
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
+
 const store=useUserStore()
 const data = reactive({
 	staticpictures:[
@@ -70,6 +71,10 @@ const data = reactive({
 		"中午好\n",
 		"晚上好\n",],	
 })
+const test = ()=>{
+	const res=http("/subscribe","POST",{})
+	console.log("res:",res);
+}
 const func1Click=(item)=> {
 	uni.navigateTo({
 		url: item.pagePath

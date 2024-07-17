@@ -6,6 +6,10 @@
 			<image @click="getimage" :src="data.info.avatar" class="avatar" />
 			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
 		</view>
+		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
+			<image @click="getimage" :src="savedFilePath" class="avatar" />
+			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
+		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
 		<view style="border-radius: 20px;overflow: hidden;">
@@ -37,6 +41,7 @@ const data = reactive({
 	info:{},
 	back:false,
 })
+const savedFilePath=ref("")
 const getimage=(e)=>{
 	console.log("data.info.avatar:",data.info.avatar)
 	uni.getImageInfo({
@@ -49,15 +54,17 @@ const getimage=(e)=>{
 		url:data.info.avatar,
 		success: (res) => {
 			console.log("res:",res)
-			uni.saveFile({
+			let FileSystemManager=wx.getFileSystemManager()
+			FileSystemManager.saveFile({
 				tempFilePath:res.tempFilePath,
 				success: (success) => {
 					console.log("success",success)
-					uni.getSavedFileList({
-					  success: function (s) {
-					    console.log("s",s);
-					  }
-					});
+					savedFilePath.value=success.savedFilePath
+					// uni.getSavedFileList({
+					//   success: function (s) {
+					//     console.log("s",s);
+					//   }
+					// });
 				},
 				fail: (e) => {
 					console.log("e",e)
