@@ -166,6 +166,18 @@
 				"navigationBarTitleText": "通告发布",
 				"enablePullDownRefresh": false
 			}
+		},{
+			"path": "pages/subscribe/subscribe",
+			"style": {
+				"navigationBarTitleText": "消息推送",
+				"enablePullDownRefresh": false
+			}
+		},{
+			"path": "pages/subscribe/subscribeDetail",
+			"style": {
+				"navigationBarTitleText": "推送详情",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/userManage/userManage",

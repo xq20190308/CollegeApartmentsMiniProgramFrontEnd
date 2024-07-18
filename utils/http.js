@@ -1,8 +1,8 @@
 import { useUserStore } from "../store/User.js"
 import { getLocalData,clearUserInfo } from "../utils/cache.js"
 import { wsclose } from "./socket.js"
-//const developUrl = 'http://192.168.36.204:8080'
-const developUrl = 'https://william.fit:8080'
+const developUrl = 'https://192.168.36.204:8080'
+//const developUrl = 'https://william.fit:8080'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
 // main 分支提交的测试数据: 
@@ -131,15 +131,12 @@ export const service = (url, method, data) => {
 				'Authorization': `${uni.getStorageSync('token')}`
 			},
 			success: (res) => {
-				console.log("success", res)
+				console.log("success",url ,res)
 				resolve(res)
 			},
 			fail: (err) => {
 				console.log("fail", err)
 				reject(err)
-			},
-			complete: (res) => {
-				console.log("complete", res)
 			}
 		})
 

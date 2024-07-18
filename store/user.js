@@ -270,7 +270,7 @@ export const useUserStore = defineStore('User', ()=>{
 			});
 		}
 	} 
-	const handledelogin=()=>{
+	const handledelogin=(option)=>{
 		uni.removeTabBarBadge({
 			index:2,
 			complete:(res)=> {
@@ -296,7 +296,7 @@ export const useUserStore = defineStore('User', ()=>{
 		 	content: "确认退出登录？",
 		 	success: (res) => {
 		 		if (res.confirm) {
-					handledelogin()
+					handledelogin(option)
 		 		} else if (res.cancel) {
 					
 		 		}

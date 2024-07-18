@@ -1,7 +1,4 @@
 <template>
-	<button @click="subscribe">订阅</button>
-	<button @click="send">推送</button>
-	<button @click="test">测试</button>
     <view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
@@ -58,6 +55,7 @@ const data = reactive({
 	],
 	articles:[],
 	func_list: [
+				{ name: "推送", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../subscribe/subscribe" },
 				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/excel"},
 				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
@@ -71,14 +69,6 @@ const data = reactive({
 		"中午好\n",
 		"晚上好\n",],	
 })
-const test = ()=>{
-	const res=http("/subscribe","POST",{
-		openid: store.user.openid,
-		templateId: "yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4",
-		page:"pages/home/home",
-	})
-	console.log("res:",res);
-}
 const func1Click=(item)=> {
 	uni.navigateTo({
 		url: item.pagePath

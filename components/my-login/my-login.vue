@@ -117,13 +117,14 @@ const quicklogin = async()=>{
 		username: uni.getStorageSync('lastusername'),
 		password: uni.getStorageSync('lastpassword'),
 	}
-	data.reqdata.code = await getCode();
 	licenseDisagree.value=true;
 	//发送请求
 	loginConfirm('req')
 }
 const req = ref()
 const loginConfirm = async (ref) => {
+	//获取code
+	data.reqdata.code = await getCode();
 	await req.value?.validate().then(async res1 => {
 		//检查是否勾选 阅读同意所有要求
 		if (!licenseDisagree.value) {
@@ -133,8 +134,6 @@ const loginConfirm = async (ref) => {
 			})
 			return false;
 		}
-		//获取code
-		data.reqdata.code = await getCode();
 		//发送请求
 		await login(data.reqdata).then(async (res) => {
 			if (res.statusCode == 200) {

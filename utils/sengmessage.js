@@ -1,25 +1,30 @@
 import { useUserStore } from "../store/User.js"
 import { storeToRefs } from 'pinia'
+import { http } from "./http.js"
 const store=useUserStore()
-export const subscribe=async ()=>{//弹窗订阅，需要点击事件触发
+export const subscribe=async (templateId)=>{//弹窗订阅，需要点击事件触发
+	console.log(templateId)
+	let templateIds=[]
+	templateIds.push(templateId)
+	console.log(templateIds)
 	wx.requestSubscribeMessage({
-	  tmplIds: ['yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4'],
+	  tmplIds: templateIds,
 	  success (res) {
 		console.log("wx.res:",res)
-		wx.getSetting({
-			withSubscriptions: true,
-			success (success) {
-				console.log(success)
-				if(JSON.stringify(success.subscriptionsSetting).indexOf('yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4') != -1){
-					console.log("用户选择了“保持以上选择”")
-				}
-			}
-		})
+		// wx.getSetting({
+		// 	withSubscriptions: true,
+		// 	success (success) {
+		// 		console.log(success)
+		// 		if(JSON.stringify(success.subscriptionsSetting).indexOf(templateId) != -1){
+		// 			console.log("用户选择了“保持以上选择”")
+		// 		}
+		// 	}
+		// })
 	  },
 	  fail (res) {console.log("wx.res:fail",res)},
 	})
 }
-export const send=async ()=>{
+export const test=async ()=>{
 	let access_token=""
 	uni.request({//获得access_token，接口调用凭证
 		url:"https://api.weixin.qq.com/cgi-bin/token",
@@ -67,13 +72,17 @@ export const send=async ()=>{
 	})
 	
 }
-export const check=()=>{
-	uni.request({//获取个人模板列表，也是后端用的接口
-		url:"https://api.weixin.qq.com/wxaapi/newtmpl/gettemplate?access_token="+access_token,
-		success: (success) => {//2 为一次性订阅，3 为长期订阅
-			console.log("success:",success)},
-		fail: (fail) => {
-			console.log("fail:",fail)
-		},
+export const send = async(userid,templateId,data)=>{//后端发，应该前端传userid
+	const res=await http("/subscribe","POST",{
+		userid: userid,
+		templateId: templateId,
+		page:"pages/home/home",
+		data:data
 	})
+	console.log("res:",res);
+}
+export const check=async()=>{
+	const res=await http("/subscribe/getTemplates","GET",{});
+	console.log("模板列表",res.data)
+	return res.data;
 }
