@@ -72,7 +72,11 @@ const data = reactive({
 		"晚上好\n",],	
 })
 const test = ()=>{
-	const res=http("/subscribe","POST",{})
+	const res=http("/subscribe","POST",{
+		openid: store.user.openid,
+		templateId: "yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4",
+		page:"pages/home/home",
+	})
 	console.log("res:",res);
 }
 const func1Click=(item)=> {

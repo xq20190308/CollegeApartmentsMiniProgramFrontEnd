@@ -1,7 +1,8 @@
 import { ref, watch, reactive } from "vue";
 import { getLocalData } from "../utils/cache.js"
-const wsUrl = "wss://192.168.36.204:8080"
-//const wsUrl = "wss://william.fit:8080"
+import { useUserStore } from "../store/User.js";
+//const wsUrl = "wss://192.168.36.204:8080"
+const wsUrl = "wss://william.fit:8080"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -45,8 +46,17 @@ export const wsopen = (url) => {
 	socketTask.onError(function (res) {
 		console.log("ws error " + res);
 	});
+	const store=useUserStore();
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
+		if(store.token!=""){uni.showModal({
+			title:"服务器异常，请重新登陆",
+			success: (res) => {
+				if(res.confirm){
+					store.handledelogin()
+				}
+			}
+		})}
 	});
 };
 export const onMessage = () => {

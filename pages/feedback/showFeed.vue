@@ -37,7 +37,7 @@ const data = reactive({
 onLoad((options)=> {
 	data.info=JSON.parse(options.info);
 	console.log('info',data.info)
-	data.info.path=JSON.parse(data.info.path)?JSON.parse(data.info.path):[];
+	data.info.path=data.info.path?JSON.parse(data.info.path):[];
 })
 onShow(()=>{
 	

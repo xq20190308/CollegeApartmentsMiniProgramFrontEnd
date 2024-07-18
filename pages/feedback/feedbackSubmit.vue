@@ -108,7 +108,7 @@ const data = reactive({
 const selectUpload = (e) => {//上传文件的函数
 	//console.log(e);
 	data.baseFormData.path0.push(e.tempFiles[0])
-	//console.log('this.baseFormData.path0', data.baseFormData.path0);
+	console.log('this.baseFormData.path0', data.baseFormData.path0);
 }
 const baseForm = ref()
 const submit = (ref) => {
@@ -121,14 +121,14 @@ const submit = (ref) => {
 			});
 			for (var i = 0; i < data.baseFormData.path0.length; i++) {
 				//这里需要改
-				await load('http://localhost:8080/api/upload', data.baseFormData.path0[i].url, "files").then(
+				await load('/api/upload', data.baseFormData.path0[i].url, "files").then(
 					(res1) => {
-						//console.log("res1", res1);
+						console.log("res1", res1);
 						data.baseFormData.path.push(res1.data);
 					}
 				)
 			}
-			//console.log("this.baseFormData.path", data.baseFormData.path)
+			console.log("this.baseFormData.path", data.baseFormData.path)
 			const res1 = await http('/api/suggestions','POST',{
 				describes: data.baseFormData.describes,
 				contactobject: data.baseFormData.contactobject,
