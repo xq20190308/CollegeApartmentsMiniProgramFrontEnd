@@ -7,7 +7,7 @@ export const subscribe=async (templateId)=>{//弹窗订阅，需要点击事件�
 	let templateIds=[]
 	templateIds.push(templateId)
 	console.log(templateIds)
-	wx.requestSubscribeMessage({
+	await wx.requestSubscribeMessage({
 	  tmplIds: templateIds,
 	  success (res) {
 		console.log("wx.res:",res)
@@ -25,6 +25,12 @@ export const subscribe=async (templateId)=>{//弹窗订阅，需要点击事件�
 	})
 }
 export const test=async ()=>{
+	let templateIds=[]
+	templateIds.push("yTxSWrDTgHG44_PtbLQPNKHG2TrUlH2lPSQNyAGhwH4")
+await wx.requestSubscribeMessage({
+  tmplIds: templateIds,
+  success (res) {
+	console.log("wx.res:",res)
 	let access_token=""
 	uni.request({//获得access_token，接口调用凭证
 		url:"https://api.weixin.qq.com/cgi-bin/token",
@@ -70,7 +76,9 @@ export const test=async ()=>{
 			})
 		}
 	})
-	
+  },
+  fail (res) {console.log("wx.res:fail",res)},
+})
 }
 export const send = async(userid,templateId,data)=>{//后端发，应该前端传userid
 	const res=await http("/subscribe","POST",{
