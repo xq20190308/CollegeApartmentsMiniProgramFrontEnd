@@ -15,10 +15,8 @@
 		<view style="border-radius: 20px;overflow: hidden;">
 				<uni-list border-full>
 					<uni-list-item showArrow title="姓名" :rightText="data.info.name" />
-					<uni-list-item showArrow title="学号" :rightText="data.info.username" />
 					<uni-list-item showArrow title="联系电话" :rightText="data.info.phone" />
-					<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
-					<uni-list-item showArrow title="专业" rightText="软件工程" />
+					<uni-list-item showArrow title="邮箱" :rightText="data.info.email" />
 				</uni-list>
 		</view>
 		</uni-section>

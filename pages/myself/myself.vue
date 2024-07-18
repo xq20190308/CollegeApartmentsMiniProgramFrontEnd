@@ -19,8 +19,10 @@
 				<uni-list border-full>
 					<uni-list-item showArrow title="姓名" :rightText="store.user.trueName" />
 					<uni-list-item showArrow title="学号" :rightText="store.user.username" />
-					<uni-list-item showArrow title="学院" rightText="计算机科学与工程学院学院" />
-					<uni-list-item showArrow title="专业" rightText="软件工程" />
+					<uni-list-item showArrow title="校区" :rightText="store.user.classInfo.campusName" />
+					<uni-list-item showArrow title="学院" :rightText="store.user.classInfo.collegeName" />
+					<uni-list-item showArrow title="班级" :rightText="store.user.classInfo.majorName+store.user.classInfo.gradeName+store.user.classInfo.className" />
+					<uni-list-item showArrow title="宿舍" :rightText="store.user.dormitory" />
 					<uni-list-item showArrow title="建言献策" />
 					<uni-list-item showArrow title="关于" />
 				</uni-list>
@@ -30,7 +32,7 @@
 	
 	<!-- 退出登录 -->
 	<view class="spacing"></view>
-	<view style="margin-top: 40px;">
+	<view style="margin-top: 40rpx;">
 		<button class="btn" style="text-align:center" @click="()=>{store.delogin();}">
 			<text>退出登录</text>
 		</button>
@@ -209,7 +211,7 @@ onLoad(()=>{
 	}
 
 	.spacing {
-		height: 40rpx;
+		height: 20rpx;
 		background-color: transparent;
 	}
 	.mask {
