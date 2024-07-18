@@ -44,19 +44,19 @@ const clickChatItem = (index)=>{
 	},60)
 }
 const contacts = computed(() => {
-	console.log("contacts = computed(()------------",store.chatList)
+	//console.log("contacts = computed(()------------",store.chatList)
 	if(store.chatList.length>0){return [...store.chatList].sort((a,b)=>{
 		
 		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
 		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
-		console.log("indexa",indexa,"indexb",indexb)
+		//console.log("indexa",indexa,"indexb",indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
 	});}else{
 		return []
 	}
 });
 const lastList = computed(() => {
-	console.log("lastList = computed(()------------",store.lastList)
+	//console.log("lastList = computed(()------------",store.lastList)
 	if(store.lastList.length>0){return [...store.lastList].sort((a,b)=>{
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
 	});}else{
@@ -90,7 +90,7 @@ onShow(()=>{
 			index:2
 		})
 	}
-	console.log("messageonShow")
+	//console.log("messageonShow")
 	//console.log("contacts",contacts.value)
 	//console.log("lastList",lastList.value)
 	data.noticeList=store.noticeList
@@ -98,8 +98,7 @@ onShow(()=>{
 	refreshava()
 })
 onLoad(()=>{
-	//手动触发计算
-	console.log("messageonLoad")
+	//console.log("messageonLoad")
 	for (var i = 0; i < 3; i++) {
 		data.avatarList.push({
 			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
@@ -107,10 +106,10 @@ onLoad(()=>{
 	}
 })
 onUnload(()=>{
-	console.log("onUnLoad")
+	//console.log("onUnLoad")
 })
 onMounted(()=>{
-	console.log("onMounted")
+	//console.log("onMounted")
 })
 </script>
 

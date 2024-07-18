@@ -329,7 +329,7 @@ export const useDataStore = defineStore('Data', ()=>{
 	const getclasses = async()=>{//http请求在初始化登录时调用
 		const res = await http('/school-info/infos','GET',{},)
 		origin.value=res.data.campusInfoVOList
-		console.log("getclasses res",origin.value)
+		//console.log("getclasses res",origin.value)
 	// 	classes.value=[];
 	// 	for (var i = 0; i < res.data.length; i++) {
 	// 		classes.value.push({

@@ -112,13 +112,12 @@ const selectUpload = (e) => {//上传文件的函数
 }
 const baseForm = ref()
 const submit = (ref) => {
-	
 		//console.log(data.baseFormData)
 		baseForm.value?.validate(['']).then(async res => {
 			//console.log('success', res);
-			uni.showToast({
-				title: `校验通过`,
-			});
+			// uni.showToast({
+			// 	title: `校验通过`,
+			// });
 			for (var i = 0; i < data.baseFormData.path0.length; i++) {
 				//这里需要改
 				await load('/api/upload', data.baseFormData.path0[i].url, "files").then(
@@ -135,9 +134,28 @@ const submit = (ref) => {
 				category: data.baseFormData.category,
 				path: JSON.stringify(data.baseFormData.path)
 			},);
-			uni.navigateBack({
-				url: '/pages/feedback/feedback',
-			})
+			if(res1.msg=="success"){
+				uni.showToast({
+					icon:"success",
+					title:"提交成功"
+				})
+				console.log(data.index)
+				if(data.index===''){
+					console.log("46464")
+				}else{
+					let newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index)
+					console.log("提交后：",newlist)
+					setLocalData('feedDraft',newlist)
+				}
+				setTimeout(()=>{uni.navigateBack({
+					url: '/pages/feedback/feedback',
+				})},500)
+			}else{
+				uni.showToast({
+					icon:"error",
+					title:"提交失败"
+				})
+			}
 		}).catch(err => {
 			console.log('err', err);
 			// 处理验证失败的情况
@@ -146,18 +164,17 @@ const submit = (ref) => {
 }
 //保存和提交分别交到后端不同的地方
 const save = async () => {
-	
 		console.log("++data.index", data.index);
-		console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
+		//console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
 		let newlist;
 		if (data.index === '') {
-			console.log('data.index==" "');
+			//console.log('data.index==" "');
 			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]');
 		} else {
-			console.log("data.index", data.index);
+			//console.log("data.index", data.index);
 			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index);
 		}
-		console.log("newlist", newlist);
+		//console.log("newlist", newlist);
 		await setLocalData('feedDraft', [
 			...newlist,
 			{

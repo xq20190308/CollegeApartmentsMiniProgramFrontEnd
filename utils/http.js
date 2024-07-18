@@ -13,7 +13,7 @@ const httpInterceptor = {
 			options.url = developUrl + options.url
 		//添加超时请求
 		options.timeout = 10000
-		console.log("拦截器", options.url,"  ",options)
+		//console.log("拦截器", options.url,"  ",options)
 		//添加请求头
 
 		//添加token
@@ -115,6 +115,7 @@ export const http = (url, method, data) => {
 					title: "网路请求失败",
 					icon: "error"
 				})
+				console.log("fail ",url,"  ",err)
 				//reject(err) //需要处理请求失败的操作
 			}
 		})

@@ -55,7 +55,7 @@ export const useUserStore = defineStore('User', ()=>{
 	})
 	//方法
 	const getChatList = ()=>{//和初始化登录一起调用
-		console.log("getChatList in store")
+		//console.log("getChatList in store")
 		let localChatList = uni.getStorageSync('chatListOf'+user.value.userid)
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
 		let localLastList = uni.getStorageSync('lastListOf'+user.value.userid)
@@ -90,7 +90,7 @@ export const useUserStore = defineStore('User', ()=>{
 		}
 	}
 	const handlenotice = (message,option) => {
-		console.log("handlenotice in store");
+		//console.log("handlenotice in store");
 		noticeList.value.push({
 			...message,
 			isConfirm:false,
@@ -114,14 +114,14 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("触发计算未读消息总数",totalUnreceived.value)
 	}
 	const handlemessage = async(message,option)=>{
-		console.log("handlemessage in store",message)
+		//console.log("handlemessage in store",message)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		if(message.type>0){
-			console.log("处理通告");
+			//console.log("处理通告");
 			handlenotice(message,option)
 		}else{
 			if(chatList.value.findIndex(item => item.userid == message.senderUserId)==-1){
-				console.log("会话列表中没有该用户")
+				//console.log("会话列表中没有该用户")
 				//需要向后端请求用户信息
 				const res = await http('/user/findByUserid?userid='+message.senderUserId,'GET',{},)
 				//console.log("发来消息的人的信息",res);
@@ -158,12 +158,12 @@ export const useUserStore = defineStore('User', ()=>{
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
 		//console.log("storedata.classes",storedata.classes)
 		//所以要和login函数统一
-		console.log("login in User.js")
+		//console.log("login in User.js")
 		//本地用户信息存到store中
 		token.value=info.token
 		user.value=info
-		console.log("save token in store",token.value)
-		console.log("save user in store",user.value)
+		//console.log("save token in store",token.value)
+		//console.log("save user in store",user.value)
 		uni.setStorageSync('token', info.token)
 		uni.setStorageSync('userInfo', JSON.stringify(info))
 		//console.log("save token in Storage",uni.getStorageSync('token'))
@@ -173,7 +173,7 @@ export const useUserStore = defineStore('User', ()=>{
 		avatar.value=ava.data
 		uni.setStorageSync('avatarUrl',avatar.value);
 		//console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
-		console.log("save avatar in store",avatar.value)
+		//console.log("save avatar in store",avatar.value)
 		//console.log("getLocalAll");
 		//getLocalAll()
 		//建立socket连接
@@ -189,7 +189,7 @@ export const useUserStore = defineStore('User', ()=>{
 		
 	}
 	const upgradeUnreceivedNum=(total)=>{
-		console.log("设置TabBarBadge：",total)
+		//console.log("设置TabBarBadge：",total)
 		setTimeout(async() => {
 			let pages = await getCurrentPages();
 			//console.log("pages",pages)
@@ -216,7 +216,7 @@ export const useUserStore = defineStore('User', ()=>{
 	}
 	const initLogin = async ()=>{
 		//console.log("storedata.classes",storedata.classes)
-		console.log("initLogin in store")
+		//console.log("initLogin in store")
 		//本地用户信息存到store中	
 		token.value=uni.getStorageSync('token')
 		//console.log("get token in Storage",token.value)
@@ -224,9 +224,9 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("用户在线")
 			//用户信息
 			user.value=JSON.parse(uni.getStorageSync('userInfo'))
-			console.log("get userInfo in Storage",user.value)
+			//console.log("get userInfo in Storage",user.value)
 			avatar.value=uni.getStorageSync('avatarUrl')
-			console.log("get avatar in Storage",avatar.value)
+			//console.log("get avatar in Storage",avatar.value)
 			//建立socket连接
 			wsopen('/websocket1');
 			await getChatList()
