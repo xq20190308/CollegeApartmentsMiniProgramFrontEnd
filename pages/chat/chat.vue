@@ -151,7 +151,7 @@ onLoad((options)=>{
 	//console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
-	  title: data.info.name
+	  title: data.info.trueName
 	});
 	//console.log('--1single'+ data.myid +'_with_'+data.info.userid)
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]

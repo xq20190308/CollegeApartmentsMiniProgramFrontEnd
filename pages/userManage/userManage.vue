@@ -27,7 +27,7 @@
 				</uni-list-item>
 				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="姓名" rightText="" >
 					<template v-slot:footer>
-						<uni-easyinput v-model="data.newInfo.name" :clearable="false" :inputBorder="false" type="line" :placeholder="data.userInfo.name"></uni-easyinput>
+						<uni-easyinput v-model="data.newInfo.trueName" :clearable="false" :inputBorder="false" type="line" :placeholder="data.userInfo.trueName"></uni-easyinput>
 					</template>
 				</uni-list-item>
 				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="权限" :righticon="''" >
@@ -54,7 +54,7 @@ const data = reactive({
 	newInfo:{
 		id:"",
 		password:"",
-		name:"",
+		trueName:"",
 		userLevel:"",
 	},
 	inputValue : '',

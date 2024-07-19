@@ -128,7 +128,7 @@ export const useUserStore = defineStore('User', ()=>{
 				const ava = await http('/user/getavatar?otherUserid='+message.senderUserId,'GET',{});
 				
 				let info={
-					name:res.data.name,
+					trueName:res.data.trueName,
 					userid:message.senderUserId,
 					avatarUrl:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
 					unreceivedNum:0

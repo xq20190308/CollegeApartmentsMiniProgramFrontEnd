@@ -49,14 +49,20 @@ export const wsopen = (url) => {
 	const store=useUserStore();
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
-		if(store.token!=""){uni.showModal({
-			title:"服务器异常，请重新登陆",
-			success: (res) => {
-				if(res.confirm){
-					store.handledelogin()
-				}
-			}
-		})}
+		if(store.token!=""){
+			uni.showToast({
+				icon:"error",
+				title:"服务器异常"
+			})}
+		// 	uni.showModal({
+		// 	title:"服务器异常，请重新登陆",
+		// 	success: (res) => {
+		// 		if(res.confirm){
+		// 			//ostore.handledelogin()
+		// 		}
+		// 	}
+		// }
+		// )}
 	});
 };
 export const onMessage = () => {

@@ -4,17 +4,17 @@
 		<!-- 头像昵称区域 -->
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
 			<image @click="getimage" :src="data.info.avatarUrl" class="avatar" />
-			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
+			<text style="margin:50rpx;align-self:center;">{{data.info.trueName}}</text>
 		</view>
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
 			<image @click="getimage" :src="savedFilePath" class="avatar" />
-			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
+			<text style="margin:50rpx;align-self:center;">{{data.info.trueName}}</text>
 		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
 		<view style="border-radius: 20px;overflow: hidden;">
 				<uni-list border-full>
-					<uni-list-item showArrow title="姓名" :rightText="data.info.name" />
+					<uni-list-item showArrow title="姓名" :rightText="data.info.trueName" />
 					<uni-list-item showArrow title="联系电话" :rightText="data.info.phone" />
 					<uni-list-item showArrow title="邮箱" :rightText="data.info.email" />
 				</uni-list>
@@ -78,7 +78,7 @@ const gotochat=()=>{
 	console.log("back:",data.back)
 	if(data.back){uni.navigateBack()}else{
 		let info={
-			name:data.info.name,
+			trueName:data.info.trueName,
 			userid:data.info.userid,
 			avatarUrl:data.info.avatarUrl,
 			unreceivedNum:0
@@ -97,7 +97,7 @@ onLoad(async(options)=>{
 	data.info=res.data
 	data.back=options.back=="true"?true:false
 	uni.setNavigationBarTitle({
-	  title: data.info.name
+	  title: data.info.trueName
 	});
 	console.log("发来消息的人的信息",data.info,"back:",data.back);
 })
