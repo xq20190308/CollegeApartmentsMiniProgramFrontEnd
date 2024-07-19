@@ -21,7 +21,7 @@ export const useUserStore = defineStore('User', ()=>{
     //用户信息...
 	const user = ref({})
 	const token = ref("")
-	const avatar = ref("")
+	const avatarUrl = ref("")
 	// 通讯录列表，目前不需要
 	//const mailList = ref([])
 	// websocket对象，暂时不用
@@ -130,7 +130,7 @@ export const useUserStore = defineStore('User', ()=>{
 				let info={
 					name:res.data.name,
 					userid:message.senderUserId,
-					avatar:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+					avatarUrl:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
 					unreceivedNum:0
 				}
 				chatList.value.push(info)
@@ -170,10 +170,10 @@ export const useUserStore = defineStore('User', ()=>{
 		//console.log("save user in Storage",uni.getStorageSync('userInfo'))
 		//获取头像
 		const ava = await http('/user/getavatar','GET',{});
-		avatar.value=ava.data
-		uni.setStorageSync('avatarUrl',avatar.value);
-		//console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
-		//console.log("save avatar in store",avatar.value)
+		avatarUrl.value=ava.data
+		uni.setStorageSync('avatarUrl',avatarUrl.value);
+		//console.log("save avatarUrl in Storage",uni.getStorageSync('avatarUrl'))
+		//console.log("save avatarUrl in store",avatarUrl.value)
 		//console.log("getLocalAll");
 		//getLocalAll()
 		//建立socket连接
@@ -225,8 +225,8 @@ export const useUserStore = defineStore('User', ()=>{
 			//用户信息
 			user.value=JSON.parse(uni.getStorageSync('userInfo'))
 			//console.log("get userInfo in Storage",user.value)
-			avatar.value=uni.getStorageSync('avatarUrl')
-			//console.log("get avatar in Storage",avatar.value)
+			avatarUrl.value=uni.getStorageSync('avatarUrl')
+			//console.log("get avatarUrl in Storage",avatarUrl.value)
 			//建立socket连接
 			wsopen('/websocket1');
 			await getChatList()
@@ -282,7 +282,7 @@ export const useUserStore = defineStore('User', ()=>{
 		lastList.value=[]
 		wsclose();
 		user.value={}
-		avatar.value=""
+		avatarUrl.value=""
 		token.value=""
 		if(option){
 			uni.navigateTo({
@@ -308,7 +308,7 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
+		user, token, avatarUrl, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
 		//用户登录，程序启动时的登录初始化
 		login,initLogin,handlemessage,delogin,tologin,handledelogin }
 })

@@ -3,13 +3,13 @@
 		<my-login></my-login>
 	</view>
 	<!--信息区域 -->
-	<view style="padding-left: 10px;padding-right: 10px;">
+	<view v-else style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view class="User">
 			<view><uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title=""
 				ref="uniFilePicker" disable-preview :imageStyles="data.imageStyles" :del-icon='false' required>
 				<view style="background-color: transparent;border-radius: 50%; width: 100px; height: 100%;" />
-			</uni-file-picker><image :src="store.avatar" class="avatar" />
+			</uni-file-picker><image :src="store.avatarUrl" class="avatar" />
 			</view>
 			<text class="avatarName" >{{store.user.nickName}}</text>
 		</view>
@@ -63,10 +63,10 @@ const selectUpload = async (e)=>{
 	await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
 		(res1)=>{
 			console.log("res1",res1);
-			store.avatar = res1.data;
+			store.avatarUrl = res1.data;
 		}
 	)
-	await setLocalData('avatarUrl',store.avatar);
+	await setLocalData('avatarUrl',store.avatarUrl);
 }
 onShow( async () => {
 	if(store.token!=""){

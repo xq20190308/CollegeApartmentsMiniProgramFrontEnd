@@ -11,12 +11,12 @@
 						<text class="textcontent">{{msg.data}}</text>
 					</view>
 					<view>
-						<image :src="store.avatar" @click="gotoinfo" class="avatar" />
+						<image :src="store.avatarUrl" @click="gotoinfo" class="avatar" />
 					</view>
 				</view>
 				<view v-else :class="'left'">
 					<view>
-						<image :src="data.info.avatar" @click="gotoinfo" class="avatar" />
+						<image :src="data.info.avatarUrl" @click="gotoinfo" class="avatar" />
 					</view>
 					<view class="textbox">
 						<text class="textcontent">{{msg.data}}</text>

@@ -3,7 +3,7 @@
 	<view style="padding-left: 10px;padding-right: 10px;">
 		<!-- 头像昵称区域 -->
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
-			<image @click="getimage" :src="data.info.avatar" class="avatar" />
+			<image @click="getimage" :src="data.info.avatarUrl" class="avatar" />
 			<text style="margin:50rpx;align-self:center;">{{data.info.name}}</text>
 		</view>
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
@@ -41,15 +41,15 @@ const data = reactive({
 })
 const savedFilePath=ref("")
 const getimage=(e)=>{
-	console.log("data.info.avatar:",data.info.avatar)
+	console.log("data.info.avatarUrl:",data.info.avatarUrl)
 	uni.getImageInfo({
-		src:data.info.avatar,
+		src:data.info.avatarUrl,
 		complete(res){
 			console.log(res)
 		}
 	})
 	uni.downloadFile({
-		url:data.info.avatar,
+		url:data.info.avatarUrl,
 		success: (res) => {
 			console.log("res:",res)
 			let FileSystemManager=wx.getFileSystemManager()
@@ -80,7 +80,7 @@ const gotochat=()=>{
 		let info={
 			name:data.info.name,
 			userid:data.info.userid,
-			avatar:data.info.avatar,
+			avatarUrl:data.info.avatarUrl,
 			unreceivedNum:0
 		}
 		uni.navigateTo({

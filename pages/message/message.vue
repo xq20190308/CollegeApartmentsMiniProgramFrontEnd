@@ -4,7 +4,7 @@
 	</uni-list>
 	<uni-list v-if="contacts.length>0" :border="true">
 		<!-- 右侧带角标 -->
-		<uni-list-chat  v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatar" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
+		<uni-list-chat  v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.name" :avatar="item.avatarUrl" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
 		<!-- 显示多头像 -->
 		<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
 	</uni-list>
@@ -72,7 +72,7 @@ const refreshava = async()=>{
 		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
 		//console.log(ava)
 		if(ava.data){
-			store.chatList[i].avatar=ava.data;}
+			store.chatList[i].avatarUrl=ava.data;}
 	}
 	uni.$emit('upgradeChatList',store.chatList)
 	}
