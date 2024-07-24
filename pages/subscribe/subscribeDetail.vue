@@ -6,7 +6,8 @@
 			<uni-list border-full>
 				<uni-list-item v-for="(item,index) in data.detail.contentname" :key="index" style="padding: 2px 8px;" :showArrow="false" :title="data.detail.content[index]" rightText="" >
 					<template v-slot:footer>
-						<uni-easyinput v-model="data.detail.contentResult[item].value" :clearable="false" :inputBorder="false" type="line" placeholder="请输入"></uni-easyinput>
+						<uni-datetime-picker v-if="data.flag[index]==='date'||data.flag[index]==='time'" type="datetime" v-model="data.detail.contentResult[item].value" @change="datechage" />
+						<uni-easyinput v-else v-model="data.detail.contentResult[item].value" :clearable="false" :inputBorder="false" type="line" placeholder="请输入"></uni-easyinput>
 					</template>
 				</uni-list-item>
 				<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="接受者学号(ID)" rightText="" >
@@ -40,7 +41,11 @@ const data = reactive({
 	detailPut:[],
 	currentTime:"",
 	receiverId:"",
+	flag:[]
 })
+const datechage=(e)=>{
+	console.log(e)
+}
 onLoad((detail)=>{
 	data.detail=JSON.parse(detail.detail)
 	data.detail.content=data.detail.content.split("\n")
@@ -56,6 +61,13 @@ onLoad((detail)=>{
 		let contents=data.detail.content[i].split(":")
 		data.detail.content[i]=contents[0]
 		let name=contents[1].split(".")[0].slice(2)
+		if(name.startsWith('date')){
+			data.flag.push("date")
+		}else if(name.startsWith('time')){
+			data.flag.push('time')
+		}else{
+			data.flag.push('else')
+		}
 		data.detail.contentname.push(name)
 		data.detail.contentResult[name]={value:""}
 	}

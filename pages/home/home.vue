@@ -1,11 +1,11 @@
 <template>
-    <view class="banner">
+	<view class="banner">
 		<!-- 轮播图区域 -->
 		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
 			<swiper-item v-for="(item, index) in data.articles" :key="index">
 				<img :src="data.staticpictures[index%6]" alt="" class="swiper-image" @click="bannerclick(index)">
 				<view class="describe">{{data.articles[index].title}}</view>
-			</swiper-item>
+			</swiper-item> 
 		</swiper>
 		<uni-notice-bar show-icon scrollable background-color="#fff" color="#000" :speed="50"
 		:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
@@ -34,7 +34,7 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive,ref} from "vue";
+import {reactive,ref,computed} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
@@ -55,13 +55,9 @@ const data = reactive({
 	],
 	articles:[],
 	func_list: [
-				{ name: "推送", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../subscribe/subscribe" },
 				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
-				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/excel"},
-				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
+				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
 				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
-				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
 		],
 	plan:[
 		"距离打工结束还有9999天\n",
@@ -124,6 +120,7 @@ onShow(()=>{
 </script>
 
 <style>
+
 .banner {
   margin: 20rpx;
 }

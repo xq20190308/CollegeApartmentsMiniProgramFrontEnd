@@ -81,6 +81,25 @@ await wx.requestSubscribeMessage({
 })
 }
 export const send = async(userid,templateId,data)=>{//后端发，应该前端传userid
+	let datatest=JSON.parse(data)
+	// console.log(datatest)
+	for(let item in datatest){
+		// console.log(datatest[item])
+		if(datatest[item].value==''){
+			uni.showToast({
+				icon:'error',
+				title:'请填写完整'
+			})
+			return
+		}
+	}
+	if(userid==''){
+		uni.showToast({
+			icon:'error',
+			title:'请填写完整'
+		})
+		return
+	}
 	const res=await http("/subscribe","POST",{
 		userid: userid,
 		templateId: templateId,
@@ -88,6 +107,12 @@ export const send = async(userid,templateId,data)=>{//后端发，应该前端�
 		data:data
 	})
 	console.log("res:",res);
+	if(res.msg!="success"){
+		uni.showToast({
+			icon:'error',
+			title:'推送失败',
+		})
+	}
 }
 export const check=async()=>{
 	const res=await http("/subscribe/getTemplates","GET",{});

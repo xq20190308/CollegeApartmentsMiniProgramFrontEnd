@@ -1,18 +1,14 @@
 <template>
 	<!--信息区域 -->
-	<view style="padding-left: 10px;padding-right: 10px;">
+	<view style="padding-left: 20rpx;padding-right: 20rpx;">
 		<!-- 头像昵称区域 -->
 		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
 			<image @click="getimage" :src="data.info.avatarUrl" class="avatar" />
 			<text style="margin:50rpx;align-self:center;">{{data.info.trueName}}</text>
 		</view>
-		<view style="display:flex;flex-direction:row;flex-wrap:nowrap;" >
-			<image @click="getimage" :src="savedFilePath" class="avatar" />
-			<text style="margin:50rpx;align-self:center;">{{data.info.trueName}}</text>
-		</view>
 		<!-- 功能区 -->
 		<uni-section title="个人信息" type="line">
-		<view style="border-radius: 20px;overflow: hidden;">
+		<view style="border-radius: 40rpx;overflow: hidden;">
 				<uni-list border-full>
 					<uni-list-item showArrow title="姓名" :rightText="data.info.trueName" />
 					<uni-list-item showArrow title="联系电话" :rightText="data.info.phone" />
@@ -20,10 +16,10 @@
 				</uni-list>
 		</view>
 		</uni-section>
-		<button class="btn" style="text-align:center" @click="()=>{gotochat()}">
-			<text>发消息</text>
-		</button>
 	</view>
+	<button class="btn" style="text-align:center" @click="()=>{gotochat()}">
+		<text>发消息</text>
+	</button>
 </template>
 
 <script setup>
@@ -110,18 +106,20 @@ onLoad(async(options)=>{
 		border-radius: 50%;
 		width: 150rpx;
 		height: 150rpx;
-		top: 9px;
-		left: 5px;
+		top: 18rpx;
+		left: 10rpx;
 		margin: 10rpx;
 	}
 	.btn {
 		background-color: #2196f3ad;
 		color: white;
-		width: 300px;
-		height: 47px;
+		width: 600rpx;
+		height: 94rpx;
 		border: 0;
-		font-size: 16px;
-		border-radius: 30px;
-		top: 150rpx;
+		font-size: 32rpx;
+		border-radius: 60rpx;
+		top: 1060rpx;
+		left: 70rpx;
+		position: absolute;
 	}
 </style>

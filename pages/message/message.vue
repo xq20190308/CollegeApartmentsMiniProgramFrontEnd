@@ -19,6 +19,19 @@ import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getTimeStamp } from "../../utils/time.js";
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
+// const rotationDegrees = ref(90);
+// setInterval(() => {
+//   rotationDegrees.value+=90; // 每次点击按钮，旋转90度
+// },40);
+ 
+// const imageStyle = computed(() => ({
+// 	transform: "rotate("+rotationDegrees.value+"deg)",
+// 	transition: 'transform 0.3s ease-in-out' ,// 可选的过渡效果
+// 	width: "200px", // 根据需要设置图片宽度
+// 	height: "200px", // 保持图片的宽高比
+// 	display: "block", // 避免行内元素的空白间隙问题
+// 	margin: "0 auto", // 水平居中
+// }));
 const store=useUserStore()
 const data = reactive({
 	unreceivedNum:0,
@@ -63,10 +76,10 @@ const lastList = computed(() => {
 		return []
 	}
 });
-
+// const num:number=18 ts语法，编译时检查类型有关的语法错误
 // setInterval(async()=>{},10000)
-
 const refreshava = async()=>{
+	// num.toLowerCase()
 	console.log("刷新头像")
 	for (var i = 0; i < store.chatList.length; i++) {
 		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
@@ -117,13 +130,12 @@ onMounted(()=>{
 	.inputstyle{
 		position: fixed;
 		width: 100%;
-		bottom: 0px;
 		background-color: #008fff;
 		display: flex;
 		flex-direction: row;
-		padding-top: 2px;
-		padding-bottom: 4px;
-		padding-left: 5px;
+		padding-top: 4rpx;
+		padding-bottom: 8rpx;
+		padding-left: 10rpx;
 	}
 	.chat-custom-right {
 		flex: 1;
@@ -136,7 +148,7 @@ onMounted(()=>{
 	}
 	
 	.chat-custom-text {
-		font-size: 12px;
+		font-size: 24rpx;
 		color: #999;
 	}
 

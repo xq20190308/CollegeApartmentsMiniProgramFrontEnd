@@ -1,8 +1,8 @@
 <template>
-	<view style="width: 95%; margin-left: 10px; margin-top: 10px;">
-		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 180px;">
+	<view style="width: 95%; margin-left: 20rpx; margin-top: 20rpx;">
+		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 360rpx;">
 
-		<view style="width:90%;margin-left: 19px;">
+		<view style="width:90%;margin-left: 38rpx;">
 			<!-- 表单校验 -->
 			<uni-forms ref="req" :rules="data.rules" :modelValue="data.reqdata" label-position="top">
 				<uni-forms-item class="form-item" label="学号" required name="username">
@@ -13,12 +13,12 @@
 				</uni-forms-item>
 			</uni-forms>
 		</view>
-		<view style="font-size: 12px;top: 240px;width: 100%;margin-top: 60px;">
+		<view style="font-size: 24rpx;top: 480rpx;width: 100%;margin-top: 120rpx;">
 			<view style="display: flex;justify-content: center">
-				<view style="margin-bottom: 5px;">
+				<view style="margin-bottom: 10rpx;">
 					<checkbox :value="licenseDisagree" @click="changeConfirm" />
 				</view>
-				<view style="padding-top: 5px;">
+				<view style="padding-top: 10rpx;">
 					<text style="f">我已阅读并同意</text>
 					<text @click="showDeal1 = true" style="color: aqua; white-space: nowrap; ">《用户服务协议》</text>
 					<text style="white-space: nowrap;">及</text>
@@ -27,12 +27,12 @@
 			</view>
 			<view>
 				<button type="primary"
-					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
+					style="backgroundColor:#008cff; width:90%; margin-left: 38rpx; border-radius: 60rpx;"
 					@click="loginConfirm('req')">点击登录</button>
 			</view>
 			<view>
 				<button type="primary"
-					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
+					style="backgroundColor:#008cff; width:90%; margin-left: 38rpx; border-radius: 60rpx;"
 					@click="quicklogin()">快速登录</button>
 			</view>
 		</view>

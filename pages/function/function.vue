@@ -95,7 +95,8 @@ onLoad(()=>{
 	data.navList3 = [
 		{ name: "账号管理", imgPath: "../../static/function/userManage.png", pagePath:"../userManage/userManage"},
 		{ name:"失物招领管理", imgPath:'../../static/function/lostandfound.png', pagePath:"../lostAndFoundManage/lostandfoundManagelist"},
-		{ name:"通告发布", imgPath:'../../static/function/questionnaire.png', pagePath:"../chat/postnotice"}
+		{ name:"通告发布", imgPath:'../../static/function/questionnaire.png', pagePath:"../chat/postnotice"},
+		{ name:"推送", imgPath:'../../static/function/questionnaire.png', pagePath:"../subscribe/subscribe"}
 	]
 }) 
 const Function1Click=(item)=> {
@@ -145,7 +146,8 @@ const Function3Click=(item)=> {
 	    height: 80rpx;
 		margin-bottom: 30rpx;
 		margin-top: 30rpx;
-		border-radius: 50%
+		border-radius: 50%;
+	    opacity: 0.8;
 	  }
 	  .func1_text {
 	    font-size: 28rpx;
