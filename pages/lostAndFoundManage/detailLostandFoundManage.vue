@@ -88,11 +88,11 @@
 		const status = '已通过';
 		const res = await http(`/api/updateStatus`, 'POST',{
 			category:'found',
-			describes: data.baseFormData.describes,
-			contactobject: data.baseFormData.contactobject,
-			pickTime: data.baseFormData.pickTime,
-			pickLocation:data.baseFormData.pickLocation,
-			filepath: JSON.stringify(data.baseFormData.path),
+			describes: data.describes,
+			contactobject: data.contactobject,
+			pickTime: data.pickTime,
+			pickLocation:data.pickLocation,
+			filepath: JSON.stringify(data.path),
 			status:1
 		} );
 		console.log("修改状态是否成功", res);
