@@ -1,7 +1,8 @@
 import { useUserStore } from "../store/User.js"
 import { getLocalData,clearUserInfo } from "../utils/cache.js"
 import { wsclose } from "./socket.js"
-const developUrl = 'https://192.168.0.4:8080'
+// const developUrl = 'https://localhost:8082'
+const developUrl = 'http://192.168.188.204:82'
 //const developUrl = 'https://william.fit:8080'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
@@ -15,11 +16,13 @@ const httpInterceptor = {
 		options.timeout = 10000
 		//console.log("拦截器", options.url,"  ",options)
 		//添加请求头
-
 		//添加token
 		const token = getLocalData('token');
 		
 		options.header.Authorization = token;
+		}else{
+			// options.header.Authorization = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImQ4ZDFlNDkwLTE2YmItNDhkMC05ODYzLWMwODkwMTlhMmNmNiJ9.s7L0jxNTKr4PRKtxoIL4j_ZqA7sTm-olV1uZ0MgeI4FqtioSVxBM0EFoBWctXFgQ-ABAYd6YqOXhioAQaZ9d3Q"
+			// options.header.Cookie = "Pycharm-a988aaf7=09264537-d521-4fa9-bcee-0145a8ddfcc2; username=admin; rememberMe=true; password=mySB+8Gzz0IM3J0Af5OsN+gNN/Fmr1zK0cFMf8ynjPn42TTq7OAcVvYxevlWKhZGTBs1UgSXS3khUhzhkRlFXA==; Admin-Token=eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImQ4ZDFlNDkwLTE2YmItNDhkMC05ODYzLWMwODkwMTlhMmNmNiJ9.s7L0jxNTKr4PRKtxoIL4j_ZqA7sTm-olV1uZ0MgeI4FqtioSVxBM0EFoBWctXFgQ-ABAYd6YqOXhioAQaZ9d3Q"
 		}
 	},
 
@@ -37,7 +40,9 @@ export const load = (url, filePath, name, formData) => {
 			name: name,
 			//额外的参数
 			formData: formData,
-			header: {},
+			header: {
+				'Content-Type': 'multipart/form-data; charset=UTF-8'
+			},
 			success: (uploadFileRes) => {
 				console.log("uploadFileRes",uploadFileRes)
 				if (uploadFileRes.data == '') {

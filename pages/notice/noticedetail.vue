@@ -45,10 +45,10 @@ onShow(()=>{
 	//如果是markdown这样写
 		//data.detail.title = '# '+data.detail.title;
 		//如果是html
-		data.detail.title = '<h1>'+data.detail.title+'</h1>'
+		data.detail.title = '<h5>'+data.detail.title+'</h5>'
 	//	data.detail.img = '![]'+'('+data.detail.img+')';
 		data.detail.typeName = '# '+data.detail.typeName;
-		data.detail.content = '<br>'+data.detail.content+'<\\br>'
+		// data.detail.content = '<br>'+data.detail.content+'<\\br>'
 		
 	})
 })

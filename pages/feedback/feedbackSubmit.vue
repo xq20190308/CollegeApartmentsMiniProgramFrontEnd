@@ -8,9 +8,7 @@
 					<!-- 用labelstyle设置样式 -->
 
 					<uni-forms-item label="投诉分类" label-width="100px" label-style="font-size: 14px;" name="category" required>
-						<uni-data-checkbox v-model='data.categoryindex' @change="(e) => {
-							data.baseFormData.category = e.detail.data.text; console.log('--', data.baseFormData.category);
-						}" :localdata="data.categories" />
+						<uni-data-checkbox v-model='data.baseFormData.category' :localdata="data.fun_advise_type" :map="data.map" />
 					</uni-forms-item>
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;" name="describes" class="small"
 						required>
@@ -20,8 +18,8 @@
 					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker :modelValue="data.baseFormData.path0" limit="9" @select="selectUpload"
-								@delete="(e) => { console.log(e); data.baseFormData.path0.splice(e.index, 1); console.log(data.baseFormData.path0) }"
-								@success="console.log(data.baseFormData.path0)" file-mediatype="video,image" title="最多选择9个图片"
+								@delete="(e) => {data.baseFormData.path0.splice(e.index, 1);}"
+								file-mediatype="video,image" title="选择文件,不支持.txt"
 								ref="uniFilePicker" required>
 								<button type="primary" size="mini">选择文件</button>
 							</uni-file-picker>
@@ -47,30 +45,22 @@
 <script setup>
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { getLocalData, delLocalData, setLocalData } from "../../utils/cache.js"
-import { reactive, ref } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import { load, http } from "../../utils/http.js"
 import { goto } from "../../utils/access.js"
 import { getarticles } from "../notice/api/getnotices.js"
 import { getCurrentTime } from '@/utils/time'
 import { useUserStore } from "../../store/User.js";
+import { useDict } from '../../utils/dict';
 const data = reactive({
-	categoryindex: null,
 	index: '',
-	categories: [{
-		text: '课程',
-		value: 0
-	}, {
-		text: '安全',
-		value: 1
-	}, {
-		text: '其他',
-		value: 2
-	}],
+	fun_advise_type:[],
+	map: {text:'label',value:'value'},
 	// 基础表单数据
 	baseFormData: {
 		contactobject: '',
 		describes: '',
-		category: [],
+		category: '',
 		path0: [],
 		//选上去的文件
 		//path1: [],
@@ -195,18 +185,20 @@ onShow(() => {
 	store.tologin(true)
 })
 onLoad(async (options) => {
+	data.fun_advise_type=useDict('fun_advise_type')
+	console.log(data.fun_advise_type)
+	// console.log(useDict('fun_advise_type'))
 	//需要获取已经id的草稿内容
 	console.log("需要获取已经草稿的内容", Number(options.index));
 	if (options.index != null) {
-		data.categoryindex = options.category == "课程" ? 0 : options.category == "安全" ? 1 : options.category == "其他" ? 2 : null;
 		data.baseFormData.category = options.category;
 		data.baseFormData.contactobject = options.contactobject;
 		data.baseFormData.describes = options.describes;
 		data.baseFormData.path0 = JSON.parse(options.path0);
 		data.index = Number(options.index);
 		console.log("data.baseFormData", data.baseFormData);
-		console.log("data.categoryindex", data.categoryindex);
 	}
+	
 })
 
 </script>

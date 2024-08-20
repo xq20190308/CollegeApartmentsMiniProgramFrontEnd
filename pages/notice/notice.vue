@@ -10,7 +10,7 @@
 				<view class="notice-list">
 					<view class="notice-item" v-for="(item,index) in data.individualarticles" :key="index" @click="todetail(index)">
 						<text style="text-aign: center;">{{item.id}}.{{item.title}}</text>
-						<text>{{item.content}}</text>
+						<!-- <text>{{item.content}}</text> -->
 						<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 						<text style="text-align: right;">类型：{{item.typeName}}</text>
 					</view>
@@ -23,7 +23,7 @@
 							<text style="font-size: 16px; text-aign: center;width: 85%;display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"  @click="todetail(index)">{{item.id}}.{{item.title}}</text>
 							<button @click="deletenotice(index)" class="deletbutton">删除</button>
 						</view>
-						<text style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;">{{item.content}}</text>
+						<text style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"></text>
 						<text style="text-align: right;">结束时间：{{item.publishTime}}</text>
 						<text style="text-align: right;">类型：{{item.typeName}}</text>
 					</view>
@@ -38,9 +38,9 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
+import {http} from '@/utils/http'
 import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 import {reactive} from "vue";
-import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
 import {getarticles} from "../notice/api/getnotices.js"
 const data = reactive({

@@ -59,7 +59,8 @@ const data = reactive({
 const store = useUserStore()
 
 const selectUpload = async (e)=>{
-	console.log(e);
+	// console.log(e);
+	console.log(e.tempFilePaths)
 	await load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
 		(res1)=>{
 			console.log("res1",res1);

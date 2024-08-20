@@ -14,7 +14,11 @@
 		</uni-section>
 		<uni-section title="附件" type="line" style="width: 98%;margin: auto;">
 		<view style="margin-left: 20px;">
-			<image v-for="(item,index) in data.info.path" :key="index" :src="item" mode="widthFix"></image>
+			<view v-for="(item,index) in data.info.path" :key="index">
+				<image v-if="item.type==='Image'" :src="item.src" mode="widthFix"></image>
+				<video v-else-if="item.type==='Video'" :src="item.src"></video>
+				<text v-else user-select style="text-decoration: underline; color:cornflowerblue" @click="lookfile(item.src)">{{item.src}}</text>
+			</view>
 		</view>
 		</uni-section>
 	</view>
@@ -34,10 +38,39 @@ const data = reactive({
 	// path: "["http://localhost:8080/后端/static/3d1d6938-30c8-452e-b52c-dad682ff8189.jpg"]"
 	// pushtime: "2024-06-02T15:07:47"
 })
+const lookfile = (src)=>{
+	console.log(src)
+	uni.downloadFile({
+	  url: src,
+	  success: function (res) {
+	    var filePath = res.tempFilePath;
+	    uni.openDocument({
+	      filePath: filePath,
+	      showMenu: true,
+	      success: function (res) {
+	        console.log('打开文档成功',res);
+	      },
+		  fail: function (res) {
+	        console.log('打开文档失败',res);
+	      },
+	    });
+	  }
+	});
+}
 onLoad((options)=> {
 	data.info=JSON.parse(options.info);
 	console.log('info',data.info)
 	data.info.path=data.info.path?JSON.parse(data.info.path):[];
+	for (let i = 0; i < data.info.path.length; i++) {
+		if (/\.(jpg|jpeg|png|gif)$/.test(data.info.path[i])) {
+			data.info.path[i]={src: data.info.path[i], type: 'Image'};
+		  } else if (/\.(mp4|webm|mov|avi|mpg)$/.test(data.info.path[i])) {
+			data.info.path[i]={src: data.info.path[i], type: 'Video'};
+		  } else {
+			  data.info.path[i]={src: data.info.path[i], type: 'Other'};
+			  // .slice(data.info.path[i].lastIndexOf('/')+1)
+		  }
+	}
 })
 onShow(()=>{
 	

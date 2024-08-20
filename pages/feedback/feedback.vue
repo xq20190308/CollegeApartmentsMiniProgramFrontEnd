@@ -22,12 +22,16 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {reactive,computed} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
 import {getLocalData,setLocalData} from "../../utils/cache.js"
 import {getCurrentTime} from '@/utils/time'
 import { useUserStore } from "../../store/User.js";
+import { useDict } from '../../utils/dict';
+useDict('fun_advise_type');
+const fun_advise_status = useDict('fun_advise_status')
+
 const data = reactive({
 	complaintDrafts: [], // 初始为空数组
 	islogin:false
@@ -45,7 +49,7 @@ const lookFeed = ()=>{
 	if(store.token==""){
 		store.tologin()
 	}else{
-		goto('manageFeed','feedbackManage')
+		goto('manageFeed','feedbackManage',{fun_advise_status: fun_advise_status.value})
 	}
 		
 }

@@ -58,6 +58,7 @@ const data = reactive({
 				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
 				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
+				{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict"},
 		],
 	plan:[
 		"距离打工结束还有9999天\n",
