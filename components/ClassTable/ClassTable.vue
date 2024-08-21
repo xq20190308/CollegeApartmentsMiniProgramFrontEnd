@@ -57,19 +57,19 @@
 				};
 			}
 		},
-		methods: {
-			// 查看该课程的相关详情
+		// methods: {
+		// 	// 查看该课程的相关详情
 			
-			toScanDetail(item, idx) {
-				var con =
-					`<div style="width:180px;text-align:left!important;margin:0 auto;color:#999;font-size:16px">课程名称：${item.lessonsName}<br/>上课时间：${item.lessonsTime}<br/>上课地点：${item.lessonsAddress}<br/>授课老师：${item.lessonsTeacher}<br/>课程课时：${item.lessonsRemark}</div>`;
-				// if (item.lessonsName) {
-				//   Dialog.alert({
-				//     message: con
-				//   });
-				// }
-			}
-		}
+		// 	toScanDetail(item, idx) {
+		// 		var con =
+		// 			`<div style="width:180px;text-align:left!important;margin:0 auto;color:#999;font-size:16px">课程名称：${item.lessonsName}<br/>上课时间：${item.lessonsTime}<br/>上课地点：${item.lessonsAddress}<br/>授课老师：${item.lessonsTeacher}<br/>课程课时：${item.lessonsRemark}</div>`;
+		// 		// if (item.lessonsName) {
+		// 		//   Dialog.alert({
+		// 		//     message: con
+		// 		//   });
+		// 		// }
+		// 	}
+		// }
 	};
 </script>
 
