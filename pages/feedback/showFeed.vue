@@ -42,12 +42,6 @@ const fun_advise_status = useDict('fun_advise_status')
 const data = reactive({
 	info:{},
 	map: {text:'label',value:'value'},
-	// category: "课程"
-	// contactobject: "11111111111"
-	// describes: "测试一"
-	// id: 148
-	// path: "["http://localhost:8080/后端/static/3d1d6938-30c8-452e-b52c-dad682ff8189.jpg"]"
-	// pushtime: "2024-06-02T15:07:47"
 })
 const lookfile = (src)=>{
 	console.log(src)
