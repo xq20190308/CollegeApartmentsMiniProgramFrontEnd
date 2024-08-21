@@ -96,6 +96,8 @@ const delet=(item,index)=> {
 	.notice-list {
 		width: 95%;
 		margin-left: 8px;
+		display: flex;
+	    flex-direction: column-reverse;
 	}
 	.notice-item {
 		margin-top: 24rpx!important;

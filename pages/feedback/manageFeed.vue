@@ -7,7 +7,7 @@
 						<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: right;" @click="look(item)">
 							<view></view>
 							<!-- <view>学号：{{item.stu_id}}</view> -->
-							<view>时间：{{item.pushtime}}</view>
+							<view>时间：{{item.pushtime.replace("T"," ")}}</view>
 							<view>类别：{{item.category}}</view>
 							<view>内容：{{item.describes}}</view>
 							<view>联系电话：{{item.contactobject}}</view>
@@ -71,6 +71,8 @@ const look=(item)=> {
 	.notice-list {
 		width: 95%;
 		margin-left: 8px;
+		display: flex;
+		flex-direction: column-reverse;
 	}
 	.notice-item {
 		margin-top: 24rpx!important;
