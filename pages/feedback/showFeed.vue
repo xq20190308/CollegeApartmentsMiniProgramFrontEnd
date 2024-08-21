@@ -4,6 +4,9 @@
 			<view style="padding-left: 20px;">
 				<uni-data-checkbox v-model='data.info.status' :localdata="fun_advise_status" :map="data.map" />
 			</view>
+			<template v-slot:right>
+				<uni-tag @click="updateStatus" style="width: 175rpx;" type="success" text="确认修改"></uni-tag>
+			</template>
 		</uni-section>
 		<uni-section title="类别" type="line" style="width: 98%;margin: auto;">
 			<view style="padding-left: 20px;"><text>{{data.info.category}}</text></view>
@@ -38,11 +41,19 @@ import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
 import { useDict } from "../../utils/dict.js";
+import {update} from "./api/feedback"
 const fun_advise_status = useDict('fun_advise_status')
 const data = reactive({
 	info:{},
 	map: {text:'label',value:'value'},
+	update: '',
 })
+const updateStatus=()=>{
+	console.log(data.update)
+	console.log(data.info.status)
+	data.update=data.info.status
+	update(data.info.id,data.info.status)
+}
 const lookfile = (src)=>{
 	console.log(src)
 	uni.downloadFile({
@@ -65,6 +76,7 @@ const lookfile = (src)=>{
 onLoad((options)=> {
 	data.info=JSON.parse(options.info);
 	console.log('info',data.info)
+	data.update=data.info.status
 	data.info.path=data.info.path?JSON.parse(data.info.path):[];
 	for (let i = 0; i < data.info.path.length; i++) {
 		if (/\.(jpg|jpeg|png|gif)$/.test(data.info.path[i])) {
