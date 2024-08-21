@@ -74,15 +74,15 @@
 			</view>
 			<!-- 表单校验 -->
 			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item  class="form-item" label="姓名" name="name" :required="data.isanonymous">
+				<uni-forms-item  label="姓名" name="name" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item  class="form-item" label="学号" name="id" :required="data.isanonymous">
+				<uni-forms-item  label="学号" name="id" :required="data.isanonymous">
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
 			</uni-forms>
 			
-			<button v-if="data.isEnd!='true'" type="primary" style="backgroundColor:#008cff; width:90%"  @click="submit('valiForm')">提交</button>
+			<button v-if="data.isEnd!='true'" type="primary" style="backgroundColor:#008cff; width:90%;bottom: 15rpx;"  @click="submit('valiForm')">提交</button>
 		</uni-section>
 	</view>
 </template>
@@ -356,9 +356,7 @@ onReady(()=>{
 		padding-top: 5px;
 	  }
 	::v-deep .uni-forms-item{
-		margin-left: 10px;
-		margin-right: 10px;
-		background-color: ghostwhite;
+		margin: 15px;
 	}
 	.questionsform{
 		margin-left: 10px;
@@ -381,23 +379,27 @@ onReady(()=>{
 	  }
 	.questionitem{
 		width: 100%;
-		margin-bottom: 20px;
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: column;
+	    display: flex;
+	    flex-direction: column;
+	    border: 1px solid #e2e2e2;
+	    padding: 30rpx;
+	    justify-content: center;
+	    align-items: center;
+	    box-shadow: #99999914 2px 2px 2px 2px;
+	    place-items: flex-start;
+	    margin: 10rpx;
 		.quetitle{
-			width: 100%;
-			background-color: ghostwhite;
+			font-size: medium;
+			font-weight: 500;
 		}
 		.quedes{
-			width: 100%;
-			background-color: ghostwhite;
-			padding-bottom: 10px;
+			font-weight: 200;
 			
 		}
 		.answer{
 			border: 1px solid #dcdfe6;
 			border-radius: 4px;
+			width: 100%;
 			.answerinput{
 				font-size: 14px;
 				height: 35px;
@@ -406,8 +408,8 @@ onReady(()=>{
 			
 		}
 		.choice{
-			border: 1px solid #dcdfe6;
 			border-radius: 4px;
+			width: 100%;
 			.choitem{
 				border-bottom: 1px solid #dcdfe6;
 				padding-top: 10px;
@@ -415,8 +417,8 @@ onReady(()=>{
 			}
 		}
 		.mulchoice{
-			border: 1px solid #dcdfe6;
 			border-radius: 4px;
+			width: 100%;
 			.mulchoitem{
 				border-bottom: 1px solid #dcdfe6;
 				padding-top: 10px;

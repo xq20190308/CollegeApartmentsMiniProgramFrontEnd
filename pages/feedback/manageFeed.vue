@@ -6,14 +6,14 @@
 					<view style=" width: 100%; display: flex; flex-direction: row;justify-content: center;">
 						<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: right;" @click="look(item)">
 							<view></view>
-							<view>学号：{{item.stu_id}}</view>
+							<!-- <view>学号：{{item.stu_id}}</view> -->
 							<view>时间：{{item.pushtime}}</view>
 							<view>类别：{{item.category}}</view>
 							<view>内容：{{item.describes}}</view>
 							<view>联系电话：{{item.contactobject}}</view>
 						</view>
 						<view class="tag-view">
-							<uni-tag :text="map[item.status].label" :type="map[item.status].class" />
+							<uni-tag :inverted="true" :text="map[item.status].label" :type="map[item.status].class" />
 						</view>
 					</view>
 				</view>
@@ -37,13 +37,10 @@ onLoad((options)=> {
 	var option=JSON.parse(options.options)
 	map.value = option.fun_advise_status.reduce((acc, item) => {
 	  acc[item.value] = { ...item };
-	  console.log("before",acc)
 	  delete acc[item.value].value;
-	  console.log("after",acc)
 	  return acc;
 	}, {});
 	
-	console.log("map",map.vlaue)
 })
 onShow(()=>{
 	fetchComplaintDrafts();
@@ -66,11 +63,10 @@ const look=(item)=> {
 
 <style>
 	.tag-view{
-		opacity: 0.5;
-		padding-right: 10rpx;
-		width: 32%;
+		width: 46%;
+		transform: rotate(25deg);
 		display: flex;
-		justify-content: flex-end;
+		justify-content: inherit;
 	}
 	.notice-list {
 		width: 95%;
@@ -82,7 +78,6 @@ const look=(item)=> {
 		width: 90%;
 		height: auto;
 		border: 1px solid #e2e2e2;
-		border-radius: 25px;
 		padding-top: 30rpx;
 		padding-bottom: 30rpx;
 		padding-left: 30rpx;
@@ -90,7 +85,7 @@ const look=(item)=> {
 		justify-content: center;
 		align-items: center;
 		flex-direction: row;
-		box-shadow: #999999 2px 2px 2px 2px;
+		box-shadow: #99999947 2px 2px 2px 2px;
 		place-items: flex-start;
 	}
 	.notice-item>text {

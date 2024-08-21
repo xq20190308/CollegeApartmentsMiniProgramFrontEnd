@@ -3,8 +3,8 @@ import { getLocalData } from "../utils/cache.js"
 import { useUserStore } from "../store/User.js";
 // const wsUrl = "wss://192.168.0.4:8080"
 // const wsUrl = "wss://william.fit:8080"
-const wsUrl = "ws://192.168.188.204:82"
-// const wsUrl = "wss://localhost:8082"
+// const wsUrl = "ws://192.168.188.204:82"
+const wsUrl = "wss://localhost:8082"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {

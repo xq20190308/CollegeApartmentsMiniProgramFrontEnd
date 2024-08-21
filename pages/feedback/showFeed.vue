@@ -1,5 +1,10 @@
 <template>
 	<view>
+		<uni-section title="状态" type="line" style="width: 98%;margin: auto;">
+			<view style="padding-left: 20px;">
+				<uni-data-checkbox v-model='data.info.status' :localdata="fun_advise_status" :map="data.map" />
+			</view>
+		</uni-section>
 		<uni-section title="类别" type="line" style="width: 98%;margin: auto;">
 			<view style="padding-left: 20px;"><text>{{data.info.category}}</text></view>
 		</uni-section>
@@ -12,9 +17,12 @@
 		<uni-section title="联系方式"  type="line" style="width: 98%;margin: auto;">
 			<view style="padding-left: 20px;"><text>{{data.info.contactobject}}</text></view>
 		</uni-section>
+		<uni-section v-if="data.info.stu_id" title="学号"  type="line" style="width: 98%;margin: auto;">
+			<view style="padding-left: 20px;"><text>{{data.info.stu_id}}</text></view>
+		</uni-section>
 		<uni-section title="附件" type="line" style="width: 98%;margin: auto;">
-		<view style="margin-left: 20px;">
-			<view v-for="(item,index) in data.info.path" :key="index">
+		<view>
+			<view class="file" v-for="(item,index) in data.info.path" :key="index">
 				<image v-if="item.type==='Image'" :src="item.src" mode="widthFix"></image>
 				<video v-else-if="item.type==='Video'" :src="item.src"></video>
 				<text v-else user-select style="text-decoration: underline; color:cornflowerblue" @click="lookfile(item.src)">{{item.src}}</text>
@@ -29,8 +37,11 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
+import { useDict } from "../../utils/dict.js";
+const fun_advise_status = useDict('fun_advise_status')
 const data = reactive({
 	info:{},
+	map: {text:'label',value:'value'},
 	// category: "课程"
 	// contactobject: "11111111111"
 	// describes: "测试一"
@@ -71,6 +82,7 @@ onLoad((options)=> {
 			  // .slice(data.info.path[i].lastIndexOf('/')+1)
 		  }
 	}
+	console.log(fun_advise_status)
 })
 onShow(()=>{
 	
@@ -78,6 +90,10 @@ onShow(()=>{
 </script>
 
 <style>
+	.file{
+		justify-content: center;
+		display: flex;
+	}
 </style>
 
 
