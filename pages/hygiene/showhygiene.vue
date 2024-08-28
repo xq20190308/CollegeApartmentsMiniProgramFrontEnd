@@ -44,7 +44,7 @@ import {getLocalData,delLocalData, setLocalData} from "../../utils/cache.js"
 		//下面这个为啥不行
 		 //const dormId = getLocalData('domitary');
 		// http://localhost:8080/api/SelesctRank/GA17-434
-		 const res =  await http(`/api/SelesctRank/${dormId}`, 'GET', );
+		 const res =  await http(`/api/SelectRank/${dormId}`, 'GET', );
 		 console.log("后端接收到的数据",res)
 		 //对象数组转数组Object.entries(obj)
 		 

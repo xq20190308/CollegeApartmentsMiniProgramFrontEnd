@@ -1,7 +1,7 @@
 import { useUserStore } from "../store/User.js"
 import { getLocalData,clearUserInfo } from "../utils/cache.js"
 import { wsclose } from "./socket.js"
-const developUrl = 'https://localhost:8082'
+const developUrl = 'http://192.168.39.204:82'
 //const developUrl = 'https://william.fit:8082'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
@@ -12,7 +12,7 @@ const httpInterceptor = {
 		if (!options.url.startsWith('http')) {
 			options.url = developUrl + options.url
 		//添加超时请求
-		options.timeout = 10000
+		options.timeout = 1000000
 		//console.log("拦截器", options.url,"  ",options)
 		//添加请求头
 		//添加token

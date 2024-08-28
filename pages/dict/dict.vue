@@ -1,14 +1,21 @@
 <template>
-	<view>
-		
-	</view>
+	<Login ></Login>
 </template>
 
 <script setup>
-import { useDict } from '../../utils/dict';
-const { fun_advise_type, fun_advise_status } = useDict('fun_advise_type', 'fun_advise_status');
-console.log(fun_advise_status)
-console.log(fun_advise_type)
+import { onLoad } from "@dcloudio/uni-app";
+import { ref } from "vue";
+import { login } from "../../utils/login.js";
+const title=ref('');
+const url=ref('');
+onLoad((options)=>{
+	console.log(options)
+	title.value=options.title
+	url.value-options.url
+	uni.setNavigationBarTitle({
+	  title: options.title===null?"强智系统":options.title
+	});
+})
 </script>
 
 <style>

@@ -274,13 +274,6 @@
 			}
 		},
 		{
-			"path" : "components/ClassTable/ClassTable",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
 			"path" : "pages/notice/noticefromry/noticefromry",
 			"style" : 
 			{

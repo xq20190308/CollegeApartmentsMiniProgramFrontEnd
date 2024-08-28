@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<view>
+			
+		</view>>
 		<uni-section title="我的草稿" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<text class="underline-text" @click="lookFeed">已提交投诉</text>
 			<view v-if="data.islogin" class="notice-list">

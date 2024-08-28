@@ -9,6 +9,7 @@
 		</swiper>
 		<uni-notice-bar show-icon scrollable background-color="#fff" color="#000" :speed="50"
 		:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
+		<button type="primary" @click="tologin">跳转强智登陆页面</button>
 		<!--uni-grid :column="3" :highlight="true" @change="change">
 			<uni-grid-item v-for="(item, i) in data.func_list" :key="i" :index="i" @click="func1Click(item)">
 				<view class="grid-item-box" style="background-color: #fff;">
@@ -42,7 +43,7 @@ import {mainFun} from '../../main.js'
 import {send,subscribe,check} from "@/utils/sengmessage.js"
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
-
+import { tologin } from "../../utils/login.js";
 const store=useUserStore()
 const data = reactive({
 	staticpictures:[
@@ -58,7 +59,7 @@ const data = reactive({
 				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
 				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-				{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict"},
+				{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict?title=测试"},
 		],
 	plan:[
 		"距离打工结束还有9999天\n",
