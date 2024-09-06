@@ -58,7 +58,7 @@ const data = reactive({
 				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
 				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
 				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
+				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/public_lostandfound/lostAndFound"},
 				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
 		],
 	plan:[

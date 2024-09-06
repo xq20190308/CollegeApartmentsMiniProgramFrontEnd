@@ -4,6 +4,9 @@
 			<!-- 基础表单校验 -->
 			<view class="example">
 				<uni-forms ref="baseForm" :rules="data.rules" :modelValue="data.baseFormData">
+					<uni-forms-item label="丢失的物品" required name="pickName">
+						<uni-easyinput v-model="data.baseFormData.pickName" placeholder="请输入丢失的地点" />
+					</uni-forms-item>
 					<uni-forms-item label="丢失的地点" required name="pickLocation">
 						<uni-easyinput v-model="data.baseFormData.pickLocation" placeholder="请输入丢失的地点" />
 					</uni-forms-item>
@@ -46,13 +49,16 @@
 	import {
 		load,http
 	} from '@/utils/http'
-
+	import { useUserStore } from "../../../store/User.js";
+	
+	const store = useUserStore();
 	const data = reactive({
 		//基础表单数据
 		baseFormData: {
 			pickLocation: '',
 			pickTime: '',
 			describes: '',
+			pickName:'',
 			contactobject: null,
 			path: [],
 			path0: [],
@@ -62,22 +68,28 @@
 		current: 0,
 		items: ['左对齐', '顶部对齐'],
 		rules: {
+			pickName: {
+				rules: [{
+					required: true,
+					errorMessage: '丢失的物品名称不能为空'
+				}]
+			},
 			pickLocation: {
 				rules: [{
 					required: true,
-					errorMessage: '捡到的地点不能为空'
+					errorMessage: '丢失的地点不能为空'
 				}]
 			},
 			pickTime: {
 				rules: [{
 					required: true,
-					errorMessage: '捡到的时间不能为空'
+					errorMessage: '丢失的时间不能为空'
 				}]
 			},
 			describes: {
 				rules: [{
 					required: true,
-					errorMessage: '描述内容不能为空'
+					errorMessage: '丢失内容不能为空'
 				}]
 			},
 			contactobject: {
@@ -113,6 +125,8 @@
 				const res = await http('/api/addFound', 'POST', {
 					category: 'lost',
 					describes: data.baseFormData.describes,
+					name:data.baseFormData.pickName,
+					stuid:store.user.username,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
 					pickLocation: data.baseFormData.pickLocation,

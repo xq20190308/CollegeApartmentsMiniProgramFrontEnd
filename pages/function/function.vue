@@ -88,8 +88,8 @@ onLoad(()=>{
 		{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
 		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
 		{ name: "热水系统", imgPath: "../../static/function/water.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
-		{ name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../lostAndFound/lostAndFound"},
-		{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/lostAndFound"},
+		{ name: "公寓用电", imgPath: "../../static/function/electricity.png", pagePath:"../lostAndFound/public_lostandfound/lostAndFound"},
+		{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/public_lostandfound/lostAndFound"},
 		{ name: "更多", imgPath: "../../static/function/more.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"}
 	],
 	data.navList3 = [

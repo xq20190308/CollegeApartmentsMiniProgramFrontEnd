@@ -130,7 +130,7 @@ const onClickItem = (e) => {
 const onpress = (item) => {
   console.log("跳转到每条失物招领的详细信息,要携带id", item.pickLocation);
   uni.navigateTo({
-    url: `../lostAndFound/detailLostandFound?` +
+    url: `../lostAndFound/public_lostandfound/detailLostandFound?` +
       `describes=${item.describes}&` +
       `img=${item.img}&` +
       `contactobject=${item.contactobject}&` +
@@ -143,7 +143,7 @@ const onpress = (item) => {
 const changePage = () => {
   console.log("跳转到发布页面");
   uni.navigateTo({
-    url: '../../pages/lostAndFound/lostAndFoundMysef',
+    url: '../../lostAndFound/my_lostandfound/lostAndFoundMysef',
   });
 }
 </script>
