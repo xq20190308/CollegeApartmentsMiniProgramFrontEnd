@@ -37,7 +37,8 @@ await wx.requestSubscribeMessage({
 		data:{
 			grant_type:"client_credential",
 			appid:"wx3b5ec6e4e336f19e",
-			secret:"adb45243c65766fca8e5c94454a39ef0"
+			se:"adb45243c65766",
+			cret:"fca8e5c94454a39ef0"
 		},
 		complete:async (res) => {
 			await console.log("++access_token请求：",res.data.access_token)

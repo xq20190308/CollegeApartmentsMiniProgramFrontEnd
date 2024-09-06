@@ -52,10 +52,12 @@
     "mp-weixin" : {
         "appid" : "wx3b5ec6e4e336f19e",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true
         },
         "usingComponents" : true,
-        "libVersion" : "latest"
+        "libVersion" : "latest",
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true
