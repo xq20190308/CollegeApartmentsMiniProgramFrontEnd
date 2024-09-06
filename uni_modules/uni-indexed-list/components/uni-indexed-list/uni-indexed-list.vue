@@ -209,19 +209,22 @@
 
 	.uni-indexed-list__scroll {
 		flex: 1;
-		height: 540px;
+		height: 1060rpx;
 	}
 
 	.uni-indexed-list__menu {
-		width: 24px;
+		width: 30rpx;
 		display: flex;
 		flex-direction: column;
 		float: right !important;
 		z-index: 9;
 		height: -webkit-fit-content;
 		position: fixed;
-		height: 540px;
+		height: 1060rpx;
 		justify-content: space-between;
+		border: 2rpx #d6d6d669 solid;
+		border-radius: 80rpx;
+		background-color: #d6d6d669;
 	}
 
 	.uni-indexed-list__menu-item {

@@ -1,7 +1,7 @@
-import { useUserStore } from "../store/User.js"
 import { getLocalData,clearUserInfo } from "../utils/cache.js"
 import { wsclose } from "./socket.js"
-const developUrl = 'http://192.168.39.204:82'
+// const developUrl = 'http://192.168.39.204:82'
+const developUrl = 'http://localhost:82'
 //const developUrl = 'https://william.fit:8082'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
@@ -43,7 +43,6 @@ export const load = (url, filePath, name, formData) => {
 				'Content-Type': 'multipart/form-data; charset=UTF-8'
 			},
 			success: (uploadFileRes) => {
-				console.log("uploadFileRes",uploadFileRes)
 				if (uploadFileRes.data == '') {
 					uni.showToast({
 						title: "文件过大",

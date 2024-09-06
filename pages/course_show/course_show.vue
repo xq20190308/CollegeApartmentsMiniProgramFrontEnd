@@ -1,49 +1,50 @@
 <template>
   <div>
-    <ClassTable :classTableData="data.classTableData" />
+    <ClassTable :classTableData="CourseStore.classTableData[index]" />
   </div>
 </template>
 
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
-import {http} from '@/utils/http';
+import {reactive,onMounted,ref,watch} from "vue";
 import { tologin } from "../../utils/login.js";
+import { ComplaintDrafts, getCurWeek } from "./api/course.js";
 import { useLoginStore } from "../../store/login.js";
+import { useCourseStore } from "../../store/study/course.js";
+const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
-uni.$on("qzup",(newInfo)=>{
-	console.log("on")
-	ComplaintDrafts()
+const index=ref(0)
+uni.$on("qzUp",async(qzInfo)=>{
+	uni.setStorageSync("qzInfo",qzInfo)
+	ComplaintDrafts(index.value)
 })
-const data=reactive(
-{
-	 classTableData:{
-		 weeks: ["一", "二", "三", "四", "五","六","日"],
-		 courses: [[]]
-	 },
+uni.$on("courseIndexLast",()=>{
+	index.value--
+	ComplaintDrafts(index.value)
 })
-onShow(()=>{
+uni.$on("courseIndexNext",()=>{
+	index.value++
+	ComplaintDrafts(index.value)
 })
-onLoad(()=>{
+uni.$on("courseRefresh",()=>{
+	ComplaintDrafts(index.value,true)
+})
+uni.$on("courseAdd",()=>{
+	console.log("$oncourseAdd")
+})
+onLoad(async()=>{
+	index.value=getCurWeek()
 	if(loginInof.qz.username!=null&&loginInof.qz.password!=null){
 		console.log(loginInof.qz)
-		ComplaintDrafts();
+		ComplaintDrafts(index.value);
+		console.log(CourseStore.classTableData)
 	}
 	else{
-		tologin()
+		tologin("","强智系统","/api/obtainCourse")
 	}
 })
-const ComplaintDrafts = async () => {
-	const res = await http('/api/obtainCourse','Post',{
-		username: loginInof.qz.username,
-		password: loginInof.qz.password
-		// username:'202211070621',
-		// password:'wyc.1024'
-	},)
-	data.classTableData.courses=res.data
-	console.log(data.classTableData.courses)
-}
+
 </script>
 <style>
     

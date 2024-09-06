@@ -268,10 +268,10 @@
 <style lang="scss" >
 	$uni-font-size-lg:16px;
 	$uni-spacing-row-sm: 5px;
-	$uni-spacing-row-base: 10px;
-	$uni-spacing-row-lg: 15px;
+	$uni-spacing-row-base: 10rpx;
+	$uni-spacing-row-lg: 15rpx;
 	$background-color: #fff;
-	$divide-line-color: #e5e5e5;
+	$divide-line-color: #ffffff;
 	$avatar-width: 45px;
 	$avatar-border-radius: 5px;
 	$avatar-border-color: #eee;
@@ -297,6 +297,7 @@
 	$hover: #f5f5f5;
 
 	.uni-list-chat {
+		width: 100%;
 		font-size: $uni-font-size-lg;
 		position: relative;
 		flex-direction: column;
@@ -318,7 +319,7 @@
 		/* #ifdef APP-PLUS */
 		border-top-color: $divide-line-color;
 		border-top-style: solid;
-		border-top-width: 0.5px;
+		border-top-width: 0px;
 		/* #endif */
 	}
 

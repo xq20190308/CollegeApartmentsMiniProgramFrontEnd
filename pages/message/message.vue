@@ -1,55 +1,23 @@
 <template>
-	<uni-list :border="true">
-		<uni-list-chat v-if="store.noticeList.length>0" :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" note="" to="../chat/noticechat" :time="store.noticeList[0].sendTime" :badge-text="store.unreceivedNoticeNum"></uni-list-chat>
+	<view class="banner">
+	<uni-list class="bar,barb" >
+		<uni-list-chat class="bar,barb,barl" :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" to="../chat/noticechat" :time="store.noticeList.length>0?store.noticeList[0].sendTime:''" :badge-text="store.noticeList.length>0?store.unreceivedNoticeNum:''"  :note="store.noticeList.length>0?'您有一条消息':''"></uni-list-chat>
+		<uni-list-chat class="bar,barb,barl" v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.trueName" :avatar="item.avatarUrl" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
 	</uni-list>
-	<uni-list v-if="contacts.length>0" :border="true">
-		<!-- 右侧带角标 -->
-		<uni-list-chat  v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.trueName" :avatar="item.avatarUrl" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
-		<!-- 显示多头像 -->
-		<uni-list-chat title="uni-app" :avatar-list="data.avatarList" note="您收到一条新的消息" time="2020-02-02 20:20" badge-text="12"></uni-list-chat>
-	</uni-list>
+	</view>
 </template>
 
 <script setup>
-import '@/utils/http'
-import {computed, reactive, ref, watch,onMounted, onBeforeUnmount} from "vue"; 
-import {onLoad,onReady,onShow,onUnload} from "@dcloudio/uni-app";
-import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
+import { computed } from "vue"; 
+import { onShow } from "@dcloudio/uni-app";
+import { http } from '@/utils/http'
 import { getTimeStamp } from "../../utils/time.js";
+import { handleMessageBar } from "../../utils/api/common.js"
 import { useUserStore } from "../../store/User.js"
-import { storeToRefs } from 'pinia'
-// const rotationDegrees = ref(90);
-// setInterval(() => {
-//   rotationDegrees.value+=90; // 每次点击按钮，旋转90度
-// },40);
- 
-// const imageStyle = computed(() => ({
-// 	transform: "rotate("+rotationDegrees.value+"deg)",
-// 	transition: 'transform 0.3s ease-in-out' ,// 可选的过渡效果
-// 	width: "200px", // 根据需要设置图片宽度
-// 	height: "200px", // 保持图片的宽高比
-// 	display: "block", // 避免行内元素的空白间隙问题
-// 	margin: "0 auto", // 水平居中
-// }));
 const store=useUserStore()
-const data = reactive({
-	unreceivedNum:0,
-	message:'',
-	lastList:[],
-	noticeList:[],
-	currentmsg:'',
-	avatarList: []
-})
-//添加一个watch更新最新一条消息和未读消息数(charList)
 const clickChatItem = (index)=>{
-	//console.log("--");
 	contacts.value[index].unreceivedNum=0
 	uni.$emit('upgradeChatList',contacts.value)
-	//uni.$emit('upgradeUnreceivedNum',store.totalUnreceived)
-	
-	console.log("store.totalUnreceived",store.totalUnreceived)
-	
 	setTimeout(()=>{
 		uni.navigateTo({
 			url:'../chat/chat?info='+JSON.stringify(contacts.value[index]) 
@@ -57,241 +25,32 @@ const clickChatItem = (index)=>{
 	},60)
 }
 const contacts = computed(() => {
-	//console.log("contacts = computed(()------------",store.chatList)
 	if(store.chatList.length>0){return [...store.chatList].sort((a,b)=>{
-		
 		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
 		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
-		//console.log("indexa",indexa,"indexb",indexb)
+		console.log(indexa)
+		console.log(indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
-	});}else{
-		return []
-	}
+	})}else{return []}
 });
 const lastList = computed(() => {
-	//console.log("lastList = computed(()------------",store.lastList)
 	if(store.lastList.length>0){return [...store.lastList].sort((a,b)=>{
 		return getTimeStamp(b.sendTime)-getTimeStamp(a.sendTime)
-	});}else{
-		return []
-	}
+	});}else{return []}
 });
-// const num:number=18 ts语法，编译时检查类型有关的语法错误
-// setInterval(async()=>{},10000)
 const refreshava = async()=>{
-	// num.toLowerCase()
 	console.log("刷新头像")
 	for (var i = 0; i < store.chatList.length; i++) {
 		let ava = await http('/user/getavatar?otherUserid='+store.chatList[i].userid,'GET',{});
-		//console.log(ava)
-		if(ava.data){
-			store.chatList[i].avatarUrl=ava.data;}
+		store.chatList[i].avatarUrl=ava.data;
 	}
 	uni.$emit('upgradeChatList',store.chatList)
 	}
 onShow(()=>{
-	let total=store.totalUnreceived
-	if(total){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(total).length > 2 ? "99+" : String(total)
-			// 显示的文本，超过99显示成99+
-		});					
-	}else{
-		uni.removeTabBarBadge({
-			index:2
-		})
-	}
-	//console.log("messageonShow")
-	//console.log("contacts",contacts.value)
-	//console.log("lastList",lastList.value)
-	data.noticeList=store.noticeList
-	//console.log("store.noticeList",data.noticeList)
+	handleMessageBar(store.totalUnreceived)
 	refreshava()
 })
-onLoad(()=>{
-	//console.log("messageonLoad")
-	for (var i = 0; i < 3; i++) {
-		data.avatarList.push({
-			url: 'https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg'
-		})
-	}
-})
-onUnload(()=>{
-	//console.log("onUnLoad")
-})
-onMounted(()=>{
-	//console.log("onMounted")
-})
 </script>
 
 <style>
-	.inputstyle{
-		position: fixed;
-		width: 100%;
-		background-color: #008fff;
-		display: flex;
-		flex-direction: row;
-		padding-top: 4rpx;
-		padding-bottom: 8rpx;
-		padding-left: 10rpx;
-	}
-	.chat-custom-right {
-		flex: 1;
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: flex-end;
-	}
-	
-	.chat-custom-text {
-		font-size: 24rpx;
-		color: #999;
-	}
-
 </style>
-
-<!-- 
-// socketTask.onMessage(async (res) => {
-// 	console.log(res);
-// 	data.messages.push(res.data)
-// 	// data.messages.push({
-// 	// 	data:"静态消息",
-// 	// 	senderUserId:"202211070625",
-// 	// 	sendTime:"2024-06-20 17:03",
-// 	// })
-// 	console.log("data.messages",data.messages)
-// });
-
-	// socketMsgQueue.length=0;
-	// uni.removeTabBarBadge({
-	// 	index:2,
-	// 	complete:(res)=> {
-	// 		console.log(res)
-	// 	}
-	// })
-
-// setInterval(() => {
-// 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-// 	if(old==data.messages){
-// 		console.log('没变')
-// 	}else{
-// 		console.log(old)
-// 		console.log(data.messages)
-// 		uni.pageScrollTo({
-// 			selector: '#input',
-// 			duration: 50
-// 		});
-// 	}
-// }, 100);
-//setInterval(() => {
-	//let old=data.messages;
-	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-	//let array=data.messages.split("<br/>")
-	//data.messages=array[array.length-2]
-	// if(socketMsgQueue.length>0){
-	// 	uni.setTabBarBadge({
-	// 		index: 2,
-	// 		// tabIndex，tabbar的哪一项，从0开始
-	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
-	// 		// 显示的文本，超过99显示成99+
-	// 	});
-	// }
-//}, 100);-->
-
-
-
-
-<!-- <template>
-	<view style="display: flex;flex-direction: column;justify-content: space-between;">
-		<view style="text-align: center;margin-bottom: 60px;" id="content"><rich-text :nodes="data.messages"></rich-text></view>
-		
-		<view class="inputstyle">
-			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
-			<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
-		</view>
-		
-		<view id="input"></view>
-	</view>
-</template>
-
-<script setup>
-import { onLoad, onShow } from "@dcloudio/uni-app";
-import { reactive, ref,computed } from "vue";
-import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketMsgQueue } from "../../utils/socket.js";
-const position = 'bottom'
-const data = reactive({
-	message:'',
-	messages:'',
-	currentmsg:'',
-})
-const mywssent = async () => {
-	console.log('data.message',data.message)
-	await wssend("202211070625",data.message===''?"发射爱心":data.message)
-	data.message='';
-	// uni.pageScrollTo({
-	// 	selector: '#input',
-	// 	duration: 50
-	// });
-	if(true){
-		uni.pageScrollTo({
-			selector: '#input',
-			duration: 400
-		});
-	}
-}
-onShow(()=>{
-	socketMsgQueue.length=0;
-	uni.removeTabBarBadge({
-		index:2,
-		complete:(res)=> {
-			console.log(res)
-		}
-	})
-})
-// setInterval(() => {
-// 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-// 	if(old==data.messages){
-// 		console.log('没变')
-// 	}else{
-// 		console.log(old)
-// 		console.log(data.messages)
-// 		uni.pageScrollTo({
-// 			selector: '#input',
-// 			duration: 50
-// 		});
-// 	}
-// }, 100);
-setInterval(() => {
-	let old=data.messages;
-	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-	//let array=data.messages.split("<br/>")
-	//data.messages=array[array.length-2]
-	// if(socketMsgQueue.length>0){
-	// 	uni.setTabBarBadge({
-	// 		index: 2,
-	// 		// tabIndex，tabbar的哪一项，从0开始
-	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
-	// 		// 显示的文本，超过99显示成99+
-	// 	});
-	// }
-}, 100);
-</script>
-
-<style>
-	.inputstyle{
-		position: fixed;
-		width: 100%;
-		bottom: 0;
-		background-color: #008fff;
-		display: flex;
-		flex-direction: row;
-		padding-top: 2px;
-		padding-bottom: 2px;
-		padding-left: 5px;
-	}
-</style> -->

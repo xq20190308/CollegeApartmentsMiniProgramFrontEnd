@@ -1,28 +1,29 @@
 <template>
 	<uni-section title="课程表" type="line" >
-		<view style="padding: 20rpx;">
+		<view>
 			<view class="tooltr">
 				<view class="tool">
-					<text class="title">第一周</text>
+					<text class="title">第{{classTableData.curWeek}}周</text>
 				</view>
 				<view class="tooltrend">
-					<view class="toolbutton"><uni-icons style="margin-top: 6rpx;" type="arrow-left" size="14" color="#969696"></uni-icons></view>
-					<view class="toolbutton"><uni-icons style="margin-top: 6rpx;" type="arrow-right" size="14" color="#969696"></uni-icons></view>
+					<view class="toolbutton" @click="last"><uni-icons style="margin-top: 6rpx;" type="arrow-left" size="14" color="#969696"></uni-icons></view>
+					<view class="toolbutton" @click="next"><uni-icons style="margin-top: 6rpx;" type="arrow-right" size="14" color="#969696"></uni-icons></view>
 					<view class="toolbutton" @click="refresh"><uni-icons style="margin-top: 6rpx;" type="refreshempty" size="14" color="#969696"></uni-icons></view>
-					<view class="toolbutton"><uni-icons style="margin-top: 6rpx;" type="plusempty" size="14" color="#969696"></uni-icons></view>
+					<view class="toolbutton" @click="add"><uni-icons style="margin-top: 6rpx;" type="plusempty" size="14" color="#969696"></uni-icons></view>
 				</view>
 			</view>
 			<div class="class-table">
 				<div class="thead">
 					<div class="tr">
 						<div class="th" v-for="(item, index) in classTableData.weeks" :key="index">
-							<text class="title">{{item?'周' + item: " " }}</text>
+							<text class="title">{{'周' + item.day}}</text><br/>
+							<text class="title">{{item.date}}</text>
 						</div>
 					</div>
 				</div>
 				<div class="tbody">
 					<div class="tr" v-for="(item, index) in classTableData.courses" :key="index">
-						<div class="td" v-for="(innerItem, idx) in item" :key="idx" @click="toScanDetail(innerItem, idx)">
+						<div class="td" v-for="(innerItem, idx) in item" :key="idx">
 							<div v-if="innerItem.jsxm!=0">
 								<text class="name">{{ innerItem?.kcmc }}\n</text>
 								<text class="title">{{ innerItem?.jsmc }}\n\n</text>
@@ -38,30 +39,44 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+const underline = (index)=>{
+	return props.classTableData.curDay%7===index+1?"text-decoration: underline;text-underline-position: under;":""
+}
+const last=()=>{
+	if(props.classTableData.curWeek>1){
+		uni.$emit("courseIndexLast")
+	}
+}
+const next=()=>{
+	if(props.classTableData.curWeek<19){
+		uni.$emit("courseIndexNext")
+	}
+}
 const refresh=()=>{
-	uni.$emit("qzup")
+	uni.$emit("courseRefresh")
+}
+const add=()=>{
+	uni.$emit("courseAdd")
 }
 const props = defineProps({
   classTableData: {
     type: Object,
     default: () => {
-		return [[]]
+		return {}
 	}
   }
 });
 </script>
 
 <style scoped>
-	.icon-arrow-lift:before {
-	  content: "\e744";
-	}
     .class-table {
         display: table;
 		table-layout: fixed;
 		flex-direction: row;
 		justify-content: space-around;
 		margin: 6rpx;
+		width: 700rpx;
     }
     .thead {
         display: table-header-group;
@@ -103,7 +118,7 @@ const props = defineProps({
     .th {
        display: table-cell;
 	   text-align: center;
-	   padding: 24rpx;
+	   padding: 20rpx;
 	   border-bottom: 1px solid #bebebe;
 	   border-top: 1px solid #bebebe;
     }

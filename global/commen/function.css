@@ -1,0 +1,131 @@
+.inputstyle {
+	position: fixed;
+    width: 100%;
+    bottom: -1rpx;
+    background-color: #7cbaec;
+    display: flex;
+    flex-direction: row;
+    padding: 4rpx;
+}
+.inputBnt{
+	width: 20%;
+	background-color: #7cbaec!important;
+}
+.bntrow{
+	background-color: #7cbaec!important;
+	font-size: small;
+}
+.submitBnt{
+	background-color: #008cff;
+	width: 70%;
+	padding: 0rpx;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	line-height: 2.2;
+}
+.chat-time{
+	font-size: small;
+	color: #616161;
+}
+.chat-time-view{
+	margin-right: 8rpx;
+	margin-left: 8rpx;
+	text-align: center;
+}
+.text-inline{
+	padding: 10px;
+	width: 650rpx;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.text-block{
+    overflow-wrap: anywhere;
+    height: 100%;
+    width: 100%;
+	overflow: scroll;
+}
+.underline-text {
+	font-weight: 300;
+	font-size: 12px;
+	text-decoration: underline;
+	color: #5a5959;
+	display: flex;
+	flex-direction: row-reverse;
+  }
+  .underline-text:active {
+	color: #0000ff; /* 点击时的蓝色 */
+  }
+  .text-bottom{
+	font-size: small;
+	color: #c1c1c1;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+  }
+  .popup-content{
+  	padding: 30rpx;
+  	height: 900rpx;
+  	width: 600rpx;
+  	display: flex;
+  	flex-direction: column;
+    justify-content: center;
+  }
+  .notice-list{
+      flex-direction: column-reverse;
+	  background: transparent;
+	  display: flex;
+	  gap: 20rpx;
+  }
+  .addnaireicon {
+  	position: fixed;
+  	bottom:60rpx; 
+  	right: 50rpx; 
+  	width: 80rpx; 
+  	height: 80rpx; 
+  	z-index: 200;
+  }
+  .deletbutton{
+  	background-color:#f3f3f34f;
+  	color: #444;
+  	width: 100rpx;
+  	height: 50rpx;
+  	font-size: 20rpx;
+  	text-align: center;
+  	z-index: 100;
+  }
+  .answerinput{
+  	font-size: 28rpx;
+  	height: auto;
+  }
+	.choice{
+		gap: 5rpx;
+		display: flex;
+		flex-direction: column;
+	}
+	.questionitem{
+		display: flex;
+		padding: 10rpx;
+		border-radius: 20rpx;
+		box-shadow: 0 2rpx 15rpx rgba(0, 0, 0, 0.05);
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 10rpx;
+	}
+	.text-common{
+		font-size: 28rpx;
+	    color: #606266;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.naireInfo{
+		gap: 10rpx;
+		display: flex;
+		flex-direction: column;
+		background: #fff;
+	}
+	.scroll-view{
+		background: linear-gradient(to bottom, #7cbaec, #ffffff80);
+	}

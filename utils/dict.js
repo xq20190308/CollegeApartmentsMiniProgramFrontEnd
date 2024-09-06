@@ -13,7 +13,6 @@ export function useDict(dictType) {
 	res.value = dicts;
   } else {
 	getDicts(dictType).then(resp => {
-	  console.log("++resp.data",resp.data)
 	  res.value = resp.data.map(p => ({ label: p.dictLabel, value: p.dictValue, class: p.listClass}))
 	  useDictStore().setDict(dictType, res.value);
 	})

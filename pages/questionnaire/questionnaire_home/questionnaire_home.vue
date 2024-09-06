@@ -1,89 +1,79 @@
 <template>
-	<view class="container">
-		<view style="height: 20px;margin-bottom: 1px;">
-			<text class="underline-text" @click="overview">{{data.showsubmits?"问卷详情":"提交情况"}}</text>
-		</view>
-		<uni-section v-if="data.showsubmits">
-			<text>总提交份数：{{data.numOfAnswers}}</text>
-			<text class="underline-text" @click="()=>{data.table=data.table?false:true}">{{data.table?"饼状图":"表格"}}</text>
-			<view style="height: 20px;"></view>
-			<view  v-if="data.table">
-				<uni-table border stripe emptyText="暂无更多数据" >
-					<!-- 表头行 -->
-					<uni-tr>
-						<uni-th :width="25" align="center">序号</uni-th>
-						<uni-th :width="100" align="center">选项</uni-th>
-						<uni-th :width="25" align="left">数量</uni-th>
-						<uni-th :width="50" align="left">百分比</uni-th>
-						<uni-th :width="100" align="left">题目</uni-th>
-					</uni-tr>
-					<!-- 表格数据行 -->
-					<uni-tr v-for="(item,index) in data.answerCountList" :key="index">
-						<uni-td>{{index+1}}</uni-td>
-						<uni-td>
-							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{String.fromCharCode(indexofc.toString().charCodeAt(0)-'0'.charCodeAt(0)+'A'.charCodeAt(0))+"  "+data.questionList[index].content[indexofc]}}</uni-tr>
-						</uni-td>
-						<uni-td>
-							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc}}</uni-tr>
-						</uni-td>
-						<uni-td>
-							<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc/data.numOfAnswers*100}}%</uni-tr>
-						</uni-td>
-						<uni-td>{{data.questionList[index].name}}</uni-td>
-					</uni-tr>
-				</uni-table>
-			</view>
-			<view v-else v-for="(item,index) in data.chartDatas" :key="index">
-				<view class="charts-box" style="top: 2px;" v-if="data.chartDatas[index].series[0].data.length>0">{{index+1}}.{{data.questionList[index].name}}：
-					<qiun-data-charts type="pie" :opts="data.opts" :chartData="data.chartDatas[index]"></qiun-data-charts>
+	<view class="banner">
+		<text class="underline-text" @click="overview">{{data.showsubmits?"问卷详情":"提交情况"}}</text>
+		<view class="bar,barb">
+			<uni-section v-if="data.showsubmits">
+				<text>总提交份数：{{data.numOfAnswers}}</text>
+				<text class="underline-text" @click="()=>{data.table=data.table?false:true}">{{data.table?"饼状图":"表格"}}</text>
+				<view style="height: 20px;"></view>
+				<view  v-if="data.table">
+					<uni-table border stripe emptyText="暂无更多数据" >
+						<!-- 表头行 -->
+						<uni-tr>
+							<uni-th :width="25" align="center">序号</uni-th>
+							<uni-th :width="100" align="center">选项</uni-th>
+							<uni-th :width="25" align="left">数量</uni-th>
+							<uni-th :width="50" align="left">百分比</uni-th>
+							<uni-th :width="100" align="left">题目</uni-th>
+						</uni-tr>
+						<!-- 表格数据行 -->
+						<uni-tr v-for="(item,index) in data.answerCountList" :key="index">
+							<uni-td>{{index+1}}</uni-td>
+							<uni-td>
+								<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{String.fromCharCode(indexofc.toString().charCodeAt(0)-'0'.charCodeAt(0)+'A'.charCodeAt(0))+"  "+data.questionList[index].content[indexofc]}}</uni-tr>
+							</uni-td>
+							<uni-td>
+								<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc}}</uni-tr>
+							</uni-td>
+							<uni-td>
+								<uni-tr v-if="item.choiceSumList!=null" v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{itemofc/data.numOfAnswers*100}}%</uni-tr>
+							</uni-td>
+							<uni-td>{{data.questionList[index].name}}</uni-td>
+						</uni-tr>
+					</uni-table>
 				</view>
-			</view>
-		</uni-section>
-		<uni-section v-else :title="data.id+'.'+data.name" type="line" titleFontSize=42rpx>
+				<view v-else v-for="(item,index) in data.chartDatas" :key="index">
+					<view class="charts-box" style="top: 2px;" v-if="data.chartDatas[index].series[0].data.length>0">{{index+1}}.{{data.questionList[index].name}}：
+						<qiun-data-charts type="pie" :opts="data.opts" :chartData="data.chartDatas[index]"></qiun-data-charts>
+					</view>
+				</view>
+			</uni-section>
+			<uni-section :padding="true" v-else :title="newNaire.id+'.'+newNaire.name" type="line" titleFontSize="42rpx">
 			<template v-slot:right>
-				<uni-icons @click="showmyanswer" type="arrow-up" size="20"></uni-icons>
+				<uni-icons @click="showmyanswer" type="arrow-up" size="18"></uni-icons>
 			</template>
-			<view class="questionsform">
-				<view class="questionitem" v-for="(que,qindex) in data.questionList" :key="qindex">
-					<view class="quetitle">{{qindex + 1}}.{{que.name}}</view>
-					<view class="quedes">描述:{{que.description}}</view>
-					<view class="choice" v-if="que.type===1">
-						<radio-group  @change="(e) => radioChange(e,qindex)">
-							<label v-for="(item, index) in que.content" :key="index">
-								<view class="choitem">
-									<radio :value="index" :checked="index==data.current[qindex]" />
-									<text>{{item}}</text>
-								</view>
-							</label>
-						</radio-group>
-					</view>
-					<view class="mulchoice"  v-else-if="que.type===2">
-						<checkbox-group :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
-							<label v-for="(item, index) in que.content" :key="index">
-								<view class="mulchoitem">
-									<checkbox :value="index" :checked="ischeckedmul(qindex,index)" />
-									<text>{{item}}</text>
-								</view>
-							</label>
-						</checkbox-group>
-					</view>
-					<view v-else class="answer">
-						<input v-model="data.current[qindex]" class="answerinput" placeholder="请输入" placeholder-class="answerplacehoder" />
-					</view>
-				</view>
-			</view>
+			<text class="text-common">newNaire.description</text>
+			<text class="text-common">newNaire.startTime</text>
+			<text class="text-common">newNaire.endTime</text>
 			<!-- 表单校验 -->
 			<uni-forms ref="valiForm" :rules="rules" :modelValue="data.valiFormData" label-position="top">
-				<uni-forms-item  label="姓名" name="name" :required="data.isanonymous">
+				<uni-forms-item  v-if="data.isanonymous" label="姓名" name="name" required>
 					<uni-easyinput v-model="data.valiFormData.name" placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item  label="学号" name="id" :required="data.isanonymous">
+				<uni-forms-item  v-if="data.isanonymous"  label="学号" name="id" required>
 					<uni-easyinput v-model="data.valiFormData.id" placeholder="请输入学号" />
 				</uni-forms-item>
+				<uni-forms-item :label="(qindex + 1)+'.'+que.name" name="q" required v-for="(que,qindex) in data.questionList" :key="qindex" class="questionitem" >
+						<view class="text-common" >描述:{{que.description}}</view>
+						<radio-group v-if="que.type===1" class="choice"  @change="(e) => radioChange(e,qindex)">
+							<label v-for="(item, index) in que.content" :key="index">
+								<radio :value="index" :checked="index==data.current[qindex]" />
+								<text class="text-common">{{item}}</text>
+							</label>
+						</radio-group>
+						<checkbox-group class="choice"  v-else-if="que.type===2" :value="data.current[qindex]" @change="(e) => checkboxChange(e,qindex)">
+							<label v-for="(item, index) in que.content" :key="index">
+								<checkbox :value="index" :checked="ischeckedmul(qindex,index)" />
+								<text class="text-common">{{item}}</text>
+							</label>
+						</checkbox-group>
+						<input v-else v-model="data.current[qindex]" class="answerinput" placeholder="请输入" auto-height />
+					
+				</uni-forms-item>
 			</uni-forms>
-			
 			<button v-if="data.isEnd!='true'" type="primary" style="backgroundColor:#008cff; width:90%;bottom: 15rpx;"  @click="submit('valiForm')">提交</button>
 		</uni-section>
+		</view>
 	</view>
 </template>
 <script setup>
@@ -91,7 +81,7 @@ import '@/utils/http'
 import {computed, reactive, ref} from "vue"; 
 import {onLoad,onReady} from "@dcloudio/uni-app";
 import {http} from '@/utils/http'
-
+const newNaire = reactive({})//传到问卷列表页面中的数据
 const data = reactive({
 	numOfAnswers:0,
 	answerCountList:[],
@@ -190,6 +180,12 @@ const rules = computed(()=>{
 					minLength: 12,
 					maxLength: 12,
 					errorMessage: '请输入12位学号'
+				}]
+			},
+			q: {
+				rules: [{
+					required: true,
+					errorMessage: '作答不能为空'
 				}]
 			}
 		}
@@ -306,16 +302,12 @@ const getquestions = async () => {
 }
 onLoad(async (options) => {
 	console.log("参数列表",options);
+	let info = JSON.parse(options.info)
+	for(const key in info){
+		newNaire[key]=info[key]
+	}
+	console.log(newNaire)
 	
-	data.isEnd=options.isEnd;
-	console.log("data.isEnd",data.isEnd)
-	data.id=options.id;
-	data.type=options.type;
-	data.name=options.name;
-	data.description=options.description;
-	data.startTime=options.startTime;
-	data.endTime =options.endTime ;
-	data.isanonymous=options.anonymous=='false'?false:true;
 	clearTimeout(data.timer);
 	data.timer = setTimeout(()=>{
 		getquestions();
@@ -348,85 +340,5 @@ onReady(()=>{
 }) 
 </script>
 
-<style lang="scss" scoped>
-	.charts-box {
-		padding-left: 40px;
-	    width: 80%;
-	    height: 150px;
-		padding-top: 5px;
-	  }
-	::v-deep .uni-forms-item{
-		margin: 15px;
-	}
-	.questionsform{
-		margin-left: 10px;
-		margin-right: 10px;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.underline-text {
-		padding-left: 5px;
-		padding-right: 5px;
-		padding-top: 5px;
-		float: right;
-		font-weight: 300;
-		font-size: 12px;
-		text-decoration: underline;
-		color: #000000;
-	  }
-	  .underline-text:active {
-	    color: #0000ff; /* 点击时的蓝色 */
-	  }
-	.questionitem{
-		width: 100%;
-	    display: flex;
-	    flex-direction: column;
-	    border: 1px solid #e2e2e2;
-	    padding: 30rpx;
-	    justify-content: center;
-	    align-items: center;
-	    box-shadow: #99999914 2px 2px 2px 2px;
-	    place-items: flex-start;
-	    margin: 10rpx;
-		.quetitle{
-			font-size: medium;
-			font-weight: 500;
-		}
-		.quedes{
-			font-weight: 200;
-			
-		}
-		.answer{
-			border: 1px solid #dcdfe6;
-			border-radius: 4px;
-			width: 100%;
-			.answerinput{
-				font-size: 14px;
-				height: 35px;
-				padding-left: 10px;
-			}
-			
-		}
-		.choice{
-			border-radius: 4px;
-			width: 100%;
-			.choitem{
-				border-bottom: 1px solid #dcdfe6;
-				padding-top: 10px;
-				padding-bottom: 3px;
-			}
-		}
-		.mulchoice{
-			border-radius: 4px;
-			width: 100%;
-			.mulchoitem{
-				border-bottom: 1px solid #dcdfe6;
-				padding-top: 10px;
-				padding-bottom: 3px;
-			}
-		}
-		::v-deep .answerplacehoder{
-			font-size: 12px;
-		}
-	}
+<style>
 </style>

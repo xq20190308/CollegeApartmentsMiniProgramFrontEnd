@@ -291,8 +291,8 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#008cff",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#7cbaec",
+		"backgroundColor": "#7cbaec"
 	},
 	"tabBar": {
 		"list": [

@@ -84,11 +84,11 @@
 			
 			color_border:{
 				value: String,
-				default: ''
+				default: '#666666'
 			},
 			color_text:{
 				value: String,
-				default: '#30c66c'
+				default: '#666666'
 			},
 			search_name:{
 				value: String,
@@ -241,10 +241,10 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 10rpx 0;
+		// padding: 10rpx 0;
 		.dSLComVueTop {
-			width: 90%;
-			height: 100rpx;
+			width: 95%;
+			height: 80rpx;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -253,7 +253,7 @@
 				flex: 1;
 				height: 60rpx;
 				background-color: #e8e8e8;
-				border-radius: 30rpx;
+				border-radius: 35rpx;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
@@ -282,7 +282,7 @@
 			}
 			.dSLComVueTopRight {
 				width: 100rpx;
-				margin-left: 30rpx;
+				margin-left: 10rpx;
 				height: 60rpx;
 				display: flex;
 				align-items: center;
@@ -298,6 +298,7 @@
 					align-items: center;
 					justify-content: center;
 					font-size: smaller;
+					background: #e7e7e7;
 				}
 			}
 			

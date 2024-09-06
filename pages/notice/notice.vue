@@ -188,11 +188,4 @@ onLoad((options) => {
 		font-size: calc(14rpx * 2);
 		line-height: calc(15rpx * 2);
 	}
-	.addnaireicon {
-		position: fixed;
-		bottom:60rpx; 
-		right: 50rpx; 
-		width: 80rpx; 
-		height: 80rpx; 
-	}
 </style>

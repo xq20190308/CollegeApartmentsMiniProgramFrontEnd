@@ -62,13 +62,15 @@ const reqdata = reactive({
 const req = ref()
 const loginConfirm = async (ref) => {
 	await req.value?.validate().then(async valid => {
-		await http(props.url,'Post',{
+		await http(props.url,'POST',{
 			username:reqdata.username,
 			password:reqdata.password
 		},).then((res) => {
 				console.log(res)
-				loginInof.qz=reqdata
-				uni.$emit("qzup",loginInof.qz)
+				uni.$emit("loginInfoUp",{
+					title: props.title,
+					reqdata: reqdata
+				})
 				uni.navigateBack()
 			}).catch(err => {
 				console.log('error', err);
