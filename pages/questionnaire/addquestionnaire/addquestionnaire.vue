@@ -55,7 +55,6 @@ import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive,ref,watch} from "vue";
 import {http} from '@/utils/http'
 import { useDict } from '../../../utils/dict';
-import { forEach } from "lodash-es";
 const newNaire = reactive({//传到问卷列表页面中的数据
 	description : "",
 	endTime: "",
@@ -155,12 +154,12 @@ const submit = async ()=> {
 
 }
 const submithttp=(url,restitle)=>{
-	let list=[];
+	let list=questionList.value;
 	for(let i=0;i<questionList.value.length;i++){
-		questionList.value[i].content=JSON.stringify(questionList.value[i].content);
+		list[i].content=JSON.stringify(list[i].content);
 	}
-	console.log('data.questionList',questionList.value)
-	http(url,'POST',{...newNaire,questionList:questionList.value},).then(()=>{
+	console.log('data.questionList',list)
+	http(url,'POST',{...newNaire,questionList:list},).then(()=>{
 		uni.showToast({
 			title: restitle
 		}).then(()=>{

@@ -20,6 +20,7 @@ import { useUserStore } from "../../store/User.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { useDict } from '../../utils/dict';
 const fun_type = useDict('fun_type');
+useDict('fun_questionnare_type')
 const store=useUserStore()
 const data = reactive({
 	navList: []

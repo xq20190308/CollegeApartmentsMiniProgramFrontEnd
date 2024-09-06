@@ -21,7 +21,7 @@ const props = defineProps({
 			endTime: "",
 			questionList: null,
 		},
-	},
+	}
 })
 </script>
 <style>

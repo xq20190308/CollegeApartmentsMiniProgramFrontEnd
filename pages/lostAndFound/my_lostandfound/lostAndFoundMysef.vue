@@ -38,7 +38,7 @@ import {
 } from '@/utils/http'
 
 const data = reactive({
-  items: ['捡到的', '丢失的'],
+  items: ['丢失的', '捡到的'],
   colors: ['#007aff', '#4cd964', '#dd524d'],
   current: 0,
   colorIndex: 0,
@@ -76,7 +76,7 @@ const onClickItem = (e) => {
             //是用``不是单引号写网址
             const res = await http(`/api/getMydata/${category}`, 'GET',{})
             console.log("封装后请求的结果", res);
-						console.log("找的的", res);
+						console.log("丢失的", res);
             data.AllItems = res.data //与问卷的返回不同
         }
         else
@@ -84,7 +84,7 @@ const onClickItem = (e) => {
             const category = 'lost';
 						// const res = await http(`/api/Getdata/?category=${category}`, 'GET')
            const res = await http(`/api/getMydata/${category}`, 'GET',{})
-            console.log("丢失的", res);
+            console.log("找到的", res);
             data.AllItems = res.data //与问卷的返回不同
         }
 				
@@ -93,7 +93,7 @@ const onClickItem = (e) => {
 const onpress = (item) => {
   console.log("跳转到每条失物招领的详细信息,要携带id", item.pickLocation);
   uni.navigateTo({
-    url: `../lostAndFound/detailLostandFound?` +
+    url: `../lostAndFound/public_lostandfound/detailLostandFound?` +
       `describes=${item.describes}&` +
       `img=${item.img}&` +
       `contactobject=${item.contactobject}&` +
@@ -107,11 +107,11 @@ const onpress = (item) => {
 		//跳转到我想要找的，利用current
 		if (data.current === 0) {
 			uni.navigateTo({
-				url: '/pages/lostAndFound/lostSubmit'
+				url: '/pages/lostAndFound/my_lostandfound/lostSubmit'
 			})
 		} else if (data.current === 1) {
 			uni.navigateTo({
-				url: '/pages/lostAndFound/foundSubmit'
+				url: '/pages/lostAndFound/my_lostandfound/foundSubmit'
 			})
 		}
 	}

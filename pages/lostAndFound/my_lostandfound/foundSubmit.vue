@@ -4,13 +4,16 @@
 					<!-- 基础表单校验 -->
 					<view class="example">
 					<uni-forms ref="baseForm" :rules="data.rules" :modelValue="data.baseFormData">
-						<uni-forms-item label="丢失的地点" required name="pickLocation">
+						<uni-forms-item label="捡到的物品" required name="pickName">
+							<uni-easyinput v-model="data.baseFormData.pickName" placeholder="请输入捡到的物品名称" />
+						</uni-forms-item>
+						<uni-forms-item label="捡到的地点" required name="pickLocation">
 							<uni-easyinput v-model="data.baseFormData.pickLocation" placeholder="请输入捡到的地点" />
 						</uni-forms-item>
-						<uni-forms-item label="丢失的时间" required name="pickTime">
+						<uni-forms-item label="捡到的时间" required name="pickTime">
 							<uni-easyinput v-model="data.baseFormData.pickTime" placeholder="请输入捡到的时间" />
 						</uni-forms-item>
-						<uni-forms-item label="丢失物品描述" name="describes" required>
+						<uni-forms-item label="捡到物品描述" name="describes" required>
 							<uni-easyinput type="textarea" v-model="data.baseFormData.describes" placeholder="请输入描述" />
 						</uni-forms-item>
 					<uni-section title="">
@@ -38,13 +41,16 @@
 	
 	import {onLoad, onReady} from "@dcloudio/uni-app";
 	import {reactive, ref} from "vue";
-	import {http} from '@/utils/http'
+	import {http} from '@/utils/http';
+	import { useUserStore } from "../../../store/User.js";
 	
+	const store = useUserStore();
 	const data = reactive({
 		//基础表单数据
 		baseFormData:{
 			pickLocation:'',
 			pickTime:'',
+			pickName:'',
 			describes:'',
 			contactobject:null,
 			//后端返回来的路径数组
@@ -57,10 +63,22 @@
 		current: 0,
 		items: ['左对齐', '顶部对齐'],
 		rules:{
+			pickName: {
+				rules: [{
+					required: true,
+					errorMessage: '捡到的物品名称不能为空'
+				}]
+			},
 			pickLocation:{
 				rules:[{
 					required:true,
 					errorMessage:'捡到的地点不能为空'
+				}]
+			},
+			pickName:{
+				rules:[{
+					required:true,
+					errorMessage:'捡到的物品名称不能为空'
 				}]
 			},
 			pickTime:{
@@ -105,12 +123,16 @@
 						}
 					)
 				}
+			
 				const res = await http('/api/addFound','POST',{
 					category:'found',
 					describes: data.baseFormData.describes,
+					stuid: store.user.username,
+					name:data.baseFormData.name,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
 					pickLocation:data.baseFormData.pickLocation,
+					
 					filepath: JSON.stringify(data.baseFormData.path)
 				},);
 				console.log("封装后请求的结果",res)
@@ -126,7 +148,7 @@
 
 		onReady(()=>{
 			// console.log('onReady 生命周期钩子被调用');
-			
+			//	console.log("用户的id",store.user.username);
 			//下面这一行是校验的自定义规则吗
 			// this.$refs.baseForm.setRulse(this.customRules)
 		})

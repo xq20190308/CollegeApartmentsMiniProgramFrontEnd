@@ -194,21 +194,21 @@
 			}
 		},
 		{
-			"path": "pages/lostAndFound/lostAndFound",
+			"path": "pages/lostAndFound/public_lostandfound/lostAndFound",
 			"style": {
 				"navigationBarTitleText": "失物招领",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/lostAndFound/lostSubmit",
+			"path": "pages/lostAndFound/my_lostandfound/lostSubmit",
 			"style": {
 				"navigationBarTitleText": "我丢失的",
 				"enablePullDownRefresh": false
 			}
 		},
 		{
-			"path": "pages/lostAndFound/foundSubmit",
+			"path": "pages/lostAndFound/my_lostandfound/foundSubmit",
 			"style": {
 				"navigationBarTitleText": "我捡到的",
 				"enablePullDownRefresh": false
@@ -216,16 +216,9 @@
 		},
 
 		{
-			"path": "pages/lostAndFound/detailLostandFound",
+			"path": "pages/lostAndFound/public_lostandfound/detailLostandFound",
 			"style": {
 				"navigationBarTitleText": "找到细节",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/lostAndFound/test_pop",
-			"style": {
-				"navigationBarTitleText": "我就不信搞不出来你了",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -238,7 +231,7 @@
 			}
 		},
 		{
-			"path": "pages/lostAndFound/lostAndFoundMysef",
+			"path": "pages/lostAndFound/my_lostandfound/lostAndFoundMysef",
 			"style": {
 				"navigationBarTitleText": "我的",
 				"enablePullDownRefresh": false

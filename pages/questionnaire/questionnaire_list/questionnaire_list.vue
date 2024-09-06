@@ -9,7 +9,7 @@
 						<button @click.stop="(e)=>{deletenaire(item)}" class="deletbutton">删除</button>
 					</view>
 				</template>
-				<questionnaire :naireinfo="item" ></questionnaire>
+				<questionnaire :naireinfo="item"></questionnaire>
 			</uni-section>
 		</view>
 	</view>
@@ -28,21 +28,25 @@ import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
 import {getCurrentTime,getTimeStamp} from '@/utils/time'
 import { useUserStore } from "../../../store/User.js";
+import { useDict } from '../../../utils/dict';
+useDict('fun_question_type')
 const data = reactive({
 	questionnairelist:[],
+	fun_questionnare_type:[]
 })
 const store = useUserStore()
-const getNaireslist = async ()=>{
-	
-	const res = await http('/questionnaire/selectAll','GET',{},);
-	
-	data.questionnairelist=res.data;
-	let currentTimeStamp = getTimeStamp(await getCurrentTime())
-	for (let i=0;i<data.questionnairelist.length;i++) {
-		data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
-		data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
-	}
-	console.log("data.questionnairelist",data.questionnairelist)
+const getNaireslist = ()=>{
+	http('/questionnaire/selectAll','GET',{},).then((res)=>{
+		data.questionnairelist=res.data;
+		let currentTimeStamp = getTimeStamp(getCurrentTime())
+		for (let i=0;i<data.questionnairelist.length;i++) {
+			// console.log(data.fun_questionnare_type)
+			data.questionnairelist[i].type=data.fun_questionnare_type.filter((dict)=>{return dict.value===data.questionnairelist[i].type})[0].label
+			data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
+			data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
+		}
+		console.log("data.questionnairelist",data.questionnairelist)
+	})
 }
 const gotonaire = (item) =>{
 	if(!item.isBegin){
@@ -106,9 +110,10 @@ const deletenaire =async (item)=> {
 	}
 }
 onLoad(() => {
+	data.fun_questionnare_type=useDict('fun_questionnare_type')
+	getNaireslist()
 })
 onShow(()=>{
-	getNaireslist()
 })
 </script>
 <style lang="scss" scoped>

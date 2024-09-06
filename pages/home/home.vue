@@ -46,7 +46,7 @@ const data = reactive({
 		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
 		{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict?title=测试"},
 	],
-	plan:["距离打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],	
+	plan:["距离打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],
 })
 const func1Click=(item)=> {
 	uni.navigateTo({
