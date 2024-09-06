@@ -1,4 +1,7 @@
 <template> 
+	<view style="width: 100%; height: auto;">
+		<d-search-log :is_show_more="false" color_border="#123456" color_text="#123456" @onSearchNameApi="onSearchName"></d-search-log>
+	</view>
 	<view class="qusnalist">
 		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="questionnaire"  @click="gotonaire(item)">
 			<uni-section :style="item.isEnd?'opacity: 0.5':''" :title="item.name" type="line" titleFontSize=42rpx>
@@ -42,6 +45,17 @@ const data = reactive({
 	active:0
 })
 const store = useUserStore()
+
+const onSearchName = (e)=>{
+	//在此添加关键词参数请求通知列表
+	console.log(e)
+	getquestionnairelist({keyword:e}).then(response => {
+	  // 在这里处理数据
+	  data.questionnairelist = response.sort((a, b) => a.endTime - b.endTime);
+		console.log('response',response); // 输出: 这是返回的数据
+	})
+}
+
 const getNaireslist = async ()=>{
 	
 	const res = await http('/questionnaire/selectAll','GET',{},);

@@ -113,6 +113,9 @@ onLoad((options) => {
 
 
 <style>
+	text{
+		word-wrap: break-word;
+	}
 	.cates{
 		display: flex;
 		flex-direction: row;
@@ -194,5 +197,6 @@ onLoad((options) => {
 		right: 50rpx; 
 		width: 80rpx; 
 		height: 80rpx; 
+		z-index: 999;
 	}
 </style>
