@@ -14,10 +14,10 @@
 		<input v-model="newNaire.description" placeholder="请输入问卷描述" />
 	</uni-section>
 	<uni-section class="bar,barb" title="选择日期及时间：" type="line">
-		<uni-datetime-picker type="datetimerange" rangeSeparator="至" @change="(e) => {newNaire.startTime = e[0];;newNaire.endTime = e[1];}" />
+		<uni-datetime-picker v-model="data.range" type="datetimerange" rangeSeparator="至" @change="(e) => {newNaire.startTime = e[0];;newNaire.endTime = e[1];}" />
 	</uni-section>
 	<view class="bar,barb">
-	<uni-section v-for="(que,qindex) in questionList" :key="qindex" :title="qindex + 1 + '.' + data.fun_question_type[que.type].label" type="line" >
+	<uni-section v-for="(que,qindex) in questionList" :key="qindex" :title="qindex + 1 + '.' + data.fun_question_type[questionList[qindex].type].label" type="line" >
 		<template v-slot:right>
 			<uni-icons @click="()=>{
 				console.log(qindex);
@@ -76,13 +76,6 @@ const deletechoiceitem = (qindex,index)=>{
 	console.log(questionList.value[qindex].content)
 	questionList.value[qindex].content = questionList.value[qindex].content.filter((item, eindex) => eindex !== index)
 	console.log(questionList.value[qindex].content)
-}
-const questionLabel=(type)=>{
-	let questionLabel=data.fun_question_type.filter((item)=>{
-		return item.value===type
-	})[0]
-	console.log(questionLabel.label)
-	return questionLabel.label
 }
 const addquestion=(index)=>{
 	console.log(index);
@@ -157,6 +150,7 @@ const submithttp=(url,restitle)=>{
 	let list=questionList.value;
 	for(let i=0;i<questionList.value.length;i++){
 		list[i].content=JSON.stringify(list[i].content);
+		list[i].type=data.fun_question_type[list[i].type].value
 	}
 	console.log('data.questionList',list)
 	http(url,'POST',{...newNaire,questionList:list},).then(()=>{
@@ -180,11 +174,16 @@ onLoad((options)=>{
 		}
 		data.range=[newNaire.startTime,newNaire.endTime];
 		console.log("--",data.range);
+		questionList.value=[]
 		http('/questionnaire/question/selectByQuestionnaireId/'+newNaire.id,'GET',{},).then((res)=>{
 			console.log("getquestions().then")
-			questionList.value=res.data;
-			for(let i=0;i<questionList.value.length;i++){
-				questionList.value[i].content=JSON.parse(questionList.value[i].content)
+			for(let i=0;i<res.data.length;i++){
+				console.log(data.fun_question_type)
+				console.log(res.data[i].type)
+				console.log(data.fun_question_type.findIndex((dict)=>{return dict.value===res.data[i].type}))
+				res.data[i].type = data.fun_question_type.findIndex((dict)=>{return dict.value===res.data[i].type})
+				res.data[i].content=JSON.parse(res.data[i].content)
+				questionList.value.push(res.data[i])
 			}
 		})
 	}

@@ -65,7 +65,8 @@ const gotonaire = (item) =>{
 		}
 	}
 }
-const modifynaire = (item)=>{
+const modifynaire = (naire)=>{
+	let item = {...naire}
 	if(item.isEnd){
 		console.log("问卷已结束");
 		uni.showModal({
@@ -73,6 +74,7 @@ const modifynaire = (item)=>{
 			icon:'error'
 		})
 	}else{
+		item.type = data.fun_questionnare_type.filter((dict)=>{return dict.label===item.type})[0].value
 		goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item),
 			'questionnaireManage')
 	}
@@ -114,6 +116,7 @@ onLoad(() => {
 	getNaireslist()
 })
 onShow(()=>{
+	console.log(data.questionnairelist)
 })
 </script>
 <style lang="scss" scoped>
