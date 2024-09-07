@@ -1,7 +1,8 @@
 import { ref, watch, reactive } from "vue";
 import { getLocalData } from "../utils/cache.js"
-//const wsUrl = "ws://192.168.168.204:8080"
-const wsUrl = "wss://william.fit:8082"
+import { useUserStore } from "../store/User.js";
+// const wsUrl = "wss://william.fit:8082"
+const wsUrl = "ws://localhost:82"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -9,7 +10,7 @@ const wsInterceptor = {
 		}
 		//添加超时请求
 		options.timeout = 10000
-		console.log("拦截器", options)
+		//console.log("拦截器", options)
 		//添加请求头，还没添加呢看啥看
 
 		//添加token
@@ -31,6 +32,7 @@ export const wsopen = (url) => {
 		url: url,
 		header: {},
 		method: "GET",
+		sslVerify: false,
 		success: (e) => {
 			console.log("ws connected ", e);
 		},
@@ -45,8 +47,23 @@ export const wsopen = (url) => {
 	socketTask.onError(function (res) {
 		console.log("ws error " + res);
 	});
+	const store=useUserStore();
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
+		if(store.token!=""){
+			uni.showToast({
+				icon:"error",
+				title:"服务器异常"
+			})}
+		// 	uni.showModal({
+		// 	title:"服务器异常，请重新登陆",
+		// 	success: (res) => {
+		// 		if(res.confirm){
+		// 			//ostore.handledelogin()
+		// 		}
+		// 	}
+		// }
+		// )}
 	});
 };
 export const onMessage = () => {

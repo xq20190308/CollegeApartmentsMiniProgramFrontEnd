@@ -1,24 +1,27 @@
 <template>
-	<view style="width: 95%; margin-left: 10px; margin-top: 10px;">
-		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 180px;">
+	<view style="width: 95%; margin-left: 20rpx; margin-top: 20rpx;">
+		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 360rpx;">
 
-		<view style="width:90%;margin-left: 19px;">
+		<view style="width:90%;margin-left: 38rpx;">
 			<!-- 表单校验 -->
-			<uni-forms ref="req" :rules="data.rules" :modelValue="data.reqdata" label-position="top">
+			<uni-forms ref="req" :rules="rules" :modelValue="reqdata" label-position="top">
 				<uni-forms-item class="form-item" label="学号" required name="username">
-					<uni-easyinput v-model="data.reqdata.username" placeholder="请输入学号" />
+					<!-- <uni-easyinput v-model="reqdata.username" placeholder="请输入学号" @input="debounceUsernameInput" /> -->
+					<uni-easyinput v-model="reqdata.username" placeholder="请输入学号" />
 				</uni-forms-item>
 				<uni-forms-item class="form-item" label="密码" required name="password">
-					<uni-easyinput v-model="data.reqdata.password" placeholder="请输入密码" />
+					<!-- <input placeholder="请输入密码" :value="reqdata.password"  @input="debouncePasswordInput" /> -->
+					<!-- <uni-easyinput v-model="reqdata.password" placeholder="请输入密码" @input="debouncePasswordInput" /> -->
+					<uni-easyinput v-model="reqdata.password" placeholder="请输入密码" />
 				</uni-forms-item>
 			</uni-forms>
 		</view>
-		<view style="font-size: 12px;top: 240px;width: 100%;margin-top: 60px;">
+		<view style="font-size: 24rpx;top: 480rpx;width: 100%;margin-top: 120rpx;">
 			<view style="display: flex;justify-content: center">
-				<view style="margin-bottom: 5px;">
+				<view style="margin-bottom: 10rpx;">
 					<checkbox :value="licenseDisagree" @click="changeConfirm" />
 				</view>
-				<view style="padding-top: 5px;">
+				<view style="padding-top: 10rpx;">
 					<text style="f">我已阅读并同意</text>
 					<text @click="showDeal1 = true" style="color: aqua; white-space: nowrap; ">《用户服务协议》</text>
 					<text style="white-space: nowrap;">及</text>
@@ -27,12 +30,12 @@
 			</view>
 			<view>
 				<button type="primary"
-					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
+					style="backgroundColor:#008cff; width:90%; margin-left: 38rpx; border-radius: 60rpx;"
 					@click="loginConfirm('req')">点击登录</button>
 			</view>
 			<view>
 				<button type="primary"
-					style="backgroundColor:#008cff; width:90%; margin-left: 19px; border-radius: 30px;"
+					style="backgroundColor:#008cff; width:90%; margin-left: 38rpx; border-radius: 60rpx;"
 					@click="quicklogin()">快速登录</button>
 			</view>
 		</view>
@@ -46,10 +49,20 @@ import { login } from "../../pages/login/api/login.js"
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
 import { useUserStore } from "../../store/User.js"
+import { debounce } from 'lodash-es';//防抖
+// 防抖函数
+// const debounceUsernameInput = (value) => {
+// 	reqdata.username=value
+//   console.log('Username input:', reqdata.username);
+// };
+
+// const debouncePasswordInput = (value) => {
+// 	reqdata.password=value;
+//   console.log('Password input:', reqdata.password);
+// };
 const store = useUserStore()
 // 校验规则
-const data = reactive({
-	rules: {
+const rules = reactive({
 		username: {
 			rules: [{
 				required: true,
@@ -66,14 +79,12 @@ const data = reactive({
 				required: true,
 				errorMessage: '请输入密码'
 			}]
-		}
-	},
-	reqdata: {
+		}})
+const reqdata = reactive({
 		code: "",
 		username: "",
 		password: "",
-	},
-})
+	})
 let licenseDisagree = ref(false)
 let show = ref(false);
 const neighborhoodName = ref('')
@@ -112,18 +123,17 @@ const returnerr = (msg) => {
 	})
 }
 const quicklogin = async()=>{
-	data.reqdata={
-		code: "",
-		username: uni.getStorageSync('lastusername'),
-		password: uni.getStorageSync('lastpassword'),
-	}
-	data.reqdata.code = await getCode();
+		reqdata.code="",
+		reqdata.username=uni.getStorageSync('lastusername'),
+		reqdata.password=uni.getStorageSync('lastpassword'),
 	licenseDisagree.value=true;
 	//发送请求
 	loginConfirm('req')
 }
 const req = ref()
 const loginConfirm = async (ref) => {
+	//获取code
+	reqdata.code = await getCode();
 	await req.value?.validate().then(async res1 => {
 		//检查是否勾选 阅读同意所有要求
 		if (!licenseDisagree.value) {
@@ -133,10 +143,8 @@ const loginConfirm = async (ref) => {
 			})
 			return false;
 		}
-		//获取code
-		data.reqdata.code = await getCode();
 		//发送请求
-		await login(data.reqdata).then(async (res) => {
+		await login(reqdata).then(async (res) => {
 			if (res.statusCode == 200) {
 				if(res.data.msg!='success'){
 					returnerr(res.data.msg);
@@ -145,8 +153,8 @@ const loginConfirm = async (ref) => {
 					//用户登录请求成功后的数据存储
 					await store.login(res.data.data)
 					//保存用户账号密码用于下次登录
-					uni.setStorageSync('lastusername',data.reqdata.username)
-					uni.setStorageSync('lastpassword',data.reqdata.password)
+					uni.setStorageSync('lastusername',reqdata.username)
+					uni.setStorageSync('lastpassword',reqdata.password)
 					//登录后http请求聊天记录
 					const history = await http('/message/history','GET',{})
 					console.log("登录后http请求聊天记录",history)

@@ -43,7 +43,7 @@
 			},
 			border: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			renderReverse:{
 				type: Boolean,

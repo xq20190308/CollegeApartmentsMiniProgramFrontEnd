@@ -50,6 +50,12 @@
 				"navigationBarTitleText": "调查问卷",
 				"enablePullDownRefresh": false
 			}
+		},{
+			"path": "pages/questionnaire/excel",
+			"style": {
+				"navigationBarTitleText": "问卷表格导出",
+				"enablePullDownRefresh": false
+			}
 		},
 		{
 			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
@@ -141,6 +147,13 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
+		},
+		{
+			"path": "pages/chat/chatinfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 		},{
 			"path": "pages/chat/noticechat",
 			"style": {
@@ -151,6 +164,18 @@
 			"path": "pages/chat/postnotice",
 			"style": {
 				"navigationBarTitleText": "通告发布",
+				"enablePullDownRefresh": false
+			}
+		},{
+			"path": "pages/subscribe/subscribe",
+			"style": {
+				"navigationBarTitleText": "消息推送",
+				"enablePullDownRefresh": false
+			}
+		},{
+			"path": "pages/subscribe/subscribeDetail",
+			"style": {
+				"navigationBarTitleText": "推送详情",
 				"enablePullDownRefresh": false
 			}
 		},
@@ -242,7 +267,14 @@
 			}
 		},
 		{
-			"path" : "components/ClassTable/ClassTable",
+			"path" : "pages/notice/noticefromry/noticefromry",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/dict/dict",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
@@ -252,8 +284,8 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#008cff",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#7cbaec",
+		"backgroundColor": "#7cbaec"
 	},
 	"tabBar": {
 		"list": [

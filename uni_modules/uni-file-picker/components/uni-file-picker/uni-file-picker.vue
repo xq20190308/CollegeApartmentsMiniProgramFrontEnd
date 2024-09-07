@@ -634,7 +634,7 @@
 		overflow: hidden;
 		width: 100%;
 		/* #endif */
-		flex: 1;
+		/* flex: 1; */
 	}
 
 	.uni-file-picker__header {

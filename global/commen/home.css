@@ -1,0 +1,128 @@
+.banner {
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  background: linear-gradient(to bottom, #7cbaec, #ffffff80);
+}
+.swiper{
+	height: 460rpx;
+}
+.swiper-item{
+	border-radius: 20rpx;
+}
+.swiper-image {
+	width: 100%;
+    height: 400rpx;
+}
+.swiper-title{
+	height: 60rpx;
+	text-align: center;
+}
+.bar{
+	display: flex;
+	padding: 10rpx;
+	border-radius: 20rpx;
+	box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.12);
+	background: #fff;
+}
+.barb{
+	display: block!important;
+}
+.barl{
+	box-shadow: 0 2rpx 15rpx rgba(0, 0, 0, 0.05)!important;
+}
+.barw{
+	width: 100%!important;
+}
+.func {
+    flex-wrap: wrap;
+	padding: 0rpx;
+}
+.func_item {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0;
+    width: 27.14%;
+    padding: 20rpx;
+    border: 2rpx #d6d6d669 solid;
+}
+
+.func_img {
+	width: 60rpx;
+	height: 60rpx;
+	margin-bottom: 10rpx;
+	border-radius: 50%; 
+	opacity: 0.75;
+}
+
+.func_text {
+  font-size: 28rpx;
+  color: #333333;
+  text-align: center;
+}
+.nav-title {
+	font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+.nav-item {
+	border-radius: 16rpx;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: 0;
+	width: 25%;
+	padding-bottom: 10px;
+}
+.nav-img {
+	width: 80rpx;
+	height: 80rpx;
+	margin-bottom: 30rpx;
+	margin-top: 30rpx;
+	border-radius: 50%;
+	opacity: 0.8;
+}
+.nav-text {
+	font-size: 28rpx;
+	color: #333333;
+	text-align: center;
+	align-items: center;
+}
+.mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #fff;
+	z-index: 999; /* 确保遮罩在其他内容之上 */
+}
+.btn {
+    background-color: #ffffff;
+    color: #000000;
+    height: 100rpx;
+    width: 100%;
+    font-size: 30rpx;
+    border-radius: 40rpx;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.itemrow{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.itemcolumn{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 10rpx;
+}
+.itemb {
+  margin: 20rpx;
+  display: block;
+  gap: 20rpx;
+}

@@ -1,16 +1,18 @@
 <template> 
-	<view class="qusnalist">
-		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="questionnaire"  @click="gotonaire(item)">
-			<uni-section :style="item.isEnd?'opacity: 0.5':''" :title="item.name" type="line" titleFontSize=42rpx>
-				<template v-slot:right style="margin-left: 10px;">
-					<view style="display: flex; flex-direction: row;">
-						<button @click.stop="(e)=>{modifynaire(item)}" class="deletbutton" style="margin-right: 5px;">修改</button>
+	<view class="banner">
+	<view class="notice-list">
+		<view  v-for="(item,index) in data.questionnairelist" :key="index" class="bar,questionitem"  @click="gotonaire(item)">
+			<uni-section  :title="item.name" type="line" titleFontSize=42rpx :sectionstyle="item.isEnd?'opacity: 0.5':''" >
+				<template v-slot:right>
+					<view style="display: flex; gap: 5rpx;">
+						<button @click.stop="(e)=>{modifynaire(item)}" class="deletbutton">修改</button>
 						<button @click.stop="(e)=>{deletenaire(item)}" class="deletbutton">删除</button>
 					</view>
 				</template>
-				<questionnaire :naireinfo="item" ></questionnaire>
+				<questionnaire :naireinfo="item"></questionnaire>
 			</uni-section>
 		</view>
+	</view>
 	</view>
 	<view>
 		<image class = "addnaireicon" src="../../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
@@ -26,33 +28,25 @@ import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
 import {getCurrentTime,getTimeStamp} from '@/utils/time'
 import { useUserStore } from "../../../store/User.js";
+import { useDict } from '../../../utils/dict';
+useDict('fun_question_type')
 const data = reactive({
 	questionnairelist:[],
-	total: 0,
-	cates:[{
-			id:0,
-			name:"全部"
-		},{
-			id:1,
-			name:"未完成"
-		},{
-			id:2,
-			name:"已完成"
-	}],
-	active:0
+	fun_questionnare_type:[]
 })
 const store = useUserStore()
-const getNaireslist = async ()=>{
-	
-	const res = await http('/questionnaire/selectAll','GET',{},);
-	
-	data.questionnairelist=res.data;
-	let currentTimeStamp = getTimeStamp(await getCurrentTime())
-	for (let i=0;i<data.questionnairelist.length;i++) {
-		data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
-		data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
-	}
-	console.log("data.questionnairelist",data.questionnairelist)
+const getNaireslist = ()=>{
+	http('/questionnaire/selectAll','GET',{},).then((res)=>{
+		data.questionnairelist=res.data;
+		let currentTimeStamp = getTimeStamp(getCurrentTime())
+		for (let i=0;i<data.questionnairelist.length;i++) {
+			// console.log(data.fun_questionnare_type)
+			data.questionnairelist[i].type=data.fun_questionnare_type.filter((dict)=>{return dict.value===data.questionnairelist[i].type})[0].label
+			data.questionnairelist[i].isBegin = getTimeStamp(data.questionnairelist[i].startTime)>currentTimeStamp?false:true;
+			data.questionnairelist[i].isEnd = getTimeStamp(data.questionnairelist[i].endTime)>currentTimeStamp?false:true;
+		}
+		console.log("data.questionnairelist",data.questionnairelist)
+	})
 }
 const gotonaire = (item) =>{
 	if(!item.isBegin){
@@ -64,19 +58,15 @@ const gotonaire = (item) =>{
 	}else{
 		if(uni.getStorageSync('token')){
 			uni.navigateTo({
-				url:'../questionnaire_home/questionnaire_home?id='+item.id+
-				'&type='+item.type+'&name='+item.name+
-				'&description='+item.description+'&startTime='+item.startTime+
-				'&endTime='+item.endTime+
-				'&anonymous='+item.anonymous+
-				'&isEnd='+item.isEnd,
+				url:'../questionnaire_home/questionnaire_home?info='+JSON.stringify(item)
 			})
 		}else{
 			store.tologin()
 		}
 	}
 }
-const modifynaire = (item)=>{
+const modifynaire = (naire)=>{
+	let item = {...naire}
 	if(item.isEnd){
 		console.log("问卷已结束");
 		uni.showModal({
@@ -84,7 +74,8 @@ const modifynaire = (item)=>{
 			icon:'error'
 		})
 	}else{
-		goto('../addquestionnaire/modifyquestionnaire?info='+JSON.stringify(item),
+		item.type = data.fun_questionnare_type.filter((dict)=>{return dict.label===item.type})[0].value
+		goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item),
 			'questionnaireManage')
 	}
 }
@@ -121,65 +112,17 @@ const deletenaire =async (item)=> {
 	}
 }
 onLoad(() => {
-})
-onShow(()=>{
+	data.fun_questionnare_type=useDict('fun_questionnare_type')
 	getNaireslist()
 })
+onShow(()=>{
+	console.log(data.questionnairelist)
+})
 </script>
-<style lang="scss">
-.qcates{
-	display: flex;
-	flex-direction: row;
-	background-color: #fff;
-	height: 40px;
-	justify-content: space-between;
+<style lang="scss" scoped>
+.questionitem{
+	display: block;
 }
-.cateitem{
-	text-align: center;
-	width: 33.33%;
-	padding-top: 9px;
-	padding-bottom: 9px;
-	background-color: #008cff;
-}
-.cateactive{
-	background-color: #fff;
-}
-.qusnalist{
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	questionnaire{
-		width:100%;
-	}
-}
-.addnaireicon {
-	position: fixed;
-	bottom:60rpx; 
-	right: 50rpx; 
-	width: 80rpx; 
-	height: 80rpx; 
-	z-index: 200;
-}
-.questionnaire{
-	width: 97%;
-	background-color: #fff;
-	box-shadow: 0 4px 15px 0 rgba(230, 228, 228, 0.52);
-	display: flex;
-	flex-direction: column;
-	margin: 22rpx 10rpx;
-	border-radius: 10px;
-	padding: 20rpx 20rpx;
-	box-sizing: border-box;
-	z-index: 10;
-}
-.deletbutton{
-	background-color:#e2e2e2;
-	color: #000;
-	width: 50px;
-	height:40x;
-	font-size: 10px;
-	text-align: center;
-	z-index: 100;
-} 
+
 </style>
 

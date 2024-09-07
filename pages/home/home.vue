@@ -1,47 +1,34 @@
 <template>
-    <view class="banner">
+	<view class="banner">
 		<!-- 轮播图区域 -->
-		<swiper class="swiperp" :indicator-dots="true" :autoplay="true" :interval="4000" :duration="1000">
-			<swiper-item v-for="(item, index) in data.articles" :key="index">
+		<swiper class="swiper,bar" :autoplay="true" :interval="4000" :duration="1000">
+			<swiper-item class="swiper-item" v-for="(item, index) in data.articles" :key="index">
 				<img :src="data.staticpictures[index%6]" alt="" class="swiper-image" @click="bannerclick(index)">
-				<view class="describe">{{data.articles[index].title}}</view>
-			</swiper-item>
+				<view class="swiper-title">{{data.articles[index].title}}</view>
+			</swiper-item> 
 		</swiper>
-		<uni-notice-bar show-icon scrollable background-color="#fff" color="#000" :speed="50"
+		<uni-notice-bar class="bar" show-icon scrollable background-color="#fff" color="#000" :speed="50"
 		:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
-		<!--uni-grid :column="3" :highlight="true" @change="change">
-			<uni-grid-item v-for="(item, i) in data.func_list" :key="i" :index="i" @click="func1Click(item)">
-				<view class="grid-item-box" style="background-color: #fff;">
-					<image :src="item.imgPath" class="func1_img"></image>
-					<text class="text">{{ item.name }}</text>
-				</view>
-			</uni-grid-item>
-		</uni-grid-->
-		<!-- 主要功能区域 -->
-		<view class="func1">
-			<view class="func1_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">
-				<image :src="item.imgPath" class="func1_img"></image>
-				<text class="func1_text">{{ item.name }}</text>
+		<view class="func,bar">
+			<view class="func_item" v-for="(item, i) in data.func_list" :key="i" @click="func1Click(item)">
+				<image :src="item.imgPath" class="func_img"></image>
+				<text class="func_text">{{ item.name }}</text>
 			</view>
 		</view>
 		<!-- 未来倒计时 -->
-		<view class="spacing"></view>
-		<uni-card title="未来倒计时" sub-title="unique_words" thumbnail="../../../../static/home/future_icon.png">
+		<uni-card title="未来倒计时" :sub-title="getCurrentDate()" thumbnail="../../../../static/home/future_icon.png">
 			<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
 		</uni-card>
 	</view>
 </template>
 
 <script setup>
-import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive,ref} from "vue";
-import {http} from '@/utils/http'
-import {getarticles} from "../notice/api/getnotices.js"
-import {getCurrentTime} from '@/utils/time'
-import {mainFun} from '../../main.js'
-import { } from "../../utils/socket.js";
+import { onLoad,onShow } from "@dcloudio/uni-app";
+import { reactive } from "vue";
+import { getarticles } from "../notice/api/getnotices.js"
+import { getCurrentDate } from '@/utils/time'
 import { useUserStore } from "../../store/User.js"
-import { storeToRefs } from 'pinia'
+import { handleMessageBar } from "../../utils/api/common.js"
 const store=useUserStore()
 const data = reactive({
 	staticpictures:[
@@ -54,18 +41,12 @@ const data = reactive({
 	],
 	articles:[],
 	func_list: [
-				{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
-				{ name: "问卷调查", imgPath: "../../static/function/questionnaire.png", pagePath:"../questionnaire/questionnaire_list/questionnaire_list"},
-				{ name: "卫检成绩", imgPath: "../../static/function/score.png", pagePath:"../hygiene/showhygiene"},
-				{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
-				{ name: "失物招领", imgPath: "../../static/function/find.png" , pagePath:"../lostAndFound/public_lostandfound/lostAndFound"},
-				{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" }
-		],
-	plan:[
-		"距离打工结束还有9999天\n",
-		"早上好\n",
-		"中午好\n",
-		"晚上好\n",],	
+		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
+		{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
+		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
+		{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict?title=测试"},
+	],
+	plan:["距离打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],
 })
 const func1Click=(item)=> {
 	uni.navigateTo({
@@ -73,7 +54,6 @@ const func1Click=(item)=> {
 	})
 }
 const bannerclick=(index)=>{
-	console.log(data.articles);
 	uni.navigateTo({
 		url:'../notice/noticedetail?id=' + data.articles[index].id
 	})
@@ -82,104 +62,16 @@ const bannerclick=(index)=>{
 onLoad(()=>{ 
 	// 使用函数并打印结果
 	getarticles({ typeName : '主页'}).then(response => {
-		// 在这里处理数据
 		data.articles = response.sort((a, b) => a.id - b.id);
 		for (let i = 0; i < data.articles.length; i++) {
 			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
 		}
-})})
+	})
+})
 onShow(()=>{
-	console.log(uni.getStorageSync('token'))
-	// if(socketMsgQueue.length>0){
-	// 	uni.setTabBarBadge({
-	// 		index: 2,
-	// 		// tabIndex，tabbar的哪一项，从0开始
-	// 		text: String(socketMsgQueue.length).length > 2 ? "99+" : String(socketMsgQueue.length)
-	// 		// 显示的文本，超过99显示成99+
-	// 	});
-	// 	// 这会实时打印出变化的值
-	// 	let array=socketMsgQueue.content.split("<br/>")
-		 
-	// 	uni.showModal({
-	// 		title:array[array.length-2],
-	// 	})
-	// }
-	let total=store.totalUnreceived
-	if(total){
-		uni.setTabBarBadge({
-			index: 2,
-			// tabIndex，tabbar的哪一项，从0开始
-			text: String(total).length > 2 ? "99+" : String(total)
-			// 显示的文本，超过99显示成99+
-		});					
-	}else{
-		uni.removeTabBarBadge({
-			index:2
-		})
-	}
+	handleMessageBar(store.totalUnreceived)
 })
 </script>
 
 <style>
-.banner {
-  margin: 20rpx;
-}
-.swiperp{
-	height: 190px;
-}
-.swiper-image {
-  width: 100%;
-  height: 150px;
-}
-.describe{
-	height: 20px;
-}
-.func1 {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 15rpx;
-  border-radius: 20rpx;
-  /* background-color: #ffffff; */
-  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05); /* 添加阴影 */
-}
-.text {
-	font-size: 14px;
-	margin-top: 5px;
-}
-.grid-item-box {
-	display: flex;
-	flex-wrap: wrap;
-	margin: 15rpx;
-	border-radius: 20rpx;
-	box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.05);
-	justify-content: center;
-}
-.func1_item {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border: 0;
-	width: 26.8%;
-	padding: 20rpx;
-	    border: 1px #d2d2d21c solid;
-}
-
-.func1_img {
-	width: 60rpx;
-	height: 60rpx;
-	margin-bottom: 10rpx;
-	border-radius: 50%; 
-	opacity: 0.75;
-}
-
-.func1_text {
-  font-size: 28rpx;
-  color: #333333;
-  text-align: center;
-}
-.thumbnail{
-	 margin-left: 20rpx; 
-}
-
 </style>

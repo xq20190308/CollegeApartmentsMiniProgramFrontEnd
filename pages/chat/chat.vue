@@ -1,35 +1,35 @@
 <template>
-	<view style="display: flex;flex-direction: column;justify-content: space-between;">
+	<view >
 		
-		<scroll-view :scroll-into-view="bottom" class="uni-indexed-list__scroll" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
+		<scroll-view class="scroll-view,uni-indexed-list__scroll" :scroll-into-view="bottom" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
 			
 			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 8px;">
-				<view style="margin-right: 4px;margin-left: 4px;text-align: center;"><text class="time">{{msg.sendTime}}</text></view>
+				<view class="chat-time-view"><text class="chat-time">{{msg.sendTime}}</text></view>
 				
-				<view v-if="data.myid==msg.senderUserId" :class="'right'">
-					<view class="textbox">
-						<text class="textcontent">{{msg.data}}</text>
+				<view v-if="data.myid==msg.senderUserId" :class="'chat-right'">
+					<view class="chat-textbox">
+						<text class="chat-textcontent">{{msg.data}}</text>
 					</view>
 					<view>
-						<image :src="store.avatar" class="avatar" />
+						<image :src="store.avatarUrl" @click="gotoinfo" class="chat-avatar" />
 					</view>
 				</view>
-				<view v-else :class="'left'">
+				<view v-else :class="'chat-left'">
 					<view>
-						<image :src="data.info.avatar" class="avatar" />
+						<image :src="data.info.avatarUrl" @click="gotoinfo" class="chat-avatar" />
 					</view>
-					<view class="textbox">
-						<text class="textcontent">{{msg.data}}</text>
+					<view class="chat-textbox">
+						<text class="chat-textcontent">{{msg.data}}</text>
 					</view>
 				</view>
 				
 			</view>
-			<view :id="'bottom'" style=""></view>
+			<view :id="'bottom'"></view>
 		</scroll-view>
 		
 		<view class="inputstyle">
 			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
-			<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="mywssent">发射爱心</button>
+			<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
 		</view>
 	</view>
 </template>
@@ -42,8 +42,6 @@ import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
 import { getLocalData, setLocalData } from "../../utils/cache.js"
 import { useUserStore } from "../../store/User.js"
-import { storeToRefs } from 'pinia'
-const position = 'bottom'
 const data = reactive({
 	info:{},
 	message:'',
@@ -52,29 +50,19 @@ const data = reactive({
 	myid:"",
 })
 const bottom=ref("")
-onMounted(()=>{
-	console.log("onMounted");
+onMounted(()=>{//确保进入后滑到底端
 	bottom.value="bottom"
 })
-// watch(socketMsgQueue,async(newvalue,oldvalue)=>{
-// 	console.log("监听事件newvalue:",newvalue);
-// 	let message=JSON.parse(newvalue.content);
-// 	console.log(message);
-// 	if(message.senderUserId==data.info.userid){
-// 		console.log(message.senderUserId+"=="+data.info.userid)
-// 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-// 		data.messages.push(message)
-// 	}
-// }, { deep: true })
+const gotoinfo=()=>{
+	uni.navigateTo({
+		url:"/pages/chat/chatinfo?info="+JSON.stringify(data.info)+"&back="+true
+	})
+}
 
 const mywssent = async () => {
-	//对话添加到列表中
-	//console.log('mywssent ',data.message)
 	let receiver=[];
 	receiver.push(data.info.userid)
-	//console.log("receiver",receiver)
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,data.info.userid)
-	//console.log("发送消息的res",res1);
 	if(data.info.userid==data.myid){
 		console.log("自己发的消息不用多存一下，只需要接收")
 	}else{
@@ -86,230 +74,85 @@ const mywssent = async () => {
 		})
 	}
 	data.message='';
-	//console.log("data.messages.length",data.messages.length)
 	bottom.value="msg"+String(data.messages.length-1)
-	//console.log("bottom.value",bottom.value)
 }
 const handlemsg=(msg)=>{
-	//对话添加到列表中
-	//console.log("uni.$on('onMessage')",msg)
 	let message=JSON.parse(msg);
 	if(message.type=="0"&&message.senderUserId==data.info.userid){
-		//console.log(message.senderUserId+"=="+data.info.userid)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		data.messages.push(message)
-		//console.log("data.messages.length",data.messages.length)
 		bottom.value="msg"+String(data.messages.length-1)
-		//console.log("bottom.value",bottom.value)
 	}else{//存本地
 		store.handlemessage(message)
-		// console.log(message.senderUserId+"!="+data.info.userid)
-		// message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
-		// let prelog=getLocalData('single'+ data.myid +'_with_'+message.senderUserId)
-		// if(prelog!=""){
-		// 	prelog=JSON.parse(prelog)
-		// }else{
-		// 	prelog=[]
-		// }
-		// prelog.push(message)
-		// console.log('--2single'+ data.myid +'_with_'+message.senderUserId)
-		// console.log(prelog)
-		// setLocalData('single'+ data.myid +'_with_'+message.senderUserId,JSON.stringify(prelog))
-		// console.log("没存上吗？",uni.getStorageSync('single'+ data.myid +'_with_'+message.senderUserId))
 	}
 }
 onUnload(()=>{
 	console.log("onUnload")
+	if(data.messages.length>0){
 	console.log("存储聊天记录到本地")
 	setLocalData('single'+ data.myid +'_with_'+data.info.userid,JSON.stringify(data.messages))
 	uni.$off('onMessage',handlemsg)
-	//console.log("after uni.$off('onMessage',handlemsg)")
 	if(store.chatList.findIndex(item => item.userid === data.info.userid)==-1){
 		store.chatList.push(data.info)
 		uni.$emit('upgradeChatList',store.chatList)
-		console.log("uni.$emit('upgradeChatList',store.chatList)")
 	}
 	//最后一条存到最新消息列表
 	let index = store.chatList.findIndex(item => item.userid === data.info.userid);
 	store.lastList[index]={...data.messages[data.messages.length-1],contactid:data.info.userid}
-	uni.$emit('upgradeLastList',store.lastList)
+	uni.$emit('upgradeLastList',store.lastList)}
 	
 })
 const store = useUserStore();
 onLoad((options)=>{
-	console.log("chatonLoad")
-	//console.log("useUserStore",store.user.trueName)
 	data.myid=store.user.userid
 	data.myname=store.user.trueName
-	//console.log(data.myid)
-	//console.log("options",options)
 	data.info=JSON.parse(options.info)
 	uni.setNavigationBarTitle({
-	  title: data.info.name
+	  title: data.info.trueName
 	});
-	//console.log('--1single'+ data.myid +'_with_'+data.info.userid)
 	data.messages=getLocalData('single'+ data.myid +'_with_'+data.info.userid)?JSON.parse(getLocalData('single'+ data.myid +'_with_'+data.info.userid)):[]
 	console.log("调出本地聊天记录",data.messages)
 	uni.$on('onMessage',handlemsg)//只移除这一个回调的监听事件
 })
-onShow(()=>{
-	console.log("onShow")
-})
-	
-	// socketMsgQueue.length=0;
-	// uni.removeTabBarBadge({
-	// 	index:2,
-	// 	complete:(res)=> {
-	// 		console.log(res)
-	// 	}
-	// })
-// setInterval(() => {
-// 	data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-// 	if(old==data.messages){
-// 		console.log('没变')
-// 	}else{
-// 		console.log(old)
-// 		console.log(data.messages)
-// 		uni.pageScrollTo({
-// 			selector: '#input',
-// 			duration: 50
-// 		});
-// 	}
-// }, 100);
-//setInterval(() => {
-	//let old=data.messages;
-	//data.messages=ref(socketMsgQueue.content); // 这会实时打印出变化的值
-	//let array=data.messages.split("<br/>")
-	//data.messages=array[array.length-2]
-	// if(socketMsgQueue.length>0){
-	// 	uni.setTabBarBadge({
-	// 		index: 2,
-	// 		// tabIndex，tabbar的哪一项，从0开始
-	// 		text: String(socketMsgQueue.length).length > 3 ? "99+" : String(socketMsgQueue.length)
-	// 		// 显示的文本，超过99显示成99+
-	// 	});
-	// }
-//}, 100);
 </script>
 
 <style>
-	.time{
-		font-size: small;
-		color: #c1c1c1;
-	}
-	.right{
+	.chat-right{
 		justify-content: flex-end;
 		display: flex;
 		flex-direction: row;
-		margin-right: 4px;
-		margin-left: 4px;
+		margin-right: 8rpx;
+		margin-left: 8rpx;
 	}
-	.left{
+	.chat-left{
 		justify-content: flex-start;
 		display: flex;
 		flex-direction: row;
-		margin-right: 4px;
-		margin-left: 4px;
-	}
-	.inputstyle{
-		position: fixed;
-		width: 100%;
-		bottom: 0px;
-		background-color: #008fff;
-		display: flex;
-		flex-direction: row;
-		padding-top: 2px;
-		padding-bottom: 4px;
-		padding-left: 5px;
+		margin-right: 8rpx;
+		margin-left: 8rpx;
 	}
 	.uni-indexed-list__scroll {
 		height: 1100rpx;
 	}
-	.avatar {
+	.chat-avatar {
 		background-color: #ad7d7d;
 		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		top: 9px;
-		left: 5px;
+		width: 80rpx;
+		height: 80rpx;
+		top: 18rpx;
+		left: 10rpx;
 	}
-	.textbox{
-		height: 20px;
-		padding: 10px;
+	.chat-textbox{
+		height: 40rpx;
+		padding: 20rpx;
 		background-color: #008cffdb;
-		border-radius: 20px;
-		margin: 2px;
+		border-radius: 40rpx;
+		margin: 4rpx;
 	}
-	.textcontent{
-		font-size: 14px;
+	.chat-textcontent{
+		font-size: 28rpx;
 		font-weight: 200;
 		font-family: monospace;
 		color: aliceblue;
 	}
 </style>
-
-
-
-<!-- <template>
-	<button @click="get">获取头像</button>
-	<button @click="compress">压缩</button>
-	<button @click="mywssent">发射爱心</button>
-	<image :src="data.url"></image>
-	<uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" disable-preview>
-		<image :src="data.url" class="avatar" />
-	</uni-file-picker>
-</template>
-
-<script setup>
-import { onLoad, onShow } from "@dcloudio/uni-app";
-import { reactive, ref, watch } from "vue";
-import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend } from "../../utils/socket.js";
-const data = reactive({
-	url: '',
-	file: null,
-})
-const mywssent = async () => {
-	wssend('发射爱心')
-}
-const compress = () => {
-	uni.getImageInfo({
-		src: data.url,
-		success: function(res) {
-			console.log(res);
-			uni.compressImage({
-				src: res.path,
-				quality: 10,
-				success: res1 => {
-					console.log(res1)
-					data.url = res1.tempFilePath
-					load('/user/uploadavatar', data.url, "avatar").then(
-						(res1) => {
-							console.log("res1", res1);
-						}
-					)
-				},
-				fail: err => {
-					console.log(err)
-				}
-			})
-		},
-		fail: function(error) {
-			console.error(error);
-		}
-	});
-}
-const selectUpload = (e) => {
-	console.log(e);
-	data.file = e.tempFilePaths[0];
-}
-const get = async () => {
-	const res = await http('/user/getavatar', 'GET', {})
-	data.url = res.data
-	console.log(data.url);
-}
-
-</script>
-
-<style>
-</style> -->

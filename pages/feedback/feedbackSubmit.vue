@@ -8,9 +8,7 @@
 					<!-- 用labelstyle设置样式 -->
 
 					<uni-forms-item label="投诉分类" label-width="100px" label-style="font-size: 14px;" name="category" required>
-						<uni-data-checkbox v-model='data.categoryindex' @change="(e) => {
-							data.baseFormData.category = e.detail.data.text; console.log('--', data.baseFormData.category);
-						}" :localdata="data.categories" />
+						<uni-data-checkbox v-model='data.baseFormData.category' :localdata="data.fun_advise_type" :map="data.map" />
 					</uni-forms-item>
 					<uni-forms-item label="  问题描述" label-width="100px" label-style="font-size: 14px;" name="describes" class="small"
 						required>
@@ -20,8 +18,8 @@
 					<uni-section title="">
 						<view class="example-body">
 							<uni-file-picker :modelValue="data.baseFormData.path0" limit="9" @select="selectUpload"
-								@delete="(e) => { console.log(e); data.baseFormData.path0.splice(e.index, 1); console.log(data.baseFormData.path0) }"
-								@success="console.log(data.baseFormData.path0)" file-mediatype="video,image" title="最多选择9个图片"
+								@delete="(e) => {data.baseFormData.path0.splice(e.index, 1);}"
+								file-mediatype="video,image" title="选择文件,不支持.txt"
 								ref="uniFilePicker" required>
 								<button type="primary" size="mini">选择文件</button>
 							</uni-file-picker>
@@ -47,30 +45,22 @@
 <script setup>
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { getLocalData, delLocalData, setLocalData } from "../../utils/cache.js"
-import { reactive, ref } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import { load, http } from "../../utils/http.js"
 import { goto } from "../../utils/access.js"
 import { getarticles } from "../notice/api/getnotices.js"
 import { getCurrentTime } from '@/utils/time'
 import { useUserStore } from "../../store/User.js";
+import { useDict } from '../../utils/dict';
 const data = reactive({
-	categoryindex: null,
 	index: '',
-	categories: [{
-		text: '课程',
-		value: 0
-	}, {
-		text: '安全',
-		value: 1
-	}, {
-		text: '其他',
-		value: 2
-	}],
+	fun_advise_type:[],
+	map: {text:'label',value:'value'},
 	// 基础表单数据
 	baseFormData: {
 		contactobject: '',
 		describes: '',
-		category: [],
+		category: '',
 		path0: [],
 		//选上去的文件
 		//path1: [],
@@ -108,36 +98,54 @@ const data = reactive({
 const selectUpload = (e) => {//上传文件的函数
 	//console.log(e);
 	data.baseFormData.path0.push(e.tempFiles[0])
-	//console.log('this.baseFormData.path0', data.baseFormData.path0);
+	console.log('this.baseFormData.path0', data.baseFormData.path0);
 }
 const baseForm = ref()
 const submit = (ref) => {
-	
 		//console.log(data.baseFormData)
 		baseForm.value?.validate(['']).then(async res => {
 			//console.log('success', res);
-			uni.showToast({
-				title: `校验通过`,
-			});
+			// uni.showToast({
+			// 	title: `校验通过`,
+			// });
 			for (var i = 0; i < data.baseFormData.path0.length; i++) {
 				//这里需要改
-				await load('http://localhost:8080/api/upload', data.baseFormData.path0[i].url, "files").then(
+				await load('/api/upload', data.baseFormData.path0[i].url, "files").then(
 					(res1) => {
-						//console.log("res1", res1);
+						console.log("res1", res1);
 						data.baseFormData.path.push(res1.data);
 					}
 				)
 			}
-			//console.log("this.baseFormData.path", data.baseFormData.path)
+			console.log("this.baseFormData.path", data.baseFormData.path)
 			const res1 = await http('/api/suggestions','POST',{
 				describes: data.baseFormData.describes,
 				contactobject: data.baseFormData.contactobject,
 				category: data.baseFormData.category,
 				path: JSON.stringify(data.baseFormData.path)
 			},);
-			uni.navigateBack({
-				url: '/pages/feedback/feedback',
-			})
+			if(res1.msg=="success"){
+				uni.showToast({
+					icon:"success",
+					title:"提交成功"
+				})
+				console.log(data.index)
+				if(data.index===''){
+					console.log("46464")
+				}else{
+					let newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index)
+					console.log("提交后：",newlist)
+					setLocalData('feedDraft',newlist)
+				}
+				setTimeout(()=>{uni.navigateBack({
+					url: '/pages/feedback/feedback',
+				})},500)
+			}else{
+				uni.showToast({
+					icon:"error",
+					title:"提交失败"
+				})
+			}
 		}).catch(err => {
 			console.log('err', err);
 			// 处理验证失败的情况
@@ -146,18 +154,17 @@ const submit = (ref) => {
 }
 //保存和提交分别交到后端不同的地方
 const save = async () => {
-	
 		console.log("++data.index", data.index);
-		console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
+		//console.log("--", JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]'));
 		let newlist;
 		if (data.index === '') {
-			console.log('data.index==" "');
+			//console.log('data.index==" "');
 			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]');
 		} else {
-			console.log("data.index", data.index);
+			//console.log("data.index", data.index);
 			newlist = JSON.parse(getLocalData('feedDraft') ? getLocalData('feedDraft') : '[]').filter((item, index) => index !== data.index);
 		}
-		console.log("newlist", newlist);
+		//console.log("newlist", newlist);
 		await setLocalData('feedDraft', [
 			...newlist,
 			{
@@ -178,18 +185,20 @@ onShow(() => {
 	store.tologin(true)
 })
 onLoad(async (options) => {
+	data.fun_advise_type=useDict('fun_advise_type')
+	console.log(data.fun_advise_type)
+	// console.log(useDict('fun_advise_type'))
 	//需要获取已经id的草稿内容
 	console.log("需要获取已经草稿的内容", Number(options.index));
 	if (options.index != null) {
-		data.categoryindex = options.category == "课程" ? 0 : options.category == "安全" ? 1 : options.category == "其他" ? 2 : null;
 		data.baseFormData.category = options.category;
 		data.baseFormData.contactobject = options.contactobject;
 		data.baseFormData.describes = options.describes;
 		data.baseFormData.path0 = JSON.parse(options.path0);
 		data.index = Number(options.index);
 		console.log("data.baseFormData", data.baseFormData);
-		console.log("data.categoryindex", data.categoryindex);
 	}
+	
 })
 
 </script>

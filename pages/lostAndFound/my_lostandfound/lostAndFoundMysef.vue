@@ -11,7 +11,7 @@
 				</uni-card>
 				
 			</view>
-			<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			<image class="floating-button" src="../../../static/feedback/plus.png" @click="add"></image>
 		</view>
 		<view v-if="data.current === 1">
 			<view v-for="(item, index) in data.AllItems" :key="index" @click="onpress(item)">
@@ -20,7 +20,7 @@
 				</uni-card>
 				
 			</view>
-			<image class="floating-button" src="../../static/feedback/plus.png" @click="add"></image>
+			<image class="floating-button" src="../../../static/feedback/plus.png" @click="add"></image>
 		</view>
 	</view>
 </template>

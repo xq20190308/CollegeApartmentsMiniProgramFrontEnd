@@ -69,15 +69,15 @@
 			},
 			padding: {
 				type: String,
-				default: '10px'
+				default: '20rpx'
 			},
 			margin: {
 				type: String,
-				default: '15px'
+				default: '0px'
 			},
 			spacing: {
 				type: String,
-				default: '0 10px'
+				default: '0px'
 			},
 			extra: {
 				type: String,
@@ -103,7 +103,7 @@
 			},
 			shadow: {
 				type: String,
-				default: '0px 0px 3px 1px rgba(0, 0, 0, 0.08)'
+				default: '0 2rpx 10rpx rgba(0, 0, 0, 0.12)'
 			},
 			border: {
 				type: Boolean,
@@ -135,9 +135,8 @@
 	$uni-card-content-color: $uni-base-color;
 
 	.uni-card {
-		margin: $uni-card-spacing;
-		padding: 0 $uni-spacing-sm;
-		border-radius: 4px;
+		padding: 10rpx;
+		border-radius: 10px;
 		overflow: hidden;
 		font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
 		background-color: #fff;

@@ -6,14 +6,46 @@
 				box-shadow: 0px 2px 20px rgb(0 0 0 / 5%);" class="list">
 				
 		<uni-list v-if="data.sendtodoc" border-full>
-			<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="请选择宿舍" :righticon="''" >
+			<uni-list-item style="padding: 2px 8px;" :showArrow="false" title="请选择校区" :righticon="''" >
+				<template v-slot:footer>
+					<uni-data-picker :clear-icon="true" popup-title="" :localdata="data.originOfDo"
+					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo.campusId" :map="{text:'campusName',value:'campusId'}"
+					@change="onchangeDo" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
+					</uni-data-picker>
+				</template>
+			</uni-list-item>
+			<uni-list-item v-if="data.receiverOfDo.campusId" style="padding: 2px 8px;" :showArrow="false" title="请选择楼号" :righticon="''" >
+				<template v-slot:footer>
+					<uni-data-picker :clear-icon="true" popup-title="" :localdata="data.originOfDo[data.idIndexOfDo.campusIndex].buildings"
+					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo.buildingName" :map="{text:'buildingName',value:'buildingName'}"
+					@change="onchangeDo" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
+					</uni-data-picker>
+				</template>
+			</uni-list-item>
+			<uni-list-item v-if="data.receiverOfDo.buildingName&&data.receiverOfDo.campusId" style="padding: 2px 8px;" :showArrow="false" title="请选择楼层" :righticon="''" >
+				<template v-slot:footer>
+					<uni-data-picker :clear-icon="true" popup-title="" :localdata="data.originOfDo[data.idIndexOfDo.campusIndex].buildings[data.idIndexOfDo.buildingIndex].floors"
+					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo.floorId" :map="{text:'floorName',value:'floorId'}"
+					@change="onchangeDo" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
+					</uni-data-picker>
+				</template>
+			</uni-list-item>
+			<uni-list-item v-if="data.receiverOfDo.buildingName&&data.receiverOfDo.campusId&&data.receiverOfDo.floorId" style="padding: 2px 8px;" :showArrow="false" title="请选择宿舍" :righticon="''" >
+				<template v-slot:footer>
+					<uni-data-picker :clear-icon="true" popup-title="" :localdata="data.originOfDo[data.idIndexOfDo.campusIndex].buildings[data.idIndexOfDo.buildingIndex].floors[data.receiverOfDo.floorId-1].dormitorys"
+					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo.dormitoryName" :map="{text:'dormitoryName',value:'dormitoryName'}"
+					@change="onchangeDo" @nodeclick="onnodeclick" @popupopened="onpopupopened" @popupclosed="onpopupclosed">
+					</uni-data-picker>
+				</template>
+			</uni-list-item>
+			<!-- <uni-list-item style="padding: 2px 8px;" :showArrow="false" title="请选择宿舍" :righticon="''" >
 				<template v-slot:footer>
 					<uni-data-picker :clear-icon="true" popup-title="" :localdata="docs"
 					:border="false" :placeholder="'默认全选'" v-model="data.receiverOfDo" :map="{text:'docName',value:'docId'}"
 					@change="(e)=>{console.log('data.receiverOfDo',data.receiverOfDo)}" >
 					</uni-data-picker>
 				</template>
-			</uni-list-item>
+			</uni-list-item> -->
 		</uni-list>
 		<uni-list v-else border-full>
 			<!-- <uni-list-item v-for="(item,key) in data.receiver" :key="key" style="padding: 2px 8px;" :showArrow="false" :title="key" :righticon="''" >
@@ -102,7 +134,6 @@ const data = reactive({
 		collegeIndex:0,
 		majorIndex:0,
 	},
-	receiverOfDo:"",
 	receiver:{
 		campusId:"",
 		gradeId:"",
@@ -110,26 +141,46 @@ const data = reactive({
 		majorId:"",
 		classId:"",
 	},
-	dataTree:[],
+	originOfDo:{},
+	idIndexOfDo:{
+		campusIndex:0,
+		buildingIndex:0,
+	},
+	receiverOfDo:{
+		campusId:"",
+		buildingName:"",
+		floorId:"",
+		dormitoryName:"",
+	},
 })
-const docs=ref([{
-	docName:"GA17-436",
-	docId:"GA17-436",
-},{
-	docName:"GB14-412",
-	docId:"GB14-412",
-}])
+// const docs=ref([{
+// 	docName:"GA17-436",
+// 	docId:"GA17-436",
+// },{
+// 	docName:"GB14-412",
+// 	docId:"GB14-412",
+// }])
 const store = useUserStore()
 const post = async()=>{
-	
+	//宿舍的全选逻辑还不对，因为后端的接口不完善
 	let rece=data.sendtodoc?data.receiverOfDo:data.receiver
-	if(data.content&&rece){
+	if(data.content){
 		console.log("data.content",data.content)
 		if(!data.sendtodoc){rece.campusId=rece.campusId?rece.campusId:0
 		rece.gradeId=rece.gradeId?rece.gradeId:0
 		rece.collegeId=rece.collegeId?rece.collegeId:0
 		rece.majorId=rece.majorId?rece.majorId:0
-		rece.classId=rece.classId?rece.classId:0}
+		rece.classId=rece.classId?rece.classId:0}else{
+			if(rece.dormitoryName==""){
+				uni.showToast({
+					icon:"error",
+					title:"请选择完整"
+				})
+				return ;
+			}
+			rece={campusId:rece.campusId,dormitoryName:"G"+rece.buildingName+"-"+rece.dormitoryName}
+		}
+		console.log("to:",rece)
 		const res = await wssend(data.sendtodoc?"2":"1",data.content,rece)
 		if(res=="success"){
 			uni.showToast({
@@ -152,15 +203,32 @@ const post = async()=>{
 }
 const onnodeclick=(e)=> {
 	console.log('onnodeclick',e);
-	console.log("receiver",data.receiver)
+	console.log(data.sendtodoc?data.receiverOfDo:data.receiver)
 }
 const onpopupopened=(e)=> {
 	console.log('popupopened',e);
-	console.log("receiver",data.receiver)
+	console.log(data.sendtodoc?data.receiverOfDo:data.receiver)
 }
 const onpopupclosed=(e)=> {
 	console.log('popupclosed',e);
-	console.log("receiver",data.receiver)
+	console.log(data.sendtodoc?data.receiverOfDo:data.receiver)
+}
+const onchangeDo=(e)=> {
+	console.log('onchange:', e);
+	console.log(data.receiverOfDo)
+	data.receiverOfDo.buildingName=data.receiverOfDo.campusId?data.receiverOfDo.buildingName:""
+	data.receiverOfDo.floorId=data.receiverOfDo.campusId&&data.receiverOfDo.buildingName?data.receiverOfDo.floorId:""
+	data.receiverOfDo.dormitoryName=data.receiverOfDo.floorId&&data.receiverOfDo.buildingName&&data.receiverOfDo.campusId?data.receiverOfDo.dormitoryName:""
+	if(data.receiverOfDo.campusId){//找到校区对应索引
+		let index = data.originOfDo.findIndex(item => item.campusId === data.receiverOfDo.campusId);
+		data.idIndexOfDo.campusIndex=index
+		console.log("校区的索引",data.idIndexOfDo.campusIndex)
+	}
+	if(data.receiverOfDo.buildingName){//找到楼号对应索引
+		let index = data.originOfDo[data.idIndexOfDo.campusIndex].buildings.findIndex(item => item.buildingName === data.receiverOfDo.buildingName);
+		data.idIndexOfDo.buildingIndex=index
+		console.log("楼号的索引",data.idIndexOfDo.buildingIndex)
+	}
 }
 const onchange=(e)=> {
 	console.log('onchange:', e);
@@ -193,9 +261,12 @@ const onchange=(e)=> {
 	}
 }
 const storedata = useDataStore()
-onLoad(()=>{
+onLoad(async()=>{
 	//console.log("store.user",store.user)
-	console.log("storedata.origin",storedata.origin)	
+	console.log("storedata.origin",storedata.origin)
+	const res=await http("/dormitory-info/infos","GET",{})
+	data.originOfDo=res.data.campusInfoVOList;
+	console.log("res:",data.originOfDo);
 })
 </script>
 

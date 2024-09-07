@@ -21,7 +21,7 @@ export const useUserStore = defineStore('User', ()=>{
     //用户信息...
 	const user = ref({})
 	const token = ref("")
-	const avatar = ref("")
+	const avatarUrl = ref("")
 	// 通讯录列表，目前不需要
 	//const mailList = ref([])
 	// websocket对象，暂时不用
@@ -53,9 +53,21 @@ export const useUserStore = defineStore('User', ()=>{
 		uni.$emit('upgradeUnreceivedNum',total)
 		return total;
 	})
+	//重置store
+	const reset = ()=>{
+		user.value = {}
+		token.value = ""
+		avatarUrl.value = ""
+		//学校通知列表
+		noticeList.value = []
+		// 会话列表
+		chatList.value = []
+		// 最新消息列表
+		lastList.value = []
+	}
 	//方法
 	const getChatList = ()=>{//和初始化登录一起调用
-		console.log("getChatList in store")
+		//console.log("getChatList in store")
 		let localChatList = uni.getStorageSync('chatListOf'+user.value.userid)
 		chatList.value=localChatList!=''?JSON.parse(localChatList):[]
 		let localLastList = uni.getStorageSync('lastListOf'+user.value.userid)
@@ -90,7 +102,7 @@ export const useUserStore = defineStore('User', ()=>{
 		}
 	}
 	const handlenotice = (message,option) => {
-		console.log("handlenotice in store");
+		//console.log("handlenotice in store");
 		noticeList.value.push({
 			...message,
 			isConfirm:false,
@@ -114,23 +126,23 @@ export const useUserStore = defineStore('User', ()=>{
 		console.log("触发计算未读消息总数",totalUnreceived.value)
 	}
 	const handlemessage = async(message,option)=>{
-		console.log("handlemessage in store",message)
+		//console.log("handlemessage in store",message)
 		message.sendTime=message.sendTime.slice(0,10) +" "+ message.sendTime.slice(11,19);
 		if(message.type>0){
-			console.log("处理通告");
+			//console.log("处理通告");
 			handlenotice(message,option)
 		}else{
 			if(chatList.value.findIndex(item => item.userid == message.senderUserId)==-1){
-				console.log("会话列表中没有该用户")
+				//console.log("会话列表中没有该用户")
 				//需要向后端请求用户信息
 				const res = await http('/user/findByUserid?userid='+message.senderUserId,'GET',{},)
 				//console.log("发来消息的人的信息",res);
 				const ava = await http('/user/getavatar?otherUserid='+message.senderUserId,'GET',{});
 				
 				let info={
-					name:res.data.name,
+					trueName:res.data.trueName,
 					userid:message.senderUserId,
-					avatar:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
+					avatarUrl:ava.data?ava.data:"https://c-ssl.duitang.com/uploads/item/201602/04/20160204001032_CBWJF.jpeg",
 					unreceivedNum:0
 				}
 				chatList.value.push(info)
@@ -158,22 +170,22 @@ export const useUserStore = defineStore('User', ()=>{
 	const login = async(info)=>{//用户登录，登录后不会执行initLogin
 		//console.log("storedata.classes",storedata.classes)
 		//所以要和login函数统一
-		console.log("login in User.js")
+		//console.log("login in User.js")
 		//本地用户信息存到store中
 		token.value=info.token
 		user.value=info
-		console.log("save token in store",token.value)
-		console.log("save user in store",user.value)
+		//console.log("save token in store",token.value)
+		//console.log("save user in store",user.value)
 		uni.setStorageSync('token', info.token)
 		uni.setStorageSync('userInfo', JSON.stringify(info))
 		//console.log("save token in Storage",uni.getStorageSync('token'))
 		//console.log("save user in Storage",uni.getStorageSync('userInfo'))
 		//获取头像
 		const ava = await http('/user/getavatar','GET',{});
-		avatar.value=ava.data
-		uni.setStorageSync('avatarUrl',avatar.value);
-		//console.log("save avatar in Storage",uni.getStorageSync('avatarUrl'))
-		console.log("save avatar in store",avatar.value)
+		avatarUrl.value=ava.data
+		uni.setStorageSync('avatarUrl',avatarUrl.value);
+		//console.log("save avatarUrl in Storage",uni.getStorageSync('avatarUrl'))
+		//console.log("save avatarUrl in store",avatarUrl.value)
 		//console.log("getLocalAll");
 		//getLocalAll()
 		//建立socket连接
@@ -189,7 +201,7 @@ export const useUserStore = defineStore('User', ()=>{
 		
 	}
 	const upgradeUnreceivedNum=(total)=>{
-		console.log("设置TabBarBadge：",total)
+		//console.log("设置TabBarBadge：",total)
 		setTimeout(async() => {
 			let pages = await getCurrentPages();
 			//console.log("pages",pages)
@@ -216,7 +228,7 @@ export const useUserStore = defineStore('User', ()=>{
 	}
 	const initLogin = async ()=>{
 		//console.log("storedata.classes",storedata.classes)
-		console.log("initLogin in store")
+		//console.log("initLogin in store")
 		//本地用户信息存到store中	
 		token.value=uni.getStorageSync('token')
 		//console.log("get token in Storage",token.value)
@@ -224,9 +236,9 @@ export const useUserStore = defineStore('User', ()=>{
 			console.log("用户在线")
 			//用户信息
 			user.value=JSON.parse(uni.getStorageSync('userInfo'))
-			console.log("get userInfo in Storage",user.value)
-			avatar.value=uni.getStorageSync('avatarUrl')
-			console.log("get avatar in Storage",avatar.value)
+			//console.log("get userInfo in Storage",user.value)
+			avatarUrl.value=uni.getStorageSync('avatarUrl')
+			//console.log("get avatarUrl in Storage",avatarUrl.value)
 			//建立socket连接
 			wsopen('/websocket1');
 			await getChatList()
@@ -270,30 +282,33 @@ export const useUserStore = defineStore('User', ()=>{
 			});
 		}
 	} 
+	const handledelogin=(option)=>{
+		uni.removeTabBarBadge({
+			index:2,
+			complete:(res)=> {
+				console.log(res)
+			}
+		})
+		clearUserInfo()
+		chatList.value=[]
+		lastList.value=[]
+		wsclose();
+		user.value={}
+		avatarUrl.value=""
+		token.value=""
+		if(option){
+			uni.navigateTo({
+				url: "/pages/login/loginPage"
+			})
+		}
+	}
 	const delogin=async (option)=> {
 		 uni.showModal({
 		 	title: '提示',
 		 	content: "确认退出登录？",
 		 	success: (res) => {
 		 		if (res.confirm) {
-					uni.removeTabBarBadge({
-						index:2,
-						complete:(res)=> {
-							console.log(res)
-						}
-					})
-		 			clearUserInfo()
-					chatList.value=[]
-					lastList.value=[]
-					wsclose();
-					user.value={}
-					avatar.value=""
-					token.value=""
-					if(option){
-						uni.navigateTo({
-							url: "/pages/login/loginPage"
-						})
-					}
+					handledelogin(option)
 		 		} else if (res.cancel) {
 					
 		 		}
@@ -305,7 +320,8 @@ export const useUserStore = defineStore('User', ()=>{
 	//第三行方法
     return { count, doubleCount, increment,
 		//用户信息对象，token(用的比较多单独取出来)，头像，socket对象，会话列表
-		user, token, avatar, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
+		user, token, avatarUrl, chat,chatList,totalUnreceived,lastList ,isRelogin,noticeList,unreceivedNoticeNum,
 		//用户登录，程序启动时的登录初始化
-		login,initLogin,handlemessage,delogin,tologin }
+		login,initLogin,handlemessage,delogin,tologin,handledelogin,
+		reset}
 })

@@ -3,12 +3,18 @@
 		<uni-section title="已提交投诉" sub-title="" type="line" style="width: 98%;margin: auto;">
 			<view class="notice-list">
 				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
-					<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: left;" @click="look(item)">
-						<!--view>id：{{item.id}}</view-->
-						<view>时间：{{item.pushtime}}</view>
-						<view>类别：{{item.category}}</view>
-						<view>内容：{{item.describes}}</view>
-						<view>联系电话：{{item.contactobject}}</view>
+					<view style=" width: 100%; display: flex; flex-direction: row;justify-content: center;">
+						<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: right;" @click="look(item)">
+							<view></view>
+							<!-- <view>学号：{{item.stu_id}}</view> -->
+							<view>时间：{{item.pushtime.replace("T"," ")}}</view>
+							<view>类别：{{item.category}}</view>
+							<view>内容：{{item.describes}}</view>
+							<view>联系电话：{{item.contactobject}}</view>
+						</view>
+						<view class="tag-view">
+							<uni-tag :inverted="true" :text="map[item.status].label" :type="map[item.status].class" />
+						</view>
 					</view>
 				</view>
 			</view>
@@ -18,14 +24,23 @@
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {reactive,computed, ref} from "vue";
 import {http} from '@/utils/http'
 import {goto} from "../../utils/access.js"
+import { useDict } from "../../utils/dict.js";
 const data = reactive({
-	complaintDrafts: [] // 初始为空数组
+	complaintDrafts: [], // 初始为空数组
 })
-onLoad(()=> {
+const map =ref([])
+onLoad((options)=> {
 	// 页面加载时获取数据
+	var option=JSON.parse(options.options)
+	map.value = option.fun_advise_status.reduce((acc, item) => {
+	  acc[item.value] = { ...item };
+	  delete acc[item.value].value;
+	  return acc;
+	}, {});
+	
 })
 onShow(()=>{
 	fetchComplaintDrafts();
@@ -47,25 +62,32 @@ const look=(item)=> {
 
 
 <style>
+	.tag-view{
+		width: 46%;
+		transform: rotate(25deg);
+		display: flex;
+		justify-content: inherit;
+	}
 	.notice-list {
 		width: 95%;
 		margin-left: 8px;
+		display: flex;
+		flex-direction: column-reverse;
 	}
 	.notice-item {
 		margin-top: 24rpx!important;
+		margin-left: 20rpx;
 		width: 90%;
 		height: auto;
 		border: 1px solid #e2e2e2;
-		border-radius: 25px;
-		padding: 10rpx 30rpx;
 		padding-top: 30rpx;
 		padding-bottom: 30rpx;
+		padding-left: 30rpx;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: row;
-		background-color: azure;
-		box-shadow: #999999 2px 2px 2px 2px;
+		box-shadow: #99999947 2px 2px 2px 2px;
 		place-items: flex-start;
 	}
 	.notice-item>text {
