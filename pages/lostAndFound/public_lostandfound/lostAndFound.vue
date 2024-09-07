@@ -58,7 +58,7 @@
     </view>
 		
 		    <view>
-		        <image class="floating-button" src="../../static/function/lostandfound_per.png" @click="changePage"></image>
+		        <image class="floating-button" src="../../../static/function/lostandfound_per.png" @click="changePage"></image>
 		    </view>
 </template>
 
