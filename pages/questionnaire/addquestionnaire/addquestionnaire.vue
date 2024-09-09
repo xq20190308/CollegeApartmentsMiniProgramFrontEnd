@@ -2,7 +2,7 @@
 	<view class="banner">
 	<view class="itemrow">
 		<text style="margin-left: 20rpx;margin-top: 10rpx;">匿名</text>
-		<switch color="#008fff" style="margin-right: 10rpx;" :checked="newNaire.anonymous" @change="(e)=>{newNaire.anonymous=e.detail.value;console.log(newNaire.anonymous)}" />
+		<switch :disabled="newNaire.id" color="#008fff" style="margin-right: 10rpx;" :checked="newNaire.anonymous" @change="(e)=>{newNaire.anonymous=e.detail.value;console.log(newNaire.anonymous)}" />
 	</view>
 	<uni-section class="bar,barb" title="问卷类型（选择）：" type="line">
 		<uni-data-checkbox v-model='newNaire.type' :localdata="data.fun_questionnare_type" :map="data.map" />
@@ -19,7 +19,7 @@
 	<view class="bar,barb">
 	<uni-section v-for="(que,qindex) in questionList" :key="qindex" :title="qindex + 1 + '.' + data.fun_question_type[questionList[qindex].type].label" type="line" >
 		<template v-slot:right>
-			<uni-icons @click="()=>{
+			<uni-icons v-if="!newNaire.id" @click="()=>{
 				console.log(qindex);
 				questionList = questionList.filter((item, index) => index !== qindex)
 			}" type="closeempty" size="20"></uni-icons>
@@ -27,14 +27,14 @@
 			<input v-model="questionList[qindex].name" placeholder="请输入题目名称"  />
 			<input v-model="questionList[qindex].description" placeholder="请输入题目描述"  />
 			<view v-if="typeof questionList[qindex].content === 'object'">
-				<view class="itemrow" v-for="(item, index) in questionList[qindex].content" :key="index">
-					<view style="display: flex;">
+				<view v-for="(item, index) in questionList[qindex].content" :key="index">
+					<view class="itemrow">
 					<text class="text-common">{{String.fromCharCode('A'.charCodeAt(0)+ index)}}</text>
-					<input v-model="questionList[qindex].content[index]" placeholder="请输入选项"  />
+					<uni-icons v-if="!newNaire.id" @click="deletechoiceitem(qindex,index)" type="closeempty" size="20"></uni-icons>
 					</view>
-					<uni-icons @click="deletechoiceitem(qindex,index)" type="closeempty" size="20"></uni-icons>
+					<input v-model="questionList[qindex].content[index]" placeholder="请输入选项"  />
 				</view>
-				<uni-icons @click="()=>{
+				<uni-icons v-if="!newNaire.id" @click="()=>{
 					console.log(qindex);
 					questionList[qindex].content.push(' ');
 				}" type="plusempty" size="20"></uni-icons>
@@ -42,12 +42,12 @@
 	</uni-section>
 		
 	</view>
-	<view class="itemrow">
+	<view v-if="!newNaire.id" class="itemrow">
 		<button class="bntrow" v-for="(dict,index) in data.fun_question_type" :key="index" @click="(e)=>addquestion(index)">创建{{dict.label}}</button>
 	</view>
 	</view>
 	<view id="submit" class="itemrow">
-		<button class="submitBnt" @click="submit">创建</button>
+		<button class="submitBnt" @click="submit">{{newNaire.id?'修改':'创建'}}</button>
 	</view>
 </template>
 <script setup>
@@ -72,13 +72,9 @@ const data = reactive({
 	range:[]
 })
 const deletechoiceitem = (qindex,index)=>{
-	console.log(index);
-	console.log(questionList.value[qindex].content)
 	questionList.value[qindex].content = questionList.value[qindex].content.filter((item, eindex) => eindex !== index)
-	console.log(questionList.value[qindex].content)
 }
 const addquestion=(index)=>{
-	console.log(index);
 	let content = data.fun_question_type[index].label.includes("选")?["","",""]:""
 	questionList.value.push({
 		type: index,
@@ -86,7 +82,6 @@ const addquestion=(index)=>{
 		description: "",
 		content: content,
 	});
-	console.log(questionList.value)
 	uni.pageScrollTo({
 		selector: '#submit',
 		duration: 50,
@@ -96,13 +91,10 @@ const addquestion=(index)=>{
 	});
 } 
 const submit = async ()=> {
-	console.log("新问卷",newNaire)
-	console.log("新问卷的问题",questionList.value)
 	//校验
 	for (const key in newNaire) {
 		console.log(key,newNaire[key])
 		if(newNaire[key]===""){//问卷信息有空项
-		console.log("data.newNaire[key]==''",key)
 			uni.showToast({
 				title:"请填写完整问卷信息",
 				icon:"error"
@@ -131,7 +123,7 @@ const submit = async ()=> {
 				}
 			}else{
 				uni.showToast({
-					title:"选择题至少有一个选项请填写完整",
+					title:"选择题至少一个选项",
 					icon:"error"
 				})
 				return ;
@@ -147,44 +139,66 @@ const submit = async ()=> {
 
 }
 const submithttp=(url,restitle)=>{
-	let list=questionList.value;
+	let list=[...questionList.value];
 	for(let i=0;i<questionList.value.length;i++){
 		list[i].content=JSON.stringify(list[i].content);
 		list[i].type=data.fun_question_type[list[i].type].value
 	}
-	console.log('data.questionList',list)
-	http(url,'POST',{...newNaire,questionList:list},).then(()=>{
-		uni.showToast({
-			title: restitle
-		}).then(()=>{
-			setTimeout(() => {
-				uni.navigateBack();
-			}, 2000); 
-		})
+	if(!newNaire.anonymous){
+		list=[
+			...list,
+			{
+			type: "name",
+			name: "姓名",
+			description: "请输入真实姓名",
+			content: JSON.stringify(""),
+			},{
+			type: "userid",
+			name: "学号",
+			description: "请输入学号",
+			content: JSON.stringify(""),
+		}
+		]
+	}
+	uni.showModal({
+		title: "确定提交？",
+		success: (res) => {
+			if(res.confirm){
+				
+				http(url,'POST',{...newNaire,questionList:list},).then(()=>{
+					uni.showToast({
+						title: restitle
+					}).then(()=>{
+						uni.navigateBack();
+					})
+				})
+			}
+		}
 	})
+	
 }
 onLoad((options)=>{
 	data.fun_questionnare_type=useDict('fun_questionnare_type')
 	data.fun_question_type=useDict('fun_question_type')
 	if(options.info){
-		console.log("修改")
 		let info = JSON.parse(options.info)
 		for(const key in info){
 			newNaire[key]=info[key]
 		}
 		data.range=[newNaire.startTime,newNaire.endTime];
-		console.log("--",data.range);
 		questionList.value=[]
 		http('/questionnaire/question/selectByQuestionnaireId/'+newNaire.id,'GET',{},).then((res)=>{
-			console.log("getquestions().then")
 			for(let i=0;i<res.data.length;i++){
-				console.log(data.fun_question_type)
-				console.log(res.data[i].type)
-				console.log(data.fun_question_type.findIndex((dict)=>{return dict.value===res.data[i].type}))
+				if(!newNaire.anonymous){
+					res.data=res.data.filter((item)=>{
+						return item.type!="name"&&item.type!="userid"
+					})
+					console.log("删除实名信息后的的问题",res.data)
+				}
 				res.data[i].type = data.fun_question_type.findIndex((dict)=>{return dict.value===res.data[i].type})
 				res.data[i].content=JSON.parse(res.data[i].content)
-				questionList.value.push(res.data[i])
 			}
+			questionList.value=[...res.data]
 		})
 	}
 })

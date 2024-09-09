@@ -155,10 +155,16 @@ const showmyanswer = async () => {
 				success: (res1) => {
 					if (res1.confirm) {
 						let current=JSON.parse(res.data.answer);
+						if(!newNaire.anonymous){
+							data.valiFormData["name"]=current[current.length-2]
+							data.valiFormData["id"]=current[current.length-1]
+							current.slice(0,current.length-2)
+						}
 						for (var i = 0; i < current.length; i++) {
 							data.valiFormData['q'+i] = current[i]
 						}
 						console.log('++',current)
+						console.log(data.valiFormData)
 					} else if (res1.cancel) {
 						console.log('用户点击取消');
 					}
@@ -175,6 +181,10 @@ const submit = (ref) => {
 		for (var i = 0; i < data.questionList.length; i++) {
 			answer.push(data.valiFormData['q'+i])
 		}
+		if(!newNaire.anonymous){
+			answer.push(data.valiFormData["name"])
+			answer.push(data.valiFormData["id"])
+		}
 		console.log(JSON.stringify(answer));
 		//POST提交到后端
 		http('/questionnaire/useranswer/submit','POST',{
@@ -183,7 +193,8 @@ const submit = (ref) => {
 		}).then((res)=>{
 			if(res.msg=="您已填写过该问卷"){
 				uni.showToast({
-					title: "你已填写过该问卷"
+					title: "你已填写过该问卷",
+					icon:"error"
 				});
 			}else{
 				uni.showToast({
@@ -196,6 +207,13 @@ const submit = (ref) => {
 }
 const getquestions =() => { 
 	http('/questionnaire/question/selectByQuestionnaireId/'+newNaire.id,'GET',{},).then((res)=>{
+		console.log("所有的问题",res.data)
+		if(!newNaire.anonymous){
+			res.data=res.data.filter((item)=>{
+				return item.type!="name"&&item.type!="userid"
+			})
+			console.log("删除实名信息后的的问题",res.data)
+		}
 		for(let i=0;i<res.data.length;i++){
 			res.data[i].content = JSON.parse(res.data[i].content)
 			if(typeof res.data[i].content === "object"){
@@ -212,8 +230,8 @@ const getquestions =() => {
 			console.log(res.data[i].type)
 			console.log(data.fun_question_type.filter((dict)=>{return dict.value===res.data[i].type}))
 			res.data[i].type=data.fun_question_type.filter((dict)=>{return dict.value===res.data[i].type})[0].label
-			data.questionList.push(res.data[i])
 		}
+		data.questionList=[...res.data]
 	})
 }
 onLoad(async (options) => {
