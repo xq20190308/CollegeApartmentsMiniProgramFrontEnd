@@ -1,7 +1,4 @@
 import App from './App'
-export const mainFun = ()=>{
-	console.log("mainFun");
-}
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
@@ -15,17 +12,43 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
-import { createPinia } from 'pinia'
+import * as Pinia from 'pinia';
 import './global/commen/home.css'
 import './global/commen/function.css'
-const pinia = createPinia()
+import { useUserStore } from "@/store/User.js"
+import { useLoginStore } from "@/store/Login.js"
+import { http } from "./utils/http.js"
+export const mainFun = ()=>{
+	console.log("mainFun");
+	const store=useUserStore();
+	store.initLogin()
+	const loginInfoStore = useLoginStore()
+	loginInfoStore.InitLoginInfo()
+	uni.$on('onMessage',async(msg)=>{
+		let pages = await getCurrentPages();
+		let message=JSON.parse(msg);
+		
+		if(pages[pages.length - 1]!=undefined&&pages[pages.length - 1].$vm.__route__ != 'pages/chat/chat'){
+			console.log('!!!!!pages/chat/chat',"+++",pages[pages.length - 1].$vm.__route__)
+			//不能是chat页面，否则会重复监听
+			console.log("APP.vue uni.$on('onMessage')",msg)
+			//存本地
+			//console.log("message",message)
+			store.handlemessage(message)
+			
+			
+		}else{
+			console.log('pages/chat/chat',"---",pages[pages.length - 1].$vm.__route__)
+		}
+	})
+}
+const app = createSSRApp(App);
+app.use(Pinia.createPinia());
 export function createApp() {
-  const app = createSSRApp(App)
-	app.use(pinia)
-  return {
-    app
-  }
+	return {
+		app,
+		Pinia, // 此处必须将 Pinia 返回
+	};
 }
 mainFun();
-
 // #endif

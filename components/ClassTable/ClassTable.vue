@@ -3,7 +3,7 @@
 		<view>
 			<view class="tooltr">
 				<view class="tool">
-					<text class="title">第{{classTableData.curWeek}}周</text>
+					<text class="title">第{{CourseStore.classTableData[index].curWeek}}周</text>
 				</view>
 				<view class="tooltrend">
 					<view class="toolbutton" @click="last"><uni-icons style="margin-top: 6rpx;" type="arrow-left" size="14" color="#969696"></uni-icons></view>
@@ -15,14 +15,14 @@
 			<div class="class-table">
 				<div class="thead">
 					<div class="tr">
-						<div class="th" v-for="(item, index) in classTableData.weeks" :key="index">
+						<div class="th" v-for="(item, index) in CourseStore.classTableData[index].weeks" :key="index">
 							<text class="title">{{'周' + item.day}}</text><br/>
 							<text class="title">{{item.date}}</text>
 						</div>
 					</div>
 				</div>
 				<div class="tbody">
-					<div class="tr" v-for="(item, index) in classTableData.courses" :key="index">
+					<div class="tr" v-for="(item, index) in CourseStore.classTableData[index].courses" :key="index">
 						<div class="td" v-for="(innerItem, idx) in item" :key="idx">
 							<div v-if="innerItem.jsxm!=0">
 								<text class="name">{{ innerItem?.kcmc }}\n</text>
@@ -39,17 +39,20 @@
 </template>
 
 <script setup>
+import { isInteger } from 'lodash-es';
 import { computed, ref } from 'vue';
+import { useCourseStore } from "../../store/study/course.js";
+const CourseStore = useCourseStore()
 const underline = (index)=>{
-	return props.classTableData.curDay%7===index+1?"text-decoration: underline;text-underline-position: under;":""
+	return CourseStore.classTableData[props.index].curDay%7===index+1?"text-decoration: underline;text-underline-position: under;":""
 }
 const last=()=>{
-	if(props.classTableData.curWeek>1){
+	if(CourseStore.classTableData[props.index].curWeek>1){
 		uni.$emit("courseIndexLast")
 	}
 }
 const next=()=>{
-	if(props.classTableData.curWeek<19){
+	if(CourseStore.classTableData[props.index].curWeek<19){
 		uni.$emit("courseIndexNext")
 	}
 }
@@ -60,11 +63,9 @@ const add=()=>{
 	uni.$emit("courseAdd")
 }
 const props = defineProps({
-  classTableData: {
-    type: Object,
-    default: () => {
-		return {}
-	}
+  index: {
+	  type: Number,
+	  default: 1
   }
 });
 </script>

@@ -1,17 +1,34 @@
 <template>
-	<image src="../../static/pu/pu.jpg" mode="widthFix"></image>
+	<view class="banner">
+		<view class="bar,barb" v-for="(item,key) in puInfo.myPuInfo" :key="key">
+		<uni-section type="line" :title="key">
+			<text class="text-common">{{item}}</text>
+		</uni-section>
+		</view>
+	</view>
 </template>
 
 <script setup>
 import { onLoad, onShow} from "@dcloudio/uni-app";
-import { wsclose,wsopen,wssend} from "../../utils/socket.js";
+import { useLoginStore } from "@/store/login.js";
+import { getPuInfo } from "./api/pu.js"
+import { usePuStore } from "@/store/pu/pu.js";
+const puInfo = usePuStore()
+const loginInof = useLoginStore()
+uni.$on("puUp",()=>{
+	console.log(loginInof.pu)
+	getPuInfo()
+})
 onShow(() => {
-	//socketMsgQueue.length=0;
-	uni.removeTabBarBadge({
-		index: 2 // tabIndex，tabbar的哪一项，从0开始
-	});
 })
 onLoad(()=>{
+	if(loginInof.loginInfos.pu.login){
+		console.log(loginInof.pu)
+		getPuInfo()
+	}
+	else{
+		loginInof.tologin("pu口袋校园")
+	}
 }) 
 </script>
 

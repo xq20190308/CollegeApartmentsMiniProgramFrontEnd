@@ -108,7 +108,7 @@
 		padding-left: 0;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
-		border-bottom-color:  #DEDEDE00;
+		border-bottom-color: #d5d5d5b3;
 	}
 
 	.uni-indexed-list__item-border--last {

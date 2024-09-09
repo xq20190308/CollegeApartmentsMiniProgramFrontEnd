@@ -34,11 +34,17 @@
 <script setup>
 import { onLoad, onShow} from "@dcloudio/uni-app";
 import { setLocalData } from "../../utils/cache.js"
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { load, http } from "../../utils/http.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { useUserStore } from "../../store/User.js"
-const filelist=ref({})
+const store = useUserStore()
+const filelist=computed(()=>([{
+	url: store.avatarUrl,
+	extname: 'png',
+	name: 'avatarUrl.png'
+}]))
+filelist.value.push()
 const imageStyles = ref({
 	width: 100,
 	height: 100,
@@ -46,7 +52,6 @@ const imageStyles = ref({
 		radius: '50%'
 	}
 })
-const store = useUserStore()
 
 const selectUpload = (e)=>{
 	load('/user/uploadavatar',e.tempFilePaths[0],"avatar").then(
@@ -69,11 +74,7 @@ onShow( async () => {
 	handleMessageBar(store.totalUnreceived)
 })
 onLoad(()=>{
-	filelist.value={
-		url: store.avatarUrl,
-		extname: 'png',
-		name: 'avatarUrl.png'
-	}
+	
 }) 
 </script>
 

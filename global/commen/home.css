@@ -126,3 +126,9 @@
   display: block;
   gap: 20rpx;
 }
+.rowend{
+	display: flex; 
+	gap: 5rpx;
+	flex-direction: row;
+	justify-content: flex-end;
+}

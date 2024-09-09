@@ -20,5 +20,5 @@ export const useDateStore = defineStore('Date', ()=>{
 	}
 	
 	console.log(termData.timeTable)
-	return {termData}
+	return {termData,WeekNum}
 })

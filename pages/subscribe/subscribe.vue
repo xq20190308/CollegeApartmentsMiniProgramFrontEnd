@@ -11,7 +11,7 @@ import {reactive,ref} from "vue";
 import {http} from '@/utils/http'
 import {getarticles} from "../notice/api/getnotices.js"
 import {getCurrentTime} from '@/utils/time'
-import {mainFun} from '../../main.js'
+// import {mainFun} from '../../main.js'
 import {send,subscribe,check,test} from "@/utils/sengmessage.js"
 import { useUserStore } from "../../store/User.js"
 import { storeToRefs } from 'pinia'
