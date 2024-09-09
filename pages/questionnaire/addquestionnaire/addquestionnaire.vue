@@ -139,7 +139,7 @@ const submit = async ()=> {
 
 }
 const submithttp=(url,restitle)=>{
-	let list=[...questionList.value];
+	let list = JSON.parse(JSON.stringify(questionList.value));
 	for(let i=0;i<questionList.value.length;i++){
 		list[i].content=JSON.stringify(list[i].content);
 		list[i].type=data.fun_question_type[list[i].type].value
