@@ -55,14 +55,15 @@
 
 <style lang="scss" scoped>
 	.uni-indexed-list__list {
-		background-color: $uni-bg-color;
+		// background-color: $uni-bg-color;
+		background-color: transparent;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
 		flex-direction: column;
 		border-top-style: solid;
 		border-top-width: 1px;
-		border-top-color: #DEDEDE;
+		border-top-color: #DEDEDE00;
 	}
 
 	.uni-indexed-list__item {
@@ -107,7 +108,7 @@
 		padding-left: 0;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
-		border-bottom-color:  #DEDEDE;
+		border-bottom-color:  #DEDEDE00;
 	}
 
 	.uni-indexed-list__item-border--last {
@@ -132,13 +133,14 @@
 		display: flex;
 		width: 100%;
 		/* #endif */
-		background-color: #f7f7f7;
+		background-color: #f7f7f700;
 	}
 
 	.uni-indexed-list__title {
-		padding: 6px 12px;
-		line-height: 24px;
-		font-size: 16px;
-		font-weight: 500;
+	    padding: 12rpx 24rpx;
+	    line-height: 24rpx;
+	    font-size: 24rpx;
+	    font-weight: 500;
+	    color: #66666666;
 	}
 </style>

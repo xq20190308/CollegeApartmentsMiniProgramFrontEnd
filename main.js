@@ -16,7 +16,8 @@ app.$mount()
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import './global/commen/home.css'
+import './global/commen/function.css'
 const pinia = createPinia()
 export function createApp() {
   const app = createSSRApp(App)

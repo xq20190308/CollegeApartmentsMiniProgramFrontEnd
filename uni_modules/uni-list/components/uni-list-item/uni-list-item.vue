@@ -174,7 +174,7 @@
 			},
 			border: {
 				type: Boolean,
-				default: true
+				default: false
 			},
 			customStyle: {
 				type: Object,

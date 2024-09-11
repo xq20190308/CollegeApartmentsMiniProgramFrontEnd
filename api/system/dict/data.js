@@ -7,7 +7,6 @@ export function getDicts(dictType) {
 		method: 'POST',
 		header:{},
 		success: (res) => {
-			console.log(res)
 			resolve(res.data)
 		},
 		fail: (err) => {

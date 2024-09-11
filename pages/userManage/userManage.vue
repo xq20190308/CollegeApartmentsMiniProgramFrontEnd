@@ -2,7 +2,7 @@
 	<view style="display: flex;flex-direction: column;">
 		<view style="width: 100%; height: auto;">
 			<d-search-log placeholder="输入学号" color_border="#666666" color_text="#666666"
-			:is_show_more="false" @onSearchNameApi="onSearchName"></d-search-log>
+			:is_show_more="false" @onSearchNameApi="onSearchName" ></d-search-log>
 		</view>
 	</view>
 	<uni-section title="个人信息" type="line" v-if="data.userInfo!=null">
@@ -161,7 +161,7 @@ const debindwx=async()=>{
 const onSearchName = async (e)=>{
 	data.inputValue=e;
 	console.log(data.inputValue);
-	if(/^\d{12}$/.test(data.inputValue)){
+	if(/^\d+$/.test(data.inputValue)){
 		console.log("数据有效")
 		const res = await http('/user/findByUserid?userid='+data.inputValue,'GET',{},)
 		data.userInfo = res.data;

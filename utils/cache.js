@@ -1,4 +1,3 @@
-import { useUserStore } from "../store/User";
 // 存数据
 // 单个具名函数导出
 export function setLocalData(key, data) {

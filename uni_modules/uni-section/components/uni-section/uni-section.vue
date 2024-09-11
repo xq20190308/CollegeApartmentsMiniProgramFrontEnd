@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-section">
+	<view class="uni-section" :style="sectionstyle">
 		<view class="uni-section-header" @click="onClick">
 				<view class="uni-section-header__decoration" v-if="type" :class="type" />
         <slot v-else name="decoration"></slot>
@@ -36,6 +36,7 @@
 	 * @property {String} subTitleFontSize 副标题字体大小
 	 * @property {String} subTitleColor 副标题字体颜色
 	 * @property {String} padding 默认插槽 padding
+	 * @property {String} sectionstyle section样式
 	 */
 
 	export default {
@@ -53,11 +54,11 @@
 			},
       titleFontSize: {
         type: String,
-        default: '14px'
+        default: '30rpx'
       },
 			titleColor:{
 				type: String,
-				default: '#333'
+				default: '#131313'
 			},
 			subTitle: {
 				type: String,
@@ -73,7 +74,11 @@
       },
 			padding: {
 				type: [Boolean, String],
-				default: false
+				default: true
+			},
+			sectionstyle:{
+				type: String,
+				default: ''
 			}
 		},
     computed:{
@@ -82,7 +87,7 @@
           return this.padding
         }
 
-        return this.padding?'10px':''
+        return this.padding?'0 10px':''
       }
     },
 		watch: {
@@ -103,7 +108,7 @@
 	$uni-primary: #2979ff !default;
 
 	.uni-section {
-		background-color: #fff;
+		// background-color: #fff;
     .uni-section-header {
       position: relative;
       /* #ifndef APP-NVUE */

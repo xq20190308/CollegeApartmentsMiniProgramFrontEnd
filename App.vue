@@ -1,11 +1,14 @@
 <script>
 	import { useUserStore } from "./store/User.js"
+	import { useLoginStore } from "./store/Login.js"
 	import { http } from "./utils/http.js"
 	export default {
 		onLaunch: async function() {
 			console.log('App Launch')
 			const store=useUserStore();
 			await store.initLogin()
+			const loginInfoStore = useLoginStore()
+			loginInfoStore.InitLoginInfo()
 			uni.$on('onMessage',async(msg)=>{
 				let pages = await getCurrentPages();
 				let message=JSON.parse(msg);
@@ -35,4 +38,7 @@
 
 <style>
 	/*每个页面公共css */
+	text{
+		word-wrap: break-word;
+	}
 </style>

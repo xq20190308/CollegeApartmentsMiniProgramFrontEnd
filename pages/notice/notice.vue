@@ -86,7 +86,6 @@ const deletenotice = async (index) =>{
 					  data.articles = response.sort((a, b) => a.id - b.id);;
 						console.log('response',response); // 输出: 这是返回的数据
 					})
-					console.log("删除的res",res)
 					console.log('用户点击确定');
 				} else if (r.cancel) {
 					console.log('用户点击取消');
@@ -113,9 +112,6 @@ onLoad((options) => {
 
 
 <style>
-	text{
-		word-wrap: break-word;
-	}
 	.cates{
 		display: flex;
 		flex-direction: row;
@@ -190,13 +186,5 @@ onLoad((options) => {
 		font-weight: 500;
 		font-size: calc(14rpx * 2);
 		line-height: calc(15rpx * 2);
-	}
-	.addnaireicon {
-		position: fixed;
-		bottom:60rpx; 
-		right: 50rpx; 
-		width: 80rpx; 
-		height: 80rpx; 
-		z-index: 999;
 	}
 </style>

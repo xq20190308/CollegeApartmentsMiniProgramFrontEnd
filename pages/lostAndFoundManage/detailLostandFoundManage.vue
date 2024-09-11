@@ -62,7 +62,10 @@
 		inputDialog.value.open();
 		data.showReason = true;
 		submitreason();
-		
+		uni.navigateBack({
+			url:'../../pages/lostAndFoundManage/lostandfoundManagelist',
+		})
+		//把驳回原因上传到哪里呢
 	}
 
 	const dialogInputConfirm = (val) => {
@@ -83,6 +86,7 @@
 	const submitreason = () => {
 			// const res = await http(`/api/updateStatus`, 'POST', status);
 	}
+
 	//通过按钮
 	const submit = async() =>{
 		const status = '已通过';
@@ -100,6 +104,8 @@
 			url:'../../pages/lostAndFoundManage/lostandfoundManagelist',
 		})
 	}
+
+	
 	
 	
 </script>
