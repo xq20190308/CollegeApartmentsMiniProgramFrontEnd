@@ -23,7 +23,9 @@
 							<uni-tr v-for="(item,index) in submitCounts.answerCountList" :key="index">
 								<uni-td>{{index+1}}</uni-td>
 								<uni-td>
-									<uni-tr v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{String.fromCharCode(indexofc+'A'.charCodeAt(0))+"  "+data.questionList[index].content[indexofc].text}}</uni-tr>
+									<uni-tr v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">
+									{{String.fromCharCode(indexofc+'A'.charCodeAt(0))+"  "+data.questionList[index].content[indexofc].text}}
+									</uni-tr>
 								</uni-td>
 								<uni-td>
 									<uni-tr v-for="(itemofc,indexofc) in item.choiceSumList" :key="indexofc">{{Number(itemofc)}}</uni-tr>

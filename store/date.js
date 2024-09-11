@@ -5,7 +5,7 @@ export const useDateStore = defineStore('Date', ()=>{
 	const termData = reactive({
 	  curTermStart: '2024-08-26',
 	  timeTable: [[]],
-	  weeks: ['一','二','三','四','五','六','七']
+	  weeks: ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
 	})
 	const WeekNum = ref(19)
 	for (var i = 1; i <= WeekNum.value; i++) {

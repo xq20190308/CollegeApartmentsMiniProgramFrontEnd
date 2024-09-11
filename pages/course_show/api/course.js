@@ -7,9 +7,9 @@ const termInfo=useDateStore()
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
 export const ComplaintDrafts = (index,refresh) => {
-	console.log("CourseStore.classTableData",CourseStore.classTableData)
-	console.log(refresh,CourseStore.classTableData[index].courses.length)
-	if(CourseStore.classTableData[index].courses.length!=0&&!refresh){
+	// console.log("CourseStore.classDayData",CourseStore.classDayData)
+	// console.log(refresh,CourseStore.classDayData[index].courses.length)
+	if(CourseStore.classDayData[index].courses.length!=0&&!refresh){
 		console.log("√index")
 	}else{
 		console.log("×index")
@@ -25,8 +25,12 @@ export const ComplaintDrafts = (index,refresh) => {
 				// username:'202211070621',
 				// password:'wyc.1024'
 			},).then((res)=>{
-				CourseStore.classTableData[index].courses = res.data?res.data:[]
-				console.log(CourseStore.classTableData[index])
+				CourseStore.classDayData[index].courses = res.data?.map((day,index)=>{return day.map((course,i) => {return {
+					info: course,
+					code: course.kcmc.split('').reduce((sum,cur)=>sum+cur.charCodeAt(0)-'0',0)
+				}})})
+				CourseStore.updataCalssTableData(index,CourseStore.classDayData[index].courses)
+				// console.log(CourseStore.classDayData[index])
 			})
 		}
 	}

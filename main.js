@@ -42,6 +42,11 @@ export const mainFun = ()=>{
 		}
 	})
 }
+// 定义全局数据
+export const appData = {
+  colorList: ['#e24b00', '#cece66', '#0078f8', '#009d00', '#ff5500', '#568181'],
+  colorN: 6
+};
 const app = createSSRApp(App);
 app.use(Pinia.createPinia());
 export function createApp() {
