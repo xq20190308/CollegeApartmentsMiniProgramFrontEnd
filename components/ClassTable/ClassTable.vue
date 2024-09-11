@@ -133,10 +133,4 @@ const props = defineProps({
 		height: 100%;
 		box-sizing: border-box;
 	}
-	.class-item > * {
-	  display: table-cell;
-	  vertical-align: middle;
-	  width: 100%;
-	  height: 100%;
-	}
 </style>
