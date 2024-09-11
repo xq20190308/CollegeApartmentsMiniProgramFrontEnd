@@ -1,6 +1,6 @@
 <template>
 	<view style="width: 95%; margin-left: 20rpx; margin-top: 20rpx;">
-		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 360rpx;">
+		<img src="https://www.sj51.net/wp-content/uploads/2023/04/2023042715152251.png" style="width: 100%;height: 360rpx;">
 		<view style="width:90%;margin-left: 38rpx;">
 			<!-- 表单校验 -->
 			<uni-forms ref="req" :rules="rules" :modelValue="reqdata" label-position="top">
