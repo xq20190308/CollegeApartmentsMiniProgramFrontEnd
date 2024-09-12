@@ -3,10 +3,10 @@
 </template>
 
 <script>
-	import {
+/* 	import {
 	        excelToData,
 	        dataToExcel
-	    } from '@/uni_modules/ml-excel-to-json/jssdk/parseExcel.js'
+	    } from '@/uni_modules/ml-excel-to-json/jssdk/parseExcel.js' */
 	    
 	 //    const getExcel=()=> {
 	 //            dataToExcel('getJsonToExcel', {

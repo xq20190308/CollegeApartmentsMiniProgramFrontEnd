@@ -1,6 +1,6 @@
 <template>
 	<view style="width: 95%; margin-left: 10px; margin-top: 10px;">
-		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 180px;">
+		<img src="https://www.sj51.net/wp-content/uploads/2023/04/2023042715152251.png" style="width: 100%;height: 180px;">
 
 		<view style="width:90%;margin-left: 19px;">
 			<!-- 表单校验 -->
