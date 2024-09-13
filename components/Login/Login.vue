@@ -4,14 +4,14 @@
 		<view style="width:90%;margin-left: 38rpx;">
 			<!-- 表单校验 -->
 			<uni-forms ref="req" :rules="rules" :modelValue="reqdata" label-position="top">
-				<uni-forms-item class="form-item" label="学号" required name="username">
+				<uni-forms-item class="form-item" label="账号" required name="username">
 					<!-- <uni-easyinput v-model="reqdata.username" placeholder="请输入学号" @input="debounceUsernameInput" /> -->
-					<uni-easyinput v-model="reqdata.username" placeholder="请输入学号" />
+					<uni-easyinput v-model="reqdata.username" placeholder="请输入账号" />
 				</uni-forms-item>
 				<uni-forms-item class="form-item" label="密码" required name="password">
 					<!-- <input placeholder="请输入密码" :value="reqdata.password"  @input="debouncePasswordInput" /> -->
 					<!-- <uni-easyinput v-model="reqdata.password" placeholder="请输入密码" @input="debouncePasswordInput" /> -->
-					<uni-easyinput v-model="reqdata.password" placeholder="请输入密码" />
+					<uni-easyinput type="password" v-model="reqdata.password" placeholder="请输入密码" />
 				</uni-forms-item>
 			</uni-forms>
 		</view>
@@ -28,8 +28,6 @@
 <script setup>
 import { reactive, ref } from "vue";
 import { http } from "../../utils/http.js"
-import { useLoginStore } from "../../store/login.js";
-const loginInof = useLoginStore()
 const props = defineProps({
   url: {
     type: String,
@@ -46,7 +44,7 @@ const rules = reactive({
 	username: {
 		rules: [{
 			required: true,
-			errorMessage: '请输入学号'
+			errorMessage: '请输入账号'
 		}]
 	},
 	password: {
@@ -60,21 +58,28 @@ const reqdata = reactive({
 	password: "",
 })
 const req = ref()
-const loginConfirm = async (ref) => {
-	await req.value?.validate().then(async valid => {
-		await http(props.url,'POST',{
+const loginConfirm = (ref) => {
+	req.value?.validate().then(valid => {
+		http(props.url,'POST',{
 			username:reqdata.username,
 			password:reqdata.password
 		},).then((res) => {
-				console.log(res)
+			console.log(res)
+			if(res.msg==="success"){
 				uni.$emit("loginInfoUp",{
 					title: props.title,
 					reqdata: reqdata
 				})
 				uni.navigateBack()
-			}).catch(err => {
-				console.log('error', err);
-			})
+			}else{
+				uni.showToast({
+					title: res.msg,
+					icon: "error"
+				})
+			}
+		}).catch(err => {
+			console.log('error', err);
+		})
 	}).catch(err => {console.log("填写不正确")})
 }
 </script>

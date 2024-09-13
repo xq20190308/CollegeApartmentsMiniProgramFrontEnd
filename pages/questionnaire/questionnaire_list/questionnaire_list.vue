@@ -5,7 +5,7 @@
 			<uni-section  :title="item.name" type="line" titleFontSize=42rpx :sectionstyle="item.isEnd?'opacity: 0.5':''" >
 				<template v-slot:right>
 					<view style="display: flex; gap: 5rpx;">
-						<button @click.stop="(e)=>{modifynaire(item)}" class="deletbutton">修改</button>
+						<button v-if="!item.isBegin" @click.stop="(e)=>{modifynaire(item)}" class="deletbutton">修改</button>
 						<button @click.stop="(e)=>{deletenaire(item)}" class="deletbutton">删除</button>
 					</view>
 				</template>
@@ -22,8 +22,7 @@
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
-import {getLocalData,delLocalData, setLocalData} from "../../../utils/cache.js"
-import questionnaire from '../../../components/questionnaire/questionnaire.vue'
+// import questionnaire from '../../../components/questionnaire/questionnaire.vue'
 import {goto} from "../../../utils/access.js"
 import {http} from '@/utils/http'
 import {getCurrentTime,getTimeStamp} from '@/utils/time'
@@ -56,64 +55,38 @@ const gotonaire = (item) =>{
 			icon:'error'
 		})
 	}else{
-		if(uni.getStorageSync('token')){
-			uni.navigateTo({
-				url:'../questionnaire_home/questionnaire_home?info='+JSON.stringify(item)
-			})
-		}else{
-			store.tologin()
-		}
+		uni.navigateTo({
+			url:'../questionnaire_home/questionnaire_home?info='+JSON.stringify(item)
+		})
 	}
 }
-const modifynaire = (item)=>{
-	if(item.isEnd){
-		console.log("问卷已结束");
-		uni.showModal({
-			title:'问卷已结束',
-			icon:'error'
-		})
-	}else{
-		goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item),
-			'questionnaireManage')
-	}
+const modifynaire = (naire)=>{
+	let item = {...naire}
+	item.type = data.fun_questionnare_type.filter((dict)=>{return dict.label===item.type})[0].value
+	goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item),
+		'questionnaireManage')
 }
 const deletenaire =async (item)=> {
-	
-	if(item.isEnd){
-		console.log("问卷已结束");
-		uni.showModal({
-			title:'问卷已结束',
-			icon:'error'
-		})
-	}else{
-		if(store.user.userPermission['questionnaireManage']){
-			uni.showModal({
-				title: '提示',
-				content: '确定要删除该文件吗',
-				success:async (res) => {
-					if (res.confirm) { 
-						const res = await http('/questionnaire/deleteById/'+item.id,'DELETE',{},);
-						console.log(res);
-						getNaireslist()
-					} else if (res.cancel) {
-						console.log("取消删除问卷");
-					}
-				}
-			});
+	uni.showModal({
+		title: '提示',
+		content: '确定要删除该文件吗',
+		success:async (res) => {
+			if (res.confirm) { 
+				const res = await http('/questionnaire/deleteById/'+item.id,'DELETE',{},);
+				console.log(res);
+				getNaireslist()
+			} else if (res.cancel) {
+				console.log("取消删除问卷");
+			}
 		}
-		else{
-			uni.showToast({
-				title: "你没有权限",
-				icon: "error"
-			})
-		}
-	}
+	});
 }
 onLoad(() => {
 	data.fun_questionnare_type=useDict('fun_questionnare_type')
 	getNaireslist()
 })
 onShow(()=>{
+	console.log(data.questionnairelist)
 })
 </script>
 <style lang="scss" scoped>

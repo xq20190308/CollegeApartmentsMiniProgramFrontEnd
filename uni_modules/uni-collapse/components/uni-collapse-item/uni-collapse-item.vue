@@ -274,7 +274,7 @@
 			}
 
 			&-box {
-				padding: 0 15px;
+				// padding: 0 15px;
 				/* #ifndef APP-NVUE */
 				display: flex;
 				width: 100%;
@@ -339,7 +339,7 @@
 				justify-content: center;
 				width: 20px;
 				height: 20px;
-				margin-right: 10px;
+				// margin-right: 10px;
 				transform: rotate(0deg);
 
 				&-active {
@@ -367,6 +367,7 @@
 				/* #ifndef APP-NVUE */
 				will-change: height;
 				/* #endif */
+				padding: 0 15rpx;
 			}
 
 

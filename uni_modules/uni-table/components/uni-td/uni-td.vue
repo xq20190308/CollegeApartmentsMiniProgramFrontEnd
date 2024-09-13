@@ -6,7 +6,7 @@
 	<!-- #endif -->
 	<!-- #ifndef H5 -->
 	<!-- :class="{'table--border':border}"  -->
-	<view class="uni-table-td" :class="{'table--border':border}" :style="{width:width + 'px','text-align':align}">
+	<view class="uni-table-td" :class="{'table--border':border}" :style="{width:width + 'px','text-align':align, 'padding': padding, 'font-size': smaller?'smaller':'' }">
 		<slot></slot>
 	</view>
 	<!-- #endif -->
@@ -26,6 +26,14 @@
 			virtualHost: true
 		},
 		props: {
+			smaller: {
+				type: Boolean,
+				default: false
+			},
+			padding: {
+				type: String,
+				default: "8px 10px"
+			},
 			width: {
 				type: [String, Number],
 				default: ''
@@ -75,12 +83,12 @@
 
 	.uni-table-td {
 		display: table-cell;
-		padding: 8px 10px;
+		// padding: 8px 10px;
 		font-size: 14px;
 		border-bottom: 1px $border-color solid;
 		font-weight: 400;
 		color: #606266;
-		line-height: 23px;
+		line-height: 16px;
 		box-sizing: border-box;
 	}
 

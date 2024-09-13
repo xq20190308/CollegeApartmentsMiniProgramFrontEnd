@@ -14,7 +14,7 @@
 	</th>
 	<!-- #endif -->
 	<!-- #ifndef H5 -->
-	<view class="uni-table-th" :class="{ 'table--border': border }" :style="{ width: customWidth + 'px', 'text-align': align }"><slot></slot></view>
+	<view class="uni-table-th" :class="{ 'table--border': border }" :style="{ width: customWidth + 'px', 'text-align': align, 'padding': padding, 'font-size': smaller?'smaller':'' }"><slot></slot></view>
 	<!-- #endif -->
 </template>
 
@@ -50,6 +50,14 @@ export default {
 	},
 	emits:['sort-change','filter-change'],
 	props: {
+		smaller: {
+			type: Boolean,
+			default: false
+		},
+		padding: {
+			type: String,
+			default: "12px 10px"
+		},
 		width: {
 			type: [String, Number],
 			default: ''
@@ -209,7 +217,7 @@ $border-color: #ebeef5;
 $uni-primary: #007aff !default;
 
 .uni-table-th {
-	padding: 12px 10px;
+	// padding: 12px 10px;
 	/* #ifndef APP-NVUE */
 	display: table-cell;
 	box-sizing: border-box;
@@ -218,6 +226,7 @@ $uni-primary: #007aff !default;
 	font-weight: bold;
 	color: #909399;
 	border-bottom: 1px $border-color solid;
+	background: #f0f0f070;
 }
 
 .uni-table-th-row {
