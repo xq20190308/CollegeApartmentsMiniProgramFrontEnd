@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { reactive,ref,computed } from "vue";
 import { getCourseDate } from '../utils/time';
+import { beforeTime,afterTime } from '../utils/time';
 export const useDateStore = defineStore('Date', ()=>{
 	const termData = reactive({
 	  curTermStart: '2024-08-26',
@@ -18,7 +19,27 @@ export const useDateStore = defineStore('Date', ()=>{
 			})
 		}
 	}
+	const getSweekFromTime = (time)=>{
+		console.log("time",time)
+		for(let i=0;i<termData.timeTable.length;i++){
+			console.log("第",i,"周开始：",termData.timeTable[i][0]?.date)
+			if(beforeTime(time,termData.timeTable[i][6]?.date)){
+				console.log("从第",i,"周开始")
+				return i
+			}
+		}
+	}
+	const getEweekFromTime = (time)=>{
+		console.log("time",time)
+		for(let i=0;i<termData.timeTable.length;i++){
+			console.log("第",i,"周结束：",termData.timeTable[i][6]?.date)
+			if(afterTime(termData.timeTable[i][6]?.date,time)){
+				console.log("到第",i,"周结束")
+				return i
+			}
+		}
+	}
 	
 	console.log(termData.timeTable)
-	return {termData,WeekNum}
+	return {termData,WeekNum,getSweekFromTime,getEweekFromTime}
 })

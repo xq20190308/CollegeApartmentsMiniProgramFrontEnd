@@ -2,7 +2,7 @@
 	<view class="banner">
 		<text class="underline-text" @click="()=>{data.showsubmits=data.showsubmits?false:true;}">{{data.showsubmits?"问卷详情":"提交情况"}}</text>
 		<view class="bar,barb">
-			<uni-section v-if="data.showsubmits" title="提交情况">
+			<uni-section v-if="data.showsubmits" title="提交情况" type="line">
 				<template v-slot:right>
 					<uni-icons @click="overview" type="refreshempty" size="18"></uni-icons>
 				</template>

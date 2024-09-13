@@ -5,22 +5,38 @@
 		</view>
 		<uni-list v-if="data.isonsearch">
 			<view class="barl" v-for="(i,index) in data.searchIndex" :key="index">
-				<uni-list-item :title="data.mentor_list[i].trueName" :clickable="true" @click="gotoinfo(i)" />
+				<uni-list-item :title="MentorStore.mentor_list[i].trueName" :clickable="true" @click="gotoinfo(i)" />
 			</view>
 		</uni-list>
-		<uni-indexed-list v-else :options="data.mentor_list_ABC" :show-select="false" @click="gotoinfo" />
+		<uni-indexed-list v-else :options="mentor_list_ABC" :show-select="false" @click="gotoinfo" />
 	</view>
 </template>
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
 import {http} from '@/utils/http'
-import { useUserStore } from "../../store/User.js"
+import { useUserStore } from "@/store/User.js"
+import { useMentorStore } from '@/store/study/mentor.js';
+import { getMentors } from "./api/mentor.js";
+const MentorStore =useMentorStore()
 const store=useUserStore()
+const mentor_list_ABC=computed(()=>{
+	let list=[]
+	for (var i = 0; i < 26; i++) {
+		list.push({
+			letter:String.fromCharCode('A'.charCodeAt(0)+ i),
+			data: []
+		});
+	}
+	for (var i = 0; i < MentorStore.mentor_list.length; i++) {
+		let index = list.findIndex(item => item.letter === MentorStore.mentor_list[i].nameInitialLetter);
+		list[index].data.push(MentorStore.mentor_list[i].trueName)
+	}
+	console.log('list',list)
+	return list
+})
 const data = reactive({
-	mentor_list:[],
-	mentor_list_ABC:[],
 	search_list:[],
 	store_key:'mentor_namelist',
 	input_text:'',
@@ -29,14 +45,14 @@ const data = reactive({
 })
 const gotoinfo=(e)=>{
 	let i=typeof e=="number"?e:e.item.itemIndex
-	let detail=data.mentor_list[i]
+	let detail=MentorStore.mentor_list[i]
 	uni.navigateTo({
 		url:"/pages/chat/chatinfo?info="+JSON.stringify({...{},userid:detail.userId})
 	})
 }
 const onSearchName = (e)=>{
 	if(e!=""){//搜索
-		data.searchIndex = data.mentor_list.map((item, index) => ({ item, index }))
+		data.searchIndex = MentorStore.mentor_list.map((item, index) => ({ item, index }))
         .filter(({ item }) => item.trueName.includes(e))
         .map(({ index }) => index);
 		data.isonsearch=true
@@ -47,24 +63,8 @@ const onSearchName = (e)=>{
 }
 onLoad(async (options) => {
 	console.log("store.user",store.token)
-	data.mentor_list=[]
-	data.mentor_list_ABC=[]
 	if(store.token!=""){//这里
-		http('/user/findByUserLevel?userLevel='+1,'GET',{},).then((res)=>{
-			console.log("导师信息表",res.data)
-			data.mentor_list=res.data
-			for (var i = 0; i < 26; i++) {
-				data.mentor_list_ABC.push({
-					letter:String.fromCharCode('A'.charCodeAt(0)+ i),
-					data: []
-				});
-			}
-			for (var i = 0; i < data.mentor_list.length; i++) {
-				let index = data.mentor_list_ABC.findIndex(item => item.letter === data.mentor_list[i].nameInitialLetter);
-				data.mentor_list_ABC[index].data.push(data.mentor_list[i].trueName)
-			}
-			console.log('data.mentor_list_ABC',data.mentor_list_ABC)
-		})
+		getMentors()
 	}else{
 		store.tologin()
 	}

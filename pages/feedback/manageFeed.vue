@@ -1,24 +1,21 @@
 <template>
-	<view>
-		<uni-section title="已提交投诉" sub-title="" type="line" style="width: 98%;margin: auto;">
-			<view class="notice-list">
-				<view class="notice-item" v-for="(item,index) in data.complaintDrafts" :key="index" >
-					<view style=" width: 100%; display: flex; flex-direction: row;justify-content: center;">
-						<view style="display: flex;width: 100%; flex-direction: column;justify-content: center; align-items: right;" @click="look(item)">
-							<view></view>
-							<!-- <view>学号：{{item.stu_id}}</view> -->
-							<view>时间：{{item.pushtime.replace("T"," ")}}</view>
-							<view>类别：{{item.category}}</view>
-							<view>内容：{{item.describes}}</view>
-							<view>联系电话：{{item.contactobject}}</view>
-						</view>
-						<view class="tag-view">
-							<uni-tag :inverted="true" :text="map[item.status].label" :type="map[item.status].class" />
-						</view>
+	<view class="banner">
+		<view class="notice-list">
+			<view class="bar,barb" v-for="(item,index) in data.complaintDrafts" :key="index">
+				<uni-section :title="item.category" sub-title="" type="line">
+					<template v-slot:right>
+						<uni-tag :inverted="true" :text="map[item.status].label" :type="map[item.status].class" />
+					</template>
+					<view class="naireInfo" @click="look(item)">
+						<!-- <view>学号：{{item.stu_id}}</view> -->
+						<view>时间：{{item.pushtime.replace("T"," ")}}</view>
+						<view>类别：{{item.category}}</view>
+						<view>内容：{{item.describes}}</view>
+						<view>联系电话：{{item.contactobject}}</view>
 					</view>
-				</view>
+				</uni-section>
 			</view>
-		</uni-section>
+		</view>
 	</view>
 </template>
 
@@ -62,92 +59,6 @@ const look=(item)=> {
 
 
 <style>
-	.tag-view{
-		width: 46%;
-		transform: rotate(25deg);
-		display: flex;
-		justify-content: inherit;
-	}
-	.notice-list {
-		width: 95%;
-		margin-left: 8px;
-		display: flex;
-		flex-direction: column-reverse;
-	}
-	.notice-item {
-		margin-top: 24rpx!important;
-		margin-left: 20rpx;
-		width: 90%;
-		height: auto;
-		border: 1px solid #e2e2e2;
-		padding-top: 30rpx;
-		padding-bottom: 30rpx;
-		padding-left: 30rpx;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: row;
-		box-shadow: #99999947 2px 2px 2px 2px;
-		place-items: flex-start;
-	}
-	.notice-item>text {
-		display: block;
-	}
-	.underline-text {
-		padding-bottom: 5px;
-		padding-left: 5px;
-		float: right;
-		font-weight: 300;
-		font-size: 12px;
-		text-decoration: underline;
-		color: #000000;
-		position: fixed;
-		left: 300px;
-		top: 15px;
-	  }
-	  .underline-text:active {
-	    color: #0000ff; /* 点击时的蓝色 */
-	  }
-	
-	.notice-item text:nth-child(2) {
-		text-indent: 2em;
-		display: flex;
-		padding-top: 10rpx;
-	}
-
-	.notice-item text:nth-child(3) {
-		padding-top: 24rpx;
-		font-size: 16rpx !important;
-	}
-	.notice-item text:nth-child(4) {
-		font-size: 16rpx !important;
-	}
-	
-	.notice-item text:nth-child(2),
-	.notice-item text:nth-child(3),
-	.notice-item text:nth-child(4) {
-		color: #999999;
-		font-family: 'Inter';
-		font-style: normal;
-		font-weight: 400;
-		font-size: calc(12rpx * 2);
-		line-height: calc(15rpx * 2);
-	}
-	.floating-button {
-		position: fixed;
-		bottom:60rpx; 
-		right: 50rpx; 
-		width: 80rpx; 
-		height: 80rpx; 
-	}
-	.deletbutton{
-		background-color:indianred;
-		color:white;
-		width: 50px;
-		height:40x;
-		font-size: 10px;
-		text-align: center;
-	} 
 </style>
 
 

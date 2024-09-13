@@ -50,12 +50,6 @@
 				"navigationBarTitleText": "调查问卷",
 				"enablePullDownRefresh": false
 			}
-		},{
-			"path": "pages/questionnaire/excel",
-			"style": {
-				"navigationBarTitleText": "问卷表格导出",
-				"enablePullDownRefresh": false
-			}
 		},
 		{
 			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
@@ -138,20 +132,6 @@
 			"path": "pages/notice/notice_markdown",
 			"style": {
 				"navigationBarTitleText": "通知markdown",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/chat/chat",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/chat/chatinfo",
-			"style": {
-				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false
 			}
 		},{
@@ -284,7 +264,14 @@
 			"path" : "pages/loginManage/loginManage",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "登录管理"
+			}
+		},
+		{
+			"path" : "pages/leave/leave",
+			"style" : 
+			{
+				"navigationBarTitleText" : "请假助手"
 			}
 		}
 	],

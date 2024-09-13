@@ -1,5 +1,5 @@
 <template>
-	<view class="container">
+	<view class="banner">
 
 		<uni-section title="投诉与意见" type="line">
 			<view class="example">

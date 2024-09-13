@@ -130,3 +130,8 @@
 	.scroll-view{
 		background: linear-gradient(to bottom, #7cbaec, #ffffff80);
 	}
+	.notation{
+		font-size: 23rpx;
+		padding: 0rpx,20rpx;
+		color: ;
+	}

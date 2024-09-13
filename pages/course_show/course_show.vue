@@ -14,13 +14,6 @@ import { useCourseStore } from "../../store/study/course.js";
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
 const index=ref(1)
-uni.$on("qzUp",(login)=>{//接受传来的参数判断是不是要删除所有相关store
-	if(!login){
-		CourseStore.clear()
-	}else{
-		ComplaintDrafts(index.value)
-	}
-})
 uni.$on("courseIndexLast",()=>{
 	index.value--
 	ComplaintDrafts(index.value)

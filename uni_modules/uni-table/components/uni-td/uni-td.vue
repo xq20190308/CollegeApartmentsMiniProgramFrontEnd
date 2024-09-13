@@ -6,7 +6,7 @@
 	<!-- #endif -->
 	<!-- #ifndef H5 -->
 	<!-- :class="{'table--border':border}"  -->
-	<view class="uni-table-td" :class="{'table--border':border}" :style="{width:width + 'px','text-align':align, 'padding': padding, 'font-size': smaller?'smaller':'' }">
+	<view class="uni-table-td" :class="{'table--border':border,'table--radius':radius}" :style="{width:width + 'px','text-align':align, 'padding': padding, 'font-size': smaller?'smaller':'','background': background}">
 		<slot></slot>
 	</view>
 	<!-- #endif -->
@@ -26,6 +26,10 @@
 			virtualHost: true
 		},
 		props: {
+			background:{
+				type: String,
+				default: ""
+			},
 			smaller: {
 				type: Boolean,
 				default: false
@@ -49,6 +53,10 @@
 			colspan: {
 					type: [Number,String],
 				default: 1
+			},
+			radius: {
+				type: Boolean,
+				default: false
 			}
 		},
 		data() {
@@ -94,5 +102,9 @@
 
 	.table--border {
 		border-right: 1px $border-color solid;
+	}
+	
+	.table--radius{
+		border-radius: 10rpx;
 	}
 </style>

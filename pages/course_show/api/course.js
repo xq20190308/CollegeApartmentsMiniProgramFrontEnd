@@ -6,7 +6,7 @@ import { useDateStore } from "../../../store/date.js";
 const termInfo=useDateStore()
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
-export const ComplaintDrafts = (index,refresh) => {
+export const ComplaintDrafts = async(index,refresh) => {
 	// console.log("CourseStore.classDayData",CourseStore.classDayData)
 	// console.log(refresh,CourseStore.classDayData[index].courses.length)
 	if(CourseStore.classDayData[index].courses.length!=0&&!refresh){
@@ -19,19 +19,21 @@ export const ComplaintDrafts = (index,refresh) => {
 		// 	courses: []
 		// }
 		if(loginInof.loginInfos.qz.login){
-			http('/api/SelectCourse/'+index,'Post',{
+			//保证res对应正确
+			const res = await http('/api/SelectCourse/'+index,'Post',{
 				username: loginInof.qz.username,
 				password: loginInof.qz.password
 				// username:'202211070621',
 				// password:'wyc.1024'
-			},).then((res)=>{
-				CourseStore.classDayData[index].courses = res.data?.map((day,index)=>{return day.map((course,i) => {return {
-					info: course,
-					code: course.kcmc.split('').reduce((sum,cur)=>sum+cur.charCodeAt(0)-'0',0)
-				}})})
-				CourseStore.updataCalssTableData(index,CourseStore.classDayData[index].courses)
-				// console.log(CourseStore.classDayData[index])
-			})
+			},)
+			CourseStore.classDayData[index].courses = res.data?.map((day,index)=>{return day.map((course,i) => {return {
+				info: course,
+				code: course.kcmc.split('').reduce((sum,cur)=>sum+cur.charCodeAt(0)-'0',0)
+			}})})
+			CourseStore.updataCalssTableData(index,CourseStore.classDayData[index].courses)
+			// console.log(CourseStore.classDayData[index])
+		}else{
+			console.log("未登录")
 		}
 	}
 }
