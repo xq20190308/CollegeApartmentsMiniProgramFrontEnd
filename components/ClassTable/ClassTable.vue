@@ -45,7 +45,7 @@ const underline = (index)=>{
 }
 const last=()=>{
 	if(props.classTableData.curWeek>1){
-		uni.$emit("courseIndexLast")
+		uni.$emit("courseIndexLast") //emit是传送的数据
 	}
 }
 const next=()=>{

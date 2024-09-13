@@ -130,10 +130,11 @@ const onClickItem = (e) => {
 const onpress = (item) => {
   console.log("跳转到每条失物招领的详细信息,要携带id", item.pickLocation);
   uni.navigateTo({
-    url: `../lostAndFound/public_lostandfound/detailLostandFound?` +
+    url: `../public_lostandfound/detailLostandFound?` +
       `describes=${item.describes}&` +
       `img=${item.img}&` +
       `contactobject=${item.contactobject}&` +
+			`name=${item.name}&` +
       `pickLocation=${item.pickLocation}&` +
       `pickTime=${item.pickTime}&` +
 			`filepath=${item.filepath}`,

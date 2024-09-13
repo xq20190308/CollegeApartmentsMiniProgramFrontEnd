@@ -43,7 +43,7 @@
 	import {reactive, ref} from "vue";
 	import {http} from '@/utils/http';
 	import { useUserStore } from "../../../store/User.js";
-	
+	import { load } from "@/utils/http";
 	const store = useUserStore();
 	const data = reactive({
 		//基础表单数据
@@ -117,27 +117,41 @@
 				console.log('success', res1);
 				for (var i = 0; i < data.baseFormData.path0.length; i++) {
 					await load('/api/uploadItem', data.baseFormData.path0[i].url, "file", {}).then(
-						(res1) => {
-							console.log("res1", res1);
-							data.baseFormData.path.push(res1.data);
+						(res) => {
+							console.log("res", res);
+							data.baseFormData.path.push(res.data);
 						}
-					)
+					).catch((err)=>{
+						console.log("err")
+					})
 				}
-			
+
 				const res = await http('/api/addFound','POST',{
 					category:'found',
 					describes: data.baseFormData.describes,
 					stuid: store.user.username,
-					name:data.baseFormData.name,
+					name:data.baseFormData.pickName,
+					contact_object: data.baseFormData.contactobject,
+					pick_time: data.baseFormData.pickTime,
+					pick_location:data.baseFormData.pickLocation,
+					
+					file_path: JSON.stringify(data.baseFormData.path)
+				},);
+				// console.log("封装后请求的结果",res)
+				// console.log(res.data);
+				let info={
+					category:'found',
+					describes: data.baseFormData.describes,
+					stuid: store.user.username,
+					name:data.baseFormData.pickName,
 					contactobject: data.baseFormData.contactobject,
 					pickTime: data.baseFormData.pickTime,
 					pickLocation:data.baseFormData.pickLocation,
 					
 					filepath: JSON.stringify(data.baseFormData.path)
-				},);
-				console.log("封装后请求的结果",res)
-				console.log(res.data);
-
+				}
+				console.log("info",info)
+				console.log("res", res)
 				uni.navigateBack({
 					url:'../../pages/lostAndFound/lostAndFound',
 				});

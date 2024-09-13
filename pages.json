@@ -114,6 +114,22 @@
 			}
 		},
 		{
+				"path":"pages/classroomSearch/classroomSearch",
+				"style": {
+					"navigationBarTitleText": "空教室搜索",
+					"enablePullDownRefresh": false
+				}
+		},
+		{
+			"path":"pages/gradesShow/gradesShow",
+			"style": {
+				"navigationBarTitleText": "成绩展示",
+				"enablePullDownRefresh": false
+			}
+		},
+		
+		
+		{
 			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "通知列表",
