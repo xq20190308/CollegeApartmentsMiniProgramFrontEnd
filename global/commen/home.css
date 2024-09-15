@@ -66,6 +66,7 @@
 	font-size: 20px;
     display: flex;
     justify-content: center;
+	padding-bottom: 10rpx;
 }
 .nav-item {
 	border-radius: 16rpx;

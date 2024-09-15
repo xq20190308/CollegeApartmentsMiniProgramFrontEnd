@@ -13,3 +13,17 @@ export const getPuInfo = ()=>{
 		console.log(puInfo.myPuInfo)
 	})
 }
+export const getPuActivities = (requestPage)=>{
+	return http('/api/getActivityInfo','POST',{
+		username: loginInof.pu.username,
+		password: loginInof.pu.password,
+		requestPage: requestPage
+	},)
+}
+export const joinActivity = (id)=>{
+	return http('/api/joinActivity','POST',{
+		username: loginInof.pu.username,
+		password: loginInof.pu.password,
+		activityId: id
+	},)
+}

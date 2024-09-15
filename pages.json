@@ -35,7 +35,8 @@
 		{
 			"path": "pages/pu/pu",
 			"style": {
-				"navigationBarTitleText": "pu活动"
+				"navigationBarTitleText": "pu活动",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -272,6 +273,13 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "请假助手"
+			}
+		},
+		{
+			"path" : "pages/leave/leaveDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],

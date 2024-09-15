@@ -9,3 +9,6 @@ export const getMentors =()=>{
 		})
 	}
 }
+export const getReviewers = (level)=>{
+	return http('/user/findByUserLevel?userLevel='+level,'GET',{},)
+}

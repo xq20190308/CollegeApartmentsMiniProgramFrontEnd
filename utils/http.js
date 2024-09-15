@@ -23,6 +23,7 @@ const httpInterceptor = {
 			// options.header.Authorization = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImQ4ZDFlNDkwLTE2YmItNDhkMC05ODYzLWMwODkwMTlhMmNmNiJ9.s7L0jxNTKr4PRKtxoIL4j_ZqA7sTm-olV1uZ0MgeI4FqtioSVxBM0EFoBWctXFgQ-ABAYd6YqOXhioAQaZ9d3Q"
 			// options.header.Cookie = "Pycharm-a988aaf7=09264537-d521-4fa9-bcee-0145a8ddfcc2; username=admin; rememberMe=true; password=mySB+8Gzz0IM3J0Af5OsN+gNN/Fmr1zK0cFMf8ynjPn42TTq7OAcVvYxevlWKhZGTBs1UgSXS3khUhzhkRlFXA==; Admin-Token=eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6ImQ4ZDFlNDkwLTE2YmItNDhkMC05ODYzLWMwODkwMTlhMmNmNiJ9.s7L0jxNTKr4PRKtxoIL4j_ZqA7sTm-olV1uZ0MgeI4FqtioSVxBM0EFoBWctXFgQ-ABAYd6YqOXhioAQaZ9d3Q"
 		}
+		console.log("请求体：",options)
 	},
 
 }
@@ -30,6 +31,10 @@ const httpInterceptor = {
 uni.addInterceptor('request', httpInterceptor)
 uni.addInterceptor('uploadFile', httpInterceptor)
 export const load = (url, filePath, name, formData) => {
+	uni.showLoading({
+		title: '请等待',
+		mask:true
+	});
 	//返回Promise 对象
 	return new Promise((resolve, reject) => {
 		uni.uploadFile({
@@ -43,6 +48,7 @@ export const load = (url, filePath, name, formData) => {
 				'Content-Type': 'multipart/form-data; charset=UTF-8'
 			},
 			success: (uploadFileRes) => {
+				uni.hideLoading();
 				if (uploadFileRes.data == '') {
 					uni.showToast({
 						title: "文件过大",
@@ -53,6 +59,7 @@ export const load = (url, filePath, name, formData) => {
 				}
 			},
 			fail: (err) => {
+				uni.hideLoading();
 				console.log("--", err);
 				//和上面的resolve同理
 				reject(err)
@@ -61,6 +68,10 @@ export const load = (url, filePath, name, formData) => {
 	})
 }
 export const http = (url, method, data) => {
+	// uni.showLoading({
+	// 	title: '请等待',
+	// 	mask:true
+	// });
 	//返回Promise 对象
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -70,6 +81,7 @@ export const http = (url, method, data) => {
 			header: {},
 			//请求成功
 			success(res) {
+				// uni.hideLoading();
 				//需对状态码进行分类处理，登录信息token
 				if (res.statusCode >= 200 && res.statusCode < 300) {
 					resolve(res.data)
@@ -114,6 +126,7 @@ export const http = (url, method, data) => {
 
 			},
 			fail(err) {
+				// uni.hideLoading();
 				uni.showToast({
 					title: "网路请求失败",
 					icon: "error"

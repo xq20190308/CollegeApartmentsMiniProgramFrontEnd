@@ -82,13 +82,13 @@ const addquestion=(index)=>{
 		description: "",
 		content: content,
 	});
-	uni.pageScrollTo({
+	setTimeout(()=>{uni.pageScrollTo({
 		selector: '#submit',
 		duration: 50,
 		complete: (res)=> {
 			console.log(res)
 		}
-	});
+	})},500);//等待页面更新完成
 } 
 const submit = async ()=> {
 	//校验

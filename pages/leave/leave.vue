@@ -1,135 +1,184 @@
 <template>
 	<view class="banner">
-		<view class="bar,barb">
-		<uni-section title="请假条" type="line">
-		<!-- 表单校验 -->
-		<uni-forms ref="valiForm" :rules="rules" :modelValue="newNaire" label-position="top">
-			<uni-forms-item label="开始时间" name="item" required>
-				<uni-datetime-picker v-model="newNaire.startTime" :clearIcon="false" />
-			</uni-forms-item>
-			<uni-forms-item label="结束时间" name="item" required>
-				<uni-datetime-picker v-model="newNaire.endTime" :clearIcon="false" />
-			</uni-forms-item>
-			<uni-forms-item label="类型" name="item" required>
-				<uni-data-checkbox v-model="newNaire.type" :localdata="fun_question_type" :map="data.map1"/>
-			</uni-forms-item>
-			<uni-forms-item label="原因" name="item" required>
-				<uni-easyinput type="textarea" autoHeight v-model="newNaire.reason" placeholder="请输入原因" />
-			</uni-forms-item>
-		</uni-forms>
-		{{newNaire.courses}}
-		{{newNaire.mentors}}
-		<view v-for="(course,cindex) in Courses" :key="cindex">
-		<uni-data-checkbox :disabled="!mentorInfos[cindex].length>0" @change="(e)=>{postCourseChange(cindex,e)}" :multiple="true" mode="button" :wrap="true" v-model="newNaire.courses[cindex]" :localdata="Courses[cindex]" :map="data.mapCourse"></uni-data-checkbox>
-			<uni-data-checkbox v-if="mentorInfos[cindex].length>0" mode="button" v-model="newNaire.mentors[cindex]" :localdata="mentorInfos[cindex]" :map="data.mapMentor" @change="(e)=>{postMentorChange(cindex,e)}">
-			</uni-data-checkbox>
-			<view class="notation" v-else>！无法找到该任课老师的信息</view>
+		<text class="underline-text" @click="HandlegetMyPostList">{{showMyPosts?"返回":"我的假条"}}</text>
+		<view class="bar,barb" v-if="!showMyPosts">
+			<uni-section title="请假条" type="line">
+			<!-- 表单校验 -->
+			<uni-forms ref="valiForm" :rules="rules" :modelValue="newNaire" label-position="top">
+				<uni-forms-item label="开始时间" name="startTime" required>
+					<uni-datetime-picker v-model="newNaire.startTime" :clearIcon="false" />
+				</uni-forms-item>
+				<uni-forms-item label="结束时间" name="endTime" required>
+					<uni-datetime-picker v-model="newNaire.endTime" :clearIcon="false" />
+				</uni-forms-item>
+				<uni-forms-item label="类型" name="isOut" required>
+					<uni-data-checkbox v-model="newNaire.isOut" :localdata="fun_leave_type" :map="data.map1"/>
+				</uni-forms-item>
+				<uni-forms-item label="原因" name="reason">
+					<uni-easyinput type="textarea" autoHeight v-model="newNaire.reason" placeholder="请输入原因" />
+				</uni-forms-item>
+				<uni-forms-item label="审核人" name="reviewerId" required>
+					<uni-data-select
+						  v-model="newNaire.reviewerId"
+						  :localdata="reviewers"
+						></uni-data-select>
+					<!-- <uni-easyinput autoHeight v-model="newNaire.reviewerId" placeholder="" /> -->
+				</uni-forms-item>
+				<uni-forms-item label="附件上传" name="file">
+					<uni-file-picker :modelValue="file" limit="1" @select="selectUpload"
+						file-mediatype="all" title="">
+						<button type="primary" size="mini">选择文件</button>
+					</uni-file-picker>
+				</uni-forms-item>
+			</uni-forms>
+			</uni-section>
+			<button class="submitBnt,smallBnt" @click="submit">提交请假条</button>
 		</view>
-		</uni-section>
+		<view v-else class="notice-list">
+			<uni-card v-for="(item,index) in postList" :key="index" @click="goto('./leaveDetail','',{info:item})"
+				 :title="item.reason?item.reason:'请假条'" :sub-title="item.updatedAt">
+				 <template v-slot:extra>
+					<uni-tag :inverted="true" :text="status[item.status].label" :type="status[item.status].class" />
+				 </template>
+				<view class="naireInfo">
+					<view>开始时间：{{item.startTime}}</view>
+					<view>结束时间：{{item.endTime}}</view>
+					<view>审核人：{{item.reviewerName}}</view>
+					<view>最后一次处理时间：{{item.createdAt}}</view>
+				</view>
+			</uni-card>
 		</view>
-		<button class="submitBnt" @click="submit">点击</button>
 	</view>
 </template>
 
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import { reactive,ref,computed } from "vue";
-import { compareTime, getCourseDate,beforeTime,afterTime } from "@/utils/time.js"
-import { useCourseStore } from "../../store/study/course.js";
-import { useDateStore } from "../../store/date.js";
-import { ComplaintDrafts } from "../course_show/api/course.js";
 import { useDict } from "../../utils/dict.js";
-import { useMentorStore } from "../../store/study/mentor.js";
-import { getMentors } from "../mentor/api/mentor.js";
-import { forEach } from "lodash-es";
-const fun_question_type=useDict('fun_question_type')
-const CourseStore=useCourseStore()
-const DateStore=useDateStore()
-const MentorStore=useMentorStore()
-getMentors()
-const Courses=ref([])
+import { getReviewers } from "../mentor/api/mentor.js";
+import { http, load } from "../../utils/http.js";
+import { useUserStore } from "../../store/User.js";
+import { getMyPostList } from "./api/leave.js"
+import { goto } from "../../utils/access.js";
+const store = useUserStore()
+const fun_leave_type=useDict('fun_leave_type')
+useDict('fun_leave_post_status')
+const showMyPosts = ref(false)
 const data = reactive({
 	map1: {text:'label',value:'value'},
-	mapMentor: {text:'trueName',value:'userId'},
-	mapCourse: {text:'course',value:'course'},
+	fun_leave_post_status:[]
 })
-const newNaire=reactive({
-	startTime:'2024-09-16 00:00:00',
-	endTime:'2024-09-17 19:00:00',
+const newNaire=ref({
+	startTime:'',
+	endTime:'',
 	reason:'',
-	type: '1',
-	courses: [],
-	mentors:[]
+	isOut: '',
+	reviewerId:'',
 })
-const mentorInfos=ref([])
+const status=ref({})
+const file = ref([])
+const reviewers = ref([])
+const postList=ref([])
 const valiForm=ref()
+const HandlegetMyPostList=()=>{
+	data.fun_leave_post_status = useDict('fun_leave_post_status')
+	console.log(data.fun_leave_post_status)
+	status.value = data.fun_leave_post_status.reduce((acc, item) => {
+	  acc[item.value] = { ...item };
+	  delete acc[item.value].value;
+	  return acc;
+	}, {});
+	console.log("status.value",status.value)
+	if(!showMyPosts.value){
+		getMyPostList(store.user.userid).then((res)=>{
+			showMyPosts.value=true;
+			postList.value=res.data.map((post,index)=>{
+				post.createdAt=post.createdAt?.replace("T"," ")
+				post.updatedAt=post.updatedAt?.replace("T"," ")
+				return {
+					...post,
+					reviewerName:reviewers.value.find((item,index)=>{return item.value===post.reviewerId})?.text
+				}
+			})
+			console.log(postList.value)
+		})		
+	}else{
+		showMyPosts.value=false
+	}
+}
+const selectUpload = (e)=>{
+	console.log("e",e)
+	file.value.push(e.tempFilePaths[0])
+	console.log(file.value)
+}
+
+const reset=()=>{
+	newNaire.value={
+		startTime:'',
+		endTime:'',
+		reason:'',
+		isOut: '',
+		reviewerId:'',
+	}
+	file.value=[]
+}
+const submit = async()=>{
+	console.log(newNaire.value)
+	valiForm.value?.validate(['']).then(async r=>{
+		console.log("校验通过",r)
+		let files = ''
+		for(let i=0;i<file.value.length;i++){
+			const res = await load('/leavePosts/uploadFiles',file.value[i],'files',{})
+			console.log("上传文件",res.data)
+			files=files+files?',':''+res.data
+		}
+		
+		http('/leavePosts/addLeavePost','POST',{...newNaire.value,
+			userId:store.user.userid,
+			trueName:store.user.trueName,
+			file:files
+		}).then((res)=>{
+			console.log(res)
+			reset()
+		})
+	}).catch((err)=>{
+		console.log("校验不通过",err)
+	})
+	
+}
 const rules=ref({
-	item: {
+	startTime: {
 		rules: [{
 			required: true,
-			errorMessage: '不能为空'
+			errorMessage: '请选择'
 		}]
-	}
+	},
+	endTime: {
+		rules: [{
+			required: true,
+			errorMessage: '请选择'
+		}]
+	},
+	isOut: {
+		rules: [{
+			required: true,
+			errorMessage: '类型不能为空'
+		}]
+	},
+	reviewerId:{
+		rules: [{
+			required: true,
+			errorMessage: '请选择'
+		}]
+	},
 })
-const postCourseChange=(cindex,e)=>{
-	console.log();
-	newNaire.mentors[cindex]=newNaire.mentors[cindex]?e.detail.value.length?newNaire.mentors[cindex]:null:mentorInfos.value[cindex][0].userId;
-}
-const postMentorChange = (cindex,e)=>{
-	console.log([Courses.value[cindex][0].course])
-	newNaire.courses[cindex]=[Courses.value[cindex][0].course]
-}
-const getVaildCourse = async()=>{//async,await必须加
-	Courses.value=[]
-	mentorInfos.value=[]
-	newNaire.courses=[]
-	newNaire.mentors=[]
-	//找到在请假时间段内的所有周次
-	let sweek = DateStore.getSweekFromTime(newNaire.startTime)
-	let eweek = DateStore.getEweekFromTime(newNaire.endTime)
-	for (let i = sweek; i <= eweek; i++) {
-		await ComplaintDrafts(i)
-		let weeks=CourseStore.classDayData[i].weeks
-		for (let j = 0; j < CourseStore.classDayData[i].courses.length; j++) {
-			if(beforeTime(newNaire.startTime,getCourseDate(weeks[j].date,1))&&afterTime(newNaire.endTime,weeks[j].date)){
-				console.log(CourseStore.classDayData[i].courses)
-				for(let k = 0; k < CourseStore.classDayData[i].courses[j].length; k++){
-					let course = CourseStore.classDayData[i].courses[j][k].info
-					
-					if(course.kcmc!="0"&&beforeTime(newNaire.startTime,weeks[j].date+' '+course.jssj)&&afterTime(newNaire.endTime,weeks[j].date+' '+course.kssj)){
-						console.log("添加",course)
-						Courses.value.push([{course:course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"--"+course.jssj}])
-						let infos=getMentorInfo(course.jsxm)
-						console.log(course.jsxm,",",infos)
-						mentorInfos.value.push(infos.length?infos:[])
-						newNaire.courses.push(infos.length?[course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"--"+course.jssj]:[])
-						newNaire.mentors.push(infos.length?infos[0].userId:null)
-						// for (let info in infos) {
-						// 	console.log(infos[info])
-						// 	mentorInfos.value.push(infos[info])
-						// }
-						console.log("mentorInfos.value",mentorInfos.value)
-					}
-				}
-			}
-		}
-	}
-}
-const getMentorInfo = (name)=>{
-	return MentorStore.mentor_list.filter((mentor,index)=>{
-		return mentor.trueName===name
-	})
-}
-const getCourses=async()=>{
-	for (let i = 1; i <= DateStore.WeekNum; i++) {
-		await ComplaintDrafts(i)
-	}
-}
-const submit = ()=>{
-	getVaildCourse()
-}
 onLoad(()=>{
-	// getCourses()
+	getReviewers(2).then((res)=>{
+		console.log("导员：",res)
+		reviewers.value=res.data.map((item,index)=>{
+			return {text:item.trueName,value:item.userId}
+		})
+	})
 })
 </script>
 

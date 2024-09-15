@@ -20,9 +20,9 @@
 							class="uni-card__header-content-subtitle uni-ellipsis">{{ subTitle }}</text>
 					</view>
 				</view>
-				<!--view class="uni-card__header-extra" @click="onClick('extra')">
+				<view class="uni-card__header-extra" @click="onClick('extra')">
 					<text class="uni-card__header-extra-text">{{ extra }}</text>
-				</view-->
+				</view>
 				<slot name="extra"></slot>
 			</view>
 		</slot>
