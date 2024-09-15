@@ -1,8 +1,8 @@
 <template>
 	<view class="banner">
 	<text class="underline-text" @click="handleSendTeachers">{{details?"假条推送详情":"假条"}}</text>
-	<view class="bar,barb">
-		<uni-section v-if="details" :title="data.info.reason?data.info.reason:'请假条'" :sub-title="data.info.updatedAt" type="line">
+	<view class="bar,barb" v-if="details" >
+		<uni-section :title="data.info.reason?data.info.reason:'请假条'" :sub-title="data.info.updatedAt" type="line">
 			<template v-slot:right>
 				<uni-tag :inverted="true" :text="status[data.info.status]?.label" :type="status[data.info.status]?.class" />
 			</template>
@@ -21,17 +21,32 @@
 				<text v-else user-select style="text-decoration: underline; color:cornflowerblue" @click="lookfile(data.info.file)">{{data.info.file}}</text>
 			</view>
 		</uni-section>
-		<uni-section v-else title="所有任课老师" type="line">
-			<view v-for="(course,cindex) in Courses" :key="cindex">
-				<uni-data-checkbox :disabled="!mentorInfos[cindex].length>0||isPosted[cindex]" @change="(e)=>{postCourseChange(cindex,e)}" :multiple="true" mode="button" :wrap="true" v-model="courses[cindex]" :localdata="Courses[cindex]" :map="data.mapCourse"></uni-data-checkbox>
-				<uni-data-checkbox v-if="mentorInfos[cindex].length>0" :disabled="isPosted[cindex]" mode="button" :wrap="true" v-model="mentors[cindex]" :localdata="mentorInfos[cindex]" :map="data.mapMentor" @change="(e)=>{postMentorChange(cindex,e)}">
-				</uni-data-checkbox>
-				<view class="notation" v-else>！无法找到该任课老师的信息</view>
-				<view class="notation" v-if="isPosted[cindex]" @click="handleGotoInfo(cindex)" >已发送过，点击查看详情</view>
-			</view>
-			<button class="submitBnt,smallBnt" @click="sendPostsToTeacher">给老师发请假条</button>
-			<button class="submitBnt,smallBnt" @click="getPostsToTeacher">已经给老师发过的请假条</button>
-		</uni-section>
+	</view>
+	<view v-else class="bar,barb">
+		<uni-collapse accordion>
+			<uni-collapse-item title="老师回复结果">
+				<uni-section v-for="(post,index) in posteds" :key="index" :title="post.courseName" :sub-title="post.courseSTime+'\n'+post.courseETime" type="line">
+					<template v-slot:right>
+						<uni-tag :inverted="true" :text="status[post.status].label" :type="status[post.status].class" />
+					</template>
+					<view class="naireInfo">
+						<view>任课老师：{{post.mentorName}}</view>
+						<view>发送时间：{{post.createdAt}}</view>
+						<view>审核更新时间：{{post.updatedAt}}</view>
+					</view>
+				</uni-section>
+			</uni-collapse-item>
+			<uni-collapse-item title="所有任课老师">
+				<button class="submitBnt,smallBnt,text-common" @click="sendPostsToTeacher">给老师发请假条</button>
+				<view v-for="(course,cindex) in Courses" :key="cindex">
+					<uni-data-checkbox :disabled="!mentorInfos[cindex].length>0||isPosted[cindex]" @change="(e)=>{postCourseChange(cindex,e)}" :multiple="true" mode="button" :wrap="true" v-model="courses[cindex]" :localdata="Courses[cindex]" :map="data.mapCourse"></uni-data-checkbox>
+					<uni-data-checkbox v-if="mentorInfos[cindex].length>0" :disabled="isPosted[cindex]" mode="button" :wrap="true" v-model="mentors[cindex]" :localdata="mentorInfos[cindex]" :map="data.mapMentor" @change="(e)=>{postMentorChange(cindex,e)}">
+					</uni-data-checkbox>
+					<view class="notation" v-else>！无法找到该任课老师的信息</view>
+					<view class="notation" v-if="isPosted[cindex]" @click="handleGotoInfo(cindex)" >已发送过，点击查看详情</view>
+				</view>
+			</uni-collapse-item>
+		</uni-collapse>
 	</view>
 	</view>
 </template>
@@ -131,11 +146,11 @@ const getVaildCourse = async()=>{//async,await必须加
 					
 					if(course.kcmc!="0"&&beforeTime(data.info.startTime,weeks[j].date+' '+course.jssj)&&afterTime(data.info.endTime,weeks[j].date+' '+course.kssj)){
 						console.log("添加",course)
-						Courses.value.push([{course:course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"--"+course.jssj}])
+						Courses.value.push([{course:course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"\n"+weeks[j].date+" "+course.jssj}])
 						let infos=getMentorInfo(course.jsxm)
 						console.log(course.jsxm,",",infos)
 						mentorInfos.value.push(infos.length?infos:[])
-						courses.value.push(infos.length?[course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"--"+course.jssj]:[])
+						courses.value.push(infos.length?[course.kcmc+"\n"+weeks[j].date+" "+course.kssj+"\n"+weeks[j].date+" "+course.jssj]:[])
 						mentors.value.push(infos.length?infos[0].userId:null)
 						isPosted.value.push(false)
 						console.log("mentorInfos.value",mentorInfos.value)
@@ -147,19 +162,21 @@ const getVaildCourse = async()=>{//async,await必须加
 	getPostsToTeacher()
 }
 const getPostsToTeacher=()=>{
+	posteds.value=[]
 	http('/leaveMentors/getByPostId?postId='+data.info.id,'POST',{}).then((res)=>{
 		console.log(res.data)
 		for (var j = 0; j < res.data.length; j++) {
 			for (var i = 0; i < mentors.value.length; i++) {
 				if(res.data[j].mentorId===mentors.value[i]&&
 					res.data[j].courseName===courses.value[i][0].split('\n')[0]&&
-					res.data[j].courseTime===courses.value[i][0].split('\n')[1]){
-						console.log(res.data[j].courseName,'  ',res.data[j].courseTime,'已经发过')
+					res.data[j].courseSTime===courses.value[i][0].split('\n')[1]&&
+					res.data[j].courseETime===courses.value[i][0].split('\n')[2]){
+						console.log(res.data[j].courseName,'  ','已经发过')
 						isPosted.value[i]=true
+						posteds.value.push({...res.data[j],mentorName:mentorInfos.value[i].filter((item)=>{return item.userId===res.data[j].mentorId})[0]?.trueName?.split(' ')[0]})
 				}
 			}
 		}
-		posteds.value=res.data
 	})
 }
 const sendPostsToTeacher=async()=>{
@@ -169,7 +186,8 @@ const sendPostsToTeacher=async()=>{
 			posts.value.push({
 				mentorId: mentors.value[i],
 				courseName: courses.value[i][0].split('\n')[0],
-				courseTime: courses.value[i][0].split('\n')[1]
+				courseSTime: courses.value[i][0].split('\n')[1],
+				courseETime: courses.value[i][0].split('\n')[2]
 			})
 		}
 	}
