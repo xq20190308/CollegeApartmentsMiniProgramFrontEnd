@@ -1,15 +1,18 @@
-<!-- <template>
-	<uni-section class="mb-10" :title="data.name" type="line"></uni-section>
+<template>
+	<uni-section class="mb-10 " :title="data.name" type="line"></uni-section>
+<!-- 	<uni-section class="mb-10" title="名称" :sub-title="data.name" type="circle"></uni-section> -->
 	<uni-section class="mb-10" title="地点" :sub-title="data.pickLocation" type="circle"></uni-section>
 	<uni-section class="mb-10" title="时间" :sub-title="data.pickTime" type="circle"></uni-section>
 	<uni-section class="mb-10" title="描述" :sub-title="data.describes" type="circle"></uni-section>
 	<uni-section class="mb-10" title="联系方式" :sub-title="data.contactobject" type="circle"></uni-section>
+	
+	<image  style="width:100%; border-radius: 5px;" :src="data.file_path"></image>
 </template>
 
 <script setup>
-	import {
-		goto
-	} from "../../utils/access.js"
+	// import {
+	// 	goto
+	// } from "../../utils/access.js"
 	import {
 		onLoad,
 		onShow
@@ -27,7 +30,7 @@
 		pickLocation: '',
 		name: '',
 		pickTime: '',
-		filepath: ["@/static/feedback/plus.png"],
+		file_path: [],
 	})
 	
 	onLoad((options) => {
@@ -39,8 +42,8 @@
 		data.pickLocation = options.pickLocation;
 		data.pickTime = options.pickTime;
 		data.name = options.name;
-		//给他转换成数组
-		//data.filepath = options.filepath.split(',');
+		data.file_path = options.filepath;
+		console.log("file_path", data.file_path)
 	})
 
 </script>
@@ -87,10 +90,6 @@
 			border-radius: 30px;
 			margin: 10px 0; // 上下边距，左右边距为0
 		}
-</style> -->
+</style>
 
 
-
-<template></template>
-<script></script>
-<style></style>

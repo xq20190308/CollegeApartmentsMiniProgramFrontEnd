@@ -55,7 +55,7 @@ onMounted(()=>{//确保进入后滑到底端
 })
 const gotoinfo=()=>{
 	uni.navigateTo({
-		url:"/pages/chat/chatinfo?info="+JSON.stringify(data.info)+"&back="+true
+		url:"../chat/chatinfo?info="+JSON.stringify(data.info)+"&back="+true
 	})
 }
 

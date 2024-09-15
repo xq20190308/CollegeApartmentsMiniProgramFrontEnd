@@ -122,18 +122,19 @@
 						}
 					)
 				};
-				const res = await http('/api/addFound', 'POST', {
-					category: 'lost',
+				const res = await http('/api/addFound','POST',{
+					category:'found',
 					describes: data.baseFormData.describes,
+					stuid: store.user.username,
 					name:data.baseFormData.pickName,
-					stuid:store.user.username,
-					contactobject: data.baseFormData.contactobject,
-					pickTime: data.baseFormData.pickTime,
-					pickLocation: data.baseFormData.pickLocation,
-					filepath:JSON.stringify(data.baseFormData.path)
-				}, );
-				console.log("封装后请求的结果", res)
-				console.log(res.data);
+					contact_object: data.baseFormData.contactobject,
+					pick_time: data.baseFormData.pickTime,
+					pick_Location:data.baseFormData.pickLocation,
+					
+					file_path: JSON.stringify(data.baseFormData.path)
+				},);
+				// console.log("封装后请求的结果", res)
+				console.log("data",res.data);
 
 				uni.navigateBack({
 					url: '../../pages/lostAndFound/lostAndFound',

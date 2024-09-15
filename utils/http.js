@@ -49,11 +49,12 @@ export const load = (url, filePath, name, formData) => {
 			},
 			success: (uploadFileRes) => {
 				uni.hideLoading();
-				if (uploadFileRes.data == '') {
+				if (uploadFileRes.data == ''||!uploadFileRes.data) {
 					uni.showToast({
 						title: "文件过大",
 						icon: "error"
 					})
+					reject("文件过大")
 				} else {
 					resolve(JSON.parse(uploadFileRes.data))
 				}

@@ -27,7 +27,7 @@
 				<uni-data-checkbox v-if="mentorInfos[cindex].length>0" :disabled="isPosted[cindex]" mode="button" :wrap="true" v-model="mentors[cindex]" :localdata="mentorInfos[cindex]" :map="data.mapMentor" @change="(e)=>{postMentorChange(cindex,e)}">
 				</uni-data-checkbox>
 				<view class="notation" v-else>！无法找到该任课老师的信息</view>
-				<view class="notation" v-if="isPosted[cindex]">已发送过</view>
+				<view class="notation" v-if="isPosted[cindex]" @click="handleGotoInfo(cindex)" >已发送过，点击查看详情</view>
 			</view>
 			<button class="submitBnt,smallBnt" @click="sendPostsToTeacher">给老师发请假条</button>
 			<button class="submitBnt,smallBnt" @click="getPostsToTeacher">已经给老师发过的请假条</button>
@@ -47,6 +47,7 @@ import { useMentorStore } from "../../store/study/mentor.js";
 import { useCourseStore } from "../../store/study/course.js";
 import { useDateStore } from "../../store/date.js";
 import { getReviewers } from "../mentor/api/mentor.js";
+import { gotoInfo } from "./api/leave.js";
 const CourseStore=useCourseStore()
 const DateStore=useDateStore()
 const MentorStore=useMentorStore()
@@ -76,6 +77,20 @@ const postCourseChange=(cindex,e)=>{
 const postMentorChange = (cindex,e)=>{
 	courses.value[cindex]=[Courses.value[cindex][0].course]
 	console.log(mentors.value)
+}
+const handleGotoInfo=(cindex)=>{
+	// console.log(courses.value)
+	// console.log(mentors.value)
+	// console.log(MentorStore.mentor_list)
+	// console.log(mentorInfos.value)
+	// let info = MentorStore.mentor_list.filter((mentor,index)=>{
+	// 	return mentor.userId===mentors.value[cindex]
+	// })[0]
+	// console.log("老师详情",info)
+	gotoInfo(mentors.value[cindex])
+	// uni.navigateTo({
+	// 	url:"../chat/chatinfo?info="+JSON.stringify(info)+"&back="+false
+	// })
 }
 const getMentorInfo = (name)=>{
 	return MentorStore.mentor_list.filter((mentor,index)=>{
@@ -129,6 +144,7 @@ const getVaildCourse = async()=>{//async,await必须加
 			}
 		}
 	}
+	getPostsToTeacher()
 }
 const getPostsToTeacher=()=>{
 	http('/leaveMentors/getByPostId?postId='+data.info.id,'POST',{}).then((res)=>{
@@ -146,10 +162,10 @@ const getPostsToTeacher=()=>{
 		posteds.value=res.data
 	})
 }
-const sendPostsToTeacher=()=>{
+const sendPostsToTeacher=async()=>{
 	posts.value=[]
 	for (var i = 0; i < mentors.value.length; i++) {
-		if(mentors.value[i]){
+		if(mentors.value[i]&&!isPosted.value[i]){
 			posts.value.push({
 				mentorId: mentors.value[i],
 				courseName: courses.value[i][0].split('\n')[0],
@@ -158,9 +174,8 @@ const sendPostsToTeacher=()=>{
 		}
 	}
 	console.log(posts.value)
-	http('/leaveMentors/addLeaveMentors?postId='+data.info.id,'POST',posts.value).then((res)=>{
-		console.log(res.data)
-	})
+	await http('/leaveMentors/addLeaveMentors?postId='+data.info.id,'POST',posts.value)
+	getPostsToTeacher()
 }
 const lookfile = (src)=>{
 	console.log(src)
