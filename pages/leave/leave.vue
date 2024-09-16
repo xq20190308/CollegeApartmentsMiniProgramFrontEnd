@@ -60,6 +60,7 @@ import { http, load } from "../../utils/http.js";
 import { useUserStore } from "../../store/User.js";
 import { getMyPostList } from "./api/leave.js"
 import { goto } from "../../utils/access.js";
+import { subscribe } from "../../utils/sengmessage.js"
 const store = useUserStore()
 const fun_leave_type=useDict('fun_leave_type')
 useDict('fun_leave_post_status')
@@ -124,26 +125,29 @@ const reset=()=>{
 }
 const submit = async()=>{
 	console.log(newNaire.value)
-	valiForm.value?.validate(['']).then(async r=>{
-		console.log("校验通过",r)
-		let files = ''
-		for(let i=0;i<file.value.length;i++){
-			const res = await load('/leavePosts/uploadFiles',file.value[i],'files',{})
-			console.log("上传文件",res.data)
-			files=files+files?',':''+res.data
-		}
-		
-		http('/leavePosts/addLeavePost','POST',{...newNaire.value,
-			userId:store.user.userid,
-			trueName:store.user.trueName,
-			file:files
-		}).then((res)=>{
-			console.log(res)
-			reset()
+	subscribe("boxg-cojQ07hdlJYJup5R6JzE8sfp815eCgdmwYiPMM").then((res)=>{
+		valiForm.value?.validate(['']).then(async r=>{
+			console.log("校验通过",r)
+			let files = ''
+			for(let i=0;i<file.value.length;i++){
+				const res = await load('/leavePosts/uploadFiles',file.value[i],'files',{})
+				console.log("上传文件",res.data)
+				files=files+files?',':''+res.data
+			}
+			
+			http('/leavePosts/addLeavePost','POST',{...newNaire.value,
+				userId:store.user.userid,
+				trueName:store.user.trueName,
+				file:files
+			}).then((res)=>{
+				console.log(res)
+				reset()
+			})
+		}).catch((err)=>{
+			console.log("校验不通过",err)
 		})
-	}).catch((err)=>{
-		console.log("校验不通过",err)
 	})
+	
 	
 }
 const rules=ref({

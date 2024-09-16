@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import {onLoad,onShow} from "@dcloudio/uni-app";
+import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {reactive,ref} from "vue";
 import { useDict } from "../../utils/dict.js";
 import { http } from "../../utils/http.js";
@@ -191,9 +191,10 @@ const sendPostsToTeacher=async()=>{
 			})
 		}
 	}
-	console.log(posts.value)
-	await http('/leaveMentors/addLeaveMentors?postId='+data.info.id,'POST',posts.value)
-	getPostsToTeacher()
+	if(posts.value.length>0){
+		await http('/leaveMentors/addLeaveMentors?postId='+data.info.id,'POST',posts.value)
+		getPostsToTeacher()	
+	}
 }
 const lookfile = (src)=>{
 	console.log(src)
@@ -245,6 +246,15 @@ onLoad(async(options)=> {
 	// }
 	
 	await getReviewers(1)
+})
+onPullDownRefresh(()=>{
+	console.log("下拉刷新")
+	// requestPage.value=1
+	getPostsToTeacher().then(()=>{
+		setTimeout(()=>{
+			uni.stopPullDownRefresh()
+		},500)
+	})
 })
 onShow(()=>{
 	

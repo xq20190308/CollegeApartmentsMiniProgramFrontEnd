@@ -308,11 +308,12 @@
 			"path" : "pages/leave/leaveDetail",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
-			"path" : "pages/leave/postDetail/postDetail",
+			"path" : "pages/study/classRoom",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
