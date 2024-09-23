@@ -48,7 +48,7 @@ import { getLocalData, delLocalData, setLocalData } from "../../utils/cache.js"
 import { reactive, ref, toRefs } from "vue";
 import { load, http } from "../../utils/http.js"
 import { goto } from "../../utils/access.js"
-import { getarticles } from "../notice/api/getnotices.js"
+import { getarticles } from "@/pages/notice/api/getnotices.js"
 import { getCurrentTime } from '@/utils/time'
 import { useUserStore } from "../../store/User.js";
 import { useDict } from '../../utils/dict';

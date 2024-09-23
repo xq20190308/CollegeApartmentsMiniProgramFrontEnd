@@ -33,77 +33,9 @@
 			}
 		},
 		{
-			"path": "pages/pu/pu",
-			"style": {
-				"navigationBarTitleText": "pu活动"
-			}
-		},
-		{
 			"path": "pages/login/loginPage",
 			"style": {
 				"navigationBarTitleText": "登录"
-			}
-		},
-		{
-			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
-			"style": {
-				"navigationBarTitleText": "调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},{
-			"path": "pages/questionnaire/excel",
-			"style": {
-				"navigationBarTitleText": "问卷表格导出",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
-			"style": {
-				"navigationBarTitleText": "调查问卷列表",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
-			"style": {
-				"navigationBarTitleText": "创建调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/questionnaire/addquestionnaire/modifyquestionnaire",
-			"style": {
-				"navigationBarTitleText": "修改调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/feedback",
-			"style": {
-				"navigationBarTitleText": "草稿列表",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/feedbackSubmit",
-			"style": {
-				"navigationBarTitleText": "草稿",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/manageFeed",
-			"style": {
-				"navigationBarTitleText": "已提交投诉",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/showFeed",
-			"style": {
-				"navigationBarTitleText": "投诉",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -237,35 +169,6 @@
 				"enablePullDownRefresh": false
 			}
 		},
-		
-		{
-			"path": "pages/hygiene/search",
-			"style": {
-				"navigationBarTitleText": "卫生检查",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/hygiene/showhygiene",
-			"style": {
-				"navigationBarTitleText": "卫生检查",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/hygiene/hygieneGradesSubmit",
-			"style": {
-				"navigationBarTitleText": "上传成绩",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path" : "pages/course_show/course_show",
-			"style" : 
-			{
-				"navigationBarTitleText" : "课程表"
-			}
-		},
 		{
 			"path" : "pages/notice/noticefromry/noticefromry",
 			"style" : 
@@ -286,6 +189,126 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "questionaire",
+			"pages": [
+				{
+					"path": "questionnaire/questionnaire_home/questionnaire_home",
+					"style": {
+						"navigationBarTitleText": "调查问卷",
+						"enablePullDownRefresh": false
+					}
+				},{
+					"path": "questionnaire/excel",
+					"style": {
+						"navigationBarTitleText": "问卷表格导出",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "questionnaire/questionnaire_list/questionnaire_list",
+					"style": {
+						"navigationBarTitleText": "调查问卷列表",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "questionnaire/addquestionnaire/addquestionnaire",
+					"style": {
+						"navigationBarTitleText": "创建调查问卷",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "questionnaire/addquestionnaire/modifyquestionnaire",
+					"style": {
+						"navigationBarTitleText": "修改调查问卷",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
+		},{
+			"root": "course",
+			"pages": [
+				{
+					"path" : "course_show/course_show",
+					"style" : 
+					{
+						"navigationBarTitleText" : "课程表"
+					}
+				}
+			]
+		},{
+			"root": "feedback",
+			"pages": [
+				{
+					"path": "feedback/feedback",
+					"style": {
+						"navigationBarTitleText": "草稿列表",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "feedback/feedbackSubmit",
+					"style": {
+						"navigationBarTitleText": "草稿",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "feedback/manageFeed",
+					"style": {
+						"navigationBarTitleText": "已提交投诉",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "feedback/showFeed",
+					"style": {
+						"navigationBarTitleText": "投诉",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
+		},{
+			"root": "hygiene",
+			"pages": [
+				{
+					"path": "hygiene/search",
+					"style": {
+						"navigationBarTitleText": "卫生检查",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "hygiene/showhygiene",
+					"style": {
+						"navigationBarTitleText": "卫生检查",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "hygiene/hygieneGradesSubmit",
+					"style": {
+						"navigationBarTitleText": "上传成绩",
+						"enablePullDownRefresh": false
+					}
+				}
+			]
+		},{
+			"root": "pu",
+			"pages": [
+				{
+					"path": "pu/pu",
+					"style": {
+						"navigationBarTitleText": "pu活动",
+						"enablePullDownRefresh": true
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {

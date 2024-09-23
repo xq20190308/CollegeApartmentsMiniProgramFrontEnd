@@ -17,4 +17,7 @@
 	text{
 		word-wrap: break-word;
 	}
+	view{
+		word-wrap: break-word;
+	}
 </style>

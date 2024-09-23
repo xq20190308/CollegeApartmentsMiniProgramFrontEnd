@@ -1,9 +1,15 @@
 import App from './App'
 // #ifndef VUE3
 import Vue from 'vue'
+import common from './common.js' // 引入工具函数
 import './uni.promisify.adaptor'
+
+Vue.use(common) // 安装全局函数
+
 Vue.config.productionTip = false
+
 App.mpType = 'app'
+
 const app = new Vue({
   ...App
 })

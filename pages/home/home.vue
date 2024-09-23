@@ -43,7 +43,7 @@ const data = reactive({
 	func_list: [
 		{ name: "导师互动", imgPath: "../../static/function/mentor.png", pagePath:"../mentor/mentor" },
 		{ name: "通知", imgPath: "../../static/tabBar/home_icon.png", pagePath: "../notice/notice" },
-		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../feedback/feedback"},
+		{ name: "接诉即办", imgPath: "../../static/function/complaint.png" , pagePath:"../../feedback/feedback/feedback"},
 		{ name: "字典", imgPath: "../../static/function/complaint.png" , pagePath:"../dict/dict?title=测试"},
 	],
 	plan:["距离打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],

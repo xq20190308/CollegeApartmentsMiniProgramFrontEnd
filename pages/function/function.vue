@@ -37,6 +37,11 @@ onLoad(()=>{
 	})
 }) 
 const FunctionClick=(item)=> {
+	if(item.id==1) item.pagePath="../../course/course_show/course_show";
+	else if(item.id==5) item.pagePath="../../questionaire/questionnaire/questionnaire_list/questionnaire_list";
+	else if(item.id==7)	item.pagePath="../../feedback/feedback/feedback";
+	else if(item.id==6) item.pagePath="../../hygiene/hygiene/showhygiene";
+	else if(item.id==11) item.pagePath="../../pu/pu/pu";
 	uni.navigateTo({
 		url: item.pagePath
 	})
