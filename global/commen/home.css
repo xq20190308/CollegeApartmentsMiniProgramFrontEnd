@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 20rpx;
-  /* background: linear-gradient(to bottom, #577dba, #ffffff80); */
+  background: linear-gradient(to bottom, #577dba, #ffffff80);
+  /* background: #577dba; */
 }
 .swiper{
 	height: 460rpx;
