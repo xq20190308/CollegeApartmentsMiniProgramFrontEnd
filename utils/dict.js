@@ -17,5 +17,12 @@ export function useDict(dictType) {
 	  useDictStore().setDict(dictType, res.value);
 	})
   }
-return res;
+	return res;
+}
+export function mapDict(dict){
+	return dict.reduce((acc, item) => {
+	  acc[item.value] = { ...item };
+	  delete acc[item.value].value;
+	  return acc;
+	}, {});
 }

@@ -1,8 +1,8 @@
-import { getCurrentDate, getCurrentTime, getTimeStamp } from "../../../utils/time.js";
-import {http} from '@/utils/http';
-import { useLoginStore } from "../../../store/login.js";
-import { useCourseStore } from "../../../store/study/course.js";
-import { useDateStore } from "../../../store/date.js";
+import { getCurrentDate, getCurrentTime, getTimeStamp } from "/utils/time.js";
+import {http} from '/utils/http';
+import { useLoginStore } from "/store/login.js";
+import { useCourseStore } from "/store/study/course.js";
+import { useDateStore } from "/store/date.js";
 const termInfo=useDateStore()
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()

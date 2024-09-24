@@ -3,31 +3,29 @@
 		<my-login></my-login>
 	</view>
 	<!--信息区域 -->
-	<view v-else class="banner">
+	<view v-else style="padding-top: 10rpx;background: #597fbe;">
 		<!-- 头像昵称区域 -->
-		<view class="User,bar">
+		<view class="User">
 			<uni-file-picker limit="1" @select="selectUpload" file-mediatype="image" title="" disable-preview
 			ref="uniFilePicker" return-type="object" :modelValue="filelist" :imageStyles="imageStyles" :del-icon='false' required>
 			</uni-file-picker>
 			<text class="avatarName" >{{store.user.trueName}}</text>
 		</view>
 		<!-- 功能区 -->
-		<uni-section title="个人信息" type="line">
-			<uni-list class="bar">
-				<uni-list-item title="姓名" :rightText="store.user.trueName" />
-				<uni-list-item title="学号" :rightText="store.user.username" />
-				<uni-list-item title="校区" :rightText="store.user.classInfo.campusName" />
-				<uni-list-item title="学院" :rightText="store.user.classInfo.collegeName" />
-				<uni-list-item title="班级" :rightText="store.user.classInfo.majorName+store.user.classInfo.gradeName+store.user.classInfo.className" />
-				<uni-list-item title="宿舍" :rightText="store.user.dormitory" />
-				<uni-list-item :showArrow="true" title="建言献策" />
-				<uni-list-item :showArrow="true" title="关于" />
-			</uni-list>
-		</uni-section>
+		<uni-list class="info-bar">
+			<uni-list-item title="姓名" :rightText="store.user.trueName" />
+			<uni-list-item title="学号" :rightText="store.user.username" />
+			<uni-list-item title="校区" :rightText="store.user.classInfo.campusName" />
+			<uni-list-item title="学院" :rightText="store.user.classInfo.collegeName" />
+			<uni-list-item title="班级" :rightText="store.user.classInfo.majorName+store.user.classInfo.gradeName+store.user.classInfo.className" />
+			<uni-list-item title="宿舍" :rightText="store.user.dormitory" />
+			<uni-list-item :showArrow="true" title="建言献策" />
+			<uni-list-item :showArrow="true" title="关于" />
+			<button class="btn" @click="()=>{store.delogin();}">
+				<text>退出登录</text>
+			</button>
+		</uni-list>
 		
-		<button class="btn"  @click="()=>{store.delogin();}">
-			<text>退出登录</text>
-		</button>
 	</view>
 </template>
 
@@ -89,12 +87,21 @@ onLoad(()=>{
 		width: 100%;
 	}
 	.User {
-		height: 200rpx;
+		display: flex; /* 使用Flex布局 */
+		align-items: center; /* 垂直居中对齐 */
+		justify-content: center; /* 水平居中对齐 */
+		flex-direction: column; /* 如果需要垂直堆叠元素, 可以设置为column */
 	}
 	.avatarName {
-		margin-left: 45rpx;
-		margin-top: 35rpx;
 	}
-
+.info-bar{
+	display: flex;
+	padding: 40rpx;
+	border-radius: 150rpx 150rpx 0rpx 0rpx;
+	background: #fff;
+	margin-top: 10rpx;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
 
 </style>

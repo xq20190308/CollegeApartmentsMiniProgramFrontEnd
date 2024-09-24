@@ -9,8 +9,8 @@
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive,onMounted,ref,watch} from "vue";
 import { ComplaintDrafts, getCurWeek } from "./api/course.js";
-import { useLoginStore } from "../../store/login.js";
-import { useCourseStore } from "../../store/study/course.js";
+import { useLoginStore } from "/store/login.js";
+import { useCourseStore } from "/store/study/course.js";
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
 const index=ref(1)

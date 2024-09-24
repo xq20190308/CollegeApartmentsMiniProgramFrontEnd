@@ -1,7 +1,7 @@
 <template>
 	<view class="banner">
 		<view class="bar,barb">
-			<uni-section type="line" title="账号管理">
+			<uni-section type="line" title="账户绑定">
 				<uni-collapse>
 					<uni-collapse-item :title="account.title" v-for="(account,key) in loginInfo.loginInfos" :key="key"
 						thumb="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">

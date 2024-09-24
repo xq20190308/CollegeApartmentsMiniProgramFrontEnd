@@ -15,7 +15,7 @@
 	</view>
 	</view>
 	<view>
-		<image class = "addnaireicon" src="../../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire','questionnaireManage')"></image>
+		<image class = "addnaireicon" src="../../../static/feedback/plus.png" @click="goto('../addquestionnaire/addquestionnaire')"></image>
 	</view>
 </template>
 
@@ -63,8 +63,7 @@ const gotonaire = (item) =>{
 const modifynaire = (naire)=>{
 	let item = {...naire}
 	item.type = data.fun_questionnare_type.filter((dict)=>{return dict.label===item.type})[0].value
-	goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item),
-		'questionnaireManage')
+	goto('../addquestionnaire/addquestionnaire?info='+JSON.stringify(item))
 }
 const deletenaire =async (item)=> {
 	uni.showModal({

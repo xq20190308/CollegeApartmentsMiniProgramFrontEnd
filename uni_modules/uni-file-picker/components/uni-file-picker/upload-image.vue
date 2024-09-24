@@ -186,7 +186,7 @@
 		box-sizing: border-box;
 		/* #endif */
 		flex-wrap: wrap;
-		margin: -5px;
+		// margin: -5px;
 	}
 
 	.file-picker__box {

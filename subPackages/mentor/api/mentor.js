@@ -1,5 +1,5 @@
 import { http } from '@/utils/http';
-import { useMentorStore } from '../../../store/study/mentor';
+import { useMentorStore } from '/store/study/mentor';
 const MentorStore =useMentorStore()
 export const getMentors =()=>{
 	if(MentorStore.mentor_list.length===0){

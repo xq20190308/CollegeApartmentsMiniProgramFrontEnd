@@ -1,7 +1,10 @@
 import { useUserStore } from "../store/User";
-export const goto = (url,condition,options)=> {
+export const goto = (url,options)=> {
+	if(options){
+		url=url+"?info="+JSON.stringify(options)
+	}
 	uni.navigateTo({
-		url: url+"?options="+JSON.stringify(options),
+		url: url,
 	});
 	// const store = useUserStore()
 	//console.log("页面跳转")

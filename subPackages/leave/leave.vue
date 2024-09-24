@@ -35,7 +35,7 @@
 			<button class="submitBnt,smallBnt" @click="submit">提交请假条</button>
 		</view>
 		<view v-else class="notice-list">
-			<uni-card v-for="(item,index) in postList" :key="index" @click="goto('./leaveDetail','',{info:item})"
+			<uni-card v-for="(item,index) in postList" :key="index" @click="goto('./leaveDetail',{info:item})"
 				 :title="item.reason?item.reason:'请假条'" :sub-title="item.updatedAt">
 				 <template v-slot:extra>
 					<uni-tag :inverted="true" :text="status[item.status].label" :type="status[item.status].class" />
@@ -54,13 +54,13 @@
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import { reactive,ref,computed } from "vue";
-import { useDict } from "../../utils/dict.js";
-import { getReviewers } from "../mentor/api/mentor.js";
-import { http, load } from "../../utils/http.js";
-import { useUserStore } from "../../store/User.js";
+import { useDict } from "/utils/dict.js";
+import { getReviewers } from "/subPackages/mentor/api/mentor.js";
+import { http, load } from "/utils/http.js";
+import { useUserStore } from "/store/User.js";
 import { getMyPostList } from "./api/leave.js"
-import { goto } from "../../utils/access.js";
-import { subscribe } from "../../utils/sengmessage.js"
+import { goto } from "/utils/access.js";
+import { subscribe } from "/utils/sengmessage.js"
 const store = useUserStore()
 const fun_leave_type=useDict('fun_leave_type')
 useDict('fun_leave_post_status')

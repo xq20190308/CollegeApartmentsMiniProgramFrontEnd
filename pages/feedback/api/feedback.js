@@ -9,3 +9,9 @@ export const update = (id,status)=>{
 		return res.msg
 	})
 }
+export const fetchFeedbacks=()=>{
+	return http('/api/manageSuggestions','GET',{},)
+}
+export const submitFeedback=(data)=>{
+	return http('/api/suggestions','POST',data)
+}

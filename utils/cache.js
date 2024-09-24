@@ -1,4 +1,8 @@
 // 存数据
+
+// import { useUserStore } from "../store/User";
+// import { useLoginStore } from "../store/login";
+
 // 单个具名函数导出
 export function setLocalData(key, data) {
 	// 基本类型的存放
@@ -24,11 +28,13 @@ export const delLocalData = key => uni.removeStorageSync(key)
 
 //清所有
 export const clearLocalData = key => uni.clearStorageSync()
-
+// const loginStore = useLoginStore()
+// const userStore = useUserStore()
 export const clearUserInfo = () => {
 	delLocalData('userInfo')
 	delLocalData('token')
 	delLocalData('avatarUrl')
+	// userStore.InitLoginInfo()
 }
 export const setUserInfo = (res) => {
 	setLocalData("isShowLocal",true)

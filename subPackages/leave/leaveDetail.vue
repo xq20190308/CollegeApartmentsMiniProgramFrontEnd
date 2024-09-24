@@ -54,14 +54,14 @@
 <script setup>
 import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {reactive,ref} from "vue";
-import { useDict } from "../../utils/dict.js";
-import { http } from "../../utils/http.js";
-import { compareTime, getCourseDate,beforeTime,afterTime } from "@/utils/time.js"
-import { ComplaintDrafts } from "../course_show/api/course.js";
-import { useMentorStore } from "../../store/study/mentor.js";
-import { useCourseStore } from "../../store/study/course.js";
-import { useDateStore } from "../../store/date.js";
-import { getReviewers } from "../mentor/api/mentor.js";
+import { useDict } from "/utils/dict.js";
+import { http } from "/utils/http.js";
+import { compareTime, getCourseDate,beforeTime,afterTime } from "/utils/time.js"
+import { ComplaintDrafts } from "/subPackages/study/courseShow/api/course.js";
+import { useMentorStore } from "/store/study/mentor.js";
+import { useCourseStore } from "/store/study/course.js";
+import { useDateStore } from "/store/date.js";
+import { getReviewers } from "/subPackages/mentor/api/mentor.js";
 import { gotoInfo } from "./api/leave.js";
 const CourseStore=useCourseStore()
 const DateStore=useDateStore()
@@ -217,7 +217,7 @@ const lookfile = (src)=>{
 }
 onLoad(async(options)=> {
 	// data.info=JSON.parse(options.info);
-	options=JSON.parse(options.options);
+	options=JSON.parse(options.info);
 	data.info=options.info
 	console.log('info',data.info)
 	
@@ -250,11 +250,10 @@ onLoad(async(options)=> {
 onPullDownRefresh(()=>{
 	console.log("下拉刷新")
 	// requestPage.value=1
-	getPostsToTeacher().then(()=>{
-		setTimeout(()=>{
-			uni.stopPullDownRefresh()
-		},500)
-	})
+	getPostsToTeacher()
+	setTimeout(()=>{
+		uni.stopPullDownRefresh()
+	},500)
 })
 onShow(()=>{
 	

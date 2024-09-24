@@ -44,7 +44,7 @@ export const mainFun = ()=>{
 }
 // 定义全局数据
 export const appData = {
-  colorList: ['#e24b00', '#cece66', '#0078f8', '#009d00', '#ff5500', '#568181'],
+  colorList: ['#e2ce8f', '#f6b37f', '#75ab77', '#c05da0', '#c1a8d0', '#89b5e2', '#2f78bd'],
   colorN: 6
 };
 const app = createSSRApp(App);

@@ -81,7 +81,7 @@ export const useLoginStore = defineStore('Login', ()=>{
 			}
 		}
 		uni.navigateTo({
-			url: "../../pages/dict/dict?title="+title+"&url="+url,
+			url: "/pages/dict/dict?title="+title+"&url="+url,
 		})
 	}
 	return {InitLoginInfo,qz,pu,loginInfos,unbind,modify,tologin}

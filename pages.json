@@ -56,7 +56,7 @@
 			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
 			"style": {
 				"navigationBarTitleText": "调查问卷列表",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -77,7 +77,7 @@
 			"path": "pages/feedback/feedback",
 			"style": {
 				"navigationBarTitleText": "草稿列表",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -91,7 +91,7 @@
 			"path": "pages/feedback/manageFeed",
 			"style": {
 				"navigationBarTitleText": "已提交投诉",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -102,24 +102,10 @@
 			}
 		},
 		{
-			"path": "pages/mentor/mentor",
-			"style": {
-				"navigationBarTitleText": "导师互动",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-				"path":"pages/classroomSearch/classroomSearch",
-				"style": {
-					"navigationBarTitleText": "空教室搜索",
-					"enablePullDownRefresh": false
-				}
-		},
-		{
 			"path":"pages/gradesShow/gradesShow",
 			"style": {
 				"navigationBarTitleText": "成绩展示",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		
@@ -128,7 +114,7 @@
 			"path": "pages/notice/notice",
 			"style": {
 				"navigationBarTitleText": "通知列表",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -155,7 +141,7 @@
 			"path": "pages/chat/noticechat",
 			"style": {
 				"navigationBarTitleText": "学校通知",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},{
 			"path": "pages/chat/postnotice",
@@ -173,7 +159,7 @@
 			"path": "pages/chat/chatinfo",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -200,28 +186,28 @@
 			"path": "pages/lostAndFoundManage/lostandfoundManagelist",
 			"style": {
 				"navigationBarTitleText": "失物招领列表",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/lostAndFound/public_lostandfound/lostAndFound",
 			"style": {
 				"navigationBarTitleText": "失物招领",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/lostAndFound/my_lostandfound/lostSubmit",
 			"style": {
 				"navigationBarTitleText": "我丢失的",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/lostAndFound/my_lostandfound/foundSubmit",
 			"style": {
 				"navigationBarTitleText": "我捡到的",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 		},
 
@@ -270,13 +256,6 @@
 			}
 		},
 		{
-			"path" : "pages/course_show/course_show",
-			"style" : 
-			{
-				"navigationBarTitleText" : "课程表"
-			}
-		},
-		{
 			"path" : "pages/notice/noticefromry/noticefromry",
 			"style" : 
 			{
@@ -294,63 +273,87 @@
 			"path" : "pages/loginManage/loginManage",
 			"style" : 
 			{
-				"navigationBarTitleText" : "登录管理"
-			}
-		},
-		{
-			"path" : "pages/leave/leave",
-			"style" : 
-			{
-				"navigationBarTitleText" : "请假助手"
-			}
-		},
-		{
-			"path" : "pages/leave/leaveDetail",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "账户绑定",
 				"enablePullDownRefresh": true
 			}
-		},
+		}
+		
+	],
+	"subPackages": [
 		{
-			"path" : "pages/study/classRoom",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
+			"root": "subPackages",
+			"pages": [
+				{
+					"path" : "study/classRoom/classRoom",
+					"style" : 
+					{
+						"navigationBarTitleText" : "空教室"
+					}
+				},
+				{
+					"path" : "study/courseShow/courseShow",
+					"style" : 
+					{
+						"navigationBarTitleText" : "课程表"
+					}
+				},
+				{
+					"path" : "leave/leave",
+					"style" : 
+					{
+						"navigationBarTitleText" : "请假助手",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path" : "leave/leaveDetail",
+					"style" : 
+					{
+						"navigationBarTitleText" : "",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "mentor/mentor",
+					"style": {
+						"navigationBarTitleText": "导师互动",
+						"enablePullDownRefresh": true
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#7cbaec",
-		"backgroundColor": "#7cbaec"
+		"navigationBarBackgroundColor": "#577dba",
+		"backgroundColor": "#577dba"
 	},
 	"tabBar": {
 		"list": [
 			{
 				"pagePath": "pages/home/home",
 				"text": "首页",
-				"iconPath": "static/tabBar/home_icon.png",
-				"selectedIconPath": "static/tabBar/home_icon.png"
+				"iconPath": "static/default/home-before.jpg",
+				"selectedIconPath": "static/default/home.jpg"
 			},
 			{
 				"pagePath": "pages/function/function",
 				"text": "功能",
-				"iconPath": "static/tabBar/function_icon.png",
-				"selectedIconPath": "static/tabBar/function_icon.png"
+				"iconPath": "static/default/function-before.jpg",
+				"selectedIconPath": "static/default/function.jpg"
 			},
 			{
 				"pagePath": "pages/message/message",
 				"text": "消息",
-				"iconPath": "static/tabBar/notice_icon.png",
-				"selectedIconPath": "static/tabBar/notice_icon.png"
+				"iconPath": "static/default/message-before.jpg",
+				"selectedIconPath": "static/default/message.jpg"
 			},
 			{
 				"pagePath": "pages/myself/myself",
 				"text": "我的",
-				"iconPath": "static/tabBar/myself_icon.png",
-				"selectedIconPath": "static/tabBar/myself_icon.png"
+				"iconPath": "static/default/myself-before.jpg",
+				"selectedIconPath": "static/default/myself.jpg"
 			}
 		]
 	},

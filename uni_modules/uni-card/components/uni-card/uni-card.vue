@@ -1,6 +1,6 @@
 <template>
 	<view class="uni-card" :class="{ 'uni-card--full': isFull, 'uni-card--shadow': isShadow,'uni-card--border':border}"
-		:style="{'margin':isFull?0:margin,'padding':spacing,'box-shadow':isShadow?shadow:''}">
+		:style="{'margin':isFull?0:margin,'padding':spacing,'box-shadow':isShadow?shadow:'','width':width,'background':background}">
 		<!-- 封面 -->
 		<slot name="cover">
 			<view v-if="cover" class="uni-card__cover">
@@ -108,6 +108,14 @@
 			border: {
 				type: Boolean,
 				default: true
+			},
+			width: {
+				type: String,
+				default: 'auto'
+			},
+			background: {
+				type: String,
+				default: '#fff'
 			}
 		},
 		methods: {

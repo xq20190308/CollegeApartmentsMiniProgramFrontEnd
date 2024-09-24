@@ -3,7 +3,7 @@
 		
 		<scroll-view class="scroll-view,uni-indexed-list__scroll" :scroll-into-view="bottom" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
 			
-			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 8px;">
+			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 16rpx;">
 				<view class="chat-time-view"><text class="chat-time">{{msg.sendTime}}</text></view>
 				
 				<view v-if="data.myid==msg.senderUserId" :class="'chat-right'">
@@ -11,12 +11,12 @@
 						<text class="chat-textcontent">{{msg.data}}</text>
 					</view>
 					<view>
-						<image :src="store.avatarUrl" @click="gotoinfo" class="chat-avatar" />
+						<image :src="store.avatarUrl" @click="goto('/pages/chat/chatinfo?info='+JSON.stringify({userid:data.myid})+'&back='+true)" class="chat-avatar" />
 					</view>
 				</view>
 				<view v-else :class="'chat-left'">
 					<view>
-						<image :src="data.info.avatarUrl" @click="gotoinfo" class="chat-avatar" />
+						<image :src="data.info.avatarUrl" @click="goto('/pages/chat/chatinfo?info='+JSON.stringify(data.info)+'&back='+true)" class="chat-avatar" />
 					</view>
 					<view class="chat-textbox">
 						<text class="chat-textcontent">{{msg.data}}</text>
@@ -39,9 +39,10 @@ import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
 import { reactive, ref,computed,watch,onMounted, onUnmounted } from "vue";
 import { getCurrentTime } from '@/utils/time'
 import { http, load } from '@/utils/http'
-import { wsclose,wsopen,wssend,socketTask } from "../../utils/socket.js";
-import { getLocalData, setLocalData } from "../../utils/cache.js"
-import { useUserStore } from "../../store/User.js"
+import { wsclose,wsopen,wssend,socketTask } from "@/utils/socket.js";
+import { getLocalData, setLocalData } from "@/utils/cache.js"
+import { useUserStore } from "@/store/User.js"
+import { goto } from "@/utils/access.js"
 const data = reactive({
 	info:{},
 	message:'',
@@ -53,11 +54,6 @@ const bottom=ref("")
 onMounted(()=>{//确保进入后滑到底端
 	bottom.value="bottom"
 })
-const gotoinfo=()=>{
-	uni.navigateTo({
-		url:"../chat/chatinfo?info="+JSON.stringify(data.info)+"&back="+true
-	})
-}
 
 const mywssent = async () => {
 	let receiver=[];
