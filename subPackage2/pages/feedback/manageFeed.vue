@@ -6,7 +6,7 @@
 					<template v-slot:right>
 						<uni-tag :inverted="true" :text="map[item.status].label" :type="map[item.status].class" />
 					</template>
-					<view class="naireInfo" @click="goto('../feedback/showFeed?',JSON.stringify(item))">
+					<view class="naireInfo" @click="goto('../feedback/showFeed',item)">
 						<!-- <view>学号：{{item.stu_id}}</view> -->
 						<view>时间：{{item.pushtime.replace("T"," ")}}</view>
 						<view>类别：{{item.category}}</view>
@@ -22,8 +22,8 @@
 <script setup>
 import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {reactive,computed, ref} from "vue";
-import {goto} from "../../utils/access.js"
-import { useDict,mapDict } from "../../utils/dict.js";
+import {goto} from "/utils/access.js"
+import { useDict,mapDict } from "/utils/dict.js";
 import { fetchFeedbacks } from "./api/feedback.js";
 const data = reactive({
 	feedbacks: [], // 初始为空数组

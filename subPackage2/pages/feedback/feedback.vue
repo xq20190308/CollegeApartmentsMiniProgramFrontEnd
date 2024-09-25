@@ -24,11 +24,11 @@
 import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {reactive,computed} from "vue";
 import {http} from '@/utils/http'
-import {goto} from "../../utils/access.js"
-import {getLocalData,setLocalData} from "../../utils/cache.js"
+import {goto} from "/utils/access.js"
+import {getLocalData,setLocalData} from "/utils/cache.js"
 import {getCurrentTime} from '@/utils/time'
-import { useUserStore } from "../../store/User.js";
-import { useDict } from '../../utils/dict';
+import { useUserStore } from "/store/User.js";
+import { useDict } from '/utils/dict';
 useDict('fun_advise_type');
 const fun_advise_status = useDict('fun_advise_status')
 const data = reactive({

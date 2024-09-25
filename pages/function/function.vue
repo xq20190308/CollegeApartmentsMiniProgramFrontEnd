@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import {onLoad,onShow} from "@dcloudio/uni-app";
+import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import { http } from "../../utils/http.js";
 import { useUserStore } from "../../store/User.js"
@@ -28,13 +28,18 @@ const data = reactive({
 onShow(()=>{
 	handleMessageBar(store.totalUnreceived)
 })
-onLoad(()=>{
+onPullDownRefresh(()=>{
 	http("/menus","GET",{}).then((res)=>{
+		uni.stopPullDownRefresh()
+		data.navList=[]
 		res.data.forEach(item => {
 			data.navList[item.typeId] = data.navList[item.typeId] || [];
 			data.navList[item.typeId].push(item);
 		});
 	})
+})
+onLoad(()=>{
+	uni.startPullDownRefresh();
 }) 
 const FunctionClick=(item)=> {
 	uni.navigateTo({

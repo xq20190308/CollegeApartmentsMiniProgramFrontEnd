@@ -26,7 +26,7 @@ export var socketTask = "";
 //   length: 0
 // });
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
-
+const timer=ref()
 export const wsopen = (url) => {
 	socketTask = uni.connectSocket({
 		url: url,
@@ -42,6 +42,11 @@ export const wsopen = (url) => {
 	});
 	socketTask.onOpen(async (res) => {
 		console.log("Ws open " + res);
+		// uni.showToast({
+		// 	icon:"success",
+		// 	title:"服务器连接"
+		// })
+		clearInterval(timer.value)
 	});
 	onMessage();
 	socketTask.onError(function (res) {
@@ -51,10 +56,14 @@ export const wsopen = (url) => {
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
 		if(store.token!=""){
-			uni.showToast({
-				icon:"error",
-				title:"服务器异常"
-			})}
+			// uni.showToast({
+			// 	icon:"error",
+			// 	title:"服务器异常"
+			// })
+			timer.value = setInterval(()=>{
+				wsopen('/websocket1')
+			},500)
+		}
 		// 	uni.showModal({
 		// 	title:"服务器异常，请重新登陆",
 		// 	success: (res) => {

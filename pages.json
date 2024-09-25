@@ -17,7 +17,7 @@
 			"path": "pages/function/function",
 			"style": {
 				"navigationBarTitleText": "功能",
-				"backgroundColor": "#000000"
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -37,34 +37,6 @@
 			"style": {
 				"navigationBarTitleText": "pu活动",
 				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/feedback/feedback",
-			"style": {
-				"navigationBarTitleText": "草稿列表",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/feedback/feedbackSubmit",
-			"style": {
-				"navigationBarTitleText": "草稿",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/manageFeed",
-			"style": {
-				"navigationBarTitleText": "已提交投诉",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/feedback/showFeed",
-			"style": {
-				"navigationBarTitleText": "投诉",
-				"enablePullDownRefresh": false
 			}
 		},
 		{
@@ -307,6 +279,34 @@
 					"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
 					"style": {
 						"navigationBarTitleText": "创建调查问卷",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/feedback/feedback",
+					"style": {
+						"navigationBarTitleText": "草稿列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "pages/feedback/feedbackSubmit",
+					"style": {
+						"navigationBarTitleText": "草稿",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/feedback/manageFeed",
+					"style": {
+						"navigationBarTitleText": "已提交投诉",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "pages/feedback/showFeed",
+					"style": {
+						"navigationBarTitleText": "投诉",
 						"enablePullDownRefresh": false
 					}
 				}

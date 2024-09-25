@@ -14,11 +14,20 @@
 	</view>
 	<uni-notice-bar class="notice-bar" show-icon scrollable background-color="#f7c7c7" color="#000" :speed="50"
 	:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
-	
+	<!-- <view class="card-bar"> -->
 	<!-- 未来倒计时 -->
-	<uni-card title="未来倒计时" :sub-title="getCurrentDate()" margin="40rpx" width="50%" background="#c7e8fb" thumbnail="https://william.fit:8082/static/default/future_icon.png">
+	<uni-card title="未来倒计时" width="50%" :sub-title="getCurrentDate()" margin="40rpx" background="#c7e8fb" thumbnail="https://william.fit:8082/static/default/future_icon.png">
+		<!-- <uni-calendar /> -->
 		<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
 	</uni-card>
+	<!-- <view class="card-bar" style="flex-direction: column;margin: 0rpx;"> -->
+	<!-- <uni-card background="#c7e8fb">
+	</uni-card>
+	<uni-card background="#c7e8fb">
+		<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
+	</uni-card> -->
+	<!-- </view> -->
+	<!-- </view> -->
 </template>
 
 <script setup>
@@ -31,23 +40,10 @@ import { handleMessageBar } from "../../utils/api/common.js"
 import { http } from "../../utils/http.js";
 const store=useUserStore()
 const data = reactive({
-	staticpictures:[
-		"https://img1.baidu.com/it/u=2786021056,112418886&fm=253&fmt=auto&app=120&f=JPEG?w=735&h=500",
-		"https://img0.baidu.com/it/u=3286729325,3246720713&fm=253&fmt=auto&app=138&f=PNG?w=686&h=448",
-		"https://img1.baidu.com/it/u=2043767765,404385374&fm=253&fmt=auto&app=138&f=JPEG?w=888&h=500",
-		"https://img1.baidu.com/it/u=1163428398,2582932958&fm=253&fmt=auto&app=120&f=JPEG?w=779&h=500",
-		"https://img0.baidu.com/it/u=3652594722,3615488402&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
-		"https://img2.baidu.com/it/u=3568434744,2179779602&fm=253&fmt=auto&app=120&f=JPEG?w=889&h=500",
-	],
 	articles:[],
 	navList:[],
-	plan:["距离打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],
+	plan:["距打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],
 })
-// const func1Click=(item)=> {
-// 	uni.navigateTo({
-// 		url: item.pagePath
-// 	})
-// }
 const bannerclick=(index)=>{
 	uni.navigateTo({
 		url:'../notice/noticedetail?id=' + data.articles[index].id
@@ -107,6 +103,14 @@ onShow(()=>{
 		font-size: 28rpx;
 		color: #ffffff;
 		text-align: center;
+		align-items: center;
+	}
+	.card-bar{
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 10rpx;
+		margin: 20rpx;
 		align-items: center;
 	}
 </style>

@@ -39,8 +39,8 @@
 import {onLoad,onShow} from "@dcloudio/uni-app";
 import {reactive} from "vue";
 import {http} from '@/utils/http'
-import {goto} from "../../utils/access.js"
-import { useDict } from "../../utils/dict.js";
+import {goto} from "/utils/access.js"
+import { useDict } from "/utils/dict.js";
 import {update} from "./api/feedback"
 const fun_advise_status = useDict('fun_advise_status')
 const data = reactive({

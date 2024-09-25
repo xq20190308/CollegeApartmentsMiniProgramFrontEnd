@@ -44,13 +44,12 @@
 
 <script setup>
 import { onLoad, onShow } from "@dcloudio/uni-app";
-import { getLocalData, delLocalData, setLocalData } from "../../utils/cache.js"
+import { getLocalData, delLocalData, setLocalData } from "/utils/cache.js"
 import { reactive, ref, toRefs } from "vue";
-import { load, http } from "../../utils/http.js"
-import { goto } from "../../utils/access.js"
-import { getarticles } from "../notice/api/getnotices.js"
+import { load, http } from "/utils/http.js"
+import { goto } from "/utils/access.js"
 import { getCurrentTime } from '@/utils/time'
-import { useDict } from '../../utils/dict';
+import { useDict } from '/utils/dict';
 import { submitFeedback } from "./api/feedback.js";
 const data = reactive({
 	index: '',
