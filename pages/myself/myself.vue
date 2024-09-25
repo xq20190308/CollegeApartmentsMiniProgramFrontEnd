@@ -1,6 +1,6 @@
 <template>
 	<view class="mask" v-if="store.token==''">
-		<my-login></my-login>
+		<myLoginVue></myLoginVue>
 	</view>
 	<!--信息区域 -->
 	<view v-else style="padding-top: 10rpx;background: #597fbe;">
@@ -36,6 +36,7 @@ import { computed, ref } from "vue";
 import { load, http } from "../../utils/http.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { useUserStore } from "../../store/User.js"
+import myLoginVue from "../../components/my-login/my-login.vue";
 const store = useUserStore()
 const filelist=computed(()=>([{
 	url: store.avatarUrl,

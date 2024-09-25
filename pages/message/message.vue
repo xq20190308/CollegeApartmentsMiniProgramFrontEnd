@@ -4,6 +4,8 @@
 		<uni-list-chat class="bar,barb,barl" :clickable="true" @click="()=>{}" title="学校通知" avatar="https://bkimg.cdn.bcebos.com/pic/79f0f736afc379310a552fdfaf8ea04543a98326bbb9?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" to="../chat/noticechat" :time="store.noticeList.length>0?store.noticeList[0].sendTime:''" :badge-text="store.noticeList.length>0?store.unreceivedNoticeNum:''"  :note="store.noticeList.length>0?'您有一条消息':''"></uni-list-chat>
 		<uni-list-chat class="bar,barb,barl" v-for="(item,index) in contacts" :key="index" :clickable="true" @click="clickChatItem(index)" :title="item.trueName" :avatar="item.avatarUrl" :note="lastList[index].data" :time="lastList[index].sendTime" :badge-text="item.unreceivedNum?String(item.unreceivedNum):''"></uni-list-chat>
 	</uni-list>
+	<!-- <button class="btn" @click="wsopen('/websocket1')">开</button>
+	<button class="btn" @click="wsclose">关</button> -->
 	</view>
 </template>
 
@@ -14,6 +16,7 @@ import { http } from '@/utils/http'
 import { getTimeStamp } from "../../utils/time.js";
 import { handleMessageBar } from "../../utils/api/common.js"
 import { useUserStore } from "../../store/User.js"
+import { wsopen,wsclose } from "../../utils/socket.js";
 const store=useUserStore()
 const clickChatItem = (index)=>{
 	contacts.value[index].unreceivedNum=0

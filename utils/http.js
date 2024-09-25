@@ -1,8 +1,8 @@
 import { getLocalData,clearUserInfo } from "../utils/cache.js"
 import { wsclose } from "./socket.js"
-const developUrl = 'http://192.168.96.204:82'
+// const developUrl = 'http://192.168.96.204:82'
 // const developUrl = 'http://localhost:82'
-//const developUrl = 'https://william.fit:8082'
+const developUrl = 'https://william.fit:8082'
 const bkDevelopUrl = 'http://127.0.0.1:4523/m1/4414254-4059226-default'
 const fileUrl = ''
 // main 分支提交的测试数据: 

@@ -1,8 +1,8 @@
 import { ref, watch, reactive } from "vue";
 import { getLocalData } from "../utils/cache.js"
 import { useUserStore } from "../store/User.js";
-// const wsUrl = "wss://william.fit:8082"
-const wsUrl = "ws://localhost:82"
+const wsUrl = "wss://william.fit:8082"
+// const wsUrl = "ws://localhost:82"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
@@ -26,8 +26,9 @@ export var socketTask = "";
 //   length: 0
 // });
 export var tabbarPathList = ["/pages/home/home", "/pages/function/function", "/pages/myself/myself"];
-
+// const timer=ref()
 export const wsopen = (url) => {
+	// wsclose()
 	socketTask = uni.connectSocket({
 		url: url,
 		header: {},
@@ -51,10 +52,12 @@ export const wsopen = (url) => {
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
 		if(store.token!=""){
-			uni.showToast({
-				icon:"error",
-				title:"服务器异常"
-			})}
+			// uni.showToast({
+			// 	icon:"error",
+			// 	title:"服务器异常"
+			// })
+			wsopen('/websocket1')
+		}
 		// 	uni.showModal({
 		// 	title:"服务器异常，请重新登陆",
 		// 	success: (res) => {
@@ -141,6 +144,7 @@ export const wsclose = () => {
 			//有待添加
 			success: (res) => {
 				console.log("ws closed ", res);
+				console.log(socketTask)
 			}
 		});
 	}

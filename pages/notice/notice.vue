@@ -31,7 +31,7 @@
 			</uni-section>
 		</view>
 		<view>
-			<image class = "addnaireicon" src="../../static/feedback/plus.png" @click="goto('addnotice','noticeManage')"></image>
+			<image class = "addnaireicon" src="https://william.fit:8082/static/default/plus.png" @click="goto('addnotice','noticeManage')"></image>
 		</view>
 	</view>
 </template>

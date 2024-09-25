@@ -1,6 +1,6 @@
 <template>
 	<view style="width: 95%; margin-left: 20rpx; margin-top: 20rpx;">
-		<img src="../../static/home/swiper/schoolmark.jpg" style="width: 100%;height: 360rpx;">
+		<img src="https://william.fit:8082/static/default/schoolmark.jpg" style="width: 100%;height: 360rpx;">
 
 		<view style="width:90%;margin-left: 38rpx;">
 			<!-- 表单校验 -->
@@ -45,7 +45,7 @@
 <script setup>
 import { onLoad} from "@dcloudio/uni-app";
 import { reactive, ref, computed, onMounted } from "vue";
-import { login } from "../../pages/login/api/login.js"
+import { login } from "/utils/login.js"
 import {load,http} from "../../utils/http.js"
 import { wsclose,wsopen,wssend } from "../../utils/socket.js";
 import { useUserStore } from "../../store/User.js"

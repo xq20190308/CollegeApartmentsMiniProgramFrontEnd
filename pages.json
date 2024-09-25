@@ -17,7 +17,7 @@
 			"path": "pages/function/function",
 			"style": {
 				"navigationBarTitleText": "功能",
-				"backgroundColor": "#000000"
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -39,77 +39,6 @@
 				"enablePullDownRefresh": true
 			}
 		},
-		{
-			"path": "pages/login/loginPage",
-			"style": {
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
-			"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
-			"style": {
-				"navigationBarTitleText": "调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
-			"style": {
-				"navigationBarTitleText": "调查问卷列表",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
-			"style": {
-				"navigationBarTitleText": "创建调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/questionnaire/addquestionnaire/modifyquestionnaire",
-			"style": {
-				"navigationBarTitleText": "修改调查问卷",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/feedback",
-			"style": {
-				"navigationBarTitleText": "草稿列表",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/feedback/feedbackSubmit",
-			"style": {
-				"navigationBarTitleText": "草稿",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/feedback/manageFeed",
-			"style": {
-				"navigationBarTitleText": "已提交投诉",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/feedback/showFeed",
-			"style": {
-				"navigationBarTitleText": "投诉",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path":"pages/gradesShow/gradesShow",
-			"style": {
-				"navigationBarTitleText": "成绩展示",
-				"enablePullDownRefresh": true
-			}
-		},
-		
-		
 		{
 			"path": "pages/notice/notice",
 			"style": {
@@ -233,28 +162,6 @@
 				"enablePullDownRefresh": false
 			}
 		},
-		
-		{
-			"path": "pages/hygiene/search",
-			"style": {
-				"navigationBarTitleText": "卫生检查",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/hygiene/showhygiene",
-			"style": {
-				"navigationBarTitleText": "卫生检查",
-				"enablePullDownRefresh": false
-			}
-		},
-		{
-			"path": "pages/hygiene/hygieneGradesSubmit",
-			"style": {
-				"navigationBarTitleText": "上传成绩",
-				"enablePullDownRefresh": false
-			}
-		},
 		{
 			"path" : "pages/notice/noticefromry/noticefromry",
 			"style" : 
@@ -281,7 +188,7 @@
 	],
 	"subPackages": [
 		{
-			"root": "subPackages",
+			"root": "subPackage1",
 			"pages": [
 				{
 					"path" : "study/classRoom/classRoom",
@@ -297,6 +204,14 @@
 						"navigationBarTitleText" : "课程表"
 					}
 				},
+				{
+					"path":"study/gradesShow/gradesShow",
+					"style": {
+						"navigationBarTitleText": "成绩展示",
+						"enablePullDownRefresh": true
+					}
+				},
+		
 				{
 					"path" : "leave/leave",
 					"style" : 
@@ -318,6 +233,81 @@
 					"style": {
 						"navigationBarTitleText": "导师互动",
 						"enablePullDownRefresh": true
+					}
+				}
+			]
+		},
+		{
+			"root": "subPackage2",
+			"pages": [
+				{
+					"path": "pages/hygiene/search",
+					"style": {
+						"navigationBarTitleText": "卫生检查",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/hygiene/showhygiene",
+					"style": {
+						"navigationBarTitleText": "卫生检查",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/hygiene/hygieneGradesSubmit",
+					"style": {
+						"navigationBarTitleText": "上传成绩",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/questionnaire/questionnaire_home/questionnaire_home",
+					"style": {
+						"navigationBarTitleText": "调查问卷",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/questionnaire/questionnaire_list/questionnaire_list",
+					"style": {
+						"navigationBarTitleText": "调查问卷列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "pages/questionnaire/addquestionnaire/addquestionnaire",
+					"style": {
+						"navigationBarTitleText": "创建调查问卷",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/feedback/feedback",
+					"style": {
+						"navigationBarTitleText": "草稿列表",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "pages/feedback/feedbackSubmit",
+					"style": {
+						"navigationBarTitleText": "草稿",
+						"enablePullDownRefresh": false
+					}
+				},
+				{
+					"path": "pages/feedback/manageFeed",
+					"style": {
+						"navigationBarTitleText": "已提交投诉",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "pages/feedback/showFeed",
+					"style": {
+						"navigationBarTitleText": "投诉",
+						"enablePullDownRefresh": false
 					}
 				}
 			]
