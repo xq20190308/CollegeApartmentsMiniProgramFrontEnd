@@ -50,7 +50,7 @@
 		pickLocation: '',
 		name: '',
 		pickTime: '',
-		filepath: ["@/static/feedback/plus.png"],
+		filepath: ["https://william.fit:8082/static/default/plus.png"],
 		reason: '',
 		showReason:false,
 	})

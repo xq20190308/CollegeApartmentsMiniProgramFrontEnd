@@ -17,7 +17,7 @@
 		</view>
 		</view>
 	</view>
-	<image class = "addnaireicon" src="/static/feedback/plus.png" @click="goto('../feedback/feedbackSubmit')"></image>
+	<image class = "addnaireicon" src="https://william.fit:8082/static/default/plus.png" @click="goto('../feedback/feedbackSubmit')"></image>
 </template>
 
 <script setup>

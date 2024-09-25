@@ -21,7 +21,7 @@
 					<!-- <text class="uni-body">{{item.describes}}</text> -->
 				</uni-card>
 			</view>
-			<image class="floating-button" src="../../../static/feedback/plus.png" @click="add"></image>
+			<image class="floating-button" src="https://william.fit:8082/static/default/plus.png" @click="add"></image>
 		</view>
 		<view  v-if="data.current === 1">
 			<view style="padding-bottom: 50rpx;" v-for="(item, index) in data.AllItems" :key="index" @click="onpress(item)">
@@ -38,7 +38,7 @@
 					<text style="uni-body uni-mt-5">{{item.describes}}</text>
 				</uni-card>
 			</view>
-			<image class="floating-button" src="../../../static/feedback/plus.png" @click="add"></image>
+			<image class="floating-button" src="https://william.fit:8082/static/default/plus.png" @click="add"></image>
 		</view>
 	</view>
 	</view>

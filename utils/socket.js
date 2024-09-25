@@ -1,8 +1,8 @@
 import { ref, watch, reactive } from "vue";
 import { getLocalData } from "../utils/cache.js"
 import { useUserStore } from "../store/User.js";
-// const wsUrl = "wss://william.fit:8082"
-const wsUrl = "ws://localhost:82"
+const wsUrl = "wss://william.fit:8082"
+// const wsUrl = "ws://localhost:82"
 const wsInterceptor = {
 	invoke(options) { //响应前的拦截
 		if (!options.url.startsWith('ws')) {
