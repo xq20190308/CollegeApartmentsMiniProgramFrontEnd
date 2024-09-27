@@ -6,4 +6,4 @@
 node_modules/
 
 # uni-app
-unpackage/
+unpackage/*
