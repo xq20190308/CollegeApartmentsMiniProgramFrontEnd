@@ -32,6 +32,7 @@
     },
     "devDependencies": {
         "@types/markdown-it": "^14.1.1",
-        "sass": "^1.77.6"
+        "sass": "^1.79.3",
+        "sass-loader": "^16.0.2"
     }
 }

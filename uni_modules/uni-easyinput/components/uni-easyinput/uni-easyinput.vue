@@ -11,14 +11,14 @@
 				:placeholderStyle="placeholderStyle" :disabled="disabled" placeholder-class="uni-easyinput__placeholder-class"
 				:maxlength="inputMaxlength" :focus="focused" :autoHeight="autoHeight" :cursor-spacing="cursorSpacing"
 				:adjust-position="adjustPosition" @input="onInput" @blur="_Blur" @focus="_Focus" @confirm="onConfirm"
-				@keyboardheightchange="onkeyboardheightchange"></textarea>
+				@keyboardheightchange="onkeyboardheightchange" ref="inputRef"></textarea>
 			<input :enableNative="enableNative" v-else :type="type === 'password' ? 'text' : type"
 				class="uni-easyinput__content-input" :style="inputStyle" :name="name" :value="val"
 				:password="!showPassword && type === 'password'" :placeholder="placeholder" :placeholderStyle="placeholderStyle"
 				placeholder-class="uni-easyinput__placeholder-class" :disabled="disabled" :maxlength="inputMaxlength"
 				:focus="focused" :confirmType="confirmType" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition"
 				@focus="_Focus" @blur="_Blur" @input="onInput" @confirm="onConfirm"
-				@keyboardheightchange="onkeyboardheightchange" />
+				@keyboardheightchange="onkeyboardheightchange" ref="inputRef" />
 			<!-- #endif -->
 			<!-- #ifndef MP-ALIPAY -->
 			<textarea v-if="type === 'textarea'" class="uni-easyinput__content-textarea"
@@ -26,13 +26,13 @@
 				:placeholderStyle="placeholderStyle" :disabled="disabled" placeholder-class="uni-easyinput__placeholder-class"
 				:maxlength="inputMaxlength" :focus="focused" :autoHeight="autoHeight" :cursor-spacing="cursorSpacing"
 				:adjust-position="adjustPosition" @input="onInput" @blur="_Blur" @focus="_Focus" @confirm="onConfirm"
-				@keyboardheightchange="onkeyboardheightchange"></textarea>
-			<input v-else :type="type === 'password' ? 'text' : type" class="uni-easyinput__content-input" :style="inputStyle"
+				@keyboardheightchange="onkeyboardheightchange" ref="inputRef"></textarea>
+			<input :confirm-hold="true" v-else :type="type === 'password' ? 'text' : type" class="uni-easyinput__content-input" :style="inputStyle"
 				:name="name" :value="val" :password="!showPassword && type === 'password'" :placeholder="placeholder"
 				:placeholderStyle="placeholderStyle" placeholder-class="uni-easyinput__placeholder-class" :disabled="disabled"
 				:maxlength="inputMaxlength" :focus="focused" :confirmType="confirmType" :cursor-spacing="cursorSpacing"
 				:adjust-position="adjustPosition" @focus="_Focus" @blur="_Blur" @input="onInput" @confirm="onConfirm"
-				@keyboardheightchange="onkeyboardheightchange" />
+				@keyboardheightchange="onkeyboardheightchange" ref="inputRef" />
 			<!-- #endif -->
 
 			<template v-if="type === 'password' && passwordIcon">
@@ -50,6 +50,7 @@
 					:class="{ 'is-textarea-icon': type === 'textarea' }" type="clear" :size="clearSize"
 					:color="msg ? '#dd524d' : focusShow ? primaryColor : '#c0c4cc'" @click="onClear"></uni-icons>
 			</template>
+			<button v-if="bntIcon" class="inputBnt" type="primary" size="mini" @touchend.stop.prevent="onClickBtn"><text>{{bntText}}</text></button>
 			<slot name="right"></slot>
 		</view>
 	</view>
@@ -98,6 +99,7 @@
 	 * @event {Function}	blur	输入框失去焦点时触发
 	 * @event {Function}	confirm	点击完成按钮时触发
 	 * @event {Function}	iconClick	点击图标时触发
+	 * @event {Function}    btnClick    点击按钮时触发
 	 * @example <uni-easyinput v-model="mobile"></uni-easyinput>
 	 */
 	function obj2strClass(obj) {
@@ -124,6 +126,7 @@
 		emits: [
 			'click',
 			'iconClick',
+			'btnClick',
 			'update:modelValue',
 			'input',
 			'focus',
@@ -208,6 +211,14 @@
 			suffixIcon: {
 				type: String,
 				default: ''
+			},
+			bntIcon: {
+				type: Boolean,
+				default: false
+			},
+			bntText: {
+				type: String,
+				default: "发送"
 			},
 			trim: {
 				type: [Boolean, String],
@@ -376,13 +387,49 @@
 					this.val = null;
 				}
 			},
-
 			/**
 			 * 点击图标时触发
 			 * @param {Object} type
 			 */
 			onClickIcon(type) {
 				this.$emit('iconClick', type);
+			},
+			onClickBtn(event){
+				console.log("onClickBtn",event)
+				// event.stopPropagation();
+				// event.preventDefault();
+				// event.stopImmediatePropagation()
+				// 如果需要重新聚焦，可以这样做
+				// this.$refs.inputRef?.focus();
+				// this.focus=true
+				// this.$nextTick(() => {
+					// this.focused = true;
+					// this.focusShow = true;
+				// });
+				// console.log("this.focus",this.focus)
+				// 阻止事件冒泡
+				// event.stopPropagation();
+
+				// 防止默认行为
+				// event.preventDefault();
+				
+				// this.focus()
+				
+				// this.$nextTick(()=>{
+			console.log('$refs:', this.$refs);
+			console.log('inputRef:', this.$refs.inputRef);
+				// 获取当前激活的输入框并重新聚焦
+					const inputElement = this.$refs.inputRef;
+			
+					if (inputElement) {
+					inputElement.focus();
+					} else {
+					console.error('输入框未找到');
+					}
+				// })
+				 
+				  
+				this.$emit('btnClick');
 			},
 
 			/**
@@ -422,6 +469,7 @@
 			 * @param {Object} event
 			 */
 			onFocus() {
+				console.log("onFocus")
 				this.$nextTick(() => {
 					this.focused = true;
 				});
@@ -429,6 +477,7 @@
 			},
 
 			_Focus(event) {
+				console.log("_Focus")
 				this.focusShow = true;
 				this.$emit('focus', event);
 			},
@@ -439,10 +488,12 @@
 			 * @param {Object} event
 			 */
 			onBlur() {
+				console.log("onBlur")
 				this.focused = false;
 				this.$emit('blur', null);
 			},
 			_Blur(event) {
+				console.log("_Blur",event)
 				let value = event.detail.value;
 				this.focusShow = false;
 				this.$emit('blur', event);

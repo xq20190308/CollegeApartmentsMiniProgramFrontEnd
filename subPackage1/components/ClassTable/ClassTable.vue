@@ -35,7 +35,7 @@
 					</uni-tr> -->
 					<uni-tr v-for="(item, i) in CourseStore.classTableData[index].courses" :key="i">
 						<uni-td padding="5rpx 5rpx" :radius="true" :width="35" align="center" v-for="(innerItem, idx) in item" :key="idx" :background="innerItem.info.kcmc!='0'?appData.colorList[innerItem.code % appData.colorN]:''">
-							<view v-if="innerItem.info.kcmc!='0'" >
+							<view v-if="innerItem.info.kcmc!='0'" style="min-height: 15vh;">
 							<text class="name">{{ innerItem.info.kcmc }}\n</text>
 							<text class="name">{{ innerItem.info.jsmc }}\n</text>
 							<text class="name">{{ innerItem.info.jsxm }}\n</text>

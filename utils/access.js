@@ -1,4 +1,4 @@
-import { useUserStore } from "../store/User";
+import { useUserStore } from "/store/User";
 export const goto = (url,options)=> {
 	if(options){
 		url=url+"?info="+JSON.stringify(options)

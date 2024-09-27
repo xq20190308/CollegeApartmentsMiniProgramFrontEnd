@@ -1,38 +1,43 @@
 <template>
+	<view class="banner">
 	<!-- 轮播图区域 -->
+	<view>
 	<swiper class="swiper" :autoplay="true" :interval="4000" :duration="1000">
 		<swiper-item class="swiper-item" v-for="(item, index) in data.articles" :key="index">
-			<img :src="'https://william.fit:8082/static/scroll/'+index%11+'.jpg'" alt="" class="swiper-image" @click="bannerclick(index)">
+			<img class="swiper-image" :src="'https://william.fit:8082/static/scroll/'+index%11+'.jpg'">
 			<!-- <view class="swiper-title">{{data.articles[index].title}}</view> -->
 		</swiper-item> 
 	</swiper>
+	</view>
 	<view class="scroll-fun">
 		<view class="scroll-fun-item" v-for="(funitem, i) in data.navList" :key="i" @click="FunctionClick(funitem)">
 			<image :src="funitem.imgPath" class="scroll-fun-img"></image>
 			 <text class="scroll-fun-text">{{ funitem.name }}</text>
 		</view>
 	</view>
-	<uni-notice-bar class="notice-bar" show-icon scrollable background-color="#f7c7c7" color="#000" :speed="50"
-	:single="true" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" />
-	<!-- <view class="card-bar"> -->
+	<view class="card-bar">
+	<!-- <uni-notice-bar class="notice-bar" show-icon scrollable background-color="#f7c7c7" color="#000" :speed="50"
+	:single="false" :text="store.noticeList.length?store.noticeList[store.noticeList.length-1].data:'欢迎光临'" /> -->
+	<view class="notice-bar">
+	<u-notice-bar @click="bannerclick" bgColor="#f7c7c7" :text="titles" direction="column" color="#000" ></u-notice-bar>
+	</view>
 	<!-- 未来倒计时 -->
-	<uni-card title="未来倒计时" width="50%" :sub-title="getCurrentDate()" margin="40rpx" background="#c7e8fb" thumbnail="https://william.fit:8082/static/default/future_icon.png">
-		<!-- <uni-calendar /> -->
-		<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
+	<uni-card title="未来倒计时" :sub-title="getCurrentDate()" background="#c7e8fb" thumbnail="https://william.fit:8082/static/default/future_icon.png">
+		<uni-calendar />
+		<!-- <text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text> -->
 	</uni-card>
-	<!-- <view class="card-bar" style="flex-direction: column;margin: 0rpx;"> -->
-	<!-- <uni-card background="#c7e8fb">
-	</uni-card>
-	<uni-card background="#c7e8fb">
-		<text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text>
-	</uni-card> -->
-	<!-- </view> -->
-	<!-- </view> -->
+	<!-- <view class="card-single-bar" style="flex-direction: column;">
+		<view class="single" v-for="(funitem, i) in data.navList" :key="i" @click="FunctionClick(funitem)">
+			<image :src="funitem.imgPath" class="scroll-fun-img"></image>
+			 <text class="single-fun-text">{{ funitem.name }}</text>
+		</view> -->
+	</view>
+	</view>
 </template>
 
 <script setup>
-import { onLoad,onShow } from "@dcloudio/uni-app";
-import { reactive } from "vue";
+import { onLoad,onShow,onPullDownRefresh } from "@dcloudio/uni-app";
+import { computed, reactive } from "vue";
 import { getarticles } from "../notice/api/getnotices.js"
 import { getCurrentDate } from '@/utils/time'
 import { useUserStore } from "../../store/User.js"
@@ -49,8 +54,12 @@ const bannerclick=(index)=>{
 		url:'../notice/noticedetail?id=' + data.articles[index].id
 	})
 }
-
-onLoad(()=>{ 
+const titles=computed(()=>{
+	return data.articles.map((item)=>{
+		return item.title
+	})
+})
+onPullDownRefresh(()=>{
 	// 使用函数并打印结果
 	getarticles({ typeName : '主页'}).then(response => {
 		data.articles = response.sort((a, b) => a.id - b.id);
@@ -61,6 +70,10 @@ onLoad(()=>{
 	http("/menus","GET",{}).then((res)=>{
 		data.navList=res.data.filter((item)=>{return item.typeId==='1'})
 	})
+	setTimeout(()=>{uni.stopPullDownRefresh()},1000)
+})
+onLoad(()=>{ 
+	uni.startPullDownRefresh()
 })
 const FunctionClick=(item)=> {
 	uni.navigateTo({
@@ -76,14 +89,14 @@ onShow(()=>{
 	.scroll-fun{
 		flex-wrap: wrap;
 		padding: 0rpx;
-		position: absolute;
 		width: 80%;
 		margin: 0rpx 75rpx;
-		top: 330rpx;
 		display: flex;
 		height: 140rpx;
 		background: #597fbe;
 		border-radius: 20rpx;
+		position: relative;
+		top: -90rpx;
 	}
 	.scroll-fun-item{
 		border-radius: 16rpx;
@@ -105,12 +118,37 @@ onShow(()=>{
 		text-align: center;
 		align-items: center;
 	}
+	.single-fun-text{
+		font-size: 28rpx;
+		color: #736969;
+		text-align: center;
+		align-items: center;
+	}
 	.card-bar{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: stretch;
+		position: relative;
+		top: -90rpx;
+		gap: 20rpx;
+	}
+	.card-single-bar{
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		margin: 10rpx;
+		align-items: stretch;
 		gap: 10rpx;
-		margin: 20rpx;
+	}
+	.single{
+		flex-direction: row;
+		gap: 30rpx;
+		background: #c7e8fb;
+		border-radius: 16rpx;
+		display: flex;
 		align-items: center;
+		padding: 15rpx;
+		box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
 	}
 </style>

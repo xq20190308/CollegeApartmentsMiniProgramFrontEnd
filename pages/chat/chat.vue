@@ -1,9 +1,9 @@
 <template>
-	<view >
+	<view style="height: 100vh;">
 		
-		<scroll-view class="scroll-view,uni-indexed-list__scroll" :scroll-into-view="bottom" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
+		<scroll-view class="scroll-view" :style="'height: '+originalHeight" :scroll-into-view="bottom" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
 			
-			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="margin-bottom: 16rpx;">
+			<view v-for="(msg,index) in data.messages" :key="index" :id="'msg'+index" style="padding-bottom: 16rpx;">
 				<view class="chat-time-view"><text class="chat-time">{{msg.sendTime}}</text></view>
 				
 				<view v-if="data.myid==msg.senderUserId" :class="'chat-right'">
@@ -27,8 +27,16 @@
 			<view :id="'bottom'"></view>
 		</scroll-view>
 		
-		<view class="inputstyle">
-			<uni-easyinput v-model="data.message" type="line" placeholder=""></uni-easyinput>
+		<view class="inputstyle" style="display: flex;left: 10rpx;width: 98%;">
+			<!-- <uni-easyinput :adjustPosition="false" v-model="data.message" :bntIcon="true" type="line" placeholder="" @btnClick="mywssent" @blur="handleBlur"> -->
+				<!-- <template v-slot:right>
+					<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
+				</template> -->
+			<!-- </uni-easyinput> -->
+			<input :focus="input" class="input-chat" :adjustPosition="false" :value="data.message" placeholder="" @blur="handleBlur">
+				<!-- <template v-slot:right>
+				</template> -->
+			</input>
 			<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
 		</view>
 	</view>
@@ -36,7 +44,7 @@
 
 <script setup>
 import { onLoad, onShow, onUnload } from "@dcloudio/uni-app";
-import { reactive, ref,computed,watch,onMounted, onUnmounted } from "vue";
+import { reactive, ref,computed,watch,onMounted, onUnmounted,nextTick } from "vue";
 import { getCurrentTime } from '@/utils/time'
 import { http, load } from '@/utils/http'
 import { wsclose,wsopen,wssend,socketTask } from "@/utils/socket.js";
@@ -54,8 +62,21 @@ const bottom=ref("")
 onMounted(()=>{//确保进入后滑到底端
 	bottom.value="bottom"
 })
-
-const mywssent = async () => {
+const handleBlur = (event)=>{
+	console.log("失去焦点")
+    //阻止失去焦点
+    // event.preventDefault();
+}
+const input=ref(true)
+onMounted(async()=>{
+	// await nextTick()
+	console.log(input.value)
+})
+const mywssent = async (event) => {
+	input.value=true
+	// await nextTick()
+	console.log(input.value)
+	
 	let receiver=[];
 	receiver.push(data.info.userid)
 	const res1 = await wssend("0",data.message===''?"发射爱心":data.message,data.info.userid)
@@ -82,7 +103,20 @@ const handlemsg=(msg)=>{
 		store.handlemessage(message)
 	}
 }
+const originalHeight=ref('95%')
+
+// const keyboardheightchange=(e)=>{
+// 	console.log("键盘高度变化",e)
+// 	if (e.detail.height > 0) { // 键盘弹起
+// 		console.log(e.detail.height)
+// 		originalHeight.value = 'calc(95% - ' + e.detail.height + 'px)';
+// 		bottom.value=data.messages.length>0?"msg"+String(data.messages.length-1):"bottom"
+// 	} else { // 键盘收起
+// 		originalHeight.value = '95%';
+// 	}
+// }
 onUnload(()=>{
+	uni.offKeyboardHeightChange()
 	console.log("onUnload")
 	if(data.messages.length>0){
 	console.log("存储聊天记录到本地")
@@ -96,10 +130,20 @@ onUnload(()=>{
 	let index = store.chatList.findIndex(item => item.userid === data.info.userid);
 	store.lastList[index]={...data.messages[data.messages.length-1],contactid:data.info.userid}
 	uni.$emit('upgradeLastList',store.lastList)}
-	
 })
 const store = useUserStore();
 onLoad((options)=>{
+	uni.onKeyboardHeightChange(res => {
+	  console.log("uni.键盘高度变化",res.height)
+	  if (res.height > 0) { // 键盘弹起
+	  	console.log(res.height)
+	  	originalHeight.value = 'calc(95% - ' + res.height + 'px)';
+	  	bottom.value=bottom.value==="msg"+String(data.messages.length-1)?"bottom":"msg"+String(data.messages.length-1)
+	  } else { // 键盘收起
+	  	originalHeight.value = '95%';
+	  }
+	})
+	
 	data.myid=store.user.userid
 	data.myname=store.user.trueName
 	data.info=JSON.parse(options.info)
@@ -127,9 +171,6 @@ onLoad((options)=>{
 		margin-right: 8rpx;
 		margin-left: 8rpx;
 	}
-	.uni-indexed-list__scroll {
-		height: 1100rpx;
-	}
 	.chat-avatar {
 		background-color: #ad7d7d;
 		border-radius: 50%;
@@ -139,7 +180,7 @@ onLoad((options)=>{
 		left: 10rpx;
 	}
 	.chat-textbox{
-		height: 40rpx;
+		/* height: 40rpx; */
 		padding: 20rpx;
 		background-color: #008cffdb;
 		border-radius: 40rpx;
@@ -150,5 +191,15 @@ onLoad((options)=>{
 		font-weight: 200;
 		font-family: monospace;
 		color: aliceblue;
+		overflow-wrap: anywhere;
+	}
+	.input-chat{
+		width: auto;
+		position: relative;
+		overflow: hidden;
+		flex: 1;
+		line-height: 1;
+		font-size: 14px;
+		height: 100%;
 	}
 </style>

@@ -28,7 +28,7 @@
 				<view v-if="badgeText && badgePositon === 'left'" class="uni-list-chat__badge uni-list-chat__badge-pos" :class="[isSingle]">
 					<text class="uni-list-chat__badge-text">{{ badgeText === 'dot' ? '' : badgeText }}</text>
 				</view>
-				<view class="uni-list-chat__content">
+				<!-- <view class="uni-list-chat__content">
 					<view class="uni-list-chat__content-main">
 						<text class="uni-list-chat__content-title uni-ellipsis">{{ title }}</text>
 						<view style="flex-direction: row;">
@@ -43,6 +43,25 @@
 								<text class="uni-list-chat__badge-text">{{ badgeText === 'dot' ? '' : badgeText }}</text>
 							</view>
 						</slot>
+					</view>
+				</view> -->
+				<view class="uni-list-chat__content">
+					<!-- <view class="uni-list-chat__content-main"> -->
+						<view style="flex-direction: row;justify-content: space-between;display: flex;">
+							<text class="uni-list-chat__content-title uni-ellipsis">{{ title }}</text>
+							<text class="uni-list-chat__content-extra-text">{{ time }}</text>
+						</view>
+					<!-- </view> -->
+					<view class="uni-list-chat__content" style="flex-direction: row;">
+						<view class="uni-list-chat__content-main">
+							<text class="draft" v-if="isDraft">[草稿]</text>
+							<text class="uni-list-chat__content-note uni-ellipsis">{{isDraft?note.slice(14):note}}</text>
+						</view>
+						<view class="uni-list-chat__content-extra">
+							<view v-if="badgeText && badgePositon === 'right'" class="uni-list-chat__badge" :class="[isSingle, badgePositon === 'right' ? 'uni-list-chat--right' : '']">
+								<text class="uni-list-chat__badge-text">{{ badgeText === 'dot' ? '' : badgeText }}</text>
+							</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -470,7 +489,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		flex-direction: row;
+		flex-direction: column;
 		flex: 1;
 		overflow: hidden;
 		padding: 2px 0;
@@ -480,11 +499,21 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		flex-direction: column;
+		flex-direction: row;
 		justify-content: space-between;
 		padding-left: $uni-spacing-row-base;
 		flex: 1;
 		overflow: hidden;
+		.uni-list-chat__content-extra {
+			/* #ifndef APP-NVUE */
+			flex-shrink: 0;
+			display: flex;
+			/* #endif */
+			flex-direction: column;
+			justify-content: flex-end;
+			align-items: flex-end;
+			margin-left: 5px;
+		}
 	}
 
 	.uni-list-chat__content-title {
@@ -515,7 +544,7 @@
 		display: flex;
 		/* #endif */
 		flex-direction: column;
-		justify-content: space-between;
+		justify-content: flex-end;
 		align-items: flex-end;
 		margin-left: 5px;
 	}

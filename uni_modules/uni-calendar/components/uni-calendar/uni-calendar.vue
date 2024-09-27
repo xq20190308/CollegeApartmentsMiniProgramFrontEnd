@@ -433,7 +433,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		height: 50px;
+		height: 40px;
 		border-bottom-color: $uni-border-color;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
@@ -527,7 +527,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: 45px;
+		height: 40px;
 		border-bottom-color: #F5F5F5;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;

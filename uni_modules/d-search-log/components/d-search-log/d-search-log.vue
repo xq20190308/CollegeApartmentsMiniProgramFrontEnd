@@ -244,7 +244,7 @@
 		// padding: 10rpx 0;
 		.dSLComVueTop {
 			width: 95%;
-			height: 80rpx;
+			height: 5vh;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;

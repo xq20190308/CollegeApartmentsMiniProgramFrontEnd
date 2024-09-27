@@ -1,15 +1,16 @@
 export const getCurrentTime = () => {
-	  const now = new Date();
-	  const year = now.getFullYear(); // 获取年份
-	  const month = now.getMonth() + 1; // 获取月份，月份需要+1
-	  const day = now.getDate(); // 获取日
-	  const hours = now.getHours(); // 获取小时
-	  const minutes = now.getMinutes(); // 获取分钟
-	  const seconds = now.getSeconds(); // 获取秒钟
-	 
-	  // 格式化输出
-	  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  const now = new Date();
+  const year = now.getFullYear(); // 获取年份
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // 获取月份，并填充零
+  const day = String(now.getDate()).padStart(2, '0'); // 获取日，并填充零
+  const hours = String(now.getHours()).padStart(2, '0'); // 获取小时，并填充零
+  const minutes = String(now.getMinutes()).padStart(2, '0'); // 获取分钟，并填充零
+  const seconds = String(now.getSeconds()).padStart(2, '0'); // 获取秒钟，并填充零
+
+  // 格式化输出
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
 export const getCurrentDate = () => {
 	  const now = new Date();
 	  const year = now.getFullYear(); // 获取年份

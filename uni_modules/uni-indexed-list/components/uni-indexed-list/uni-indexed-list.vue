@@ -209,7 +209,7 @@
 
 	.uni-indexed-list__scroll {
 		flex: 1;
-		height: 1060rpx;
+		height: 91.7vh;
 	}
 
 	.uni-indexed-list__menu {
@@ -220,7 +220,7 @@
 		z-index: 9;
 		height: -webkit-fit-content;
 		position: fixed;
-		height: 1060rpx;
+		height: 91.7vh;
 		justify-content: space-between;
 		border: 2rpx #d6d6d669 solid;
 		border-radius: 80rpx;

@@ -1,12 +1,12 @@
 <template>
 	<view class="banner">
-		<aui-loading 
+		<auiLoadingVue 
 		  :SHOW="showLoading" 
 		  :msg="'加载中'"
 		  :styles="{background:'transparent',color:'#000'}"
 		  :type="3"
 		  image="../../static/success.png"
-		></aui-loading>
+		></auiLoadingVue>
 		<view v-if="myinfo" class="bar,barb" v-for="(item,key) in puInfo.myPuInfo" :key="key">
 		<uni-section type="line" :title="key">
 			<text class="text-common">{{item}}</text>
@@ -60,6 +60,7 @@ import { useLoginStore } from "@/store/login.js";
 import { getPuInfo,getPuActivities,joinActivity } from "./api/pu.js"
 import { usePuStore } from "@/store/pu/pu.js";
 import { ref } from "vue";
+import auiLoadingVue from "../../components/aui-loading/aui-loading.vue";
 const puInfo = usePuStore()
 const loginInof = useLoginStore()
 const myinfo=ref(false)

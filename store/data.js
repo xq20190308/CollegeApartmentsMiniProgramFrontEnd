@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import {http} from '../utils/http.js'
+import {http} from '/utils/http.js'
 import { reactive,ref,computed } from "vue";
 export const useDataStore = defineStore('Data', ()=>{
 	const classes = ref([])

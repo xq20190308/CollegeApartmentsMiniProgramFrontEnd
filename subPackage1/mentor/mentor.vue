@@ -1,7 +1,7 @@
 <template>
 	<view class="banner" style="margin-top: 0;">
 		<view>
-			<d-search-log placeholder="输入姓名" :is_show_more="false"  @onSearchNameApi="onSearchName"></d-search-log>
+			<dSearchLogVue placeholder="输入姓名" :is_show_more="false"  @onSearchNameApi="onSearchName"></dSearchLogVue>
 		</view>
 		<uni-list v-if="data.isonsearch">
 			<view class="barl" v-for="(i,index) in data.searchIndex" :key="index">
@@ -19,6 +19,7 @@ import {http} from '@/utils/http'
 import { useUserStore } from "@/store/User.js"
 import { useMentorStore } from '/subPackage1/store/study/mentor.js';
 import { getMentors } from "./api/mentor.js";
+import dSearchLogVue from "../../uni_modules/d-search-log/components/d-search-log/d-search-log.vue";
 const MentorStore =useMentorStore()
 const store=useUserStore()
 const mentor_list_ABC=computed(()=>{

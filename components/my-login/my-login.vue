@@ -46,10 +46,10 @@
 import { onLoad} from "@dcloudio/uni-app";
 import { reactive, ref, computed, onMounted } from "vue";
 import { login } from "/utils/login.js"
-import {load,http} from "../../utils/http.js"
-import { wsclose,wsopen,wssend } from "../../utils/socket.js";
-import { useUserStore } from "../../store/User.js"
-import { debounce } from 'lodash-es';//防抖
+import {load,http} from "/utils/http.js"
+import { wsclose,wsopen,wssend } from "/utils/socket.js";
+import { useUserStore } from "/store/User.js"
+// import { debounce } from 'lodash-es';//防抖
 // 防抖函数
 // const debounceUsernameInput = (value) => {
 // 	reqdata.username=value

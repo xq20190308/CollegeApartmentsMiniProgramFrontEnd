@@ -18,6 +18,8 @@ import './global/commen/function.css'
 import { useUserStore } from "@/store/User.js"
 import { useLoginStore } from "@/store/Login.js"
 import { http } from "./utils/http.js"
+// main.js，注意要在use方法之后执行
+import uviewPlus, { setConfig } from '/uni_modules/uview-plus'
 export const mainFun = ()=>{
 	console.log("mainFun");
 	const store=useUserStore();
@@ -49,6 +51,7 @@ export const appData = {
 };
 const app = createSSRApp(App);
 app.use(Pinia.createPinia());
+app.use(uviewPlus)
 export function createApp() {
 	return {
 		app,

@@ -1,10 +1,11 @@
 <template>
-	<Login :title="title" :url="url"></Login>
+	<loginVue :title="title" :url="url"></loginVue>
 </template>
 
 <script setup>
 import { onLoad } from "@dcloudio/uni-app";
-import { ref } from "vue";;
+import { ref } from "vue";
+import loginVue from "../../components/login/login.vue";
 const title=ref('');
 const url=ref('');
 onLoad((options)=>{

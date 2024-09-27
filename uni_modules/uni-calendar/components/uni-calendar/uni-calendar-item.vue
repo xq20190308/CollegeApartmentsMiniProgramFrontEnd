@@ -130,8 +130,8 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 100rpx;
-		height: 100rpx;
+		width: 80rpx;
+		height: 80rpx;
 	}
 
 	.uni-calendar-item__weeks-box-circle {
