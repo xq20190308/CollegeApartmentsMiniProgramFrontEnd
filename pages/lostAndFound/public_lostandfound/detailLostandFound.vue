@@ -6,7 +6,7 @@
 	<uni-section class="mb-10" title="描述" :sub-title="data.describes" type="circle"></uni-section>
 	<uni-section class="mb-10" title="联系方式" :sub-title="data.contactobject" type="circle"></uni-section>
 	
-	<image  style="width:100%; border-radius: 5px;" :src="data.file_path"></image>
+	<image  style="width:80%; border-radius: 5px;padding:25px;text-align: center;" :src="data.file_path"></image>
 </template>
 
 <script setup>

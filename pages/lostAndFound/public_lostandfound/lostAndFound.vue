@@ -1,4 +1,5 @@
 <template>
+	<view class="banner">
     <view class="uni-padding-wrap uni-common-mt">
         <uni-segmented-control :current="data.current" :values="data.items" :style-type="data.styleType"
             :active-color="data.activeColor" @clickItem="onClickItem" />
@@ -6,26 +7,9 @@
     <view class="content">
         <view v-if="data.current === 0">
                 <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
-
                     <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
-                        <!-- 显示头像的 -->
-                        <!-- :thumbnail="item.img" -->
-                        <image style="width:100%;" :src="item.img"></image>
-                        <text class="uni-body uni-mt-5">{{item.describes}}</text>
-                        <!--                     <view slot="actions" class="card-actions">
-                                <view class="card-actions-item" @click="actionsClick('分享')">
-                                    <uni-icons type="pengyouquan" size="18" color="#999"></uni-icons>
-                                    <text class="card-actions-item-text">分享</text>
-                                </view>
-                                <view class="card-actions-item" @click="actionsClick('点赞')">
-                                    <uni-icons type="heart" size="18" color="#999"></uni-icons>
-                                    <text class="card-actions-item-text">点赞</text>
-                                </view>
-                                <view class="card-actions-item" @click="actionsClick('评论')">
-                                    <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
-                                    <text class="card-actions-item-text">评论</text>
-                                </view>
-                            </view> -->
+                        <image style="width:100%;" :src="item.file_path[0]"></image>
+                        <text class="uni-body uni-mt-5">{{item.describes}}</text>   
                     </uni-card>
                 </view>
         </view>
@@ -35,22 +19,8 @@
                 <uni-card title="丢失东西" :sub-title="item.name" padding="10px 0">
                     <!-- 显示头像的 -->
                     <!-- :thumbnail="item.img" -->
-                    <image style="width:100%;" :src="item.img"></image>
+                   <image style="width:100%;" :src="item.file_path[0]"></image>
                     <text class="uni-body uni-mt-5">{{item.describes}}</text>
-                    <!--                     <view slot="actions" class="card-actions">
-                            <view class="card-actions-item" @click="actionsClick('分享')">
-                                <uni-icons type="pengyouquan" size="18" color="#999"></uni-icons>
-                                <text class="card-actions-item-text">分享</text>
-                            </view>
-                            <view class="card-actions-item" @click="actionsClick('点赞')">
-                                <uni-icons type="heart" size="18" color="#999"></uni-icons>
-                                <text class="card-actions-item-text">点赞</text>
-                            </view>
-                            <view class="card-actions-item" @click="actionsClick('评论')">
-                                <uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
-                                <text class="card-actions-item-text">评论</text>
-                            </view>
-                        </view> -->
                 </uni-card>
             </view>
 
@@ -60,6 +30,7 @@
 		    <view>
 		        <image class="floating-button" src="../../../static/function/lostandfound_per.png" @click="changePage"></image>
 		    </view>
+			</view>
 </template>
 
 
@@ -108,21 +79,31 @@ const onClickItem = (e) => {
         if(data.current == 0)
         {
             const category = 'found';
+						const page = 1;
             //奇了怪了，为什么
             //const res = await http(`/api/Getdata?category=${category}`, 'GET',{})就不行
             //破案了，少了个横线，参照下面lost的写法
             //是用``不是单引号写网址
-            const res = await http(`/api/Getdata/${category}`, 'GET',{})
+            const res = await http(`/api/Getdata/${category}/${page}`, 'GET',{})
             console.log("封装后请求的结果", res);
 						console.log("找的的", res);
+						for (let i = 0; i < res.data.length; i++) {
+						    res.data[i].file_path = JSON.parse(res.data[i].file_path);
+						    console.log("file_path[i]", res.data[i].file_path);
+						}
             data.AllItems = res.data //与问卷的返回不同
         }
         else
         {
             const category = 'lost';
+						const page = 1;
 						// const res = await http(`/api/Getdata/?category=${category}`, 'GET')
-           const res = await http(`/api/Getdata/${category}`, 'GET',{})
+           const res = await http(`/api/Getdata/${category}/${page}`, 'GET',{})
             console.log("丢失的", res);
+						for (let i = 0; i < res.data.length; i++) {
+						    res.data[i].file_path = JSON.parse(res.data[i].file_path);
+						    console.log("file_path[i]", res.data[i].file_path);
+						}
             data.AllItems = res.data //与问卷的返回不同
         }
     }
@@ -131,13 +112,12 @@ const onpress = (item) => {
   console.log("跳转到每条失物招领的详细信息,要携带id", item.pickLocation);
   uni.navigateTo({
     url: `../public_lostandfound/detailLostandFound?` +
-      `describes=${item.describes}&` +
-      `img=${item.img}&` +
-      `contactobject=${item.contactobject}&` +
-			`name=${item.name}&` +
-      `pickLocation=${item.pickLocation}&` +
-      `pickTime=${item.pickTime}&` +
-			`filepath=${item.filepath}`,
+     `describes=${item.describes}&` +
+     `name=${item.name}&` +
+     `contactobject=${item.contact_object}&` +
+     `pickLocation=${item.pick_location}&` +
+     `pickTime=${item.pick_time}&` +
+     `filepath=${item.file_path}`,
   });
 }
 
@@ -235,7 +215,8 @@ const changePage = () => {
 
 	.uni-padding-wrap {
 		// width: 750rpx;
-		padding: 10px ;
+		padding: 0rpx;
+		margin-bottom: 30rpx;
 	}
 
 	// .content {

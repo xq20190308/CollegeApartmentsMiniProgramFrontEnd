@@ -5,7 +5,7 @@
 			<view class="example">
 				<uni-forms ref="baseForm" :rules="data.rules" :modelValue="data.baseFormData">
 					<uni-forms-item label="丢失的物品" required name="pickName">
-						<uni-easyinput v-model="data.baseFormData.pickName" placeholder="请输入丢失的地点" />
+						<uni-easyinput v-model="data.baseFormData.pickName" placeholder="请输入丢失的物品名称" />
 					</uni-forms-item>
 					<uni-forms-item label="丢失的地点" required name="pickLocation">
 						<uni-easyinput v-model="data.baseFormData.pickLocation" placeholder="请输入丢失的地点" />
