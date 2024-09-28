@@ -31,7 +31,7 @@
 
 <script setup>
 import { onLoad, onShow} from "@dcloudio/uni-app";
-import { setLocalData } from "../../utils/cache.js"
+import { setLocalData,getLocalData } from "../../utils/cache.js"
 import { computed, ref } from "vue";
 import { load, http } from "../../utils/http.js"
 import { handleMessageBar } from "../../utils/api/common.js"
@@ -62,13 +62,14 @@ const selectUpload = (e)=>{
 	setLocalData('avatarUrl',store.avatarUrl);
 }
 onShow( async () => {
-	if(store.token!=""){
+	if(!getLocalData('token')&&store.token!=""){
+		store.handledelogin()
+	}else if(store.token!=""){
 		if(store.isRelogin){
 			let total = store.totalUnreceived
 			uni.$emit('upgradeUnreceivedNum',total)
 			store.isRelogin=false;
 		}
-	}else{
 	}
 	handleMessageBar(store.totalUnreceived)
 })

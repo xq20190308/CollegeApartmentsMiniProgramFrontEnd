@@ -27,17 +27,17 @@
 			<view :id="'bottom'"></view>
 		</scroll-view>
 		
-		<view class="inputstyle" style="display: flex;left: 10rpx;width: 98%;">
+		<view class="inputstyle" style="display: flex;left: 10rpx;width: 98%;border: 1px solid #000;border-radius: 5px;margin: -1rpx;">
 			<!-- <uni-easyinput :adjustPosition="false" v-model="data.message" :bntIcon="true" type="line" placeholder="" @btnClick="mywssent" @blur="handleBlur"> -->
 				<!-- <template v-slot:right>
 					<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
 				</template> -->
 			<!-- </uni-easyinput> -->
-			<input :focus="input" class="input-chat" :adjustPosition="false" :value="data.message" placeholder="" @blur="handleBlur">
+			<input :hold-keyboard="true" class="input-chat" :adjustPosition="false" :value="data.message" @input="(event)=>{console.log(event);data.message=event.detail.value}" placeholder="" @blur="handleBlur">
 				<!-- <template v-slot:right>
 				</template> -->
 			</input>
-			<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
+			<button class="inputBnt" type="primary" size="mini" @touchend.stop.prevent="mywssent"><text>发送</text></button>
 		</view>
 	</view>
 </template>
@@ -67,15 +67,9 @@ const handleBlur = (event)=>{
     //阻止失去焦点
     // event.preventDefault();
 }
-const input=ref(true)
-onMounted(async()=>{
-	// await nextTick()
-	console.log(input.value)
+onMounted(()=>{
 })
 const mywssent = async (event) => {
-	input.value=true
-	// await nextTick()
-	console.log(input.value)
 	
 	let receiver=[];
 	receiver.push(data.info.userid)

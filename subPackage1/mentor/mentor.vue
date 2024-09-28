@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import {onLoad,onShow} from "@dcloudio/uni-app";
+import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
 import {computed, reactive} from "vue";
 import {http} from '@/utils/http'
 import { useUserStore } from "@/store/User.js"
@@ -62,13 +62,14 @@ const onSearchName = (e)=>{
 		data.isonsearch=false;
 	}
 }
-onLoad(async (options) => {
-	console.log("store.user",store.token)
-	if(store.token!=""){//这里
-		getMentors()
-	}else{
-		store.tologin()
-	}
+onPullDownRefresh(()=>{
+	getMentors(true)
+	setTimeout(()=>{
+		uni.stopPullDownRefresh();
+	},500)
+})
+onLoad((options) => {
+	getMentors(true)
 })
 </script>
 

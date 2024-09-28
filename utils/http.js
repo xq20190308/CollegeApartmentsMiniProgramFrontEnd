@@ -94,7 +94,7 @@ export const http = (url, method, data) => {
 						clearUserInfo()
 						uni.showModal({
 							title: '提示',
-							content: '您未登录，是否前去登录',
+							content: '令牌异常，请前去登录',
 							success: (res) => {
 								if (res.confirm) { 
 									uni.showLoading({

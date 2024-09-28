@@ -31,8 +31,8 @@ const contacts = computed(() => {
 	if(store.chatList.length>0){return [...store.chatList].sort((a,b)=>{
 		let indexa = store.lastList.findIndex(item => item.contactid === a.userid);
 		let indexb = store.lastList.findIndex(item => item.contactid === b.userid);
-		console.log(indexa)
-		console.log(indexb)
+		// console.log(indexa)
+		// console.log(indexb)
 		return getTimeStamp(store.lastList[indexb].sendTime)-getTimeStamp(store.lastList[indexa].sendTime)
 	})}else{return []}
 });

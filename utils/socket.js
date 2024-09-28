@@ -51,7 +51,7 @@ export const wsopen = (url) => {
 	const store=useUserStore();
 	socketTask.onClose(function (res) {
 		console.log("ws close " + res);
-		if(store.token!=""){
+		if(getLocalData('token')){
 			// uni.showToast({
 			// 	icon:"error",
 			// 	title:"服务器异常"
