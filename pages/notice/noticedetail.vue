@@ -2,14 +2,14 @@
 	<view v-if="data.detail.id!=null" style="display: flex; flex-direction: column; height: auto;">
 		<view style="width: 82.9%;height: auto; margin: auto;">
 			<view class="title" v-html="markdown( data.detail.title)">
-				<text class="underline-text" @click="goto('addnotice?id='+data.detail.id)"> 修改</text> 
 			</view>
-			<view class="message" >
-				<view v-html= "data.detail.content"></view>
-				<!-- <view v-html="markdown(data.detail.img)"></view> -->
+			<text class="underline-text" @click="goto('addnotice?id='+data.detail.id)"> 修改</text> 
+			<!-- <view class="message" > -->
+				<!-- <view v-html= "data.detail.content"></view> -->
+				<div v-html="markdown(data.detail.content)"></div>
 				<!-- //绑定不用加冒号 -->
 				<!-- <image :src="data.detail.img"></image> -->
-			</view>
+			<!-- </view> -->
 		</view>
 	</view>
 </template>

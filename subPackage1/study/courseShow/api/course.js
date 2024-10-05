@@ -26,10 +26,14 @@ export const ComplaintDrafts = async(index,refresh) => {
 				// username:'202211070621',
 				// password:'wyc.1024'
 			},)
-			CourseStore.classDayData[index].courses = res.data?.map((day,index)=>{return day.map((course,i) => {return {
-				info: course,
-				code: course.kcmc.split('').reduce((sum,cur)=>sum+cur.charCodeAt(0)-'0',0)
-			}})})
+			CourseStore.classDayData[index].courses = res.data?res.data.map((day,index)=>{
+				return day.map((course,i) => {
+					return {
+						info: course,
+						code: course.kcmc.split('').reduce((sum,cur)=>sum+cur.charCodeAt(0)-'0',0)
+					}
+				})
+			}):[]
 			CourseStore.updataCalssTableData(index,CourseStore.classDayData[index].courses)
 			// console.log(CourseStore.classDayData[index])
 		}else{
@@ -38,9 +42,22 @@ export const ComplaintDrafts = async(index,refresh) => {
 	}
 }
 export const getCurWeek=()=>{
-	let curT=getTimeStamp(getCurrentDate())
-	let sarT=getTimeStamp(termInfo.termData.curTermStart)
-	let DT=(curT-sarT)/1000/60/60/24+1
-	console.log(Math.floor(DT))
+	let currentDate = getCurrentDate();
+	console.log("currentDate:", currentDate);
+	let curT = getTimeStamp(currentDate);
+	console.log("curT:", curT);
+	
+	let termStartDate = termInfo.termData.curTermStart;
+	console.log("termStartDate:", termStartDate);
+	let sarT = getTimeStamp(termStartDate);
+	console.log("sarT:", sarT);
+	
+	let DT = (curT - sarT) / 1000 / 60 / 60 / 24 + 1;
+	console.log("DT:", Math.floor(DT));
+
+	// let curT=getTimeStamp(getCurrentDate())
+	// let sarT=getTimeStamp(termInfo.termData.curTermStart)
+	// let DT=(curT-sarT)/1000/60/60/24+1
+	// console.log(Math.floor(DT))
 	return Math.floor(DT/7)+1
 }

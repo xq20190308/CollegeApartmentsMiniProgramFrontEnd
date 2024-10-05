@@ -105,7 +105,7 @@
 			}
 			data.AllItems = res.data //与问卷的返回不同
 			//文件地址是字符串类型
-		console.log('allitems的name:', JSON.parse(data.AllItems[0].name));
+		// console.log('allitems的name:', JSON.parse(data.AllItems[0].name));
 		} else {
 			const category = 'lost';
 			const id = store.user.username

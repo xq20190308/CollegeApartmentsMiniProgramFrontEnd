@@ -1,5 +1,5 @@
 <template>
-	<view style="height: 100vh;">
+	<view style="height: 100vh; background: linear-gradient(to bottom, #577dba, #ffffff80);">
 		
 		<scroll-view class="scroll-view" :style="'height: '+originalHeight" :scroll-into-view="bottom" :show-scrollbar="true" :scroll-with-animation="true" :scroll-y="true">
 			
@@ -27,7 +27,7 @@
 			<view :id="'bottom'"></view>
 		</scroll-view>
 		
-		<view class="inputstyle" style="display: flex;left: 10rpx;width: 98%;border: 1px solid #000;border-radius: 5px;margin: -1rpx;">
+		<view class="inputstyle" style="display: flex;left: 10rpx;width: 98%;border-radius: 5px;margin: -1rpx;padding: 5rpx;">
 			<!-- <uni-easyinput :adjustPosition="false" v-model="data.message" :bntIcon="true" type="line" placeholder="" @btnClick="mywssent" @blur="handleBlur"> -->
 				<!-- <template v-slot:right>
 					<button class="inputBnt" type="primary" size="mini" @click="mywssent"><text>发送</text></button>
@@ -195,5 +195,9 @@ onLoad((options)=>{
 		line-height: 1;
 		font-size: 14px;
 		height: 100%;
+		border-radius: 5px;
+		background: white;
+		margin-right: 10rpx;
+		margin-left: 10rpx;
 	}
 </style>

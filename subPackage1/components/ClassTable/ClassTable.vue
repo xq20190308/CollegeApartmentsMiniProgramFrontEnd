@@ -49,7 +49,6 @@
 </template>
 
 <script setup>
-import { isInteger } from 'lodash-es';
 import { computed, ref } from 'vue';
 import { useCourseStore } from "/subPackage1/store/study/course.js";
 import { appData } from "@/main.js";

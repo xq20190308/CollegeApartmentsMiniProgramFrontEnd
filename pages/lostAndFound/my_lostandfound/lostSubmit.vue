@@ -129,7 +129,7 @@
 					name:data.baseFormData.pickName,
 					contact_object: data.baseFormData.contactobject,
 					pick_time: data.baseFormData.pickTime,
-					pick_Location:data.baseFormData.pickLocation,
+					pick_location:data.baseFormData.pickLocation,
 					
 					file_path: JSON.stringify(data.baseFormData.path)
 				},);

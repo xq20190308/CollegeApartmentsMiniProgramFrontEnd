@@ -146,7 +146,7 @@ const loginConfirm = async (ref) => {
 		//发送请求
 		await login(reqdata).then(async (res) => {
 			if (res.statusCode == 200) {
-				if(res.data.msg!='success'){
+				if(res.data.msg!='操作成功'){
 					returnerr(res.data.msg);
 					return ;
 				}else{
