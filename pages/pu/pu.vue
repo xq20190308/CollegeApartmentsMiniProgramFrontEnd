@@ -81,9 +81,11 @@ const title = (name) => {
   // console.log("2",match)
   return match ? match[2].trim() : name;
 };
-uni.$on("puUp",()=>{
+uni.$on("puUp",(login)=>{
 	console.log(loginInof.pu)
-	getPuInfo()
+	if(login){
+		getPuInfo()
+	}
 })
 onShow(() => {
 })

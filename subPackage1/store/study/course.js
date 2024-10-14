@@ -41,7 +41,7 @@ export const useCourseStore = defineStore('Course', ()=>{
 		if(!login){
 			clear()
 		}else{
-			
+			uni.$emit('courseRefresh')
 		}
 	})
 	

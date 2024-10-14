@@ -66,7 +66,7 @@ const loginConfirm = (ref) => {
 				password:reqdata.password
 			},).then((res) => {
 				console.log(res)
-				if(res.msg==="success"){
+				if(res.msg==="操作成功"){
 					uni.$emit("loginInfoUp",{
 						title: props.title,
 						reqdata: reqdata
