@@ -60,26 +60,34 @@ const reqdata = reactive({
 const req = ref()
 const loginConfirm = (ref) => {
 	req.value?.validate().then(valid => {
-		http(props.url,'POST',{
-			username:reqdata.username,
-			password:reqdata.password
-		},).then((res) => {
-			console.log(res)
-			if(res.msg==="success"){
-				uni.$emit("loginInfoUp",{
-					title: props.title,
-					reqdata: reqdata
-				})
-				uni.navigateBack()
-			}else{
-				uni.showToast({
-					title: res.msg,
-					icon: "error"
-				})
-			}
-		}).catch(err => {
-			console.log('error', err);
-		})
+		if(props.title!=="强智系统"){
+			http(props.url,'POST',{
+				username:reqdata.username,
+				password:reqdata.password
+			},).then((res) => {
+				console.log(res)
+				if(res.msg==="success"){
+					uni.$emit("loginInfoUp",{
+						title: props.title,
+						reqdata: reqdata
+					})
+					uni.navigateBack()
+				}else{
+					uni.showToast({
+						title: res.msg,
+						icon: "error"
+					})
+				}
+			}).catch(err => {
+				console.log('error', err);
+			})
+		}else{
+			uni.$emit("loginInfoUp",{
+				title: props.title,
+				reqdata: reqdata
+			})
+			uni.navigateBack()
+		}
 	}).catch(err => {console.log("填写不正确")})
 }
 </script>
