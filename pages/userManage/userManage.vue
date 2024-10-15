@@ -68,9 +68,13 @@ const data = reactive({
 		value: "1",
 	},
 	{
-		text: "学生",
+		text: "辅导员",
 		value: "2",
 		//disable: true
+	},
+	{
+		text: "学生",
+		value: "3",
 	}],
 })
 const onnodeclick=(e)=> {
@@ -88,40 +92,46 @@ const onchange=(e)=> {
 }
 const modify=async()=>{
 	console.log(data.newInfo)
-	if(data.newInfo.password!=data.userInfo.password){
+	if(data.newInfo.password){
 		//改密码
+		if(data.newInfo.password!=data.userInfo.password){
 		const res = await http('/user/updatePasswordByUserid/'+data.userInfo.userid,'POST',{
 			password:data.newInfo.password,
 		},)
-		if(res.msg=="success"){
+		if(res.msg=="操作成功"){
 			uni.showToast({
 				icon:"success",
-				title:"修改成功"
+				title:"密码修改成功"
 			})
 			data.userInfo.password=data.newInfo.password;
 			data.newInfo.password=""
 		}else{
 			uni.showToast({
 				icon:"error",
-				title:"修改失败"
+				title:"密码修改失败"
 			})
-		}
+		}}
+	}else{
+		// uni.showToast({
+		// 	icon: "error",
+		// 	title: "请输入密码"
+		// })
 	}
 	if(data.newInfo.userLevel!=data.userInfo.userLevel){
 		//改level
 		const res = await http('/user/updateLevelByUserid/'+data.userInfo.userid,'POST',{
 			userLevel:data.newInfo.userLevel,
 		},)
-		if(res.msg=="success"){
+		if(res.msg=="操作成功"){
 			uni.showToast({
 				icon:"success",
-				title:"修改成功"
+				title:"权限修改成功"
 			})
 			data.userInfo.userLevel=data.newInfo.userLevel;
 		}else{
 			uni.showToast({
 				icon:"error",
-				title:"修改失败"
+				title:"权限修改失败"
 			})
 		}
 	}
@@ -139,7 +149,7 @@ const debindwx=async()=>{
 				if (res1.confirm) {
 					console.log('用户点击确认');
 					const res = await http('/user/initOpenidByUserid/'+data.userInfo.userid,'POST',{},)
-					if(res.msg=="success"){
+					if(res.msg=="操作成功"){
 						uni.showToast({
 							icon:"success",
 							title:"解绑成功"

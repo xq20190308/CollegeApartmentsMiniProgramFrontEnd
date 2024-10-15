@@ -102,10 +102,12 @@ const submit = (ref) => {
 		}
 		console.log("this.baseFormData.path", data.path)
 		submitFeedback({
-			...data.baseFormData,
+			contactobject: data.baseFormData.contactobject,
+			describes: data.baseFormData.describes,
+			category: data.baseFormData.category,
 			path: JSON.stringify(data.path)
 		}).then((res)=>{
-			if(res.msg=="success"){
+			if(res.msg=="操作成功"){
 				uni.showToast({
 					icon:"success",
 					title:"提交成功"

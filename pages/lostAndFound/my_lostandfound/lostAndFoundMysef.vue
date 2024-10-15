@@ -16,7 +16,7 @@
 							</template>
 						</uni-list-item>
 					</template>
-					<image style="width:100%;" :src="item.file_path[0]"></image>
+					<image v-for="(src,index) in item.file_path" :key="index" style="width:100%;" :src="src"></image>
 					<text style="uni-body uni-mt-5">{{item.describes}}</text>
 					<!-- <text class="uni-body">{{item.describes}}</text> -->
 				</uni-card>
@@ -34,7 +34,7 @@
 							</template>
 						</uni-list-item>
 					</template>
-					<image style="width:100%;border-radius: 5px" :src="item.file_path"></image>
+					<image v-for="(src,index) in item.file_path" :key="index" style="width:100%;" :src="src"></image>
 					<text style="uni-body uni-mt-5">{{item.describes}}</text>
 				</uni-card>
 			</view>
@@ -72,7 +72,7 @@
 	})
 
 	onLoad(() => {
-		fetchallItems();
+		// fetchallItems();
 	})
 
 	onShow(() => {
@@ -91,36 +91,21 @@
 
 	const fetchallItems = async () => {
 		console.log("当前索引faaaaaaaaaa", data.current);
-		if (data.current == 0) {
-			const category = 'found';
-			const id = store.user.username
-			//奇了怪了，为什么
-			//const res = await http(`/api/Getdata?category=${category}`, 'GET',{})就不行
-			//破案了，少了个横线，参照下面lost的写法
-			//是用``不是单引号写网址
-			const res = await http(`/api/getMydata/${id}`, 'GET', {})
-			for (let i = 0; i < res.data.length; i++) {
-			    res.data[i].file_path = JSON.parse(res.data[i].file_path);
-			    console.log("file_path[i]", res.data[i].file_path);
-			}
-			data.AllItems = res.data //与问卷的返回不同
-			//文件地址是字符串类型
-		// console.log('allitems的name:', JSON.parse(data.AllItems[0].name));
-		} else {
-			const category = 'lost';
-			const id = store.user.username
-			// const res = await http(`/api/Getdata/?category=${category}`, 'GET')
-			const res = await http(`/api/getMydata/${id}`, 'GET', {})
-			for (let i = 0; i < res.data.length; i++) {
-			    res.data[i].file_path = JSON.parse(res.data[i].file_path);
-			    console.log("file_path[i]", res.data[i].file_path);
-			}
-			data.AllItems = res.data //与问卷的返回不同
-			console.log("找到的", res.data);
-			
-			
+		let category = 'found';
+		const id = store.user.username
+		if (data.current === 0) {
+			category = 'lost';
 		}
-
+		const res = await http(`/api/getMydata/${id}`, 'GET', {})
+		res.data = res.data.filter((item)=>{
+			return item.category===category
+		})
+		console.log(category,res.data)
+		for (let i = 0; i < res.data.length; i++) {
+			res.data[i].file_path = JSON.parse(res.data[i].file_path);
+			// console.log("file_path[i]", res.data[i].file_path);
+		}
+		data.AllItems = res.data
 	}
 
 	const onpress = (item) => {

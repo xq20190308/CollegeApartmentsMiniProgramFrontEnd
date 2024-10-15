@@ -47,9 +47,9 @@ onPullDownRefresh(()=>{
 	},500)
 })
 onLoad(()=> {
-	uni.startPullDownRefresh();
 })
 onShow(()=>{
+	fetchComplaintDrafts()
 })
 const delet=(item,index)=> {
 	console.log("要删除index为",index,"的草稿")

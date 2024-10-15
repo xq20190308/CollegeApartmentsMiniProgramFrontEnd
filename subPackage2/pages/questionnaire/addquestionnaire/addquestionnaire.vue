@@ -16,7 +16,7 @@
 	<uni-section class="bar,barb" title="选择日期及时间：" type="line">
 		<uni-datetime-picker v-model="data.range" type="datetimerange" rangeSeparator="至" @change="(e) => {newNaire.startTime = e[0];;newNaire.endTime = e[1];}" />
 	</uni-section>
-	<view class="bar,barb">
+	<view class="bar,barb" v-if="questionList.length>0">
 	<uni-section v-for="(que,qindex) in questionList" :key="qindex" :title="qindex + 1 + '.' + data.fun_question_type[questionList[qindex].type].label" type="line" >
 		<template v-slot:right>
 			<uni-icons v-if="!newNaire.id" @click="()=>{
@@ -45,10 +45,11 @@
 	<view v-if="!newNaire.id" class="itemrow">
 		<button class="bntrow" v-for="(dict,index) in data.fun_question_type" :key="index" @click="(e)=>addquestion(index)">创建{{dict.label}}</button>
 	</view>
-	</view>
 	<view id="submit" class="itemrow">
 		<button class="submitBnt" @click="submit">{{newNaire.id?'修改':'创建'}}</button>
 	</view>
+	</view>
+	<view id="bottom" />
 </template>
 <script setup>
 import {onLoad,onShow} from "@dcloudio/uni-app";
@@ -83,7 +84,7 @@ const addquestion=(index)=>{
 		content: content,
 	});
 	setTimeout(()=>{uni.pageScrollTo({
-		selector: '#submit',
+		selector: '#bottom',
 		duration: 50,
 		complete: (res)=> {
 			console.log(res)

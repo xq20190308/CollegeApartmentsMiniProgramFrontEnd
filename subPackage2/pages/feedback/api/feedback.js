@@ -10,7 +10,7 @@ export const update = (id,status)=>{
 	})
 }
 export const fetchFeedbacks=()=>{
-	return http('/api/manageSuggestions','GET',{},)
+	return http('/api/manageSuggestions/'+2,'GET',{},)
 }
 export const submitFeedback=(data)=>{
 	return http('/api/suggestions','POST',data)

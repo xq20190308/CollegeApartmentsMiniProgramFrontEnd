@@ -8,7 +8,7 @@
         <view v-if="data.current === 0">
                 <view class="card2" v-for="(item, idex) in data.AllItems" :key="idex" @click="onpress(item)">
                     <uni-card title="捡到的东西" :sub-title="item.name" padding="10px 0">
-                        <image style="width:100%;" :src="item.file_path[0]"></image>
+					<image v-for="(src,index) in item.file_path" :key="index" style="width:100%;" :src="src"></image>
                         <text class="uni-body uni-mt-5">{{item.describes}}</text>   
                     </uni-card>
                 </view>
@@ -19,7 +19,7 @@
                 <uni-card title="丢失东西" :sub-title="item.name" padding="10px 0">
                     <!-- 显示头像的 -->
                     <!-- :thumbnail="item.img" -->
-                   <image style="width:100%;" :src="item.file_path[0]"></image>
+					<image v-for="(src,index) in item.file_path" :key="index" style="width:100%;" :src="src"></image>
                     <text class="uni-body uni-mt-5">{{item.describes}}</text>
                 </uni-card>
             </view>
