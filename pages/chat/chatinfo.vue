@@ -14,51 +14,61 @@
 				<uni-list-item title="邮箱" :rightText="data.info.email" />
 			</uni-list>
 		</uni-section>
-		
-		<button class="btn" style="text-align: center;top: 500rpx;" @click="()=>{gotochat()}">
-			<text>发消息</text>
-		</button>
+
+		<view class="btnview" style="width: 96%;">
+			<button type="primary" class="btn" style="backgroundColor:#008cff;" @click="()=>{gotochat()}">
+				<text>发消息</text>
+			</button>
+		</view>
 	</view>
 </template>
 
 <script setup>
-import { onLoad } from "@dcloudio/uni-app";
-import { reactive } from "vue";
-import { http } from '@/utils/http'
-const data = reactive({
-	info:{},
-	back:false,
-})
-const gotochat=()=>{
-	if(data.back){uni.navigateBack()}else{
-		let info={
-			trueName:data.info.trueName,
-			userid:data.info.userid,
-			avatarUrl:data.info.avatarUrl,
-			unreceivedNum:0
+	import {
+		onLoad
+	} from "@dcloudio/uni-app";
+	import {
+		reactive
+	} from "vue";
+	import {
+		http
+	} from '@/utils/http'
+	const data = reactive({
+		info: {},
+		back: false,
+	})
+	const gotochat = () => {
+		if (data.back) {
+			uni.navigateBack()
+		} else {
+			let info = {
+				trueName: data.info.trueName,
+				userid: data.info.userid,
+				avatarUrl: data.info.avatarUrl,
+				unreceivedNum: 0
+			}
+			uni.navigateTo({
+				url: '/pages/chat/chat?info=' + JSON.stringify(info)
+			})
 		}
-		uni.navigateTo({
-			url:'/pages/chat/chat?info='+JSON.stringify(info)
-		})
 	}
-}
-onLoad(async(options)=>{
-	let userid=JSON.parse(options.info).userid
-	const res = await http('/user/findByUserid?userid='+userid,'GET',{},)
-	data.info=res.data
-	data.back=options.back=="true"?true:false
-	uni.setNavigationBarTitle({
-	  title: data.info.trueName
-	});
-	console.log("发来消息的人的信息",data.info,"back:",data.back);
-})
-
+	onLoad(async (options) => {
+		let userid = JSON.parse(options.info).userid
+		const res = await http('/user/findByUserid?userid=' + userid, 'GET', {}, )
+		data.info = res.data
+		data.back = options.back == "true" ? true : false
+		uni.setNavigationBarTitle({
+			title: data.info.trueName
+		});
+		console.log("发来消息的人的信息", data.info, "back:", data.back);
+	})
 </script>
 
 <style lang="scss" scoped>
-	::v-deep .uni-list{
+	::v-deep .uni-list {
 		width: 100%;
 	}
+
 	.avatar {
 		background-color: #ad7d7d;
 		border-radius: 50%;

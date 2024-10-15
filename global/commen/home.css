@@ -1,87 +1,100 @@
 .banner {
-  padding: 20rpx;
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-  background: linear-gradient(to bottom, #577dba, #ffffff80);
-  /* background: #577dba; */
-  height: 96.7vh;
+	padding: 20rpx;
+	display: flex;
+	flex-direction: column;
+	gap: 20rpx;
+	background: linear-gradient(to bottom, #577dba, #ffffff80);
+	/* background: #577dba; */
+	height: 96.7vh;
 }
-.swiper{
+
+.swiper {
 	height: 480rpx;
 }
-.swiper-item{
+
+.swiper-item {
 	display: flex;
 	justify-content: center;
 	height: 480rpx;
 }
+
 .swiper-image {
 	flex: 1;
 	width: 320px;
 	height: 240px;
 }
-.swiper-title{
+
+.swiper-title {
 	height: 60rpx;
 	text-align: center;
 }
-.notice-bar{
+
+.notice-bar {
 	display: flex;
 	padding: 10rpx;
 	border-radius: 20rpx;
 	box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.12);
 	background: #f7c7c7;
 }
-.bar{
+
+.bar {
 	display: flex;
 	padding: 10rpx;
 	border-radius: 20rpx;
 	box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.12);
 	background: #fff;
 }
-.barb{
-	display: block!important;
+
+.barb {
+	display: block !important;
 }
-.barl{
-	box-shadow: 0 2rpx 15rpx rgba(0, 0, 0, 0.05)!important;
+
+.barl {
+	box-shadow: 0 2rpx 15rpx rgba(0, 0, 0, 0.05) !important;
 }
-.barw{
-	width: 100%!important;
+
+.barw {
+	width: 100% !important;
 }
+
 .func {
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 	padding: 0rpx;
 	/* height: 200rpx; */
 	/* overflow-y: scroll; */
 }
+
 .func_item {
 	display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 0;
-    width: 27.14%;
-    padding: 20rpx;
-    border: 2rpx #d6d6d669 solid;
+	flex-direction: column;
+	align-items: center;
+	border: 0;
+	width: 27.14%;
+	padding: 20rpx;
+	border: 2rpx #d6d6d669 solid;
 }
 
 .func_img {
 	width: 60rpx;
 	height: 60rpx;
 	margin-bottom: 10rpx;
-	border-radius: 50%; 
+	border-radius: 50%;
 	opacity: 0.75;
 }
 
 .func_text {
-  font-size: 28rpx;
-  color: #333333;
-  text-align: center;
+	font-size: 28rpx;
+	color: #333333;
+	text-align: center;
 }
+
 .nav-title {
 	font-size: 20px;
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 	padding-bottom: 10rpx;
 }
+
 .nav-item {
 	border-radius: 16rpx;
 	display: flex;
@@ -91,6 +104,7 @@
 	width: 25%;
 	padding-bottom: 10px;
 }
+
 .nav-img {
 	width: 80rpx;
 	height: 80rpx;
@@ -99,6 +113,7 @@
 	/* border-radius: 50%; */
 	opacity: 0.8;
 }
+
 .nav-text {
 	font-size: 28rpx;
 	color: #333333;
@@ -113,10 +128,18 @@
 	right: 0;
 	bottom: 0;
 	background-color: #fff;
-	z-index: 999; /* 确保遮罩在其他内容之上 */
+	z-index: 999;
+	/* 确保遮罩在其他内容之上 */
 }
+
+.btnview {
+	position: absolute;
+	bottom: 30rpx;
+	width: 100%;
+}
+
 .btn {
-    background-color: #ffffff;
+	/* background-color: #ffffff;
     color: #000000;
     height: 100rpx;
     width: 100%;
@@ -125,27 +148,34 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-	overflow: hidden;
+	overflow: hidden; */
+	background-color: #ffffff;
+	width: 80%;
+	border-radius: 60rpx;
 }
-.itemrow{
+
+.itemrow {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	gap: 10rpx;
 }
-.itemcolumn{
+
+.itemcolumn {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	gap: 10rpx;
 }
+
 .itemb {
-  margin: 20rpx;
-  display: block;
-  gap: 20rpx;
+	margin: 20rpx;
+	display: block;
+	gap: 20rpx;
 }
-.rowend{
-	display: flex; 
+
+.rowend {
+	display: flex;
 	gap: 5rpx;
 	flex-direction: row;
 	justify-content: flex-end;
