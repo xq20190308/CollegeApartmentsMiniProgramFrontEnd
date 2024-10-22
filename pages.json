@@ -182,6 +182,13 @@
 				"navigationBarTitleText" : "账户绑定",
 				"enablePullDownRefresh": true
 			}
+		},
+		{
+			"path" : "pages/test/test",
+			"style" : 
+			{
+				"navigationBarTitleText" : "测试"
+			}
 		}
 		
 	],

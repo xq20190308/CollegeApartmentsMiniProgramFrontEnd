@@ -20,13 +20,13 @@ export const ComplaintDrafts = async(index,refresh) => {
 		// }
 		if(loginInof.loginInfos.qz.login){
 			//保证res对应正确
-			// const res = await http('/api/SelectCourse/'+index,'Post',{
-			// 	username: loginInof.qz.username,
-			// 	password: loginInof.qz.password
-			// 	// username:'202211070621',
-			// 	// password:'wyc.1024'
-			// },)
-			const res = {
+			const res = await http('/api/SelectCourse/'+index,'Post',{
+				username: loginInof.qz.username,
+				password: loginInof.qz.password
+				// username:'202211070621',
+				// password:'wyc.1024'
+			},)
+			/* const res = {
 				"code": 1,
 				"msg": "success",
 				"data": [
@@ -395,7 +395,7 @@ export const ComplaintDrafts = async(index,refresh) => {
 						}
 					]
 				]
-			}
+			}*/
 			CourseStore.classDayData[index].courses = res.data?res.data.map((day,index)=>{
 				return day.map((course,i) => {
 					return {

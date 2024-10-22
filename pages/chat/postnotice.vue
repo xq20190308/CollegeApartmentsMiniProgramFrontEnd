@@ -137,7 +137,9 @@
 			<uni-easyinput type="textarea" :maxlength="-1" v-model="data.content" placeholder="请输入内容"
 				:placeholderStyle="data.placeholderStyle"></uni-easyinput>
 		</view>
+		<view style="display: flex;margin-top: 100rpx;">
 		<button style="color:#ffffff;backgroundColor:#008fff;" type="primary" size="mini" @click="post">发布</button>
+		</view>
 
 	</view>
 </template>
@@ -339,7 +341,9 @@
 		// width: 90%;
 		// padding-left: 33rpx;
 		// margin-top: 50rpx;
-
+		align-self: center;
+		width: 90%;
+		margin-top: 70rpx;
 		::v-deep .uni-easyinput__content-textarea {
 			height: 550rpx;
 		}

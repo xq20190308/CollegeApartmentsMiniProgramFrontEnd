@@ -130,11 +130,11 @@
 			},
 			imageHeight: {
 				type: String,
-				default: '50px'
+				default: '100px'
 			},
 			imageWidth: {
 				type: String,
-				default: '50px'
+				default: '100px'
 			},
 			image: {
 				type: String,
@@ -203,8 +203,8 @@
 		transform: translate(-50%, -50%);
 	}
 	.aui-loading.aui-loading-ring .aui-loading-animate{
-		width: 25px;
-		height: 25px;
+		width: 80px;
+		height: 80px;
 		margin: 0 auto;
 		border-radius: 50%;
 		position: relative;
@@ -565,8 +565,8 @@
 		animation: aui-fade-in .2s ease-out forwards;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate{
-		width: 30px;
-		height: 30px;
+		width: 80px;
+		height: 80px;
 		display: block;
 		margin: auto;
 		position: absolute;
@@ -579,36 +579,40 @@
 		animation: aui-loading-squarefour-animate 1s infinite;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate view{
-		width: 12px;
-		height: 12px;
+		width: 24px;
+		height: 24px;
 		display: block;
 		border-radius: 2px;
 		background: #2cb0b2;
 		position: absolute;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate .span1{
-		background: #8BC34A;
+		/* background: #8BC34A; */
+		background: #5a80bb;
 		left: 0px;
 		-ms-animation: aui-loading-square-span1-animate 2s linear 0s infinite normal;
 		-webkit-animation: aui-loading-square-span1-animate 2s linear 0s infinite normal;
 		animation: aui-loading-square-span1-animate 2s linear 0s infinite normal;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate .span2{
-		background: #F44336;
+		/* background: #F44336; */
+		background: #7292c5;
 		right: 0;
 		-ms-animation: aui-loading-square-span2-animate 2s linear 0s infinite normal;
 		-webkit-animation: aui-loading-square-span2-animate 2s linear 0s infinite normal;
 		animation: aui-loading-square-span2-animate 2s linear 0s infinite normal;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate .span3{
-		background: #FFB74D;
+		/* background: #FFB74D; */
+		background: #afc1de;
 		bottom: 0;
 		-ms-animation: aui-loading-square-span3-animate 2s linear 0s infinite normal;
 		-webkit-animation: aui-loading-square-span3-animate 2s linear 0s infinite normal;
 		animation: aui-loading-square-span3-animate 2s linear 0s infinite normal;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate .span4{
-		background: #82bcf9;
+		/* background: #82bcf9; */
+		background: #d3dded;
 		right: 0;
 		bottom: 0;
 		-ms-animation: aui-loading-square-span4-animate 2s linear 0s infinite normal;

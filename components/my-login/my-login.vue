@@ -19,7 +19,7 @@
 		<view style="font-size: 24rpx;" class="btnview">
 			<view style="display: flex;justify-content: center">
 				<view style="margin-bottom: 10rpx;">
-					<checkbox :value="licenseDisagree" @click="changeConfirm" />
+					<checkbox @click="changeConfirm" />
 				</view>
 				<view style="padding-top: 10rpx;">
 					<text style="f">我已阅读并同意</text>
@@ -141,16 +141,16 @@
 	}
 	const quicklogin = async () => {
 		reqdata.code = "",
-			reqdata.username = uni.getStorageSync('lastusername'),
-			reqdata.password = uni.getStorageSync('lastpassword'),
-			licenseDisagree.value = true;
+		reqdata.username = uni.getStorageSync('lastusername'),
+		reqdata.password = uni.getStorageSync('lastpassword'),
+		licenseDisagree.value = true;
 		//发送请求
 		loginConfirm('req')
 	}
 	const req = ref()
 	const loginConfirm = async (ref) => {
 		//获取code
-		reqdata.code = await getCode();
+		// reqdata.code = await getCode();
 		await req.value?.validate().then(async res1 => {
 			//检查是否勾选 阅读同意所有要求
 			if (!licenseDisagree.value) {

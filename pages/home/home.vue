@@ -1,5 +1,5 @@
 <template>
-	<view class="banner">
+	<bannerVue :showLoading="showLoading" :showType="showType">
 	<!-- 轮播图区域 -->
 	<view>
 	<swiper class="swiper" :autoplay="true" :interval="4000" :duration="1000">
@@ -32,17 +32,20 @@
 			 <text class="single-fun-text">{{ funitem.name }}</text>
 		</view> -->
 	</view>
-	</view>
+	</bannerVue>
 </template>
 
 <script setup>
 import { onLoad,onShow,onPullDownRefresh } from "@dcloudio/uni-app";
-import { computed, reactive } from "vue";
+import { computed, ref, reactive } from "vue";
 import { getarticles } from "../notice/api/getnotices.js"
 import { getCurrentDate } from '@/utils/time'
 import { useUserStore } from "../../store/User.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { http } from "../../utils/http.js";
+import bannerVue from '../../components/banner/banner.vue';
+const showLoading = ref(false)
+const showType = ref(3)
 const store=useUserStore()
 const data = reactive({
 	articles:[],
@@ -60,6 +63,7 @@ const titles=computed(()=>{
 	})
 })
 onPullDownRefresh(()=>{
+	// showLoading.value=true
 	// 使用函数并打印结果
 	getarticles({ typeName : '主页'}).then(response => {
 		data.articles = response.sort((a, b) => a.id - b.id);
