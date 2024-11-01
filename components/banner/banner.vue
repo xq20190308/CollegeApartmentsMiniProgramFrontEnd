@@ -2,7 +2,7 @@
 	<view class="banner">
 		<auiLoadingVue
 		  :SHOW="showLoading"
-		  :msg="'加载中'"
+		  :msg="loadingMsg"
 		  :styles="{background:'transparent',color:'#000'}"
 		  :type="showType"
 		  image="/static/success.png"

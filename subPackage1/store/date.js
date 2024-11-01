@@ -4,6 +4,7 @@ import { getCourseDate } from '/utils/time';
 import { beforeTime,afterTime } from '/utils/time';
 export const useDateStore = defineStore('Date', ()=>{
 	const termData = reactive({
+	  curTerm: '2024-2025-1',
 	  curTermStart: '2024-08-26',
 	  timeTable: [[]],
 	  weeks: ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']

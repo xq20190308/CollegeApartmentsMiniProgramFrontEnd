@@ -162,3 +162,19 @@
 		.no-border {
 			border-width: 0;
 		}
+		.pick-view{
+			width: 100%;
+			display: flex;
+			align-items: center;
+			gap: 20rpx;
+			background: #fff;
+			padding: 12rpx;
+		}
+		.picker-con {
+		    width: 80%;
+		    height: 100px;
+		}
+		.picker-item {
+		    line-height: 40px;
+			text-align: center;
+		}

@@ -11,7 +11,7 @@ app.$mount()
 // #endif
 
 // #ifdef VUE3
-import { createSSRApp } from 'vue'
+import { createSSRApp,ref } from 'vue'
 import * as Pinia from 'pinia';
 import './global/commen/home.css'
 import './global/commen/function.css'
@@ -58,5 +58,21 @@ export function createApp() {
 		Pinia, // 此处必须将 Pinia 返回
 	};
 }
-mainFun();
+// mainFun();
+export const showLoading = ref(false)
+export const showType = ref(3)
+export const loadingMsg = ref('加载中')
+export const resetRefresh  = ()=>{
+	uni.stopPullDownRefresh();
+	showType.value = 6
+	loadingMsg.value = '加载成功'
+	setTimeout(()=>{
+		showLoading.value=false
+		loadingMsg.value = '加载中'
+		showType.value = 3
+	},2000)
+}
+export const startRefresh  = ()=>{
+	showLoading.value=true
+}
 // #endif

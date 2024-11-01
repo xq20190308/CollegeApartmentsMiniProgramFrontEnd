@@ -111,7 +111,10 @@
 	const isauthentic = ref('');
 	const community_name = ref('');
 	const islogin = ref('');
-	onLoad(() => {})
+	onLoad(() => {
+		reqdata.username = uni.getStorageSync('lastusername')
+		reqdata.password = uni.getStorageSync('lastpassword')
+	})
 	const getCode = () => {
 		return new Promise((resolve, reject) => {
 			uni.login({

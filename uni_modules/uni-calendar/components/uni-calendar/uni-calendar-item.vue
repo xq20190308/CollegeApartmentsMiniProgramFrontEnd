@@ -9,7 +9,7 @@
 		}"
 	 @click="choiceDate(weeks)">
 		<view class="uni-calendar-item__weeks-box-item">
-			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
+			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle" :style="{'background-color': boxcolor}"></text>
 			<text class="uni-calendar-item__weeks-box-text" :class="{
 				'uni-calendar-item--isDay-text': weeks.isDay,
 				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
@@ -75,6 +75,10 @@
 				default: () => {
 					return []
 				}
+			},
+			boxcolor: {
+				type: String,
+				default: ''
 			},
 			lunar: {
 				type: Boolean,

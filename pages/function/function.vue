@@ -1,5 +1,5 @@
 <template>
-	<view class="banner">
+	<bannerVue :showLoading="showLoading" :showType="showType" :loadingMsg="loadingMsg">
 		<view v-for="(item,index) in fun_type" :key="index" >
 			<text class="nav-title">{{item.label}}</text>
 			<view class="bar,func">
@@ -9,16 +9,18 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</bannerVue>
 </template>
 
 <script setup>
 import {onLoad,onShow,onPullDownRefresh} from "@dcloudio/uni-app";
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import { http } from "../../utils/http.js";
 import { useUserStore } from "../../store/User.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { useDict } from '../../utils/dict';
+import bannerVue from '../../components/banner/banner.vue';
+import { showLoading, showType, loadingMsg,resetRefresh,startRefresh } from "../../main.js";
 const fun_type = useDict('fun_type');
 useDict('fun_questionnare_type')
 const store=useUserStore()
@@ -29,8 +31,9 @@ onShow(()=>{
 	handleMessageBar(store.totalUnreceived)
 })
 onPullDownRefresh(()=>{
+	startRefresh()
 	http("/menus","GET",{}).then((res)=>{
-		uni.stopPullDownRefresh()
+		resetRefresh()
 		data.navList=[]
 		res.data.forEach(item => {
 			data.navList[item.typeId] = data.navList[item.typeId] || [];

@@ -60,9 +60,21 @@
 		<view class="aui-mask" v-if="mask" @touchmove.stop.prevent></view>
 		<view class="aui-loading-main" :style="{background: styles.background, zIndex: styles.zIndex, 'box-shadow': 'none!important'}">
 			<!-- <view> -->
-				<image :style="{width: imageWidth, height: imageHeight}" mode="aspectFill" :src="image"/>
+				<image class="fade-img" :style="{width: imageWidth, height: imageHeight}" mode="aspectFill" :src="image"/>
 			<!-- </view> -->
 			<!-- <view class="aui-loading-msg" v-if="msg" :style="{color: styles.color}">{{msg}}</view> -->
+			<view class="aui-loading-msg aui-img-msg" v-if="msg" :style="{color: styles.color}">{{msg}}</view>
+		</view>
+	</view>
+	<!-- 7、特殊风格弹窗 -> span -->
+	<view class="aui-loading aui-loading-squarefour" :class="{'aui-loading-squarefour-style-1': theme==1, 'aui-loading-squarefour-style-2': theme==2}" v-else-if="SHOW && type == 7">
+		<view class="aui-mask" v-if="mask" @touchmove.stop.prevent></view>
+		<view class="aui-loading-main" :style="{background: styles.background, zIndex: styles.zIndex, 'box-shadow': 'none!important'}">
+			<!-- <transition name="fade"> -->
+			  <view class="fade-box">
+			  </view>
+			<!-- </transition> -->
+			<view class="aui-loading-msg aui-box-msg" v-if="msg" :style="{color: styles.color}">{{msg}}</view>
 		</view>
 	</view>
 	<!-- 4、三平行四边形放大缩小(全屏首次加载过度动画) -->
@@ -201,6 +213,28 @@
 		-ms-transform: translate(-50%, -50%);
 		-webkit-transform: translate(-50%, -50%);
 		transform: translate(-50%, -50%);
+	}
+	.fade-img{
+	  opacity: 1;
+	  animation-name: list;
+	  animation-duration: 1s;
+	  animation-timing-function: linear;
+	  animation-direction: alternate;
+	}
+	.fade-box {
+	  width: 80px;
+	  height: 40px;
+	  background: #afc1de;
+	  /* transition: opacity 1s ease-in-out; */
+	  opacity: 1;
+	  animation-name: list;
+	  animation-duration: 1s;
+	  animation-timing-function: linear;
+	  animation-direction: alternate;
+	}
+	@keyframes list{
+	    from{ opacity: 0 }
+	    to{ opacity: 1 }
 	}
 	.aui-loading.aui-loading-ring .aui-loading-animate{
 		width: 80px;
@@ -565,8 +599,8 @@
 		animation: aui-fade-in .2s ease-out forwards;
 	}
 	.aui-loading.aui-loading-squarefour .aui-loading-animate{
-		width: 80px;
-		height: 80px;
+		width: 60px;
+		height: 60px;
 		display: block;
 		margin: auto;
 		position: absolute;
@@ -669,6 +703,14 @@
 		position: relative;
 		top: 6px;
 		left: 0;
+	}
+	.aui-loading.aui-loading-squarefour.aui-loading-squarefour-style-1 .aui-loading-main .aui-img-msg{
+		line-height: 0px;
+		top: 0px;
+	}
+	.aui-loading.aui-loading-squarefour.aui-loading-squarefour-style-1 .aui-loading-main .aui-box-msg{
+		line-height: 0px;
+		top: 0px;
 	}
 	/* 三平行四边形放大缩小动画放大缩小动画(全屏首次加载过度动画) */
 	.aui-loading.aui-loading-dots{background-color: #FFF; height: 100%; width: 100%; position: fixed; z-index: 996; margin-top: 0px; top: 0px;}

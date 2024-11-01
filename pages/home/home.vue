@@ -1,11 +1,12 @@
 <template>
-	<bannerVue :showLoading="showLoading" :showType="showType">
+	<bannerVue :showLoading="showLoading" :showType="showType" :loadingMsg="loadingMsg">
 	<!-- 轮播图区域 -->
 	<view>
 	<swiper class="swiper" :autoplay="true" :interval="4000" :duration="1000">
 		<swiper-item class="swiper-item" v-for="(item, index) in data.articles" :key="index">
-			<img class="swiper-image" :src="'https://william.fit:8082/static/scroll/'+index%11+'.jpg'">
-			<!-- <view class="swiper-title">{{data.articles[index].title}}</view> -->
+			<view>
+				<img class="swiper-image" :src="'https://william.fit:8082/static/scroll/'+index%11+'.jpg'">			
+			</view>
 		</swiper-item> 
 	</swiper>
 	</view>
@@ -23,7 +24,7 @@
 	</view>
 	<!-- 未来倒计时 -->
 	<uni-card title="未来倒计时" :sub-title="getCurrentDate()" background="#c7e8fb" thumbnail="https://william.fit:8082/static/default/future_icon.png">
-		<uni-calendar />
+		<uni-calendar :selected="test" />
 		<!-- <text v-for="(item,index) in data.plan" :key="index"> {{ data.plan[index] }}</text> -->
 	</uni-card>
 	<!-- <view class="card-single-bar" style="flex-direction: column;">
@@ -44,8 +45,21 @@ import { useUserStore } from "../../store/User.js"
 import { handleMessageBar } from "../../utils/api/common.js"
 import { http } from "../../utils/http.js";
 import bannerVue from '../../components/banner/banner.vue';
-const showLoading = ref(false)
-const showType = ref(3)
+import { showLoading, showType, loadingMsg,resetRefresh,startRefresh } from "../../main.js";
+const test = ref([{date: '2024-10-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头'}}])
+onPullDownRefresh(()=>{
+	startRefresh()
+	getarticles({ typeName : '主页'}).then(res => {
+		data.articles = res.data.sort((a, b) => a.id - b.id);
+		for (let i = 0; i < data.articles.length; i++) {
+			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
+		}
+		resetRefresh()
+	})
+	http("/menus","GET",{}).then((res)=>{
+		data.navList=res.data.filter((item)=>{return item.typeId==='1'})
+	})
+})
 const store=useUserStore()
 const data = reactive({
 	articles:[],
@@ -61,20 +75,6 @@ const titles=computed(()=>{
 	return data.articles.map((item)=>{
 		return item.title
 	})
-})
-onPullDownRefresh(()=>{
-	// showLoading.value=true
-	// 使用函数并打印结果
-	getarticles({ typeName : '主页'}).then(response => {
-		data.articles = response.sort((a, b) => a.id - b.id);
-		for (let i = 0; i < data.articles.length; i++) {
-			data.articles[i].url = "/static/home/swiper/schoolmark.jpg";
-		}
-	})
-	http("/menus","GET",{}).then((res)=>{
-		data.navList=res.data.filter((item)=>{return item.typeId==='1'})
-	})
-	setTimeout(()=>{uni.stopPullDownRefresh()},1000)
 })
 onLoad(()=>{ 
 	uni.startPullDownRefresh()
@@ -92,15 +92,11 @@ onShow(()=>{
 <style>
 	.scroll-fun{
 		flex-wrap: wrap;
-		padding: 0rpx;
-		width: 80%;
-		margin: 0rpx 75rpx;
+		padding: 10rpx;
 		display: flex;
-		height: 140rpx;
+		flex-direction: row;
 		background: #597fbe;
 		border-radius: 20rpx;
-		position: relative;
-		top: -90rpx;
 	}
 	.scroll-fun-item{
 		border-radius: 16rpx;
@@ -134,7 +130,6 @@ onShow(()=>{
 		justify-content: space-evenly;
 		align-items: stretch;
 		position: relative;
-		top: -90rpx;
 		gap: 20rpx;
 	}
 	.card-single-bar{
