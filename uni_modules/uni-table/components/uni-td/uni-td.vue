@@ -1,12 +1,12 @@
 <template>
 	<!-- #ifdef H5 -->
-	<td class="uni-table-td" :rowspan="rowspan" :colspan="colspan" :class="{'table--border':border}" :style="{width:width + 'px','text-align':align}">
+	<td class="uni-table-td" :rowspan="rowspan" :colspan="colspan" :class="{'table--border':border}" :style="{'min-width':width + 'px', 'max-width': width+'px', 'text-align':align}">
 		<slot></slot>
 	</td>
 	<!-- #endif -->
 	<!-- #ifndef H5 -->
 	<!-- :class="{'table--border':border}"  -->
-	<view class="uni-table-td" :class="{'table--border':border,'table--radius':radius}" :style="{width:width + 'px','text-align':align, 'padding': padding, 'font-size': smaller?'smaller':'','background': background}">
+	<view class="uni-table-td" :class="{'table--border':border,'table--radius':radius}" :style="{'min-width':width + 'px', 'max-width': width+'px', 'text-align':align, 'padding': padding, 'font-size': smaller?'smaller':'','background': background}">
 		<slot></slot>
 	</view>
 	<!-- #endif -->

@@ -38,7 +38,7 @@ onShow(()=>{
 	getarticles({id:data.option}).then(response => {
 		
     // 在这里处理数据
-    data.detail = response[0];
+    data.detail = response.data[0];
 		console.log("跳转的页面信息",data.detail);
 		//给他手动加上markdown语法
 	//	data.detail.img = 'https://gitee.com/jiangwan6/images/raw/master/images/202405082009004.jpeg';

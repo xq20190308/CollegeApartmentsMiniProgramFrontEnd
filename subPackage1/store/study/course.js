@@ -2,10 +2,14 @@
 import { defineStore } from 'pinia'
 import { reactive,ref,computed } from "vue";
 import { useDateStore } from "/subPackage1/store/date.js";
+import { getLocalData } from '../../../utils/cache';
+import { useLoginStore } from '../../../store/login';
 const termInfo=useDateStore()
+const loginInfo = useLoginStore()
 export const useCourseStore = defineStore('Course', ()=>{
 	const classDayData = ref([])
 	const classTableData = ref([]);
+	const addedCourse = ref([]) 
 	const initClassDayData = ()=>{
 		for (var i = 1; i <= termInfo.WeekNum; i++) {
 			// console.log("++",classTableData.value)
@@ -23,6 +27,7 @@ export const useCourseStore = defineStore('Course', ()=>{
 		console.log("初始化DayData",classDayData.value)
 		// classTableData.value=JSON.parse(JSON.stringify(classDayData.value))
 		console.log("初始化TableData",classTableData.value)
+		addedCourse.value = JSON.parse(getLocalData('addedCourse'+loginInfo.qz.username)||'[]')
 	}
 	initClassDayData()
 	const updataCalssTableData = (index,courses)=>{
@@ -34,7 +39,24 @@ export const useCourseStore = defineStore('Course', ()=>{
 				transposed[k][j]=courses[j][k]
 			}
 		}
+		let addedCourseIndex = addedCourse.value.filter((item)=>{
+			return item.index === index
+		})
+		for (let i = 0; i < addedCourseIndex.length; i++) {
+			let addedi = addedCourseIndex[i].i
+			let addedidx = addedCourseIndex[i].idx
+			console.log(addedCourseIndex[i].info.onlyBz)
+			console.log(typeof addedCourseIndex[i].info.onlyBz)
+			if(addedCourseIndex[i].info.onlyBz===true){
+				console.log("addedCourseIndex[i].info.onlyBz===true")
+				transposed[addedi][addedidx].info.bz = addedCourseIndex[i].info.bz
+			}else{
+				console.log("addedCourseIndex[i].info.onlyBz!==true")
+				transposed[addedi][addedidx].info = addedCourseIndex[i].info
+			}
+		}
 		classTableData.value[index].courses=transposed;
+		console.log(classTableData.value[index].courses)
 	}
 	
 	uni.$on("qzUp",(login)=>{//接受传来的参数判断是不是要删除所有相关store
@@ -44,11 +66,10 @@ export const useCourseStore = defineStore('Course', ()=>{
 			uni.$emit('courseRefresh')
 		}
 	})
-	
 	const clear = ()=>{
 		initClassDayData()
 		console.log("退出强智后的TableData",classTableData.value)
 		console.log("退出强智后的课表classDayData",classDayData.value)
 	}
-	return {classTableData,clear,initClassDayData,classDayData,updataCalssTableData}
+	return {classTableData,clear,initClassDayData,classDayData,updataCalssTableData,addedCourse}
 })

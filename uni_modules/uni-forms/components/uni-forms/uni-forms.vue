@@ -1,5 +1,5 @@
 <template>
-	<view class="uni-forms">
+	<view class="uni-forms" style="width: 100%" >
 		<form>
 			<slot></slot>
 		</form>

@@ -67,6 +67,7 @@ const data = reactive({
 	plan:["距打工结束还有9999天\n","早上好\n","中午好\n","晚上好\n",],
 })
 const bannerclick=(index)=>{
+	console.log(data.articles[index])
 	uni.navigateTo({
 		url:'../notice/noticedetail?id=' + data.articles[index].id
 	})

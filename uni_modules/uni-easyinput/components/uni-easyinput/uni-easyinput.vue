@@ -395,7 +395,7 @@
 				this.$emit('iconClick', type);
 			},
 			onClickBtn(event){
-				console.log("onClickBtn",event)
+				// console.log("onClickBtn",event)
 				// event.stopPropagation();
 				// event.preventDefault();
 				// event.stopImmediatePropagation()
@@ -416,15 +416,15 @@
 				// this.focus()
 				
 				// this.$nextTick(()=>{
-			console.log('$refs:', this.$refs);
-			console.log('inputRef:', this.$refs.inputRef);
+			// console.log('$refs:', this.$refs);
+			// console.log('inputRef:', this.$refs.inputRef);
 				// 获取当前激活的输入框并重新聚焦
 					const inputElement = this.$refs.inputRef;
 			
 					if (inputElement) {
 					inputElement.focus();
 					} else {
-					console.error('输入框未找到');
+					// console.error('输入框未找到');
 					}
 				// })
 				 
@@ -469,7 +469,7 @@
 			 * @param {Object} event
 			 */
 			onFocus() {
-				console.log("onFocus")
+				// console.log("onFocus")
 				this.$nextTick(() => {
 					this.focused = true;
 				});
@@ -477,7 +477,7 @@
 			},
 
 			_Focus(event) {
-				console.log("_Focus")
+				// console.log("_Focus")
 				this.focusShow = true;
 				this.$emit('focus', event);
 			},
@@ -488,12 +488,12 @@
 			 * @param {Object} event
 			 */
 			onBlur() {
-				console.log("onBlur")
+				// console.log("onBlur")
 				this.focused = false;
 				this.$emit('blur', null);
 			},
 			_Blur(event) {
-				console.log("_Blur",event)
+				// console.log("_Blur",event)
 				let value = event.detail.value;
 				this.focusShow = false;
 				this.$emit('blur', event);

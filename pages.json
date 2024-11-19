@@ -230,7 +230,7 @@
 					"path" : "leave/leaveDetail",
 					"style" : 
 					{
-						"navigationBarTitleText" : "",
+						"navigationBarTitleText" : "请假详情",
 						"enablePullDownRefresh": true
 					}
 				},
@@ -239,6 +239,13 @@
 					"style": {
 						"navigationBarTitleText": "导师互动",
 						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path" : "study/courseShow/addedCourse",
+					"style" : 
+					{
+						"navigationBarTitleText" : "已添加课程"
 					}
 				}
 			]

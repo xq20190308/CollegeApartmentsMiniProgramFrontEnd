@@ -46,8 +46,8 @@ export const mainFun = ()=>{
 }
 // 定义全局数据
 export const appData = {
-  colorList: ['#e2ce8f', '#f6b37f', '#75ab77', '#c05da0', '#c1a8d0', '#89b5e2', '#2f78bd'],
-  colorN: 6
+  colorList: ['#e2ce8f', '#f6b37f', '#75ab77', '#c05da0', '#c1a8d0', '#89b5e2', '#2f78bd', '#ffc9e6'],
+  colorN: 7
 };
 const app = createSSRApp(App);
 app.use(Pinia.createPinia());
@@ -58,7 +58,7 @@ export function createApp() {
 		Pinia, // 此处必须将 Pinia 返回
 	};
 }
-// mainFun();
+mainFun();
 export const showLoading = ref(false)
 export const showType = ref(3)
 export const loadingMsg = ref('加载中')

@@ -12,6 +12,7 @@ import { ComplaintDrafts, getCurWeek } from "./api/course.js";
 import { useLoginStore } from "/store/login.js";
 import { useCourseStore } from "/subPackage1/store/study/course.js";
 import ClassTableVue from "/subPackage1/components/ClassTable/ClassTable.vue";
+import { setLocalData, getLocalData } from '../../../utils/cache';
 const CourseStore = useCourseStore()
 const loginInof = useLoginStore()
 const index=ref(1)
@@ -26,8 +27,14 @@ uni.$on("courseIndexNext",()=>{
 uni.$on("courseRefresh",()=>{
 	ComplaintDrafts(index.value,true)
 })
-uni.$on("courseAdd",()=>{
-	console.log("$oncourseAdd")
+uni.$on("courseAdd",(res)=>{
+	console.log("$oncourseAdd", res)
+	// CourseStore.addedCourse = getLocalData('addedCourse'+loginInof.qz.username)||[]
+	CourseStore.addedCourse = CourseStore.addedCourse.filter((item) =>{
+		return !(item.index === res.index && item.i === res.i && item.idx === res.idx)
+	})
+	CourseStore.addedCourse.push(res)
+	setLocalData('addedCourse' + loginInof.qz.username, CourseStore.addedCourse)
 })
 onShow(()=>{
 	console.log(index.value)

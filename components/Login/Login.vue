@@ -60,7 +60,7 @@ const reqdata = reactive({
 const req = ref()
 const loginConfirm = (ref) => {
 	req.value?.validate().then(valid => {
-		if(props.title!=="强智系统"){
+		// if(props.title!=="强智系统"){
 			http(props.url,'POST',{
 				username:reqdata.username,
 				password:reqdata.password
@@ -81,13 +81,13 @@ const loginConfirm = (ref) => {
 			}).catch(err => {
 				console.log('error', err);
 			})
-		}else{
-			uni.$emit("loginInfoUp",{
-				title: props.title,
-				reqdata: reqdata
-			})
-			uni.navigateBack()
-		}
+		// }else{
+			// uni.$emit("loginInfoUp",{
+				// title: props.title,
+				// reqdata: reqdata
+			// })
+			// uni.navigateBack()
+		// }
 	}).catch(err => {console.log("填写不正确")})
 }
 </script>
