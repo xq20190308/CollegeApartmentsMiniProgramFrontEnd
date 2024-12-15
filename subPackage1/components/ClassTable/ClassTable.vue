@@ -166,7 +166,7 @@ const add=(i,idx)=>{
 	currentidx.value = idx
 	let info = CourseStore.classTableData[props.index].courses[currenti.value][currentidx.value].info
 	console.log(info)
-	let day = CourseStore.classTableData[props.index].weeks[currenti.value]
+	let day = CourseStore.classTableData[props.index].weeks[currentidx.value]
 	currentDay.value = day
 	console.log(currentDay.value)
 	if(info.kcmc != '0'){
